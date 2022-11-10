@@ -1,77 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed = 1f;
+    [SerializeField] private float speed = 150f;
+    private Rigidbody2D _rb;
     private Vector2 _direction;
     private Animator _animator;
-    private enum Facing { UP, DOWN, LEFT, RIGHT };
-    private Facing _facingDirection = Facing.DOWN;
+    private bool _isWalking;
+    private float _x, _y;
+    private Vector2 _pointerPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        TakeInput();
-        
+        //TakeInput();
+
     }
     private void FixedUpdate()
     {
-        Move();
-    }
-
-    private void Move()
-    {
-        transform.Translate(_direction * _speed * Time.deltaTime);
-
-        if (_direction != Vector2.zero)
-        {
-            SetAnimatorMovement(_direction);
-        }
-        else
-        {
-           // _animator.SetLayerWeight(1, 0);
-        }
-    }
-
-    private void TakeInput()
-    {
-        _direction = Vector2.zero;
         
-        if (Input.GetKey(KeyCode.W))
+        _x = Input.GetAxisRaw("Horizontal");
+        _y = Input.GetAxisRaw("Vertical");
+
+
+        Vector2 pointerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+
+        if (_x != 0 || _y != 0)
         {
-            _direction += Vector2.up;
-            _facingDirection = Facing.UP;
-        }
-        if (Input.GetKey(KeyCode.A))
+            if (!_isWalking)
+            {
+                _isWalking = true;
+                _animator.SetBool("isMoving", _isWalking);
+            }
+        }else if(_isWalking)
         {
-            _direction += Vector2.left;
-            _facingDirection = Facing.LEFT;
+            _isWalking = false;
+            _animator.SetBool("isMoving", _isWalking);
+            StopMoving();
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            _direction += Vector2.down;
-            _facingDirection = Facing.DOWN;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            _direction += Vector2.right;
-            _facingDirection = Facing.RIGHT;
-        }
-        _direction = _direction.normalized;
+        _animator.SetFloat("x", (pointerPos - _rb.position).normalized.x);
+        
+        _direction = new Vector2(_x, _y).normalized;
+        _rb.velocity = _direction * speed * Time.deltaTime;
     }
 
-    private void SetAnimatorMovement(Vector2 direction)
+    private void StopMoving()
     {
-        //_animator.SetLayerWeight(1, 1);
-        _animator.SetFloat("xDirection", direction.x);
-        _animator.SetFloat("yDirection", direction.y);
+        _rb.velocity = Vector2.zero;
     }
 }
+
