@@ -17,21 +17,12 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    // Update handles the animation changes based on the mouse pointer 
     void Update()
     {
-        //TakeInput();
-
-    }
-    private void FixedUpdate()
-    {
-        
         _x = Input.GetAxisRaw("Horizontal");
         _y = Input.GetAxisRaw("Vertical");
-
-
         Vector2 pointerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
 
         if (_x != 0 || _y != 0)
         {
@@ -47,11 +38,18 @@ public class PlayerMovement : MonoBehaviour
             StopMoving();
         }
         _animator.SetFloat("x", (pointerPos - _rb.position).normalized.x);
-        
-        _direction = new Vector2(_x, _y).normalized;
-        _rb.velocity = _direction * speed * Time.deltaTime;
-    }
 
+        _direction = new Vector2(_x, _y).normalized;
+
+    }
+    
+    // FixedUpdate handles the movement 
+    private void FixedUpdate()
+    {
+        _rb.velocity = (speed * Time.deltaTime) * _direction ;  // order of operations (float * float * vector) for the efficiency
+    }
+    
+    // Stops the movement when WASD are not pressed
     private void StopMoving()
     {
         _rb.velocity = Vector2.zero;
