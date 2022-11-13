@@ -9,11 +9,17 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField] private Vector3 _offset;
     private Vector3 _playerPos;
 
+    [SerializeField] private CompositeCollider2D _mapBounds;
+    [SerializeField] private float _xZoomOffsetCam = 5;
+    [SerializeField] private float _yZoomOffsetCam = 2.5f;
+    private float _xMin, _xMax, _yMin, _yMax;
+
     private void Start()
     {
-        if (_player == null) return;
-
-        _offset = transform.position - _player.position;
+        _xMin = _mapBounds.bounds.min.x + _xZoomOffsetCam;
+        _xMax = _mapBounds.bounds.max.x - _xZoomOffsetCam;
+        _yMin = _mapBounds.bounds.min.y + _yZoomOffsetCam;
+        _yMax = _mapBounds.bounds.max.y - _yZoomOffsetCam;
     }
 
     private void FixedUpdate()
@@ -21,6 +27,8 @@ public class CameraFollowPlayer : MonoBehaviour
         if (_player == null) return;
 
         _playerPos = _player.position + _offset;
+        _playerPos.x = Mathf.Clamp(_playerPos.x, _xMin, _xMax);
+        _playerPos.y = Mathf.Clamp(_playerPos.y, _yMin, _yMax);
         transform.position = Vector3.Lerp(transform.position, _playerPos, _smoothing * Time.deltaTime);
     }
 }
