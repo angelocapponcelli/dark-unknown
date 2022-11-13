@@ -1,4 +1,6 @@
+using System.Numerics;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,12 +11,14 @@ public class PlayerMovement : MonoBehaviour
     private bool _isWalking;
     private float _x, _y;
     private Vector2 _pointerPos;
+    private WeaponParent _weaponParent;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _weaponParent = GetComponentInChildren<WeaponParent>();
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -22,7 +26,8 @@ public class PlayerMovement : MonoBehaviour
     {
         _x = Input.GetAxisRaw("Horizontal");
         _y = Input.GetAxisRaw("Vertical");
-        Vector2 pointerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pointerPos = GetPointerInput();
+        _weaponParent.PointerPosition = pointerPos;
 
         if (_x != 0 || _y != 0)
         {
@@ -53,6 +58,11 @@ public class PlayerMovement : MonoBehaviour
     private void StopMoving()
     {
         _rb.velocity = Vector2.zero;
+    }
+
+    private Vector2 GetPointerInput()
+    {
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 }
 
