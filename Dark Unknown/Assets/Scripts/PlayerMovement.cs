@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
         _x = Input.GetAxisRaw("Horizontal");
         _y = Input.GetAxisRaw("Vertical");
         Vector2 pointerPos = GetPointerInput();
+        
         _weaponParent.PointerPosition = pointerPos;
 
         if (_x != 0 || _y != 0)
