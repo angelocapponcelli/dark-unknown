@@ -45,7 +45,7 @@ public class SkeletonController : MonoBehaviour
         _distance = Vector2.Distance(ownPosition, targetPosition);
         _direction = targetPosition - ownPosition;
         _direction.Normalize();
-        float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        
 
         // If the skeleton is dead or recovering, it stands still 
         if (_isDead || _isRecovering) 
@@ -56,17 +56,9 @@ public class SkeletonController : MonoBehaviour
         // Otherwise it follows the player till it reaches a minimum distance
         else if (_distance > minDistance)
         {            
-            //transform.position = Vector2.MoveTowards(this.transform.position, _target.transform.position, _speed*Time.deltaTime);
             speed = 2;
             _animator.SetBool(IsMoving, true);
-            if (Mathf.Abs(angle) < 90)
-            {
-                gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            } 
-            else
-            {
-                gameObject.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-            }            
+            flip(_direction);     
         } 
         else
         {
@@ -109,6 +101,18 @@ public class SkeletonController : MonoBehaviour
         _isRecovering = false;
     }
 
+    private void flip(Vector2 direction)
+    {
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (Mathf.Abs(angle) < 90)
+        {
+            gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        }
+        else
+        {
+            gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x)*-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        }
+    }
     /* void FixedUpdate()
     {
         _rb.velocity = (_speed * Time.deltaTime) * _direction;
