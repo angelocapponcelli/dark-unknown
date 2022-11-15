@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class SkeletonController : MonoBehaviour
 {
-    [SerializeField] private GameObject _target;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _minDistance;
+    [SerializeField] private GameObject target;
+    [SerializeField] private float speed;
+    [SerializeField] private float minDistance;
 
     private Rigidbody2D _rb;
     private Animator _animator;
     private Vector2 _direction;
     private float _distance;
-    private bool _isDead = false;
-    private bool _isRecovering = false;
+    private bool _isDead;
+    private bool _isRecovering;
+
+    private static readonly int IsMoving = Animator.StringToHash("isMoving");
+
+    private static readonly int Attack = Animator.StringToHash("Attack");
+
+    private static readonly int Hurt = Animator.StringToHash("Hurt");
+
+    private static readonly int Death = Animator.StringToHash("Death");
+
+    private static readonly int Recover = Animator.StringToHash("Recover");
+
+    private IEnumerator _recoverySequence;
     //private Vector2 _direction;
 
     // Start is called before the first frame update
     void Start()
     {
+        _recoverySequence = RecoverySequence();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -27,22 +40,25 @@ public class SkeletonController : MonoBehaviour
     void Update()
     {
         // Calculates distance and direction of movement
-        _distance = Vector2.Distance(transform.position, _target.transform.position);
-        _direction = _target.transform.position - transform.position;
+        var targetPosition = target.transform.position;
+        var ownPosition = transform.position;
+        _distance = Vector2.Distance(ownPosition, targetPosition);
+        _direction = targetPosition - ownPosition;
         _direction.Normalize();
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
 
         // If the skeleton is dead or recovering, it stands still 
         if (_isDead || _isRecovering) 
         {
-            _speed = 0;
-            _animator.SetBool("isMoving", false);
+            speed = 0;
+            _animator.SetBool(IsMoving, false);
         } 
-        else if (_distance > _minDistance)
+        // Otherwise it follows the player till it reaches a minimum distance
+        else if (_distance > minDistance)
         {            
             //transform.position = Vector2.MoveTowards(this.transform.position, _target.transform.position, _speed*Time.deltaTime);
-            _speed = 2;
-            _animator.SetBool("isMoving", true);
+            speed = 2;
+            _animator.SetBool(IsMoving, true);
             if (Mathf.Abs(angle) < 90)
             {
                 gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -54,31 +70,32 @@ public class SkeletonController : MonoBehaviour
         } 
         else
         {
-            _speed = 0;
-            _animator.SetBool("isMoving", false);
+            // At the minimum distance, it stops moving
+            speed = 0;
+            _animator.SetBool(IsMoving, false);
             //direction = Vector2.Perpendicular(direction);
         }
-        transform.Translate(_direction * _speed * Time.deltaTime);
+        transform.Translate(_direction * (speed * Time.deltaTime));
 
-        // -- Handle Animations
+        // -- Handle Animations --
         // Attack
         if(Input.GetKeyDown("q")) 
         {
-            _animator.SetTrigger("Attack");
+            _animator.SetTrigger(Attack);
             // ExecuteAttack();
         }
         // Hurt
         if (Input.GetKeyDown("e"))
-            _animator.SetTrigger("Hurt");
+            _animator.SetTrigger(Hurt);
         // Death
         if (Input.GetKeyDown("z")) {
             if(!_isDead)
-                _animator.SetTrigger("Death");
+                _animator.SetTrigger(Death);
             else
             {
-                _animator.SetTrigger("Recover");
+                _animator.SetTrigger(Recover);
                 _isRecovering = true;
-                StartCoroutine(RecoverySequence());
+                StartCoroutine(_recoverySequence);
             }
             _isDead = !_isDead;
         }
