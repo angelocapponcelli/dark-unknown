@@ -8,8 +8,14 @@ using UnityEngine.SocialPlatforms;
 public class WeaponParent : MonoBehaviour
 {
    [SerializeField] private SpriteRenderer charRenderer, weaponRenderer;
+   [SerializeField] private Animator _weaponAnimator;
+   [SerializeField] private Animator _effectAnimator;
     public Vector2 PointerPosition { get; set; }
     
+    private float _delay = 1f;
+    private bool _attackBlocked;
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +55,7 @@ public class WeaponParent : MonoBehaviour
         transform.localScale = scale;
         
         // Rendering changes: when the weapon is in the lower part of the character sprite it will be rendered above
+        /*
         if (transform.eulerAngles.z > 0 && transform.eulerAngles.z < 180)
         {
             weaponRenderer.sortingOrder = charRenderer.sortingOrder - 1;    
@@ -56,6 +63,22 @@ public class WeaponParent : MonoBehaviour
         else
         {
             weaponRenderer.sortingOrder = charRenderer.sortingOrder + 1;
-        }
+        }*/
+    }
+
+    public void Attack()
+    {
+        if (_attackBlocked)
+            return;
+        _weaponAnimator.SetTrigger("Attack");
+        _effectAnimator.SetTrigger("Attack");
+        _attackBlocked = true;
+        StartCoroutine(DelayAttack());
+    }
+
+    private IEnumerator DelayAttack()
+    {
+        yield return new WaitForSeconds(_delay);
+        _attackBlocked = false;
     }
 }

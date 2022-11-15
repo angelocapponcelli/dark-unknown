@@ -46,6 +46,9 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat("x", (pointerPos - _rb.position).normalized.x);
 
         _direction = new Vector2(_x, _y).normalized;
+        
+        if (Input.GetMouseButtonDown(0))
+            PerformAttack();
 
     }
     
@@ -65,5 +68,11 @@ public class PlayerMovement : MonoBehaviour
     {
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
+
+    private void PerformAttack()
+    {
+        _weaponParent.Attack();
+    }
+
 }
 
