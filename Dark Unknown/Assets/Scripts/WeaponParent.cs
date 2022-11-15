@@ -1,9 +1,6 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 public class WeaponParent : MonoBehaviour
 {
@@ -15,6 +12,9 @@ public class WeaponParent : MonoBehaviour
     private float _delay = 1f;
     private bool _attackBlocked;
     
+    [SerializeField] private float _swordDamage;
+    [SerializeField] private Transform _attackPoint;
+    [SerializeField] private float _attackRange = 1f;
 
     // Update is called once per frame
     void Update()
@@ -73,6 +73,17 @@ public class WeaponParent : MonoBehaviour
         _weaponAnimator.SetTrigger("Attack");
         _effectAnimator.SetTrigger("Attack");
         _attackBlocked = true;
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if (enemy.gameObject.CompareTag("Enemy"))
+            {
+                //TODO bisogna generalizzare non solo per skeletonController ma per tutti i nemici
+                enemy.GetComponent<SkeletonController>().TakeDamage(Random.Range(Mathf.Max(2, _swordDamage-5), Mathf.Max(5, _swordDamage + 5))); 
+            }
+        }
+
         StartCoroutine(DelayAttack());
     }
 
@@ -80,5 +91,13 @@ public class WeaponParent : MonoBehaviour
     {
         yield return new WaitForSeconds(_delay);
         _attackBlocked = false;
+    }
+
+    //ToDisplaycircleOfAttack
+    private void OnDrawGizmosSelected()
+    {
+        if (_attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(_attackPoint.position, _attackRange);
     }
 }

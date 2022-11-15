@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,12 +29,16 @@ public class SkeletonController : MonoBehaviour
     private IEnumerator _recoverySequence;
     //private Vector2 _direction;
 
+    [SerializeField] private float _maxHealth;
+    private float _currentHealth;
     // Start is called before the first frame update
     void Start()
     {
         _recoverySequence = RecoverySequence();
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+
+        _currentHealth = _maxHealth;
     }
 
     // Update is called once per frame
@@ -113,8 +118,27 @@ public class SkeletonController : MonoBehaviour
             gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x)*-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
     }
-    /* void FixedUpdate()
+
+    public void TakeDamage(float damage)
     {
-        _rb.velocity = (_speed * Time.deltaTime) * _direction;
-    } */
+        _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            Die();
+        } else
+        {
+            _animator.SetTrigger(Hurt);
+        }
+    }
+
+    private void Die()
+    {
+        _isDead = true;
+        _animator.SetTrigger(Death);
+    }
+    /* void FixedUpdate()
+{
+   _rb.velocity = (_speed * Time.deltaTime) * _direction;
+} */
 }

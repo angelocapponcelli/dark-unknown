@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5267085890374923182}
   m_Layer: 0
   m_Name: Skeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,6 +123,7 @@ MonoBehaviour:
   target: {fileID: 0}
   speed: 2
   minDistance: 1
+  _maxHealth: 50
 --- !u!61 &7072697434256938271
 BoxCollider2D:
   m_ObjectHideFlags: 0
