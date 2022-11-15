@@ -12,8 +12,8 @@ public class SkeletonController : MonoBehaviour
     private Animator _animator;
     private Vector2 _direction;
     private float _distance;
-    private bool _isWalking;
-    private float _x, _y;
+    private bool _isDead = false;
+    private bool _isRecovering = false;
     //private Vector2 _direction;
 
     // Start is called before the first frame update
@@ -26,32 +26,70 @@ public class SkeletonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
         _direction = _target.transform.position - transform.position;
         _direction.Normalize();
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
 
-        if (_distance > _minDistance)
+        // If the skeleton is dead or recovering, it stands still 
+        if (_isDead || _isRecovering) 
+        {
+            _speed = 0;
+            _animator.SetBool("isMoving", false);
+        } 
+        else if (_distance > _minDistance)
         {            
             //transform.position = Vector2.MoveTowards(this.transform.position, _target.transform.position, _speed*Time.deltaTime);
             _speed = 2;
-            _isWalking = true;
-            _animator.SetBool("isMoving", _isWalking);
+            _animator.SetBool("isMoving", true);
             if (Mathf.Abs(angle) < 90)
             {
-                gameObject.transform.localScale = new Vector3(1, 1, 1);
-            } else
+                gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            } 
+            else
             {
-                gameObject.transform.localScale = new Vector3(-1, 1, 1);
+                gameObject.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
             }            
-        } else
+        } 
+        else
         {
             _speed = 0;
-            _isWalking = false;
-            _animator.SetBool("isMoving", _isWalking);
+            _animator.SetBool("isMoving", false);
             //direction = Vector2.Perpendicular(direction);
         }
         transform.Translate(_direction * _speed * Time.deltaTime);
+
+        // -- Handle Animations
+        // Attack
+        if(Input.GetKeyDown("q")) 
+        {
+            _animator.SetTrigger("Attack");
+            // ExecuteAttack();
+        }
+        // Hurt
+        if (Input.GetKeyDown("e"))
+            _animator.SetTrigger("Hurt");
+        // Death
+        if (Input.GetKeyDown("z")) {
+            if(!_isDead)
+                _animator.SetTrigger("Death");
+            else
+            {
+                _animator.SetTrigger("Recover");
+                _isRecovering = true;
+                StartCoroutine(RecoverySequence());
+            }
+            _isDead = !_isDead;
+        }
+    }
+
+    IEnumerator RecoverySequence()
+    { 
+        Debug.Log("Recovering");
+        yield return new WaitForSeconds(3);
+        Debug.Log("Recovered");
+        _isRecovering = false;
     }
 
     /* void FixedUpdate()
