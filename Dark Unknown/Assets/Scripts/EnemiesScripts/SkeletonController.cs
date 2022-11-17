@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonController : MonoBehaviour
+public class SkeletonController : EnemyController
 {
     [SerializeField] private GameObject target;
     [SerializeField] private float speed;
@@ -118,8 +118,8 @@ public class SkeletonController : MonoBehaviour
             gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x)*-1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
     }
-
-    public void TakeDamage(float damage)
+ 
+    public override void TakeDamage(float damage)
     {
         _currentHealth -= damage;
 

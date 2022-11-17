@@ -382,6 +382,11 @@ MonoBehaviour:
   _mapBounds: {fileID: 586713759}
   _xZoomOffsetCam: 5
   _yZoomOffsetCam: 2.5
+--- !u!4 &1411069408 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1830672870, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
+  m_PrefabInstance: {fileID: 9154140591575112704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2085199564 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3178426805930002380, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
@@ -2440,6 +2445,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 141985449, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
+      propertyPath: _attackPoint
+      value: 
+      objectReference: {fileID: 1411069408}
     - target: {fileID: 3178426805930002380, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
       propertyPath: m_Name
       value: Player
