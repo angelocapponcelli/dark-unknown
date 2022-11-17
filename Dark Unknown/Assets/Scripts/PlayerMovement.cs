@@ -1,78 +1,29 @@
-using System.Numerics;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 150f;
-    private Rigidbody2D _rb;
-    private Vector2 _direction;
-    private Animator _animator;
-    private bool _isWalking;
-    private float _x, _y;
-    private Vector2 _pointerPos;
-    private WeaponParent _weaponParent;
 
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody2D _rb;
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        _weaponParent = GetComponentInChildren<WeaponParent>();
     }
 
-    // Update handles the animation changes based on the mouse pointer 
-    void Update()
+    public void MovePlayer(Vector2 direction)
     {
-        _x = Input.GetAxisRaw("Horizontal");
-        _y = Input.GetAxisRaw("Vertical");
-        Vector2 pointerPos = GetPointerInput();
-        
-        _weaponParent.PointerPosition = pointerPos;
-
-        if (_x != 0 || _y != 0)
-        {
-            if (!_isWalking)
-            {
-                _isWalking = true;
-                _animator.SetBool("isMoving", _isWalking);
-            }
-        }else if(_isWalking)
-        {
-            _isWalking = false;
-            _animator.SetBool("isMoving", _isWalking);
-            StopMoving();
-        }
-        _animator.SetFloat("x", (pointerPos - _rb.position).normalized.x);
-
-        _direction = new Vector2(_x, _y).normalized;
-        
-        if (Input.GetMouseButtonDown(0))
-            PerformAttack();
-
+        _rb.velocity = (speed * Time.deltaTime) * direction ;  // order of operations (float * float * vector) for the efficiency
     }
     
-    // FixedUpdate handles the movement 
-    private void FixedUpdate()
-    {
-        _rb.velocity = (speed * Time.deltaTime) * _direction ;  // order of operations (float * float * vector) for the efficiency
-    }
-    
-    // Stops the movement when WASD are not pressed
-    private void StopMoving()
+    public void StopMoving()
     {
         _rb.velocity = Vector2.zero;
     }
 
-    private Vector2 GetPointerInput()
+    public Vector2 GetRBPos()
     {
-        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return _rb.position;
     }
-
-    private void PerformAttack()
-    {
-        _weaponParent.Attack();
-    }
-
 }
-
