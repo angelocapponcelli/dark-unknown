@@ -6,7 +6,7 @@ using UnityEngine;
 public class SkeletonController : EnemyController
 {
     [SerializeField] private GameObject target;
-    [SerializeField] private float speed;
+    [SerializeField] private float _speed;
     [SerializeField] private float minDistance;
 
     private Rigidbody2D _rb;
@@ -15,6 +15,7 @@ public class SkeletonController : EnemyController
     private float _distance;
     private bool _isDead;
     private bool _isRecovering;
+    private float _currentSpeed;
 
     private static readonly int IsMoving = Animator.StringToHash("isMoving");
 
@@ -39,6 +40,7 @@ public class SkeletonController : EnemyController
         _animator = GetComponent<Animator>();
 
         _currentHealth = _maxHealth;
+        _currentSpeed = _speed;
     }
 
     // Update is called once per frame
@@ -55,24 +57,26 @@ public class SkeletonController : EnemyController
         // If the skeleton is dead or recovering, it stands still 
         if (_isDead || _isRecovering) 
         {
-            speed = 0;
+            _currentSpeed = 0;
             _animator.SetBool(IsMoving, false);
         } 
         // Otherwise it follows the player till it reaches a minimum distance
         else if (_distance > minDistance)
-        {            
-            speed = 2;
+        {
+            _currentSpeed = _speed;
             _animator.SetBool(IsMoving, true);
             flip(_direction);     
         } 
         else
         {
             // At the minimum distance, it stops moving
-            speed = 0;
+            _currentSpeed = 0;
             _animator.SetBool(IsMoving, false);
+            attack();
+
             //direction = Vector2.Perpendicular(direction);
         }
-        transform.Translate(_direction * (speed * Time.deltaTime));
+        transform.Translate(_direction * (_currentSpeed * Time.deltaTime));
 
         // -- Handle Animations --
         // Attack
@@ -96,6 +100,11 @@ public class SkeletonController : EnemyController
             }
             _isDead = !_isDead;
         }
+    }
+
+    private void attack()
+    {
+        _animator.SetTrigger(Attack);
     }
 
     IEnumerator RecoverySequence()
