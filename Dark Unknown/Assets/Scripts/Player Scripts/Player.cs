@@ -1,6 +1,8 @@
 using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -8,11 +10,10 @@ public class Player : MonoBehaviour
     private PlayerInput _playerInput;
     private PlayerAnimation _playerAnimation;
     
-    private Vector2 _direction;
-
-    
+    private Vector2 _direction;    
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
+    [SerializeField] private float _health = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +38,21 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetShiftDown());
+    }
+
+    public void TakeDamage(float damage)
+    {
+        
+        _health -= damage;
+        StartCoroutine(FlashRed());
+    }
+
+    private IEnumerator FlashRed()
+    {
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
     }
 }
 
