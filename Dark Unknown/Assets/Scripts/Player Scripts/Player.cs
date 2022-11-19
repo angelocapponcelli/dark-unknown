@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     // FixedUpdate handles the movement 
     private void FixedUpdate()
     {
-        _playerMovement.MovePlayer(_playerInput.MovementDirection);
+        _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetShiftDown());
     }
 }
 

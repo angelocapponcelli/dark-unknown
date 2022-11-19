@@ -26,4 +26,9 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             LeftClick?.Invoke();
     }
+
+    public bool GetShiftDown()
+    {
+        return Input.GetKeyDown(KeyCode.LeftShift);
+    }
 }
