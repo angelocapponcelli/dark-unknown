@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class SkeletonAnimator : MonoBehaviour
@@ -10,6 +11,7 @@ public class SkeletonAnimator : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _animator.SetBool("canMove", true);
     }
 
     public void AnimateSkeleton(bool isMoving, Vector2 direction)
@@ -21,12 +23,18 @@ public class SkeletonAnimator : MonoBehaviour
     public void AnimateAttack(Vector2 direction)
     {
         flip(direction);
+        _animator.SetBool("canMove", false);
         _animator.SetTrigger("Attack");
     }
 
     public void AnimateTakeDamage()
     {
         _animator.SetTrigger("Hurt");
+    }
+    
+    public void AnimateIdle()
+    {
+        _animator.SetBool("isMoving", false);
     }
 
     public void AnimateDie()
@@ -50,5 +58,15 @@ public class SkeletonAnimator : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x) * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
+    }
+
+    public AnimatorStateInfo GetCurrentState()
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0);
+    }
+
+    public void canMove()
+    {
+        _animator.SetBool("canMove", true);
     }
 }

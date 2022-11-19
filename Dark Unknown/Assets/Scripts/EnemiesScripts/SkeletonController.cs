@@ -7,14 +7,17 @@ public class SkeletonController : EnemyController
 {
     [SerializeField] private GameObject _target;
     [SerializeField] private float _minDistance;
+    [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
-    private bool _isDead;    
+    private bool _isDead;
+    private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
+    private bool _damageCoroutineRunning;
 
     private SkeletonMovement _movement;
     private SkeletonAnimator _animator;
@@ -34,13 +37,18 @@ public class SkeletonController : EnemyController
     // Update is called once per frame
     void Update()
     {
+        if (_target == null)
+        {
+            return;
+        }
+        
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
         _direction = _target.transform.position - transform.position;
         _direction.Normalize();
 
         // If the skeleton is not dead
-        if (!_isDead)
+        if (!_isDead && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
@@ -48,12 +56,17 @@ public class SkeletonController : EnemyController
                 _movement.MoveSkeleton(_direction);
                 _animator.AnimateSkeleton(true, _direction);
             }
-            else
+            else if (!_isAttacking && !_damageCoroutineRunning)
             {
                 // At the minimum distance, it stops moving
+                _isAttacking = true;
                 _canMove = false;
                 StartCoroutine(Attack(_direction));
             }
+        }
+        else
+        {
+            _animator.AnimateIdle();
         }
 
         // -- Handle Animations --
@@ -72,8 +85,18 @@ public class SkeletonController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-        yield return new WaitForSeconds(2);
+
+        do
+        {
+            yield return null;
+        } while (_distance < _minDistance);
+
+        yield return new WaitForSeconds(0.7f);
+        //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
+
+        _isAttacking = false;
         _canMove = true;
+        _animator.canMove();
     }
 
     private IEnumerator RecoverySequence()
@@ -93,8 +116,18 @@ public class SkeletonController : EnemyController
             Die();
         } else
         {
-            _animator.AnimateTakeDamage();            
+            _damageCoroutineRunning = true;
+            StartCoroutine(Damage());
         }
+    }
+    
+    private IEnumerator Damage()
+    {
+        _animator.AnimateTakeDamage();
+        _canMove = false;
+        yield return new WaitForSeconds(_animator.GetCurrentState().length);
+        _canMove = true;
+        _damageCoroutineRunning = false;
     }
 
     private void Die()
