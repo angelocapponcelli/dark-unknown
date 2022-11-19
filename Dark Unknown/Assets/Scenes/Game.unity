@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2030251852, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4505435836957910130, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: m_Name
       value: Skeleton (2)
@@ -190,6 +194,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4993529497654733024, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: _speed
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
 --- !u!66 &586713759 stripped
@@ -209,6 +217,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2030251852, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4505435836957910130, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: m_Name
       value: Skeleton (1)
@@ -276,6 +288,10 @@ PrefabInstance:
     - target: {fileID: 4505435836957910142, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4993529497654733024, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: _speed
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
@@ -2444,25 +2460,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 924781765, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
-      propertyPath: m_IsTrigger
+    - target: {fileID: 977995885, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3178426805930002380, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153070243747556478, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153070243747556478, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4153070243747556478, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
-      propertyPath: m_Color.r
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8506205660384348464, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
       propertyPath: m_RootOrder
