@@ -10,7 +10,7 @@ public class CameraFollowPlayer : MonoBehaviour
     private Vector3 _playerPos;
 
     [SerializeField] private CompositeCollider2D _mapBounds;
-    [SerializeField] private float _xZoomOffsetCam = 5;
+    [SerializeField] private float _xZoomOffsetCam = 5f;
     [SerializeField] private float _yZoomOffsetCam = 2.5f;
     private float _xMin, _xMax, _yMin, _yMax;
 
