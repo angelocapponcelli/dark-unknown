@@ -5194,11 +5194,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!4 &1411069408 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1830672870, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
-  m_PrefabInstance: {fileID: 9154140591575112704}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2085199564 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3178426805930002380, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
@@ -5217,6 +5212,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4505435836957910141, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: target
+      value: 
+      objectReference: {fileID: 2085199564}
+    - target: {fileID: 4505435836957910141, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: _target
       value: 
       objectReference: {fileID: 2085199564}
     - target: {fileID: 4505435836957910142, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
@@ -7260,7 +7259,7 @@ PrefabInstance:
     - target: {fileID: 141985449, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
       propertyPath: _attackPoint
       value: 
-      objectReference: {fileID: 1411069408}
+      objectReference: {fileID: 0}
     - target: {fileID: 2085199569, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
