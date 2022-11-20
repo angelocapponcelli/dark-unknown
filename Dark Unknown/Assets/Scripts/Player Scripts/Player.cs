@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     private WeaponParent _weaponParent;
     [SerializeField] private float _health = 100;
 
+    [SerializeField] private HealthBar _healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,7 @@ public class Player : MonoBehaviour
         _weaponParent = GetComponentInChildren<WeaponParent>();
         
         _playerInput.LeftClick += () => _weaponParent.Attack();
+        _healthBar.SetMaxHealth(_health);
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -44,6 +47,7 @@ public class Player : MonoBehaviour
     {
         
         _health -= damage;
+        _healthBar.SetHealth(_health);
         StartCoroutine(FlashRed());
     }
 
