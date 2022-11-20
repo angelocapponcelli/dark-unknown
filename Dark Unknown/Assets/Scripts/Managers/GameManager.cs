@@ -6,23 +6,30 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     private LevelManager _levelManager;
-    [SerializeField] private GameObject _initialRoom;
-
+    [SerializeField] private GameObject initialRoom;
+    [SerializeField] private Player player;
+    
     protected override void Awake()
     {
         base.Awake();
         _levelManager = FindObjectOfType<LevelManager>();
     }
+    
     // Start is called before the first frame update
     void Start()
     {
-        _levelManager.SetInitialRoom(_initialRoom);
-        //Instantiate(_initialRoom, Vector3.zero, Quaternion.identity);
+        _levelManager.SetInitialRoom(initialRoom);
+        player = Instantiate(player,Vector3.zero,Quaternion.identity);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void ResetPlayerPosition()
+    {
+        player.transform.position = new Vector3(0, 0, 0);
     }
 }
