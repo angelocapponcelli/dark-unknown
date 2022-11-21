@@ -21,6 +21,7 @@ public class SkeletonController : EnemyController
 
     private SkeletonMovement _movement;
     private SkeletonAnimator _animator;
+    private SkeletonAI _ai;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,8 @@ public class SkeletonController : EnemyController
 
         _movement = GetComponent<SkeletonMovement>();
         _animator = GetComponent<SkeletonAnimator>();
+        _ai = GetComponent<SkeletonAI>();
+        
     }
 
     // Update is called once per frame
@@ -44,24 +47,25 @@ public class SkeletonController : EnemyController
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
+        /*
         _direction = _target.transform.position - transform.position;
-        _direction.Normalize();
-
+        _direction.Normalize();*/
+        
         // If the skeleton is not dead
         if (!_isDead && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
             {
-                _movement.MoveSkeleton(_direction);
-                _animator.AnimateSkeleton(true, _direction);
+                _movement.MoveSkeleton(_ai.GetMovingDirection());
+                _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
             }
             else if (!_isAttacking && !_damageCoroutineRunning)
             {
                 // At the minimum distance, it stops moving
                 _isAttacking = true;
                 _canMove = false;
-                StartCoroutine(Attack(_direction));
+                StartCoroutine(Attack(_ai.GetMovingDirection()));
             }
         }
         else
@@ -79,6 +83,17 @@ public class SkeletonController : EnemyController
             {
                 StartCoroutine(RecoverySequence());
             }            
+        }
+    }
+
+    private void AttackEvent()
+    {
+        if (!_isAttacking && !_damageCoroutineRunning)
+        {
+            // At the minimum distance, it stops moving
+            _isAttacking = true;
+            _canMove = false;
+            StartCoroutine(Attack(_ai.GetMovingDirection()));
         }
     }
 
