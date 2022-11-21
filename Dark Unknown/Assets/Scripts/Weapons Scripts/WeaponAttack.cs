@@ -8,11 +8,11 @@ public class WeaponAttack : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Collider2D[] hitEnemies = collision.GetComponents<Collider2D>();
-        foreach (Collider2D enemy in hitEnemies)
+        foreach (Collider2D character in hitEnemies)
         {
-            if (enemy.gameObject.CompareTag("Enemy"))
+            if (character.gameObject.CompareTag("Enemy"))
             {
-                enemy.GetComponent<EnemyController>().TakeDamage(_damage);
+                character.GetComponent<EnemyController>().TakeDamage(_damage);
             }
         }
     }
