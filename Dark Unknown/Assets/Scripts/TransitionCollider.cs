@@ -13,7 +13,6 @@ public class TransitionCollider : MonoBehaviour
     void Awake()
     {
         _levelManager = FindObjectOfType<LevelManager>();
-
     }
     // Start is called before the first frame update
     void Start()

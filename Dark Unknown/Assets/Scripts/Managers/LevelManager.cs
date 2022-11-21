@@ -19,14 +19,15 @@ public class LevelManager : MonoBehaviour
     {
         _roomPool = new List<GameObject>();
         _nextRooms = new List<GameObject>();
+        
+        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room1"));
+        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room2"));
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        //_roomPool.AddRange(Resources.LoadAll<GameObject>("Rooms")); //load all rooms
-        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room1"));
-        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room2"));
+        
     }
 
     // Update is called once per frame
@@ -54,20 +55,21 @@ public class LevelManager : MonoBehaviour
         _currentRoom = tmp;
         
         //load next rooms
+        _nextRooms.Clear();
         LoadRooms();
     }
     
     private void LoadRooms()
     {
         _roomsTraversed++;
-        _nextRooms.Clear();
 
         //TODO: load boss room
         //if (_roomsTraversed < roomsBeforeBoss) ...
-        for (int i = 0; i < 3; i++)
-            {
-                _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count-1)]); //assign random rooms
-            }
+        for (int i = 0; i < 3; i++) 
+        {
+            _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
+        }
+        print("_nextRooms.Count: " + _nextRooms.Count);
         //else...
         
         
