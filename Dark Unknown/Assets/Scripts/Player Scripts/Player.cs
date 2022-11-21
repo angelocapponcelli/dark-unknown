@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
         _health -= damage;
         _healthBar.SetHealth(_health);
         StartCoroutine(FlashRed());
+        PlayerEvents.playerHit.Invoke();
     }
 
     private IEnumerator FlashRed()

@@ -14,6 +14,8 @@ public class CameraFollowPlayer : MonoBehaviour
     [SerializeField] private float _yZoomOffsetCam = 2.5f;
     private float _xMin, _xMax, _yMin, _yMax;
 
+    public bool shakeStart;
+
     private void Start()
     {
         _xMin = _mapBounds.bounds.min.x + _xZoomOffsetCam;
@@ -30,5 +32,10 @@ public class CameraFollowPlayer : MonoBehaviour
         _playerPos.x = Mathf.Clamp(_playerPos.x, _xMin, _xMax);
         _playerPos.y = Mathf.Clamp(_playerPos.y, _yMin, _yMax);
         transform.position = Vector3.Lerp(transform.position, _playerPos, _smoothing * Time.deltaTime);
+
+        if (shakeStart)
+        {
+            
+        }
     }
 }
