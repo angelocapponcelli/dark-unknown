@@ -20,8 +20,7 @@ public class LevelManager : MonoBehaviour
         _roomPool = new List<GameObject>();
         _nextRooms = new List<GameObject>();
         
-        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room1"));
-        _roomPool.Add(Resources.Load<GameObject>("Rooms/Room2"));
+        _roomPool.AddRange(Resources.LoadAll<GameObject>("Rooms/"));
     }
     
     // Start is called before the first frame update
@@ -37,22 +36,20 @@ public class LevelManager : MonoBehaviour
     }
 
     //from GameManager
-    public void SetInitialRoom(GameObject room)
+    public void SetInitialRoom()
     {
-        _currentRoom = room;
-        Instantiate(_currentRoom, Vector3.zero, Quaternion.identity);
+        GameObject tmp = _roomPool[Random.Range(0, _roomPool.Count)];
+        _currentRoom = Instantiate(tmp, Vector3.zero, Quaternion.identity);
+        _roomPool.Remove(tmp);
         LoadRooms();
     }
 
     //from other rooms
     public void SetRoom(int roomNumber)
     {
-        GameObject tmp = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
-        
-        if(_roomsTraversed>1) Destroy(_currentRoom);
-        
-        //instantiate the new room
-        _currentRoom = tmp;
+        Destroy(_currentRoom);
+        _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
+        _roomPool.Remove(_nextRooms[roomNumber - 1]);
         
         //load next rooms
         _nextRooms.Clear();
@@ -69,7 +66,6 @@ public class LevelManager : MonoBehaviour
         {
             _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
         }
-        print("_nextRooms.Count: " + _nextRooms.Count);
         //else...
         
         
