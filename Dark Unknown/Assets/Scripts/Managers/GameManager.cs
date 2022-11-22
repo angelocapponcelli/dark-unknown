@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     private LevelManager _levelManager;
-    [SerializeField] private GameObject initialRoom;
     [SerializeField] private Player player;
     
     protected override void Awake()
@@ -18,7 +17,7 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
-        _levelManager.SetInitialRoom(initialRoom);
+        _levelManager.SetInitialRoom();
         player = Instantiate(player,Vector3.zero,Quaternion.identity);
     }
 
