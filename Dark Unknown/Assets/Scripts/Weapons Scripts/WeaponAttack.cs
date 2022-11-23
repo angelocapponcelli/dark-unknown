@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class WeaponAttack : MonoBehaviour
 {
-    private float _damage = 10f;
-    [SerializeField] Sword _sword;
-
-    private void Start()
-    {
-        if (_sword != null)
-        {
-            _damage = _sword.getDamage();
-        }
-    }
+    [SerializeField] private float _damage = 10f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

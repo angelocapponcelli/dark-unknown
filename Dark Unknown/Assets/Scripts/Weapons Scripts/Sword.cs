@@ -12,7 +12,7 @@ public class Sword : Weapon
     private void Start()
     {
         _delay = 0.8f;
-        _damage = 10f;
+        //_damage = 10f; non è più usato in questa classe, vedi WeaponAttack
 
         _weaponAnimator = GetComponent<Animator>();
 
@@ -39,11 +39,6 @@ public class Sword : Weapon
         }*/
 
         StartCoroutine(DelayAttack());
-    }
-
-    public float getDamage()
-    {
-        return _damage;
     }
 
     /*ToDisplaycircleOfAttack
