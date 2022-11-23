@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private WeaponParent _weaponParent;
     [SerializeField] private float _health = 100;
 
-    [SerializeField] private HealthBar _healthBar;
+    private HealthBar _healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
         _weaponParent = GetComponentInChildren<WeaponParent>();
         
         _playerInput.LeftClick += () => _weaponParent.Attack();
+
+        _healthBar = FindObjectOfType<HealthBar>();
         _healthBar.SetMaxHealth(_health);
     }
 
