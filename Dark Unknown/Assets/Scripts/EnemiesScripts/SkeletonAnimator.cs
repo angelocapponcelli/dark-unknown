@@ -22,7 +22,7 @@ public class SkeletonAnimator : MonoBehaviour
 
     public void AnimateAttack(Vector2 direction)
     {
-        flip(direction);
+        //flip(direction); move flip of the sprite in the SkeletonController
         _animator.SetBool("canMove", false);
         _animator.SetTrigger("Attack");
     }
@@ -47,7 +47,7 @@ public class SkeletonAnimator : MonoBehaviour
         _animator.SetTrigger("Recover");
     }
 
-    private void flip(Vector2 direction)
+    public void flip(Vector2 direction)
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         if (Mathf.Abs(angle) < 90)

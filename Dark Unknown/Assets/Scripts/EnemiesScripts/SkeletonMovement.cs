@@ -14,11 +14,16 @@ public class SkeletonMovement : MonoBehaviour
 
     public void MoveSkeleton(Vector2 direction)
     {
-        transform.Translate((_speed * Time.deltaTime) * direction);
+        //transform.Translate((_speed * Time.deltaTime) * direction);
 
         //TODO modify skeleton movement to detect collision
         //_rb.MovePosition(_rb.position + ((_speed * Time.deltaTime) * direction));
-        //_rb.velocity = direction * _speed;
+        _rb.velocity = direction * _speed;
+    }
+
+    public void StopMovement()
+    {
+        _rb.velocity = Vector2.zero;
     }
 
 }

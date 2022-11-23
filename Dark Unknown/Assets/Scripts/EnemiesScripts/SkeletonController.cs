@@ -65,12 +65,18 @@ public class SkeletonController : EnemyController
                 // At the minimum distance, it stops moving
                 _isAttacking = true;
                 _canMove = false;
+                _movement.StopMovement();
                 StartCoroutine(Attack(_ai.GetMovingDirection()));
             }
         }
         else
         {
             _animator.AnimateIdle();
+        }
+
+        if (_isAttacking) //to flip skeleton in the right direction when is attacking
+        {
+            _animator.flip(_target.transform.position - transform.position);
         }
 
         // -- Handle Animations --
@@ -93,6 +99,7 @@ public class SkeletonController : EnemyController
             // At the minimum distance, it stops moving
             _isAttacking = true;
             _canMove = false;
+            _movement.StopMovement();
             StartCoroutine(Attack(_ai.GetMovingDirection()));
         }
     }
@@ -125,6 +132,7 @@ public class SkeletonController : EnemyController
  
     public override void TakeDamage(float damage)
     {
+        _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
@@ -140,7 +148,7 @@ public class SkeletonController : EnemyController
     {
         _animator.AnimateTakeDamage();
         _canMove = false;
-        yield return new WaitForSeconds(_animator.GetCurrentState().length);
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
@@ -149,6 +157,7 @@ public class SkeletonController : EnemyController
     {
         _isDead = true;
         _canMove = false;
+        _movement.StopMovement();
         _animator.AnimateDie();
     }
 }

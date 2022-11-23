@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class WeaponAttack : MonoBehaviour
 {
-    private float _damage = 20f;
+    private float _damage = 10f;
+    [SerializeField] Sword _sword;
+
+    private void Start()
+    {
+        if (_sword != null)
+        {
+            _damage = _sword.getDamage();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Collider2D[] hitEnemies = collision.GetComponents<Collider2D>();
-        foreach (Collider2D character in hitEnemies)
+        foreach (Collider2D enemy in hitEnemies)
         {
-            if (character.gameObject.CompareTag("Enemy"))
+            if (enemy.gameObject.CompareTag("Enemy"))
             {
-                character.GetComponent<EnemyController>().TakeDamage(_damage);
+                enemy.GetComponentInParent<EnemyController>().TakeDamage(_damage);
             }
         }
     }
