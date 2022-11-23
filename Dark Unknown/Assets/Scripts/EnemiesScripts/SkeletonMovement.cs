@@ -18,7 +18,6 @@ public class SkeletonMovement : MonoBehaviour
 
         //TODO modify skeleton movement to detect collision
         //_rb.MovePosition(_rb.position + ((_speed * Time.deltaTime) * direction));
-       // _rb.velocity = direction;
         //_rb.velocity = direction * _speed;
     }
 
