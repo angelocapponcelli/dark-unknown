@@ -7,6 +7,8 @@ public class WeaponParent : MonoBehaviour
 {
     public Vector2 PointerPosition { get; set; }
     private Weapon _weapon;
+    private Vector2 direction;
+    public float rotation_z;
 
     private void Start()
     {
@@ -21,9 +23,10 @@ public class WeaponParent : MonoBehaviour
 
     private void MoveWeapon()
     {
-        Vector3 difference = (Vector3)PointerPosition - transform.position;
-        difference.Normalize();
-        float rotation_z = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg; // variable needed to track the rotation the weapon would have done
+        direction = (Vector3)PointerPosition - transform.position;
+        _weapon.direction = direction;
+        rotation_z = Mathf.Atan2(direction.normalized.y, direction.normalized.x) * Mathf.Rad2Deg; // variable needed to track the rotation the weapon would have done
+        _weapon.rotation = rotation_z;
         float actualRotation = rotation_z; // variable that will contain the admissible rotation
         Vector2 scale = transform.localScale;
 
