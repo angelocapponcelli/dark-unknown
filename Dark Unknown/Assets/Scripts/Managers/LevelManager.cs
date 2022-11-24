@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemies_Scripts;
 using NUnit.Framework;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
@@ -16,6 +19,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
+    [SerializeField] private EnemySpawner enemySpawner;
     
     void Awake()
     {
@@ -50,11 +54,13 @@ public class LevelManager : MonoBehaviour
     public void SetRoom(int roomNumber)
     {
         Destroy(_currentRoom);
+        //Destroy(enemySpawner);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
+        _roomPool.Remove(_nextRooms[roomNumber - 1]);
         _player = FindObjectOfType<Player>();
         _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
         _player.transform.position = _playerSpawnPoint.transform.position;
-        _roomPool.Remove(_nextRooms[roomNumber - 1]);
+        //enemySpawner = Instantiate(enemySpawner, Vector3.zero, quaternion.identity);
         
         //load next rooms
         _nextRooms.Clear();

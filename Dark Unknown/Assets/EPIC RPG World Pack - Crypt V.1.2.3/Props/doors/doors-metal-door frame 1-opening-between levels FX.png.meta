@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -125,9 +125,357 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_0
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 13
+        width: 76
+        height: 92
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca090d0ffef70ac45a8804511bd59db8
+      internalID: -1093751461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_1
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 25
+        width: 76
+        height: 82
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 866676aab1190084280040ea97fa4a1b
+      internalID: -1345892536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_3
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 23
+        width: 76
+        height: 82
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cb16ff330ed5aa48b95f00a84bce28a
+      internalID: 1007139039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_5
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1c7cb32deef17c4989d78023e687e8a
+      internalID: -1269766569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_6
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93ca0a333c311e4449c74b83fd622842
+      internalID: -1600354963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_7
+      rect:
+        serializedVersion: 2
+        x: 664
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 328aaf48aace7934e9fc96a1f539dc5a
+      internalID: 1572082420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_8
+      rect:
+        serializedVersion: 2
+        x: 792
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f727178baf92644587ad7072deea3c9
+      internalID: 164611008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_9
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7aeea6173c055642801f9c0c68c032b
+      internalID: 1740223883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_10
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5ff1b8876e29ba4eb88b60c68a3b86e
+      internalID: -1292607842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_11
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cdac3c05d5e2a7439942c2bd6f8db47
+      internalID: -1299286522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_12
+      rect:
+        serializedVersion: 2
+        x: 1304
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ef7867e69016de4297fbf0a716971a2
+      internalID: -1088797978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_13
+      rect:
+        serializedVersion: 2
+        x: 1432
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91147ea06d9a69c4c984f166c545d2a4
+      internalID: 1641542451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_14
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaa40db644c91564d8385ae2e30da7f0
+      internalID: 1906665477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_15
+      rect:
+        serializedVersion: 2
+        x: 1688
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f472b3ea39f418e46909023a8385252b
+      internalID: 1692460726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_16
+      rect:
+        serializedVersion: 2
+        x: 1816
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a06e5756b903d1c469226847bc67ed5b
+      internalID: 2113568636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-metal-door frame 1-opening-between levels FX_17
+      rect:
+        serializedVersion: 2
+        x: 1944
+        y: 1
+        width: 84
+        height: 104
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 106b9624e6676864aa43a973015cecf5
+      internalID: 930970713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -138,7 +486,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      doors-metal-door frame 1-opening-between levels FX_11: -1299286522
+      doors-metal-door frame 1-opening-between levels FX_16: 2113568636
+      doors-metal-door frame 1-opening-between levels FX_7: 1572082420
+      doors-metal-door frame 1-opening-between levels FX_12: -1088797978
+      doors-metal-door frame 1-opening-between levels FX_8: 164611008
+      doors-metal-door frame 1-opening-between levels FX_13: 1641542451
+      doors-metal-door frame 1-opening-between levels FX_17: 930970713
+      doors-metal-door frame 1-opening-between levels FX_2: 1039694129
+      doors-metal-door frame 1-opening-between levels FX_18: 1425409410
+      doors-metal-door frame 1-opening-between levels FX_10: -1292607842
+      doors-metal-door frame 1-opening-between levels FX_6: -1600354963
+      doors-metal-door frame 1-opening-between levels FX_15: 1692460726
+      doors-metal-door frame 1-opening-between levels FX_5: -1269766569
+      doors-metal-door frame 1-opening-between levels FX_14: 1906665477
+      doors-metal-door frame 1-opening-between levels FX_3: 1007139039
+      doors-metal-door frame 1-opening-between levels FX_4: 2011475256
+      doors-metal-door frame 1-opening-between levels FX_1: -1345892536
+      doors-metal-door frame 1-opening-between levels FX_0: -1093751461
+      doors-metal-door frame 1-opening-between levels FX_9: 1740223883
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
