@@ -59,6 +59,7 @@ public class SkeletonController : EnemyController
             {
                 _movement.MoveSkeleton(_ai.GetMovingDirection());
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_isAttacking && !_damageCoroutineRunning)
             {
@@ -100,6 +101,7 @@ public class SkeletonController : EnemyController
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
+            
             StartCoroutine(Attack(_ai.GetMovingDirection()));
         }
     }
@@ -107,7 +109,7 @@ public class SkeletonController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-
+        AudioManager.Instance.PlaySkeletonAttackSound();
         do
         {
             yield return null;
@@ -147,6 +149,7 @@ public class SkeletonController : EnemyController
     private IEnumerator Damage()
     {
         _animator.AnimateTakeDamage();
+        AudioManager.Instance.PlaySkeletonHurtSound();
         _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
@@ -159,5 +162,6 @@ public class SkeletonController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
+        AudioManager.Instance.PlaySkeletonDieSound();
     }
 }

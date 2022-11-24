@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b220ce3c642fbd64e8e7df3ecd0ce0f3, type: 3}
+  m_Name: Sound Bank
+  m_EditorClassIdentifier: 
+  SkeletonDie: {fileID: 0}
+  SkeletonHurt:
+  - {fileID: 8300000, guid: 73de2705c9056f247843c69f879032f8, type: 3}
+  - {fileID: 8300000, guid: d93508d1178ba374bbb7166d08cac125, type: 3}
+  - {fileID: 8300000, guid: 493042dd6f29cb54485090fca81daa5c, type: 3}
+  SkeletonAttack: {fileID: 8300000, guid: 7b0ea889263b4254aa61bbb0eb1ad5f5, type: 3}
+  PlayerHurt: {fileID: 0}
+  PlayerDash: {fileID: 0}
+  SwordAttack: {fileID: 0}
+  QuietBeat: {fileID: 0}
+  ExcitingBeat: {fileID: 0}
+  QuietBeatTiming: 1
+  ExcitingBeatTiming: 0.5

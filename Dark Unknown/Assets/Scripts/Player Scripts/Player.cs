@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
         _healthBar.SetHealth(_health);
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
+        AudioManager.Instance.PlayPLayerHurtSound();
     }
 
     private IEnumerator FlashRed()
