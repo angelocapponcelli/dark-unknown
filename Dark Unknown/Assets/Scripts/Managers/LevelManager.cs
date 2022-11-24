@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     private List<GameObject> _roomPool;
     private List<GameObject> _nextRooms;
