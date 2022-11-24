@@ -14,6 +14,8 @@ public class LevelManager : MonoBehaviour
     private GameObject _currentRoom;
     private int _roomsTraversed = 0; //counter to distinguish when the next is the boss
     [SerializeField] private int roomsBeforeBoss = 5;
+    private GameObject _playerSpawnPoint;
+    private Player _player;
     
     void Awake()
     {
@@ -49,6 +51,9 @@ public class LevelManager : MonoBehaviour
     {
         Destroy(_currentRoom);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
+        _player = FindObjectOfType<Player>();
+        _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
+        _player.transform.position = _playerSpawnPoint.transform.position;
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
         
         //load next rooms
@@ -69,5 +74,10 @@ public class LevelManager : MonoBehaviour
         //else...
         
         
+    }
+
+    public GameObject GetCurrentRoom()
+    {
+        return _currentRoom;
     }
 }
