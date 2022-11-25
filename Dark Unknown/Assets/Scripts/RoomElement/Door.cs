@@ -21,6 +21,8 @@ public class Door : MonoBehaviour
         _mySpriteRender = GetComponent<SpriteRenderer>();
         _myBoxCollider = GetComponent<BoxCollider2D>();
         _myBoxCollider.enabled = false;
+
+        //TODO Change door symbols here at run time to make random generetion starting when the room is initialized
     }
 
 

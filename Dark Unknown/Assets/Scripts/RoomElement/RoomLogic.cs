@@ -27,6 +27,7 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
+
     }
  
     // Update is called once per frame
