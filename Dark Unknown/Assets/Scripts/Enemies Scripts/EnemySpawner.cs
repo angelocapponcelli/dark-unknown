@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Enemies_Scripts
-{
+//namespace Enemies_Scripts
+//{
     public class EnemySpawner : MonoBehaviour
     {
-        private LevelManager _levelManager;
-        private GameObject _currentRoom;
+        //private LevelManager _levelManager;
+        //private GameObject _currentRoom;
 
         private List<Vector3> _availablePlaces;
 
         [SerializeField] public Tilemap tileMap;
-        [SerializeField] public GameObject enemyPrefab;
-        [SerializeField] public float spawnTime = 1.0f;
+        //[SerializeField] public GameObject enemyPrefab;
+        //[SerializeField] public float spawnTime = 1.0f;
         //[SerializeField] private float enemyPerSpawn = 1f;
-        [SerializeField] public int totalEnemies = 10;
+        //[SerializeField] public int totalEnemies = 10;
 
         // Start is called before the first frame update
         private void Start()
@@ -39,12 +39,23 @@ namespace Enemies_Scripts
                 }
             }
         
+            /* Replaced in room logic
             if (enemyPrefab != null)
             {
-                StartCoroutine(nameof(SpawnEnemy));
-            }
+               // StartCoroutine(nameof(SpawnEnemy));
+            }*/
         }
-    
+
+        // In this configuration, no 2 enemies can spawn on the same tile
+        public EnemyController Spawn(EnemyController enemyType)
+        {
+            var randomPlace = _availablePlaces[Random.Range(0, _availablePlaces.Count)];
+            EnemyController enemy = (EnemyController) Instantiate(enemyType, randomPlace, Quaternion.identity);
+            _availablePlaces.Remove(randomPlace);
+            return enemy;
+        }
+
+        /* Replaced in room logic
         // In this configuration, no 2 enemies can spawn on the same tile
         private IEnumerator SpawnEnemy()
         {
@@ -56,10 +67,10 @@ namespace Enemies_Scripts
                 Instantiate(enemyPrefab, randomPlace, Quaternion.identity);
                 _availablePlaces.Remove(randomPlace);
                 /*for (int i = 0; i < enemyPerSpawn; i++)
-            {
-                Instantiate(enemyPrefab, _availablePlaces[Random.Range(0, _availablePlaces.Count)], Quaternion.identity);
-            }*/
+                {
+                    Instantiate(enemyPrefab, _availablePlaces[Random.Range(0, _availablePlaces.Count)], Quaternion.identity);
+                }/
             }
-        }
+        }*/
     }
-}
+//}
