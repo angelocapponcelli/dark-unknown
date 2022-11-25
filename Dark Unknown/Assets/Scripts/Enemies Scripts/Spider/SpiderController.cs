@@ -20,7 +20,7 @@ public class SpiderController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
-    private float _shotFrequency = 1f;
+    private float _shotFrequency = 3;
 
     private SkeletonMovement _movement;
     private SkeletonAnimator _animator;
@@ -46,7 +46,7 @@ public class SpiderController : EnemyController
     // Update is called once per frame
     void Update()
     {
-        _timeElapsedFromShot += Time.deltaTime;
+        _timeElapsedFromShot += (Time.deltaTime % 60);
         if (_target == null)
         {
             return;
