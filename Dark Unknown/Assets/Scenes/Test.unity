@@ -6103,6 +6103,11 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: -1
   m_TargetDisplay: 0
+--- !u!1839735485 &1503777023 stripped
+Tilemap:
+  m_CorrespondingSourceObject: {fileID: 8256603193858329733, guid: 690e0d0e341ca4862ab91c7098df9871, type: 3}
+  m_PrefabInstance: {fileID: 1991526063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1768541118
 GameObject:
   m_ObjectHideFlags: 0
@@ -6237,8 +6242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35fe738f15d35f846b24947d11e6545f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileMap: {fileID: 1503777023}
   enemyPrefab: {fileID: 891889871}
-  spawnTime: 0.2
+  spawnTime: 0.5
   totalEnemies: 10
 --- !u!4 &1786979069
 Transform:
