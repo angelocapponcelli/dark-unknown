@@ -46,21 +46,26 @@ public class LevelManager : Singleton<LevelManager>
     {
         RoomLogic tmp = _roomPool[Random.Range(0, _roomPool.Count)];
         _currentRoom = Instantiate(tmp, Vector3.zero, Quaternion.identity);
+        _currentRoom.StartRoom(RoomLogic.Type.INITIAL);
         _roomPool.Remove(tmp);
         LoadRooms();
     }
 
     //from other rooms
-    public void SetRoom(int roomNumber)
+    public void SetRoom(int roomNumber, RoomLogic.Type roomType)
     {
         _currentRoom.DestroyAllEnemies();
         Destroy(_currentRoom.gameObject);
         //Destroy(enemySpawner);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
+        _currentRoom.StartRoom(roomType);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
-        _player = Player.Instance;
-        _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
-        _player.transform.position = _playerSpawnPoint.transform.position;
+        
+        //Replaced in RoomLogic
+        //_player = Player.Instance;
+        //_playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
+        //_player.transform.position = _playerSpawnPoint.transform.position;
+        
         //enemySpawner = Instantiate(enemySpawner, Vector3.zero, quaternion.identity);
         
         //load next rooms

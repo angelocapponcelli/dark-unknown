@@ -39,7 +39,7 @@ public class Door : MonoBehaviour
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
             
-            LevelManager.Instance.SetRoom(myIndex);
+            LevelManager.Instance.SetRoom(myIndex, RoomLogic.Type.HARD);
         }
     }
 }
