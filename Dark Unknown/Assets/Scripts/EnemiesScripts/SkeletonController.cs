@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SkeletonController : EnemyController
 {
-    [SerializeField] private GameObject _target;
+    [SerializeField] private Player _target;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -27,7 +27,8 @@ public class SkeletonController : EnemyController
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-
+        _target = Player.Instance;
+        
         _currentHealth = _maxHealth;
         _canMove = true;
 
