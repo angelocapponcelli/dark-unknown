@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager>
     private LevelManager _levelManager;
     [SerializeField] private Player player;
     private CinemachineVirtualCamera _cineMachine;
-    private GameObject _currentRoom;
+    private RoomLogic _currentRoom;
     private GameObject _playerSpawnPoint;
     
     protected override void Awake()

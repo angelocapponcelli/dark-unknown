@@ -60,4 +60,13 @@ public class RoomLogic : MonoBehaviour
             _enemies.Add(_enemySpawner.Spawn(_possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)]));
         }
     }
+
+    public void DestroyAllEnemies()
+    {
+        Debug.Log("Distruggi");
+        for (int i = 0; i < _enemies.Count; i++)
+        {
+            Destroy(_enemies[i].gameObject);
+        }
+    }
 }

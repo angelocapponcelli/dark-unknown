@@ -12,9 +12,9 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private List<GameObject> _roomPool;
-    private List<GameObject> _nextRooms;
-    private GameObject _currentRoom;
+    private List<RoomLogic> _roomPool;
+    private List<RoomLogic> _nextRooms;
+    private RoomLogic _currentRoom;
     private int _roomsTraversed = 0; //counter to distinguish when the next is the boss
     [SerializeField] private int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
@@ -23,10 +23,10 @@ public class LevelManager : Singleton<LevelManager>
     
     void Awake()
     {
-        _roomPool = new List<GameObject>();
-        _nextRooms = new List<GameObject>();
+        _roomPool = new List<RoomLogic>();
+        _nextRooms = new List<RoomLogic>();
         
-        _roomPool.AddRange(Resources.LoadAll<GameObject>("Rooms/"));
+        _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/"));
     }
     
     // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class LevelManager : Singleton<LevelManager>
     //from GameManager
     public void SetInitialRoom()
     {
-        GameObject tmp = _roomPool[Random.Range(0, _roomPool.Count)];
+        RoomLogic tmp = _roomPool[Random.Range(0, _roomPool.Count)];
         _currentRoom = Instantiate(tmp, Vector3.zero, Quaternion.identity);
         _roomPool.Remove(tmp);
         LoadRooms();
@@ -53,11 +53,12 @@ public class LevelManager : Singleton<LevelManager>
     //from other rooms
     public void SetRoom(int roomNumber)
     {
-        Destroy(_currentRoom);
+        _currentRoom.DestroyAllEnemies();
+        Destroy(_currentRoom.gameObject);
         //Destroy(enemySpawner);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
-        _player = FindObjectOfType<Player>();
+        _player = Player.Instance;
         _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
         _player.transform.position = _playerSpawnPoint.transform.position;
         //enemySpawner = Instantiate(enemySpawner, Vector3.zero, quaternion.identity);
@@ -82,7 +83,7 @@ public class LevelManager : Singleton<LevelManager>
         
     }
 
-    public GameObject GetCurrentRoom()
+    public RoomLogic GetCurrentRoom()
     {
         return _currentRoom;
     }
