@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager>
     private LevelManager _levelManager;
     [SerializeField] private Player player;
     private CinemachineVirtualCamera _cineMachine;
+    private GameObject _currentRoom;
+    private GameObject _playerSpawnPoint;
     
     protected override void Awake()
     {
@@ -21,7 +23,9 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         _levelManager.SetInitialRoom();
-        player = Instantiate(player,Vector3.zero,Quaternion.identity);
+        _currentRoom = _levelManager.GetCurrentRoom();
+        _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
+        player = Instantiate(player,_playerSpawnPoint.transform.position,Quaternion.identity);
         _cineMachine.Follow = player.transform;
     }
 
