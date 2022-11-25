@@ -13,7 +13,6 @@ public class SkeletonController : EnemyController
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
-    private bool _isDead;
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
@@ -53,7 +52,7 @@ public class SkeletonController : EnemyController
         _direction.Normalize();*/
         
         // If the skeleton is not dead
-        if (!_isDead && _distance <= _chaseDistance)
+        if (!isDead && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
@@ -87,7 +86,7 @@ public class SkeletonController : EnemyController
             TakeDamage(10);
         // Death
         if (Input.GetKeyUp("z")) {
-            if (_isDead)
+            if (isDead)
             {
                 StartCoroutine(RecoverySequence());
             }            
@@ -129,7 +128,7 @@ public class SkeletonController : EnemyController
         _currentHealth = _maxHealth;
         _animator.AnimateRecover();
         yield return new WaitForSeconds(2);
-        _isDead = false;
+        isDead = false; 
         _canMove = true;
     }    
  
@@ -159,7 +158,7 @@ public class SkeletonController : EnemyController
 
     private void Die()
     {
-        _isDead = true;
+        isDead = true;
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
