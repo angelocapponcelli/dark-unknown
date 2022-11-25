@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1899145548568855130
+--- !u!1 &274365315269917777
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,31 +8,31 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5552028923733352780}
+  - component: {fileID: 2122766098601005062}
   m_Layer: 8
-  m_Name: PurpleVase1
+  m_Name: FourTraps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5552028923733352780
+--- !u!4 &2122766098601005062
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1899145548568855130}
+  m_GameObject: {fileID: 274365315269917777}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.7922726, y: 3.167901, z: -0.13608998}
+  m_LocalPosition: {x: 14.790402, y: -1.205243, z: -0.09776765}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5430804536320235413}
+  - {fileID: 7740432738556558619}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2863461125278596295
+--- !u!1 &7353304090413886712
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,37 +40,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5430804536320235413}
-  - component: {fileID: 8139559362388227072}
+  - component: {fileID: 7740432738556558619}
+  - component: {fileID: 3027566181259003634}
   m_Layer: 8
-  m_Name: 0-Atlas-Props_332
+  m_Name: 0-Atlas-Props_307
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5430804536320235413
+--- !u!4 &7740432738556558619
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2863461125278596295}
+  m_GameObject: {fileID: 7353304090413886712}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.7922726, y: -3.167901, z: 0.13608998}
+  m_LocalPosition: {x: -14.790402, y: 1.205243, z: 0.09776765}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5552028923733352780}
+  m_Father: {fileID: 2122766098601005062}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8139559362388227072
+--- !u!212 &3027566181259003634
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2863461125278596295}
+  m_GameObject: {fileID: 7353304090413886712}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -105,12 +105,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -762994036, guid: a8987bba27fc3c84cbc4320cbf9bc01e, type: 3}
+  m_Sprite: {fileID: 1651388698, guid: a8987bba27fc3c84cbc4320cbf9bc01e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.40625, y: 0.625}
+  m_Size: {x: 3.96875, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
