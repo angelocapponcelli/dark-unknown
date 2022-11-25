@@ -12,9 +12,11 @@ public class Sword : Weapon
     private void Start()
     {
         _delay = 0.8f;
-        _damage = 10f; //TODO refactor
-
+        //_damage = 10f; non � pi� usato in questa classe, vedi WeaponAttack
+        _canRotateFreely = false;
+        
         _weaponAnimator = GetComponent<Animator>();
+
     }
 
 
@@ -26,6 +28,7 @@ public class Sword : Weapon
         _weaponAnimator.SetTrigger("Attack");
         _effectAnimator.SetTrigger("Attack");
         _attackBlocked = true;
+        AudioManager.Instance.PlayPLayerAttackSound();
 
         /*Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
         foreach (Collider2D enemy in hitEnemies)
@@ -39,6 +42,9 @@ public class Sword : Weapon
 
         StartCoroutine(DelayAttack());
     }
+    
+    
+    
 
     /*ToDisplaycircleOfAttack
     private void OnDrawGizmosSelected()

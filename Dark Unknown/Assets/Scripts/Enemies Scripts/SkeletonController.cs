@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SkeletonController : EnemyController
 {
-    [SerializeField] private GameObject _target;
+    [SerializeField] private Player _target;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -27,7 +27,8 @@ public class SkeletonController : EnemyController
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-
+        _target = Player.Instance;
+        
         _currentHealth = _maxHealth;
         _canMove = true;
 
@@ -59,18 +60,25 @@ public class SkeletonController : EnemyController
             {
                 _movement.MoveSkeleton(_ai.GetMovingDirection());
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_isAttacking && !_damageCoroutineRunning)
             {
                 // At the minimum distance, it stops moving
                 _isAttacking = true;
                 _canMove = false;
+                _movement.StopMovement();
                 StartCoroutine(Attack(_ai.GetMovingDirection()));
             }
         }
         else
         {
             _animator.AnimateIdle();
+        }
+
+        if (_isAttacking) //to flip skeleton in the right direction when is attacking
+        {
+            _animator.flip(_target.transform.position - transform.position);
         }
 
         // -- Handle Animations --
@@ -93,6 +101,8 @@ public class SkeletonController : EnemyController
             // At the minimum distance, it stops moving
             _isAttacking = true;
             _canMove = false;
+            _movement.StopMovement();
+            
             StartCoroutine(Attack(_ai.GetMovingDirection()));
         }
     }
@@ -100,7 +110,7 @@ public class SkeletonController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-
+        AudioManager.Instance.PlaySkeletonAttackSound();
         do
         {
             yield return null;
@@ -125,6 +135,7 @@ public class SkeletonController : EnemyController
  
     public override void TakeDamage(float damage)
     {
+        _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
@@ -139,8 +150,9 @@ public class SkeletonController : EnemyController
     private IEnumerator Damage()
     {
         _animator.AnimateTakeDamage();
+        AudioManager.Instance.PlaySkeletonHurtSound();
         _canMove = false;
-        yield return new WaitForSeconds(_animator.GetCurrentState().length);
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
@@ -149,6 +161,8 @@ public class SkeletonController : EnemyController
     {
         _isDead = true;
         _canMove = false;
+        _movement.StopMovement();
         _animator.AnimateDie();
+        AudioManager.Instance.PlaySkeletonDieSound();
     }
 }

@@ -1,10 +1,10 @@
-using System.Numerics;
+//using System.Numerics;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Player : MonoBehaviour
+public class Player : Singleton<Player>
 {
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
         _healthBar.SetHealth(_health);
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
+        AudioManager.Instance.PlayPLayerHurtSound();
     }
 
     private IEnumerator FlashRed()
@@ -60,6 +61,11 @@ public class Player : MonoBehaviour
         playerRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         playerRenderer.color = Color.white;
+    }
+
+    public void SetPosition(Vector3 newPos)
+    {
+        transform.position = newPos;
     }
 }
 

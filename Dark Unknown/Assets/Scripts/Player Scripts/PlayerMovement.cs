@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(StopDashing());
             _dashDirection = direction;
             CreateDust();
+            AudioManager.Instance.PlayPLayerDashSound();
         }
 
         if (_isDashing)
@@ -43,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _activeSpeed = speed;
+            //AudioManager.Instance.PlayPLayerWalkSound(); //TODO sistemare il suono dei passi che va in loop 
         }
         
         _rb.velocity = (_activeSpeed * Time.deltaTime) * direction ;  // order of operations (float * float * vector) for the efficiency
