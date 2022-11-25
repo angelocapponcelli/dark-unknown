@@ -10,6 +10,7 @@ public class SpiderController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     private float _minDistance = 3f;
+    private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
 
     private Rigidbody2D _rb;
@@ -62,28 +63,28 @@ public class SpiderController : EnemyController
         if (!isDead && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
-            if (_distance >= _minDistance && _canMove)
+            if (_distance > _minDistance + _offset && _canMove)
             {
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
-                    projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*6;
-                    Destroy(projectile, 2.5f);
-                    // At the minimum distance, it stops moving
-                    _isAttacking = true;
-                    _canMove = false;
-                    _movement.StopMovement();
-                    StartCoroutine(Attack(_ai.GetMovingDirection()));
-                    _timeElapsedFromShot = 0;
+                    AttackEvent();
                 }
                 _movement.MoveSkeleton(_ai.GetMovingDirection());
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
-            else if (_distance < _minDistance && _canMove)
+            else if (_distance < _minDistance - _offset && _canMove)
             {
                 _movement.MoveSkeleton(_ai.GetMovingDirection()*(-1));
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+            } else if (_distance >= _minDistance - _offset && _distance <= _minDistance + _offset && _canMove)
+            {
+                _animator.AnimateIdle();
+                _movement.StopMovement();
+                if (_timeElapsedFromShot >= _shotFrequency)
+                {
+                    AttackEvent();
+                }
             }
             /*else if (_distance == _minDistance && !_isAttacking && !_damageCoroutineRunning)
             {
@@ -122,15 +123,15 @@ public class SpiderController : EnemyController
 
     private void AttackEvent()
     {
-        if (!_isAttacking && !_damageCoroutineRunning)
-        {
-            // At the minimum distance, it stops moving
-            _isAttacking = true;
-            _canMove = false;
-            _movement.StopMovement();
-            
-            StartCoroutine(Attack(_ai.GetMovingDirection()));
-        }
+        GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
+        projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*6;
+        Destroy(projectile, 2.5f);
+        // At the minimum distance, it stops moving
+        _isAttacking = true;
+        _canMove = false;
+        _movement.StopMovement();
+        StartCoroutine(Attack(_ai.GetMovingDirection()));
+        _timeElapsedFromShot = 0;
     }
 
     private IEnumerator Attack(Vector2 direction)
