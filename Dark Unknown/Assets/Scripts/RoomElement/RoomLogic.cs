@@ -16,6 +16,8 @@ public class RoomLogic : MonoBehaviour
 
     [Header("")]
     [SerializeField] private Door[] _doors;
+    [SerializeField] private Transform _spawnPointReward;
+    [SerializeField] private Dictionary<Type, Reward> _rewards;
 
     public enum Type { INITIAL, HEALTH, WEAPONS, SPEED, HARD, EASY};
     private Type _roomType;
@@ -49,7 +51,21 @@ public class RoomLogic : MonoBehaviour
                 {
                     d.Open();
                 }
-                //TODO qualcosa succede dopo che tutti i nemici sono morti es:Spwanare il powerUp della stanza (Cuoricino per la vita, una nuova arma)
+                switch (_roomType)
+                {
+                    case Type.INITIAL:
+                        _numOfEnememy = 0;
+                        break;
+                    case Type.HEALTH:                        
+                        Reward rewardSpawned = Instantiate(_rewards[Type.HEALTH], _spawnPointReward.position, Quaternion.identity);
+                        break;
+                    case Type.WEAPONS:
+                        break;
+                    case Type.EASY:
+                        break;
+                    case Type.HARD:
+                        break;
+                }
             }
         }        
     }

@@ -49,9 +49,6 @@ public class PlayerMovement : MonoBehaviour
         
         _rb.velocity = (_activeSpeed * Time.deltaTime) * direction ;  // order of operations (float * float * vector) for the efficiency
 
-        
-
-
     }
 
 
@@ -73,5 +70,10 @@ public class PlayerMovement : MonoBehaviour
     private void CreateDust()
     {
         _dust.Play();
+    }
+
+    public void IncreaseSpeed(float multiplier)
+    {
+        speed = speed * multiplier;
     }
 }

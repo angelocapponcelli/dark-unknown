@@ -2,27 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//create a new type: SymbolType
+[System.Serializable]
+public class SymbolType
+{
+    //define all of the values for the class
+    [SerializeField] public RoomLogic.Type type;
+    [SerializeField] public Sprite sprite;
+
+    //define a constructor for the class
+    public SymbolType(RoomLogic.Type newTypeitem, Sprite newSpriteItem)
+    {
+        type = newTypeitem;
+        sprite = newSpriteItem;
+    }
+}
+
 public class Door : MonoBehaviour
 {
     [Range(1, 3)]
     public int myIndex;
     private SpriteRenderer _mySpriteRender;
+
+    //TODO insert animation
     [SerializeField] private Sprite _opendDoorSprite;
-    [SerializeField] private SpriteRenderer _simbol;
-    [SerializeField] private Sprite[] _simbolsPossible;
+
+    [Header ("Symbols")]
+    [SerializeField] private SpriteRenderer _symbolAboveDoor;    
+    [SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
+
+    private SymbolType _actualDoorSymbol;
+    private bool _isClose;
     private BoxCollider2D _myBoxCollider;
 
-
-    private bool _isClose;
-    private void Awake()
+    //TODO Change start in awake
+    private void Start()
     {
-        _simbol.sprite = _simbolsPossible[Random.Range(0, _simbolsPossible.Length)];
+        _actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];
+        
+        _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
+
         _isClose = true;
         _mySpriteRender = GetComponent<SpriteRenderer>();
         _myBoxCollider = GetComponent<BoxCollider2D>();
         _myBoxCollider.enabled = false;
-
-        //TODO Change door symbols here at run time to make random generetion starting when the room is initialized
     }
 
 
@@ -41,7 +64,7 @@ public class Door : MonoBehaviour
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
             
-            LevelManager.Instance.SetRoom(myIndex, RoomLogic.Type.HARD);
+            LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
         }
     }
 }
