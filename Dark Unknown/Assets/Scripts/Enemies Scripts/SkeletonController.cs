@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SkeletonController : EnemyController
 {
-    [SerializeField] private Player _target;
+    private Player _target;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -163,5 +163,10 @@ public class SkeletonController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         AudioManager.Instance.PlaySkeletonDieSound();
+    }
+
+    private void DisableBoxCollider()
+    {
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 }
