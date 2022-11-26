@@ -123,15 +123,18 @@ public class SpiderController : EnemyController
 
     private void AttackEvent()
     {
-        GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*6;
-        Destroy(projectile, 2.5f);
-        // At the minimum distance, it stops moving
-        _isAttacking = true;
-        _canMove = false;
-        _movement.StopMovement();
-        StartCoroutine(Attack(_ai.GetMovingDirection()));
-        _timeElapsedFromShot = 0;
+        if (_ai.GetMovingDirection() != Vector2.zero)
+        {
+            GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
+            projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*6;
+            Destroy(projectile, 2.5f);
+            // At the minimum distance, it stops moving
+            _isAttacking = true;
+            _canMove = false;
+            _movement.StopMovement();
+            StartCoroutine(Attack(_ai.GetMovingDirection()));
+            _timeElapsedFromShot = 0;   
+        }
     }
 
     private IEnumerator Attack(Vector2 direction)
