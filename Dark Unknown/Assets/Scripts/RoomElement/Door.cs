@@ -25,15 +25,20 @@ public class Door : MonoBehaviour
     private SpriteRenderer _mySpriteRender;
 
     //TODO insert animation
-    [SerializeField] private Sprite _opendDoorSprite;
+    //[SerializeField] private Sprite _opendDoorSprite;
 
     [Header ("Symbols")]
     [SerializeField] private SpriteRenderer _symbolAboveDoor;    
     [SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
 
     private SymbolType _actualDoorSymbol;
-    private bool _isClose;
+    private Animator _animator;
+    //private bool _isClose;
     private BoxCollider2D _myBoxCollider;
+    
+    private static readonly int Opening = Animator.StringToHash("Opening");
+    private static readonly int IsClosed = Animator.StringToHash("isClosed");
+    private static readonly int Closing = Animator.StringToHash("Closing");
 
     //TODO Change start in awake
     private void Start()
@@ -42,18 +47,42 @@ public class Door : MonoBehaviour
         
         _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
 
-        _isClose = true;
-        _mySpriteRender = GetComponent<SpriteRenderer>();
+        //_isClose = true;
+        //_mySpriteRender = GetComponent<SpriteRenderer>();
         _myBoxCollider = GetComponent<BoxCollider2D>();
+        _animator = GetComponent<Animator>();
+        _animator.SetBool(IsClosed, false);
         _myBoxCollider.enabled = false;
     }
 
-
+    /*private void Update()
+    {
+        if (Input.GetKeyDown("o"))
+        {
+            Open();
+        }
+        if (Input.GetKeyDown("c"))
+        {
+            Close();
+        }
+    }*/
+    
     public void Open()
     {
-        _isClose = false;
-        _mySpriteRender.sprite = _opendDoorSprite;
+        //_isClose = false;
+        _animator.SetTrigger(Opening);
+        _animator.SetBool(IsClosed, false);
+        //_mySpriteRender.sprite = _opendDoorSprite;
         _myBoxCollider.enabled = true;
+    }
+
+    public void Close()
+    {
+        //_isClose = true;
+        _animator.SetTrigger(Closing);
+        _animator.SetBool(IsClosed, true);
+        //_mySpriteRender.sprite = _opendDoorSprite;
+        _myBoxCollider.enabled = false;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
