@@ -55,7 +55,7 @@ public class RoomLogic : MonoBehaviour
                         return;
                     allDead = true;
                 }
-                if (allDead)
+                if (allDead || _numOfEnememy==0)
                 {
                     foreach (Door d in _doors)
                     {
