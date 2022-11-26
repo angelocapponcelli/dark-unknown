@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedReward : Reward
+public class ArcReward : Reward
 {
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
@@ -11,7 +11,8 @@ public class SpeedReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().IncreaseSpeed(0.5f);
+                //TODO
+                //character.GetComponentInParent<Player>().ChangeWeapon();
                 Destroy(gameObject);
             }
         }

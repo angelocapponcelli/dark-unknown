@@ -17,10 +17,18 @@ public class RoomLogic : MonoBehaviour
     [Header("")]
     [SerializeField] private Door[] _doors;
     [SerializeField] private Transform _spawnPointReward;
-    [SerializeField] private Dictionary<Type, Reward> _rewards;
+    //[SerializeField] private Dictionary<Type, Reward> _rewards;
+    private Reward _rewardSpawned;
 
-    public enum Type { INITIAL, HEALTH, WEAPONS, SPEED, HARD, EASY};
+    [Header("Rewards")]
+    [SerializeField] private HealthReward _healthReward;
+    [SerializeField] private SpeedReward _speedReward;
+    [SerializeField] private BowReward _bowReward;
+    [SerializeField] private StrengthReward _streagthReward;
+
+    public enum Type {INITIAL, HEALTH, BOW, SPEED, HARD, EASY};
     private Type _roomType;
+    private bool _isControllEnabled = true;
 
     private void Start()
     {
@@ -29,45 +37,56 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
-
+        //_rewardSpawned = Instantiate(_rewardSpawned, _spawnPointReward.position, Quaternion.identity);
     }
  
     // Update is called once per frame
     void Update()
     {
-        //Check that all enemies are dead
-        if (_enemies != null)
+        if (_isControllEnabled)
         {
-            bool allDead = false;
-            for (int i = 0; i < _enemies.Count; i++)
+            //Check that all enemies are dead
+            if (_enemies != null)
             {
-                if (_enemies[i].IsDead() == false)
-                    return;
-                allDead = true;
-            }
-            if (allDead)
-            {
-                foreach (Door d in _doors)
+                bool allDead = false;
+                for (int i = 0; i < _enemies.Count; i++)
                 {
-                    d.Open();
+                    if (_enemies[i].IsDead() == false)
+                        return;
+                    allDead = true;
                 }
-                switch (_roomType)
+                if (allDead)
                 {
-                    case Type.INITIAL:
-                        _numOfEnememy = 0;
-                        break;
-                    case Type.HEALTH:                        
-                        Reward rewardSpawned = Instantiate(_rewards[Type.HEALTH], _spawnPointReward.position, Quaternion.identity);
-                        break;
-                    case Type.WEAPONS:
-                        break;
-                    case Type.EASY:
-                        break;
-                    case Type.HARD:
-                        break;
+                    foreach (Door d in _doors)
+                    {
+                        d.Open();
+                    }
+                    switch (_roomType)
+                    {
+                        case Type.INITIAL:
+                            _numOfEnememy = 0;
+                            break;
+                        case Type.HEALTH:
+                            _rewardSpawned = Instantiate(_healthReward, _spawnPointReward.position, Quaternion.identity);
+                            //_rewardSpawned.AddComponent<HealthReward>();
+                            break;
+                        case Type.BOW:
+                            //_rewardSpawned.AddComponent<BowReward>();
+                            _rewardSpawned = Instantiate(_bowReward, _spawnPointReward.position, Quaternion.identity);
+                            break;
+                        case Type.EASY:
+                            //TODO provvisorio per testare ma sbagliato
+                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
+                            break;
+                        case Type.HARD:
+                            //TODO provvisorio per testare ma sbagliato
+                            _rewardSpawned = Instantiate(_streagthReward, _spawnPointReward.position, Quaternion.identity);
+                            break;
+                    }
+                    _isControllEnabled = false;
                 }
             }
-        }        
+        }     
     }
 
     public void StartRoom(Type roomType)
@@ -80,7 +99,7 @@ public class RoomLogic : MonoBehaviour
                 break;
             case Type.HEALTH:
                 break;
-            case Type.WEAPONS:
+            case Type.BOW:
                 break;
             case Type.EASY:
                 _numOfEnememy = 2;
@@ -105,7 +124,6 @@ public class RoomLogic : MonoBehaviour
 
     public void DestroyAllEnemies()
     {
-        Debug.Log("Distruggi");
         for (int i = 0; i < _enemies.Count; i++)
         {
             Destroy(_enemies[i].gameObject);

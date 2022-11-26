@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcReward : Reward
+public class BowReward : Reward
 {
     protected override void OnTriggerEnter2D(Collider2D collision)
     {

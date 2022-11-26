@@ -13999,6 +13999,7 @@ Transform:
   - {fileID: 6225823071584364731}
   - {fileID: 5694488127777867463}
   - {fileID: 2147163469369520900}
+  - {fileID: 4496369101396528343}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14031,9 +14032,14 @@ MonoBehaviour:
   _possibleEnemyType:
   - {fileID: 4505435836957910141, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
   _numOfEnememy: 1
-  spawnTime: 1
+  _spawnTime: 1
   _doors:
   - {fileID: 5995620498249432361}
+  _spawnPointReward: {fileID: 4496369101396528343}
+  _healthReward: {fileID: 7998293817106796739, guid: 4d0757aeece91b143994dc6bebce5c37, type: 3}
+  _speedReward: {fileID: 887351849042644310, guid: 183bcc4fbabca2f4a9303fd0f5b3aba1, type: 3}
+  _bowReward: {fileID: 345883424446398951, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
+  _streagthReward: {fileID: 4116020210235259832, guid: 2c2957cbfefbb8b49aa65ae928c45a2e, type: 3}
 --- !u!114 &7873805034118357145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17724,6 +17730,37 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!1 &7127600537091976710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4496369101396528343}
+  m_Layer: 0
+  m_Name: RewardSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4496369101396528343
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7127600537091976710}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.62, y: -2.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5743028008671518666}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &612118413620215709
 PrefabInstance:
   m_ObjectHideFlags: 0
