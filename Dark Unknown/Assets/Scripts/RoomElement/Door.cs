@@ -51,7 +51,7 @@ public class Door : MonoBehaviour
         //_mySpriteRender = GetComponent<SpriteRenderer>();
         _myBoxCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
-        _animator.SetBool(IsClosed, false);
+        _animator.SetBool(IsClosed, true);
         _myBoxCollider.enabled = false;
     }
 
