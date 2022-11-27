@@ -40,6 +40,8 @@ public class Door : MonoBehaviour
     private static readonly int IsClosed = Animator.StringToHash("isClosed");
     private static readonly int Closing = Animator.StringToHash("Closing");
 
+    private bool _canOpen = false;
+
     //TODO Change start in awake
     private void Start()
     {
@@ -55,17 +57,13 @@ public class Door : MonoBehaviour
         _myBoxCollider.enabled = false;
     }
 
-    /*private void Update()
+    void Update()
     {
-        if (Input.GetKeyDown("o"))
+        if (_canOpen && Input.GetKey(KeyCode.E))
         {
-            Open();
+            LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
         }
-        if (Input.GetKeyDown("c"))
-        {
-            Close();
-        }
-    }*/
+    }
     
     public void Open()
     {
@@ -92,8 +90,16 @@ public class Door : MonoBehaviour
             //set room colliders to false
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
-            
-            LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
+            Player.Instance.ShowDoorUI(true);
+            _canOpen = true;
+        }
+    }
+    public void OnTriggerExit2D (Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            Player.Instance.ShowDoorUI(false);
+            _canOpen = true;
         }
     }
 }

@@ -85,9 +85,14 @@ public class Player : Singleton<Player>
         _healthBar.SetHealth(_health);
     }
 
-    public void IncreaseStreanght(float increaseMultiplier)
+    public void IncreaseStrenght(float increaseMultiplier)
     {
         //TODO
+    }
+
+    public void ShowDoorUI(bool show)
+    {
+        transform.Find("DoorUI").gameObject.SetActive(show);
     }
 }
 
