@@ -16,6 +16,9 @@ public class Player : Singleton<Player>
     [SerializeField] private float _health = 100;
 
     private HealthBar _healthBar;
+    private float _healthMultiplier = 1;
+    private float _speedMultiplier = 1;
+    private float _strengthMultiplier = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +69,30 @@ public class Player : Singleton<Player>
     public void SetPosition(Vector3 newPos)
     {
         transform.position = newPos;
+    }
+
+    public void IncreaseSpeed (float increaseMultiplier)
+    {
+        _speedMultiplier += increaseMultiplier;
+        _playerMovement.IncreaseSpeed(_speedMultiplier);
+    }
+
+    public void IncreaseHealth(float increaseMultiplier)
+    {
+        //TODO maxhealth
+        _healthMultiplier += increaseMultiplier;
+        _health = _health*_healthMultiplier;
+        _healthBar.SetHealth(_health);
+    }
+
+    public void IncreaseStrenght(float increaseMultiplier)
+    {
+        //TODO
+    }
+
+    public void ShowDoorUI(bool show)
+    {
+        transform.Find("DoorUI").gameObject.SetActive(show);
     }
 }
 

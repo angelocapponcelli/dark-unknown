@@ -47,7 +47,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Component
     /// </summary>
     protected virtual void Awake ()
     {
-        Debug.Log("AWAKE from Singleton Class");
+        //Debug.Log("AWAKE from Singleton Class");
 
         if ( instance == null )
         {
