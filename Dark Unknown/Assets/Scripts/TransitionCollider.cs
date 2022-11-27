@@ -40,7 +40,7 @@ public class TransitionCollider : MonoBehaviour
             }
             
             GameManager.Instance.ResetPlayerPosition();
-            _levelManager.SetRoom(doorNumber, RoomLogic.Type.EASY);
+            _levelManager.SetRoom(doorNumber, RoomLogic.Type.INITIAL);
         }
     }
 }

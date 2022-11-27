@@ -13,7 +13,8 @@ public class Player : Singleton<Player>
     private Vector2 _direction;    
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
-    [SerializeField] private float _health = 100;
+    [SerializeField] private float _maxHealth = 100;
+    private float _currentHealth;
 
     private HealthBar _healthBar;
     private float _healthMultiplier = 1;
@@ -31,7 +32,8 @@ public class Player : Singleton<Player>
         _playerInput.LeftClick += () => _weaponParent.Attack();
 
         _healthBar = FindObjectOfType<HealthBar>();
-        _healthBar.SetMaxHealth(_health);
+        _currentHealth = _maxHealth;
+        _healthBar.SetMaxHealth(_currentHealth);
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -50,9 +52,9 @@ public class Player : Singleton<Player>
 
     public void TakeDamage(float damage)
     {
-        
-        _health -= damage;
-        _healthBar.SetHealth(_health);
+
+        _currentHealth -= damage;
+        _healthBar.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
@@ -79,10 +81,16 @@ public class Player : Singleton<Player>
 
     public void IncreaseHealth(float increaseMultiplier)
     {
-        //TODO maxhealth
+        //TODO in future, for now not used
         _healthMultiplier += increaseMultiplier;
-        _health = _health*_healthMultiplier;
-        _healthBar.SetHealth(_health);
+        _currentHealth = _currentHealth * _healthMultiplier;
+        _healthBar.SetHealth(_currentHealth);
+    }
+
+    public void RegenerateHealth()
+    {
+        _currentHealth = _maxHealth;
+        _healthBar.SetHealth(_currentHealth);
     }
 
     public void IncreaseStrenght(float increaseMultiplier)

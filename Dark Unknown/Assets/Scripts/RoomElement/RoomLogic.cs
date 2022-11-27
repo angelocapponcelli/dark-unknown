@@ -9,7 +9,7 @@ public class RoomLogic : MonoBehaviour
 
     [Header("Enemy spawner")]
     [SerializeField] private EnemyController[] _possibleEnemyType;
-    [SerializeField] private int _numOfEnememy;
+    private int _numOfEnememy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
@@ -26,7 +26,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _streagthReward;
 
-    public enum Type {INITIAL, HEALTH, BOW, SPEED, HARD, EASY};
+    public enum Type {INITIAL, HEALTH, BOW, SPEED, STRENGTH, SKELETONONLY, SPIDERONLY, RANDOM};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -38,6 +38,7 @@ public class RoomLogic : MonoBehaviour
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
         //_rewardSpawned = Instantiate(_rewardSpawned, _spawnPointReward.position, Quaternion.identity);
+        //_numOfEnememy = Random.Range(10, 15); 
     }
  
     // Update is called once per frame
@@ -57,29 +58,23 @@ public class RoomLogic : MonoBehaviour
                 }
                 if (allDead || _numOfEnememy==0)
                 {
+                    //Done at the end of the room when all enemy are dead
                     foreach (Door d in _doors)
                     {
                         d.Open();
-                    }
+                    }                    
                     switch (_roomType)
                     {
-                        case Type.INITIAL:
-                            _numOfEnememy = 0;
-                            break;
                         case Type.HEALTH:
                             _rewardSpawned = Instantiate(_healthReward, _spawnPointReward.position, Quaternion.identity);
-                            //_rewardSpawned.AddComponent<HealthReward>();
                             break;
                         case Type.BOW:
-                            //_rewardSpawned.AddComponent<BowReward>();
                             _rewardSpawned = Instantiate(_bowReward, _spawnPointReward.position, Quaternion.identity);
                             break;
-                        case Type.EASY:
-                            //TODO provvisorio per testare ma sbagliato
+                        case Type.STRENGTH:
                             _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
-                        case Type.HARD:
-                            //TODO provvisorio per testare ma sbagliato
+                        case Type.SPEED:
                             _rewardSpawned = Instantiate(_streagthReward, _spawnPointReward.position, Quaternion.identity);
                             break;
                     }
@@ -98,14 +93,13 @@ public class RoomLogic : MonoBehaviour
                 _numOfEnememy = 0;
                 break;
             case Type.HEALTH:
+                _numOfEnememy = Random.Range(10,15);
                 break;
             case Type.BOW:
+                _numOfEnememy = Random.Range(10, 15);
                 break;
-            case Type.EASY:
+            case Type.SPEED:
                 _numOfEnememy = 2;
-                break;
-            case Type.HARD:
-                _numOfEnememy = 10;
                 break;
             
         }

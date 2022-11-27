@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4787766352846518200}
   - component: {fileID: 8799732963223050528}
   - component: {fileID: 345883424446398951}
+  - component: {fileID: 1342939382246166150}
   m_Layer: 0
   m_Name: Bow Reward
   m_TagString: Untagged
@@ -72,10 +73,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 597760557
-  m_SortingLayer: 1
-  m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 5b174bb64331c684b8f0c68067c118ee, type: 2}
+  m_SortingLayerID: 1397856303
+  m_SortingLayer: 2
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 36cff30898ed9924c983d7398f23423b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,7 +104,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.53125, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -124,3 +125,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ea18462f447ab4480ff43857fb79a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1342939382246166150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020449471583359410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51b6513c575f0fc4f8b783979991b534, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amplitude: 0.005
+  _speed: 3
