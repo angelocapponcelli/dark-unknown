@@ -32,7 +32,7 @@ public class LevelManager : Singleton<LevelManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        UIController.Instance.SetRoomText("Room 0");
     }
 
     // Update is called once per frame
@@ -77,7 +77,7 @@ public class LevelManager : Singleton<LevelManager>
     private void LoadRooms()
     {
         _roomsTraversed++;
-
+        UIController.Instance.SetRoomText("Room "+_roomsTraversed);
         //TODO: load boss room
         //if (_roomsTraversed < roomsBeforeBoss) ...
         for (int i = 0; i < 3; i++) 

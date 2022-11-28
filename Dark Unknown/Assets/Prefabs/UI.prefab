@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 338437064}
   - component: {fileID: 338437063}
   m_Layer: 5
-  m_Name: SpeedMultiplier
+  m_Name: SpeedMultiplierText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 1885532884}
   - component: {fileID: 1885532883}
   m_Layer: 5
-  m_Name: StrengthMultiplier
+  m_Name: StrengthMultiplierText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,6 +637,7 @@ GameObject:
   - component: {fileID: 7530360683522735241}
   - component: {fileID: 7530360683522735246}
   - component: {fileID: 7530360683522735242}
+  - component: {fileID: 7655096371067498102}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -780,6 +781,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7655096371067498102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7530360683522735247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721d7effa2b8d31418cb1c7aca0123bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healtBar: {fileID: 7530360683730248417}
+  _roomText: {fileID: 1580691896}
+  _speedMultiplierText: {fileID: 338437063}
+  _strengthMultiplierText: {fileID: 1885532883}
 --- !u!1 &7530360683730248423
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +807,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7530360683730248422}
   - component: {fileID: 7530360683730248417}
-  - component: {fileID: 7530360683730248416}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -871,15 +887,3 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7530360683730248416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7530360683730248423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfc89eb302cee8340a938e8b7c948e0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

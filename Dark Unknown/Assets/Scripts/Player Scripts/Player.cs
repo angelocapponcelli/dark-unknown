@@ -16,7 +16,6 @@ public class Player : Singleton<Player>
     [SerializeField] private float _maxHealth = 100;
     private float _currentHealth;
 
-    private HealthBar _healthBar;
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
     private float _strengthMultiplier = 1;
@@ -31,9 +30,10 @@ public class Player : Singleton<Player>
         
         _playerInput.LeftClick += () => _weaponParent.Attack();
 
-        _healthBar = FindObjectOfType<HealthBar>();
         _currentHealth = _maxHealth;
-        _healthBar.SetMaxHealth(_currentHealth);
+        UIController.Instance.SetMaxHealth(_currentHealth);
+        UIController.Instance.SetSpeedMultiplierText("x " + _speedMultiplier);
+        UIController.Instance.SetStrengthMultiplierText("x " + _strengthMultiplier);
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -54,7 +54,7 @@ public class Player : Singleton<Player>
     {
 
         _currentHealth -= damage;
-        _healthBar.SetHealth(_currentHealth);
+        UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
@@ -77,6 +77,7 @@ public class Player : Singleton<Player>
     {
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
+        UIController.Instance.SetSpeedMultiplierText("x " + _speedMultiplier);
     }
 
     public void IncreaseHealth(float increaseMultiplier)
@@ -84,18 +85,19 @@ public class Player : Singleton<Player>
         //TODO in future, for now not used
         _healthMultiplier += increaseMultiplier;
         _currentHealth = _currentHealth * _healthMultiplier;
-        _healthBar.SetHealth(_currentHealth);
+        UIController.Instance.SetHealth(_currentHealth);
     }
 
     public void RegenerateHealth()
     {
         _currentHealth = _maxHealth;
-        _healthBar.SetHealth(_currentHealth);
+        UIController.Instance.SetHealth(_currentHealth);
     }
 
     public void IncreaseStrenght(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
+        UIController.Instance.SetStrengthMultiplierText("x " + _strengthMultiplier);
     }
 
     public void ChangeWeapon(WeaponParent weapon)
