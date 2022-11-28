@@ -95,12 +95,25 @@ public class Player : Singleton<Player>
 
     public void IncreaseStrenght(float increaseMultiplier)
     {
-        //TODO
+        _strengthMultiplier += increaseMultiplier;
+    }
+
+    public void ChangeWeapon(WeaponParent weapon)
+    {
+        Destroy(_weaponParent.gameObject);
+        _weaponParent = Instantiate(weapon);
+        _weaponParent.transform.parent = transform;
+        _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
     }
 
     public void ShowDoorUI(bool show)
     {
         transform.Find("DoorUI").gameObject.SetActive(show);
+    }
+
+    public float GetStrengthMultiplier()
+    {
+        return _strengthMultiplier;
     }
 }
 

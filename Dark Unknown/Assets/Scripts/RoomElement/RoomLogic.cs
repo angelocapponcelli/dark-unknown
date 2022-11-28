@@ -26,7 +26,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _streagthReward;
 
-    public enum Type {INITIAL, HEALTH, BOW, SPEED, STRENGTH, SKELETONONLY, SPIDERONLY, RANDOM};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -38,7 +38,6 @@ public class RoomLogic : MonoBehaviour
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
         //_rewardSpawned = Instantiate(_rewardSpawned, _spawnPointReward.position, Quaternion.identity);
-        //_numOfEnememy = Random.Range(10, 15); 
     }
  
     // Update is called once per frame
@@ -87,21 +86,20 @@ public class RoomLogic : MonoBehaviour
     public void StartRoom(Type roomType)
     {
         _roomType = roomType;
-        switch(roomType)
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
+        switch (_roomType)
         {
             case Type.INITIAL:
                 _numOfEnememy = 0;
                 break;
+            //Follower types do same thing at first
             case Type.HEALTH:
-                _numOfEnememy = Random.Range(10,15);
-                break;
             case Type.BOW:
+            case Type.SPEED:
+            case Type.STRENGTH:
                 _numOfEnememy = Random.Range(10, 15);
                 break;
-            case Type.SPEED:
-                _numOfEnememy = 2;
-                break;
-            
+
         }
         StartCoroutine(spawnEnemies());
     }
