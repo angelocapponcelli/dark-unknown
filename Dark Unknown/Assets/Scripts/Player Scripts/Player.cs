@@ -32,8 +32,8 @@ public class Player : Singleton<Player>
 
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);
-        UIController.Instance.SetSpeedMultiplierText("x " + _speedMultiplier);
-        UIController.Instance.SetStrengthMultiplierText("x " + _strengthMultiplier);
+        UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
+        UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -77,7 +77,7 @@ public class Player : Singleton<Player>
     {
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
-        UIController.Instance.SetSpeedMultiplierText("x " + _speedMultiplier);
+        UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt( (_speedMultiplier-1)*100 ) + " %");
     }
 
     public void IncreaseHealth(float increaseMultiplier)
@@ -97,7 +97,7 @@ public class Player : Singleton<Player>
     public void IncreaseStrenght(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
-        UIController.Instance.SetStrengthMultiplierText("x " + _strengthMultiplier);
+        UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
     }
 
     public void ChangeWeapon(WeaponParent weapon)

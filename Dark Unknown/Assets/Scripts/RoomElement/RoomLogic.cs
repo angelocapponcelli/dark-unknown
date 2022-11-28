@@ -24,7 +24,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private HealthReward _healthReward;
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
-    [SerializeField] private StrengthReward _streagthReward;
+    [SerializeField] private StrengthReward _strengthReward;
 
     public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
     private Type _roomType;
@@ -71,10 +71,10 @@ public class RoomLogic : MonoBehaviour
                             _rewardSpawned = Instantiate(_bowReward, _spawnPointReward.position, Quaternion.identity);
                             break;
                         case Type.STRENGTH:
-                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
+                            _rewardSpawned = Instantiate(_strengthReward, _spawnPointReward.position, Quaternion.identity);
                             break;
                         case Type.SPEED:
-                            _rewardSpawned = Instantiate(_streagthReward, _spawnPointReward.position, Quaternion.identity);
+                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
                     }
                     _isControllEnabled = false;

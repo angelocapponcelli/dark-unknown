@@ -56,9 +56,11 @@ public class LevelManager : Singleton<LevelManager>
     {
         _currentRoom.DestroyAllEnemies();
         Destroy(_currentRoom.gameObject);
-        //Destroy(enemySpawner);
+
+        //Destroy reward if player didn't get it 
+        if (FindObjectOfType<Reward>())
+            Destroy(FindObjectOfType<Reward>().gameObject);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
-        //Debug.Log("TipoDiStanza: "+ roomType.ToString());
         _currentRoom.StartRoom(roomType);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
         
