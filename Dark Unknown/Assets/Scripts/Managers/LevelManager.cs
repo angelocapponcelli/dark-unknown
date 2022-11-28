@@ -44,7 +44,7 @@ public class LevelManager : Singleton<LevelManager>
     //from GameManager
     public void SetInitialRoom()
     {
-        RoomLogic tmp = _roomPool[Random.Range(0, _roomPool.Count)];
+        RoomLogic tmp = Resources.Load<RoomLogic>("Rooms/InitialRoom");
         _currentRoom = Instantiate(tmp, Vector3.zero, Quaternion.identity);
         _currentRoom.StartRoom(RoomLogic.Type.INITIAL);
         _roomPool.Remove(tmp);
