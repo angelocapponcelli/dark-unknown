@@ -99,7 +99,7 @@ public class Door : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             Player.Instance.ShowDoorUI(false);
-            _canOpen = true;
+            _canOpen = false;
         }
     }
 }

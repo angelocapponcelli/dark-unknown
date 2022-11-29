@@ -11,7 +11,7 @@ public class HealthReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().IncreaseHealth(0.5f);
+                character.GetComponentInParent<Player>().RegenerateHealth();
                 Destroy(gameObject);
             }
         }

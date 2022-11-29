@@ -11,8 +11,7 @@ public class StrengthReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                //TODO
-                //character.GetComponentInParent<Player>().ChangeWeapon();
+                character.GetComponentInParent<Player>().IncreaseStrenght(Random.Range(1, 5)/100f);
                 Destroy(gameObject);
             }
         }

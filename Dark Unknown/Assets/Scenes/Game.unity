@@ -130,28 +130,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 338437063, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
+      propertyPath: m_Text
+      value: + 10 %
+      objectReference: {fileID: 0}
+    - target: {fileID: 1885532883, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
+      propertyPath: m_Text
+      value: + 5 %
+      objectReference: {fileID: 0}
     - target: {fileID: 7530360683213043640, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7530360683213043640, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7530360683522735241, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7530360683522735241, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 7530360683522735241, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
-    - target: {fileID: 7530360683522735242, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7530360683522735243, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
@@ -246,8 +238,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7530360683522735242, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
 --- !u!1 &354084055
 GameObject:
@@ -320,7 +311,7 @@ MonoBehaviour:
   m_Follow: {fileID: 8506205660384348464, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 3.7
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -504,7 +495,7 @@ MonoBehaviour:
   m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 0
   m_FrequencyGain: 0
-  mNoiseOffsets: {x: 0, y: 0, z: 0}
+  mNoiseOffsets: {x: 769.27924, y: -651.13635, z: 372.64462}
 --- !u!114 &1488270902
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -833,7 +824,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 3.7
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

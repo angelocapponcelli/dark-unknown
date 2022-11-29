@@ -13,9 +13,9 @@ public class Player : Singleton<Player>
     private Vector2 _direction;    
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
-    [SerializeField] private float _health = 100;
+    [SerializeField] private float _maxHealth = 100;
+    private float _currentHealth;
 
-    private HealthBar _healthBar;
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
     private float _strengthMultiplier = 1;
@@ -30,8 +30,10 @@ public class Player : Singleton<Player>
         
         _playerInput.LeftClick += () => _weaponParent.Attack();
 
-        _healthBar = FindObjectOfType<HealthBar>();
-        _healthBar.SetMaxHealth(_health);
+        _currentHealth = _maxHealth;
+        UIController.Instance.SetMaxHealth(_currentHealth);
+        UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
+        UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -50,9 +52,9 @@ public class Player : Singleton<Player>
 
     public void TakeDamage(float damage)
     {
-        
-        _health -= damage;
-        _healthBar.SetHealth(_health);
+
+        _currentHealth -= damage;
+        UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
@@ -75,24 +77,45 @@ public class Player : Singleton<Player>
     {
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
+        UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt( (_speedMultiplier-1)*100 ) + " %");
     }
 
     public void IncreaseHealth(float increaseMultiplier)
     {
-        //TODO maxhealth
+        //TODO in future, for now not used
         _healthMultiplier += increaseMultiplier;
-        _health = _health*_healthMultiplier;
-        _healthBar.SetHealth(_health);
+        _currentHealth = _currentHealth * _healthMultiplier;
+        UIController.Instance.SetHealth(_currentHealth);
+    }
+
+    public void RegenerateHealth()
+    {
+        _currentHealth = _maxHealth;
+        UIController.Instance.SetHealth(_currentHealth);
     }
 
     public void IncreaseStrenght(float increaseMultiplier)
     {
-        //TODO
+        _strengthMultiplier += increaseMultiplier;
+        UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
+    }
+
+    public void ChangeWeapon(WeaponParent weapon)
+    {
+        Destroy(_weaponParent.gameObject);
+        _weaponParent = Instantiate(weapon);
+        _weaponParent.transform.parent = transform;
+        _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
     }
 
     public void ShowDoorUI(bool show)
     {
         transform.Find("DoorUI").gameObject.SetActive(show);
+    }
+
+    public float GetStrengthMultiplier()
+    {
+        return _strengthMultiplier;
     }
 }
 

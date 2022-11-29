@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcReward : Reward
+public class BowReward : Reward
 {
+    [SerializeField] private WeaponParent _bowPrefab;
+
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
@@ -12,7 +14,7 @@ public class ArcReward : Reward
             if (character.gameObject.CompareTag("Player"))
             {
                 //TODO
-                //character.GetComponentInParent<Player>().ChangeWeapon();
+                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab);
                 Destroy(gameObject);
             }
         }

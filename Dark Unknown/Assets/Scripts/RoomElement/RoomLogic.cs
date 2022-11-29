@@ -9,7 +9,7 @@ public class RoomLogic : MonoBehaviour
 
     [Header("Enemy spawner")]
     [SerializeField] private EnemyController[] _possibleEnemyType;
-    [SerializeField] private int _numOfEnememy;
+    private int _numOfEnememy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
@@ -24,9 +24,9 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private HealthReward _healthReward;
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
-    [SerializeField] private StrengthReward _streagthReward;
+    [SerializeField] private StrengthReward _strengthReward;
 
-    public enum Type {INITIAL, HEALTH, BOW, SPEED, HARD, EASY};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -57,30 +57,24 @@ public class RoomLogic : MonoBehaviour
                 }
                 if (allDead || _numOfEnememy==0)
                 {
+                    //Done at the end of the room when all enemy are dead
                     foreach (Door d in _doors)
                     {
                         d.Open();
-                    }
+                    }                    
                     switch (_roomType)
                     {
-                        case Type.INITIAL:
-                            _numOfEnememy = 0;
-                            break;
                         case Type.HEALTH:
                             _rewardSpawned = Instantiate(_healthReward, _spawnPointReward.position, Quaternion.identity);
-                            //_rewardSpawned.AddComponent<HealthReward>();
                             break;
                         case Type.BOW:
-                            //_rewardSpawned.AddComponent<BowReward>();
                             _rewardSpawned = Instantiate(_bowReward, _spawnPointReward.position, Quaternion.identity);
                             break;
-                        case Type.EASY:
-                            //TODO provvisorio per testare ma sbagliato
-                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
+                        case Type.STRENGTH:
+                            _rewardSpawned = Instantiate(_strengthReward, _spawnPointReward.position, Quaternion.identity);
                             break;
-                        case Type.HARD:
-                            //TODO provvisorio per testare ma sbagliato
-                            _rewardSpawned = Instantiate(_streagthReward, _spawnPointReward.position, Quaternion.identity);
+                        case Type.SPEED:
+                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
                     }
                     _isControllEnabled = false;
@@ -92,22 +86,20 @@ public class RoomLogic : MonoBehaviour
     public void StartRoom(Type roomType)
     {
         _roomType = roomType;
-        switch(roomType)
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
+        switch (_roomType)
         {
             case Type.INITIAL:
                 _numOfEnememy = 0;
                 break;
+            //Follower types do same thing at first
             case Type.HEALTH:
-                break;
             case Type.BOW:
+            case Type.SPEED:
+            case Type.STRENGTH:
+                _numOfEnememy = Random.Range(10, 15);
                 break;
-            case Type.EASY:
-                _numOfEnememy = 2;
-                break;
-            case Type.HARD:
-                _numOfEnememy = 10;
-                break;
-            
+
         }
         StartCoroutine(spawnEnemies());
     }

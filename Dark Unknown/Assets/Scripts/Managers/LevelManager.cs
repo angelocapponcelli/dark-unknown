@@ -32,7 +32,7 @@ public class LevelManager : Singleton<LevelManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        UIController.Instance.SetRoomText("Room 0");
     }
 
     // Update is called once per frame
@@ -56,9 +56,11 @@ public class LevelManager : Singleton<LevelManager>
     {
         _currentRoom.DestroyAllEnemies();
         Destroy(_currentRoom.gameObject);
-        //Destroy(enemySpawner);
+
+        //Destroy reward if player didn't get it 
+        if (FindObjectOfType<Reward>())
+            Destroy(FindObjectOfType<Reward>().gameObject);
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
-        //Debug.Log("TipoDiStanza: "+ roomType.ToString());
         _currentRoom.StartRoom(roomType);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
         
@@ -77,7 +79,7 @@ public class LevelManager : Singleton<LevelManager>
     private void LoadRooms()
     {
         _roomsTraversed++;
-
+        UIController.Instance.SetRoomText("Room "+_roomsTraversed);
         //TODO: load boss room
         //if (_roomsTraversed < roomsBeforeBoss) ...
         for (int i = 0; i < 3; i++) 

@@ -11,7 +11,7 @@ public class SpeedReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().IncreaseSpeed(0.5f);
+                character.GetComponentInParent<Player>().IncreaseSpeed(Random.Range(1,5)/100f);
                 Destroy(gameObject);
             }
         }
