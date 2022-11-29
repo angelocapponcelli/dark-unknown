@@ -2,6 +2,8 @@
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Player : Singleton<Player>
 {
@@ -14,10 +16,16 @@ public class Player : Singleton<Player>
     private WeaponParent _weaponParent;
     [SerializeField] private float _maxHealth = 100;
     private float _currentHealth;
+    [SerializeField] private GameObject _playerUI;
 
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
     private float _strengthMultiplier = 1;
+
+    private bool _canGetWeapon = false;
+    private WeaponParent _weaponToGet;
+    private GameObject _rewardToGet;
+    [SerializeField] private List<GameObject> _possibleRewards;
 
     // Start is called before the first frame update
     void Start()
@@ -25,8 +33,10 @@ public class Player : Singleton<Player>
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
         _playerAnimation = GetComponent<PlayerAnimation>();
+
         _weaponParent = GetComponentInChildren<WeaponParent>();
-        
+
+
         _playerInput.LeftClick += () => _weaponParent.Attack();
 
         _currentHealth = _maxHealth;
@@ -41,6 +51,25 @@ public class Player : Singleton<Player>
         _weaponParent.PointerPosition = _playerInput.PointerPosition;
         _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
+        if(_canGetWeapon && Input.GetKeyDown(KeyCode.E))
+        {
+            //TODO in a bette way
+            if (_weaponParent.GetComponentInChildren<Sword>() != null)
+            {
+                //TODO indexes do not verify the type!
+                Instantiate(_possibleRewards[0]);
+            }
+            else Instantiate(_possibleRewards[1]);
+            Destroy(_weaponParent.gameObject);
+
+            _weaponParent = Instantiate(_weaponToGet);
+            _weaponParent.transform.parent = transform;
+            _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
+            Destroy(_rewardToGet);
+            
+            _canGetWeapon = false;
+        }
+
     }
     
     // FixedUpdate handles the movement 
@@ -51,7 +80,6 @@ public class Player : Singleton<Player>
 
     public void TakeDamage(float damage)
     {
-
         _currentHealth -= damage;
         UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
@@ -99,17 +127,23 @@ public class Player : Singleton<Player>
         UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
     }
 
-    public void ChangeWeapon(WeaponParent weapon)
+    public void ChangeWeapon(WeaponParent weapon, GameObject reward)
     {
-        Destroy(_weaponParent.gameObject);
-        _weaponParent = Instantiate(weapon);
-        _weaponParent.transform.parent = transform;
-        _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
+        ShowPlayerUI(true, "Press E to get new weapon");
+        _canGetWeapon = true;
+        _weaponToGet = weapon;
+        _rewardToGet = reward;
     }
 
-    public void ShowDoorUI(bool show)
+    public void disableCanGetWeapon()
     {
-        transform.Find("DoorUI").gameObject.SetActive(show);
+        _canGetWeapon = false;
+    }
+
+    public void ShowPlayerUI(bool show, string text)
+    {
+        _playerUI.GetComponentInChildren<Text>().text = text;
+        _playerUI.SetActive(show);
     }
 
     public float GetStrengthMultiplier()

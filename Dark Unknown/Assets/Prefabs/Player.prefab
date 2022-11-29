@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 168797758}
   - component: {fileID: 168797757}
   m_Layer: 5
-  m_Name: WASD Text
+  m_Name: PlayerUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5058,7 +5058,7 @@ GameObject:
   - component: {fileID: 1423671249}
   - component: {fileID: 1423671248}
   m_Layer: 5
-  m_Name: DoorUI
+  m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5322,7 +5322,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ce153b6342a1947ae08b103517dcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponToDrop: {fileID: 634545427246979274, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
   _maxHealth: 100
+  _playerUI: {fileID: 1423671246}
 --- !u!114 &-3856395192300701088
 MonoBehaviour:
   m_ObjectHideFlags: 0
