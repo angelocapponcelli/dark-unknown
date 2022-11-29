@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
 
     [Header ("Symbols")]
     [SerializeField] private SpriteRenderer _symbolAboveDoor;    
-    [SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
+    //[SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
 
     private SymbolType _actualDoorSymbol;
     private Animator _animator;
@@ -45,9 +45,8 @@ public class Door : MonoBehaviour
     //TODO Change start in awake
     private void Start()
     {
-        _actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];
-        
-        _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
+        //_actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];        
+        //_symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
 
         //_isClose = true;
         //_mySpriteRender = GetComponent<SpriteRenderer>();
@@ -63,6 +62,12 @@ public class Door : MonoBehaviour
         {
             LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
         }
+    }
+
+    public void setSymbol(SymbolType symbolType)
+    {
+        _actualDoorSymbol = symbolType;
+        _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
     }
     
     public void Open()
