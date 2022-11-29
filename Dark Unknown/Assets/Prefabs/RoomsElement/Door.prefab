@@ -94,8 +94,8 @@ GameObject:
   m_Component:
   - component: {fileID: 301726226294614733}
   - component: {fileID: 301726226294614732}
-  - component: {fileID: 5392790865632011488}
   - component: {fileID: 873747943302488567}
+  - component: {fileID: -45452603304768307}
   - component: {fileID: 4895396701324027074}
   m_Layer: 0
   m_Name: Door
@@ -161,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: 1772707504, guid: 360d8ff79bc870f44af49cc70c716a4b, type: 3}
+  m_Sprite: {fileID: 2126009231, guid: 5ea2c9613fca7a2429a6573a08f25fa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -171,20 +171,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 1
---- !u!114 &5392790865632011488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 301726226294614738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1477077c95c3f564584548c0c0cc3476, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myIndex: 1
+  m_SpriteSortPoint: 0
 --- !u!61 &873747943302488567
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -211,6 +198,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.9217572, y: 0.94753075}
   m_EdgeRadius: 0
+--- !u!114 &-45452603304768307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301726226294614738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612af3d5c4034d14fb6e94579261670b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myIndex: 0
+  _symbolAboveDoor: {fileID: 0}
+  _possibleSymbols: []
 --- !u!95 &4895396701324027074
 Animator:
   serializedVersion: 4
@@ -221,7 +223,7 @@ Animator:
   m_GameObject: {fileID: 301726226294614738}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5c30da9555556c541a945a4d331519ab, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

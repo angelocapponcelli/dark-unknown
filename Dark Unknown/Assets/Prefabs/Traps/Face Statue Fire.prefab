@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 597760557
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: -1560729962, guid: 1d1d82fb92d69f84f99e5747c1802cb6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -122,6 +122,7 @@ MonoBehaviour:
   _fireball: {fileID: 2975261004220822208, guid: b767a5a9dde54b14f97ed073bcc07833, type: 3}
   _velocity: 6
   _spawnFireballPoint: {fileID: 3496050458175062677}
+  _fireballSecondsEnabled: 0.02
 --- !u!1 &6590332434800755163
 GameObject:
   m_ObjectHideFlags: 0
