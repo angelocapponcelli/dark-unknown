@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Follow: {fileID: 8506205660384348464, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 10
+    OrthographicSize: 6.5
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -411,13 +411,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5760947580085726747, guid: 8c591ef68b9378d4ebaf2cd1ffbdaa75, type: 3}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5760947581280481536, guid: 8c591ef68b9378d4ebaf2cd1ffbdaa75, type: 3}
       propertyPath: m_Name
       value: Main Camera 1
       objectReference: {fileID: 0}
     - target: {fileID: 5760947581280481538, guid: 8c591ef68b9378d4ebaf2cd1ffbdaa75, type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 5760947581280481565, guid: 8c591ef68b9378d4ebaf2cd1ffbdaa75, type: 3}
       propertyPath: m_RootOrder

@@ -85,6 +85,7 @@ public class RoomLogic : MonoBehaviour
 
     public void StartRoom(Type roomType)
     {
+        
         _roomType = roomType;
         if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
         switch (_roomType)

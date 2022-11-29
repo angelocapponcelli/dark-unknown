@@ -2,7 +2,6 @@
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Player : Singleton<Player>
 {
