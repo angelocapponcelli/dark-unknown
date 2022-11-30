@@ -7,24 +7,14 @@ using UnityEngine.Tilemaps;
 //{
     public class EnemySpawner : MonoBehaviour
     {
-        //private LevelManager _levelManager;
-        //private GameObject _currentRoom;
-
         private List<Vector3> _availablePlaces;
 
         [SerializeField] public Tilemap tileMap;
-        //[SerializeField] public GameObject enemyPrefab;
-        //[SerializeField] public float spawnTime = 1.0f;
-        //[SerializeField] private float enemyPerSpawn = 1f;
-        //[SerializeField] public int totalEnemies = 10;
 
         // Start is called before the first frame update
         private void Start()
         {
             _availablePlaces = new List<Vector3>();
-            //_currentRoom = _levelManager.GetCurrentRoom(); // Fix: cannot retrieve current room 
-            //GameObject enemyTilemapGameObject = _currentRoom.transform.Find("EnemySpawn Tilemap").gameObject;
-            //tileMap = enemyTilemapGameObject.GetComponent<Tilemap>();
 
             for (int n = tileMap.cellBounds.xMin; n < tileMap.cellBounds.xMax; n++)
             {
