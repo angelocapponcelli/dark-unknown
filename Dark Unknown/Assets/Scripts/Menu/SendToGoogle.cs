@@ -76,8 +76,6 @@ public class SendToGoogle : MonoBehaviour {
     
     IEnumerator PostFeedback(string videogame_name, string feedback) 
     {
-        // https://docs.google.com/forms/d/e/1FAIpQLSdyQkpRLzqRzADYlLhlGJHwhbKZvKJILo6vGmMfSePJQqlZxA/viewform?usp=pp_url&entry.631493581=Simple+Game&entry.1313960569=Very%0AGood!
-
         string URL =
             "https://docs.google.com/forms/d/e/1FAIpQLSdyQkpRLzqRzADYlLhlGJHwhbKZvKJILo6vGmMfSePJQqlZxA/formResponse";
         
