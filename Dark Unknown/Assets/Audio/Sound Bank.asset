@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerWalk: {fileID: 8300000, guid: 220a86ba6f567a4449473d8940ede16f, type: 3}
   PlayerDash: {fileID: 8300000, guid: da592564e56ffbb4c8e91cf3bd04cecf, type: 3}
-  PlayerHurt: {fileID: 8300000, guid: fe4945b800d84ef44bf22195e8249e2f, type: 3}
-  PlayerDie: {fileID: 0}
-  PlayerAttack: {fileID: 8300000, guid: e6673629a5ba2f34ea01ed661d7c1d99, type: 3}
+  PlayerHurt:
+  - {fileID: 8300000, guid: ef624faa766d0e64bbbbea481566075a, type: 3}
+  - {fileID: 8300000, guid: fe4945b800d84ef44bf22195e8249e2f, type: 3}
+  - {fileID: 8300000, guid: 5d495ebd673c2da4ba69c98f6c628597, type: 3}
+  PlayerDie: {fileID: 8300000, guid: 5d8e3fd97a3b294479455871f58d2bf1, type: 3}
+  PlayerAttackSword: {fileID: 8300000, guid: e6673629a5ba2f34ea01ed661d7c1d99, type: 3}
+  PlayerAttackBow: {fileID: 8300000, guid: bbcc0a1632c3b5f49aa9f61d435ea88c, type: 3}
+  PlayerReward: {fileID: 8300000, guid: acd087391fab3e543b2c6c48ffecb0e2, type: 3}
   SkeletonWalk: {fileID: 8300000, guid: e555bd9ed7481f645b3e57c144a94c6b, type: 3}
   SkeletonAttack: {fileID: 8300000, guid: 7b0ea889263b4254aa61bbb0eb1ad5f5, type: 3}
   SkeletonHurt:
@@ -24,7 +29,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d93508d1178ba374bbb7166d08cac125, type: 3}
   - {fileID: 8300000, guid: 493042dd6f29cb54485090fca81daa5c, type: 3}
   SkeletonDie: {fileID: 8300000, guid: 1e69a3ca25b4e1b49a61db7ea346ca43, type: 3}
-  QuietBeat: {fileID: 0}
-  ExcitingBeat: {fileID: 0}
-  QuietBeatTiming: 1
-  ExcitingBeatTiming: 0.5
+  SoundTrack: {fileID: 8300000, guid: 1c2f59a1bb12bd7478c17f13ed7344fd, type: 3}

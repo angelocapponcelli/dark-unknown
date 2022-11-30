@@ -13766,11 +13766,22 @@ MonoBehaviour:
   - {fileID: 7078878979403399149}
   - {fileID: 2275593647902757784}
   - {fileID: 6792569080363945203}
-  _spawnPointReward: {fileID: 5212787337284007279}
+  _possibleSymbols:
+  - type: 1
+    sprite: {fileID: 21300000, guid: 797afd6846413124682dd2d8d9c9a66a, type: 2}
+  - type: 2
+    sprite: {fileID: 21300000, guid: f39b653cec91f964196dc49a74ffd750, type: 2}
+  - type: 3
+    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
+  - type: 4
+    sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
+  - type: 5
+    sprite: {fileID: 21300000, guid: 6f9a80946479b1d4993b0809129d72dc, type: 2}
   _healthReward: {fileID: 5992409601021831828, guid: 8846d5bad02b1544589785cdc7713db5, type: 3}
   _speedReward: {fileID: 5084005978826926403, guid: 6c8de4b33704757409246d160f349dc5, type: 3}
   _bowReward: {fileID: 345883424446398951, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
   _strengthReward: {fileID: 3203545914431533023, guid: 8caeb89c1630f9f46bd74f176f95b136, type: 3}
+  _spawnPointReward: {fileID: 5212787337284007279}
 --- !u!114 &7873805034118357145
 MonoBehaviour:
   m_ObjectHideFlags: 0

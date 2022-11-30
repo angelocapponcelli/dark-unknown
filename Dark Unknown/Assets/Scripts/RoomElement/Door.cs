@@ -29,7 +29,7 @@ public class Door : MonoBehaviour
 
     [Header ("Symbols")]
     [SerializeField] private SpriteRenderer _symbolAboveDoor;    
-    [SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
+    //[SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
 
     private SymbolType _actualDoorSymbol;
     private Animator _animator;
@@ -45,9 +45,8 @@ public class Door : MonoBehaviour
     //TODO Change start in awake
     private void Start()
     {
-        _actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];
-        
-        _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
+        //_actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];        
+        //_symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
 
         //_isClose = true;
         //_mySpriteRender = GetComponent<SpriteRenderer>();
@@ -63,6 +62,12 @@ public class Door : MonoBehaviour
         {
             LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
         }
+    }
+
+    public void setSymbol(SymbolType symbolType)
+    {
+        _actualDoorSymbol = symbolType;
+        _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
     }
     
     public void Open()
@@ -90,7 +95,7 @@ public class Door : MonoBehaviour
             //set room colliders to false
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
-            Player.Instance.ShowDoorUI(true);
+            Player.Instance.ShowPlayerUI(true, "Press E to enter the door");
             _canOpen = true;
         }
     }
@@ -98,7 +103,7 @@ public class Door : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            Player.Instance.ShowDoorUI(false);
+            Player.Instance.ShowPlayerUI(false, "");
             _canOpen = false;
         }
     }

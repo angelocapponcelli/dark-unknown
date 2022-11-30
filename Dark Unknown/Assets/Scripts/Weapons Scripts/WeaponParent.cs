@@ -9,6 +9,7 @@ public class WeaponParent : MonoBehaviour
     private Weapon _weapon;
     private Vector2 direction;
     public float rotation_z;
+    [SerializeField] private GameObject _weaponReward;
 
     private void Start()
     {
@@ -67,5 +68,9 @@ public class WeaponParent : MonoBehaviour
         _weapon.Attack();
     }
 
+    public GameObject getWeaponReward()
+    {
+        return _weaponReward;
+    }
 
 }

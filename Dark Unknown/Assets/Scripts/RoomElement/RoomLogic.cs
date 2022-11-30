@@ -14,17 +14,18 @@ public class RoomLogic : MonoBehaviour
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
 
-    [Header("")]
+    [Header("Doors")]
     [SerializeField] private Door[] _doors;
-    [SerializeField] private Transform _spawnPointReward;
-    //[SerializeField] private Dictionary<Type, Reward> _rewards;
-    private Reward _rewardSpawned;
+    [SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
 
     [Header("Rewards")]
     [SerializeField] private HealthReward _healthReward;
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
+
+    [SerializeField] private Transform _spawnPointReward;
+    private Reward _rewardSpawned;
 
     public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
     private Type _roomType;
@@ -37,7 +38,14 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
-        //_rewardSpawned = Instantiate(_rewardSpawned, _spawnPointReward.position, Quaternion.identity);
+
+        //Set door symbols all different from each other
+        foreach (Door d in _doors)
+        {
+            int i = Random.Range(0, _possibleSymbols.Count);
+            d.setSymbol(_possibleSymbols[i]);
+            _possibleSymbols.RemoveAt(i);
+        }
     }
  
     // Update is called once per frame
