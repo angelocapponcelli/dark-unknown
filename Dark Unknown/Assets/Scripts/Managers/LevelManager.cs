@@ -21,7 +21,7 @@ public class LevelManager : Singleton<LevelManager>
     private Player _player;
     [SerializeField] private EnemySpawner enemySpawner;
     
-    void Awake()
+    new void Awake()
     {
         _roomPool = new List<RoomLogic>();
         _nextRooms = new List<RoomLogic>();
