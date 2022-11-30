@@ -21,7 +21,7 @@ public class LevelManager : Singleton<LevelManager>
     private Player _player;
     [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private Animator animator;
-    private static readonly int StartTransition = Animator.StringToHash("Start");
+    private static readonly int StartTransition = Animator.StringToHash("Starting");
     //private static readonly int EndTransition = Animator.StringToHash("End");
 
     void Awake()
@@ -53,11 +53,17 @@ public class LevelManager : Singleton<LevelManager>
         _roomPool.Remove(tmp);
         LoadRooms();
     }
+    
+    public void SetNewRoom(int roomNumber, RoomLogic.Type roomType)
+    {
+        animator.SetTrigger(StartTransition);
+        StartCoroutine(SetRoom(roomNumber, roomType));
+    }
 
     //from other rooms
-    public void SetRoom(int roomNumber, RoomLogic.Type roomType)
+    private IEnumerator SetRoom(int roomNumber, RoomLogic.Type roomType)
     {
-        StartCoroutine(StartRoomTransition());
+        yield return new WaitForSeconds(1);
         _currentRoom.DestroyAllEnemies();
         Destroy(_currentRoom.gameObject);
 
@@ -67,8 +73,6 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
         _currentRoom.StartRoom(roomType);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
-        //StartCoroutine(EndRoomTransition());
-        
         //Replaced in RoomLogic
         //_player = Player.Instance;
         //_playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
@@ -80,7 +84,7 @@ public class LevelManager : Singleton<LevelManager>
         _nextRooms.Clear();
         LoadRooms();
     }
-    
+
     private void LoadRooms()
     {
         _roomsTraversed++;
@@ -92,12 +96,6 @@ public class LevelManager : Singleton<LevelManager>
             _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
         }
         //else...
-    }
-
-    IEnumerator StartRoomTransition()
-    {
-        animator.SetTrigger(StartTransition);
-        yield return new WaitForSeconds(1);
     }
 
     public RoomLogic GetCurrentRoom()

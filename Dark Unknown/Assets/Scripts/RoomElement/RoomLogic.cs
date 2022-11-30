@@ -17,7 +17,6 @@ public class RoomLogic : MonoBehaviour
     [Header("")]
     [SerializeField] private Door[] _doors;
     [SerializeField] private Transform _spawnPointReward;
-    //[SerializeField] private Dictionary<Type, Reward> _rewards;
     private Reward _rewardSpawned;
 
     [Header("Rewards")]
