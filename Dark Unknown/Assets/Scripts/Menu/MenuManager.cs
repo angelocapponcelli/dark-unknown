@@ -94,6 +94,7 @@ public class MenuManager : Singleton<MenuManager>
         Application.Quit();
     }
 
+    //UIAUDIO
     public void PlayOverUIButtonSound()
     {
         AudioManager.Instance.PlayOverUIButtonSound();
@@ -102,4 +103,19 @@ public class MenuManager : Singleton<MenuManager>
     {
         AudioManager.Instance.PlayClickUIButtonSound();
     }
+
+    //OPTION SETTINGS
+    public void SetBackgroundVolume(float value)
+    {
+        AudioManager.Instance.SetBackgroundVolume(value);
+    }
+    public void SetPlayerVolume(float value)
+    {
+        AudioManager.Instance.SetPlayerVolume(value);
+    }
+    public void SetEnemyVolume(float value)
+    {
+        AudioManager.Instance.SetSkeletonVolume(value);
+    }
+
 }
