@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7138186544881735167}
   - component: {fileID: 1750010259596280033}
   - component: {fileID: 4099309136550742270}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 22963233423617954}
   - component: {fileID: 1412434544083519797}
   - component: {fileID: 642936414580679427}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 4252739765736791696}
   - component: {fileID: 2685233951027206421}
   - component: {fileID: 3526387092823734576}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718972161274830181}
   - component: {fileID: 2667557497074954354}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SwordParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,3 +343,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2edd39ee76b84d60a58e7179885be3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotation_z: 0
+  _weaponReward: {fileID: 52505465654580182, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}

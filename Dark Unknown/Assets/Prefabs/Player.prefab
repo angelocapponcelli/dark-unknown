@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 168797758}
   - component: {fileID: 168797757}
   m_Layer: 5
-  m_Name: WASD Text
+  m_Name: PlayerUIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5058,7 +5058,7 @@ GameObject:
   - component: {fileID: 1423671249}
   - component: {fileID: 1423671248}
   m_Layer: 5
-  m_Name: DoorUI
+  m_Name: PlayerUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5183,7 +5183,7 @@ Transform:
   m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 457894823070753716}
+  - {fileID: 4078630921706679399}
   - {fileID: 1349303774}
   - {fileID: 924781764}
   - {fileID: 1423671247}
@@ -5323,6 +5323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _playerUI: {fileID: 1423671246}
 --- !u!114 &-3856395192300701088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5387,8 +5388,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6759837310345177518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalPosition: {x: 0, y: 0.532, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8506205660384348464}
@@ -5435,7 +5436,7 @@ SpriteRenderer:
   m_SortingLayerID: -1590530223
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 306762858, guid: 57169b5bf1707c14e815039c69051a91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5446,25 +5447,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &1261501545683173073
+--- !u!1001 &3405056823987958018
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 8506205660384348464}
     m_Modifications:
-    - target: {fileID: 22963233423617954, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22963233423617954, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_SortingOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 22963233423617954, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1718972161274830181, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5509,38 +5498,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2580544460961991134, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3526387092823734576, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3526387092823734576, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5197539996838480386, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 6932985007855852403, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 8871161822003816252, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
       propertyPath: m_Name
       value: SwordParent
       objectReference: {fileID: 0}
-    - target: {fileID: 8871161822003816252, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
---- !u!4 &457894823070753716 stripped
+--- !u!4 &4078630921706679399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1718972161274830181, guid: ed4e5c64cffe44799aa3c34601d246dd, type: 3}
-  m_PrefabInstance: {fileID: 1261501545683173073}
+  m_PrefabInstance: {fileID: 3405056823987958018}
   m_PrefabAsset: {fileID: 0}

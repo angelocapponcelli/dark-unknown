@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7138186544881735167}
   - component: {fileID: 1750010259596280033}
   - component: {fileID: 4099309136550742270}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 7814450263959976512}
   - component: {fileID: 22963233423617954}
   - component: {fileID: 8609503926738325903}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1397856303
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 12
   m_Sprite: {fileID: 839410953, guid: 4ad7b26b57a24442abebedba990ce040, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 4252739765736791696}
   - component: {fileID: 2685233951027206421}
   - component: {fileID: 3526387092823734576}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +263,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1397856303
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 11
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -286,7 +286,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718972161274830181}
   - component: {fileID: 2667557497074954354}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BowParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,3 +323,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation_z: 0
+  _weaponReward: {fileID: 8020449471583359410, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}

@@ -33,7 +33,7 @@ public class Bow : Weapon
 
         //_effectAnimator.SetTrigger("Attack");
         _attackBlocked = true;
-        AudioManager.Instance.PlayPLayerAttackSound();
+        AudioManager.Instance.PlayPLayerAttackBowSound();
 
         /*Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
         foreach (Collider2D enemy in hitEnemies)

@@ -31,6 +31,8 @@ public class GameManager : Singleton<GameManager>
         _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
         player = Instantiate(player,_playerSpawnPoint.transform.position,Quaternion.identity);
         _cineMachine.Follow = player.transform;
+
+        AudioManager.Instance.playSoundTrack();
     }
 
     /*// Update is called once per frame

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BowReward : Reward
@@ -14,9 +12,18 @@ public class BowReward : Reward
             if (character.gameObject.CompareTag("Player"))
             {
                 //TODO
-                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab);
-                Destroy(gameObject);
+                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab, gameObject);
+                //Destroy(gameObject);
+
             }
+        }
+    }
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            Player.Instance.ShowPlayerUI(false, "");
+            Player.Instance.disableCanGetWeapon();
         }
     }
 }
