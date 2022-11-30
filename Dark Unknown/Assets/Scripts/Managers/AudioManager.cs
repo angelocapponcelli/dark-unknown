@@ -10,7 +10,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioSource _skeletonSound;
     [SerializeField] private AudioSource _playerSound;
 
-    public void Awake()
+    public new void Awake()
     {
         _backgroundMusic.clip = _soundBank.SoundTrack;
     }
