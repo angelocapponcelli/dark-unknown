@@ -93,4 +93,13 @@ public class MenuManager : Singleton<MenuManager>
     {
         Application.Quit();
     }
+
+    public void PlayOverUIButtonSound()
+    {
+        AudioManager.Instance.PlayOverUIButtonSound();
+    }
+    public void PlayClickUIButtonSound()
+    {
+        AudioManager.Instance.PlayClickUIButtonSound();
+    }
 }

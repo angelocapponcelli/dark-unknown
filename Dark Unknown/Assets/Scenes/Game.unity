@@ -402,6 +402,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 858696182090611390, guid: 236527848fa1a1e47bee2e3e56d0dc00, type: 3}
+      propertyPath: _UISound
+      value: 
+      objectReference: {fileID: 810061366}
     - target: {fileID: 858696182090611391, guid: 236527848fa1a1e47bee2e3e56d0dc00, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -412,6 +416,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 236527848fa1a1e47bee2e3e56d0dc00, type: 3}
+--- !u!82 &810061366 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 295365860131251210, guid: 236527848fa1a1e47bee2e3e56d0dc00, type: 3}
+  m_PrefabInstance: {fileID: 810061365}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1475066841
 PrefabInstance:
   m_ObjectHideFlags: 0

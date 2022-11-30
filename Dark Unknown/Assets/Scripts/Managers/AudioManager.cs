@@ -7,12 +7,22 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private SoundBank _soundBank;
 
     [SerializeField] private AudioSource _backgroundMusic;
+    [SerializeField] private AudioSource _UISound;
     [SerializeField] private AudioSource _skeletonSound;
     [SerializeField] private AudioSource _playerSound;
 
     public void Awake()
     {
         _backgroundMusic.clip = _soundBank.SoundTrack;
+    }
+
+    public void PlayOverUIButtonSound()
+    {
+        _UISound.PlayOneShot(_soundBank.OverUIButton);
+    }
+    public void PlayClickUIButtonSound()
+    {
+        _UISound.PlayOneShot(_soundBank.ClickUIButton);
     }
 
     //----- Player -------------------------------------

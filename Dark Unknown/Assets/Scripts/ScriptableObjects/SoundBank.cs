@@ -18,7 +18,13 @@ public class SoundBank : ScriptableObject
     public AudioClip SkeletonAttack;
     public List<AudioClip> SkeletonHurt;
     public AudioClip SkeletonDie;
-    
+
+    [Header("UI")]
+    public AudioClip ClickUIButton;
+    public AudioClip OverUIButton;
+
     [Header("Other")]
     public AudioClip SoundTrack;
+    
+
 }
