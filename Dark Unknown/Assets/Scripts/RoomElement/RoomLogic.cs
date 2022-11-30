@@ -91,7 +91,7 @@ public class RoomLogic : MonoBehaviour
         switch (_roomType)
         {
             case Type.INITIAL:
-                _numOfEnememy = 0;
+                _numOfEnememy = 1;
                 break;
             //Follower types do same thing at first
             case Type.HEALTH:
