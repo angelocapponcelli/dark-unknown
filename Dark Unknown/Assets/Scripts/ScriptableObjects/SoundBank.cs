@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +7,11 @@ public class SoundBank : ScriptableObject
     [Header ("Player")]
     public AudioClip PlayerWalk;
     public AudioClip PlayerDash;
-    public AudioClip PlayerHurt;
+    public List<AudioClip> PlayerHurt;
     public AudioClip PlayerDie;
-    public AudioClip PlayerAttack;
+    public AudioClip PlayerAttackSword;
+    public AudioClip PlayerAttackBow;
+    public AudioClip PlayerReward;
 
     [Header("Skeleton")]
     public AudioClip SkeletonWalk;
@@ -19,9 +20,5 @@ public class SoundBank : ScriptableObject
     public AudioClip SkeletonDie;
     
     [Header("Other")]
-    public AudioClip QuietBeat;
-    public AudioClip ExcitingBeat;
-
-    public float QuietBeatTiming = 1f;
-    public float ExcitingBeatTiming = .5f;
+    public AudioClip SoundTrack;
 }

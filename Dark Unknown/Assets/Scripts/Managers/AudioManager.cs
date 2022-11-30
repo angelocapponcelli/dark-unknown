@@ -10,14 +10,27 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioSource _skeletonSound;
     [SerializeField] private AudioSource _playerSound;
 
+    public void Awake()
+    {
+        _backgroundMusic.clip = _soundBank.SoundTrack;
+    }
+
     //----- Player -------------------------------------
     public void PlayPLayerWalkSound()
     {
         _playerSound.PlayOneShot(_soundBank.PlayerWalk);
     }
-    public void PlayPLayerAttackSound()
+    public void PlayPLayerAttackSwordSound()
     {
-        _playerSound.PlayOneShot(_soundBank.PlayerAttack);
+        _playerSound.PlayOneShot(_soundBank.PlayerAttackSword);
+    }
+    public void PlayPLayerAttackBowSound()
+    {
+        _playerSound.PlayOneShot(_soundBank.PlayerAttackBow);
+    }
+    public void PlayPLayerRewardSound()
+    {
+        _playerSound.PlayOneShot(_soundBank.PlayerReward);
     }
     public void PlayPLayerDashSound()
     {
@@ -25,7 +38,7 @@ public class AudioManager : Singleton<AudioManager>
     }
     public void PlayPLayerHurtSound()
     {
-        _playerSound.PlayOneShot(_soundBank.PlayerHurt);
+        _playerSound.PlayOneShot(_soundBank.PlayerHurt[Random.Range(0, _soundBank.PlayerHurt.Count)]);
     }
     public void PlayPLayerDieSound()
     {
@@ -48,5 +61,12 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySkeletonDieSound()
     {
         _skeletonSound.PlayOneShot(_soundBank.SkeletonDie);
+    }
+
+    //-------------------------------------
+
+    public void playSoundTrack()
+    {
+        _backgroundMusic.Play();
     }
 }

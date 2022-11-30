@@ -28,7 +28,7 @@ public class Sword : Weapon
         _weaponAnimator.SetTrigger("Attack");
         _effectAnimator.SetTrigger("Attack");
         _attackBlocked = true;
-        AudioManager.Instance.PlayPLayerAttackSound();
+        AudioManager.Instance.PlayPLayerAttackSwordSound();
 
         /*Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRange);
         foreach (Collider2D enemy in hitEnemies)

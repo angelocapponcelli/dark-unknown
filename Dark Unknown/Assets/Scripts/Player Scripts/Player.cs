@@ -25,7 +25,6 @@ public class Player : Singleton<Player>
     private bool _canGetWeapon = false;
     private WeaponParent _weaponToGet;
     private GameObject _rewardToGet;
-    [SerializeField] private List<GameObject> _possibleRewards;
 
     // Start is called before the first frame update
     void Start()
@@ -53,23 +52,19 @@ public class Player : Singleton<Player>
 
         if(_canGetWeapon && Input.GetKeyDown(KeyCode.E))
         {
-            //TODO in a bette way
-            if (_weaponParent.GetComponentInChildren<Sword>() != null)
-            {
-                //TODO indexes do not verify the type!
-                Instantiate(_possibleRewards[0]);
-            }
-            else Instantiate(_possibleRewards[1]);
+            //instantiate new reward
+            GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
+            newReward.transform.position = transform.position;
+            //destroy current weapon
             Destroy(_weaponParent.gameObject);
-
+            //instantiate new current weapon
             _weaponParent = Instantiate(_weaponToGet);
             _weaponParent.transform.parent = transform;
             _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
-            Destroy(_rewardToGet);
-            
+            //destroy old reward akready taken
+            Destroy(_rewardToGet);            
             _canGetWeapon = false;
         }
-
     }
     
     // FixedUpdate handles the movement 

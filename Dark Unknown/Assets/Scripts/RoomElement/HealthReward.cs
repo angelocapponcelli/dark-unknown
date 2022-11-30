@@ -12,6 +12,7 @@ public class HealthReward : Reward
             if (character.gameObject.CompareTag("Player"))
             {
                 character.GetComponentInParent<Player>().RegenerateHealth();
+                AudioManager.Instance.PlayPLayerRewardSound();
                 Destroy(gameObject);
             }
         }
