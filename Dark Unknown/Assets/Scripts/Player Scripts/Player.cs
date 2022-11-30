@@ -53,10 +53,19 @@ public class Player : Singleton<Player>
     {
 
         _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            Debug.Log("player dead");
+            PlayerEvents.PlayerDead.Invoke();
+        }
+        else
+        {
+            Debug.Log("player hit");
+            PlayerEvents.PlayerHit.Invoke();
+        }
         UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
-        PlayerEvents.playerHit.Invoke();
-        AudioManager.Instance.PlayPLayerHurtSound();
+        AudioManager.Instance.PlayPLayerHurtSound();  
     }
 
     private IEnumerator FlashRed()
@@ -93,7 +102,7 @@ public class Player : Singleton<Player>
         UIController.Instance.SetHealth(_currentHealth);
     }
 
-    public void IncreaseStrenght(float increaseMultiplier)
+    public void IncreaseStrength(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
         UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
