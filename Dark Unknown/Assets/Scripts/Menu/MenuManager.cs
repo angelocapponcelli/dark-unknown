@@ -78,6 +78,11 @@ public class MenuManager : Singleton<MenuManager>
     {
         SetMenu(Menu.Suggestions);
     }
+    
+    public void Submit()
+    {
+        SetMenu(Menu.Main);
+    }
 
     public void PlayGame()
     {
