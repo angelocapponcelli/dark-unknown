@@ -13,7 +13,6 @@ public class PurpleProjectile : MonoBehaviour
         {
             if (player.gameObject.CompareTag("Player"))
             {
-                Debug.Log("damage");
                 player.GetComponentInParent<Player>().TakeDamage(_damage);
                 Destroy(gameObject);
             }

@@ -80,6 +80,12 @@ public class Player : Singleton<Player>
         StartCoroutine(FlashRed());
         PlayerEvents.playerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
+        
+        //game over
+        if (_currentHealth <= 0)
+        {
+            GameManager.Instance.PlayerDied();
+        }
     }
 
     private IEnumerator FlashRed()

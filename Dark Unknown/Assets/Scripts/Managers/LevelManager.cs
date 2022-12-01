@@ -26,6 +26,7 @@ public class LevelManager : Singleton<LevelManager>
 
     void Awake()
     {
+        base.Awake();
         _roomPool = new List<RoomLogic>();
         _nextRooms = new List<RoomLogic>();
         
