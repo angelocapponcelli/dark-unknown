@@ -7,12 +7,22 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private SoundBank _soundBank;
 
     [SerializeField] private AudioSource _backgroundMusic;
+    [SerializeField] private AudioSource _UISound;
     [SerializeField] private AudioSource _skeletonSound;
     [SerializeField] private AudioSource _playerSound;
 
-    public new void Awake()
+    public void Start()
     {
         _backgroundMusic.clip = _soundBank.SoundTrack;
+    }
+
+    public void PlayOverUIButtonSound()
+    {
+        _UISound.PlayOneShot(_soundBank.OverUIButton);
+    }
+    public void PlayClickUIButtonSound()
+    {
+        _UISound.PlayOneShot(_soundBank.ClickUIButton);
     }
 
     //----- Player -------------------------------------
@@ -44,6 +54,10 @@ public class AudioManager : Singleton<AudioManager>
     {
         _playerSound.PlayOneShot(_soundBank.PlayerDie);
     }
+    public void SetPlayerVolume(float value)
+    {
+        _playerSound.volume = value;
+    }
 
     //----- Skeleton -------------------------------------
     public void PlaySkeletonWalkSound()
@@ -62,11 +76,19 @@ public class AudioManager : Singleton<AudioManager>
     {
         _skeletonSound.PlayOneShot(_soundBank.SkeletonDie);
     }
+    public void SetSkeletonVolume(float value) //TODO 'skeleton' change into 'enemy'
+    {
+        _skeletonSound.volume = value;
+    }
 
     //-------------------------------------
 
     public void playSoundTrack()
     {
         _backgroundMusic.Play();
+    }
+    public void SetBackgroundVolume(float value)
+    {
+        _backgroundMusic.volume = value;
     }
 }
