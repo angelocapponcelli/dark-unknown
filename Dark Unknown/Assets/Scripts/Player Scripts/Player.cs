@@ -81,7 +81,7 @@ public class Player : Singleton<Player>
         _currentHealth -= damage;
         UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashRed());
-        PlayerEvents.playerHit.Invoke();
+        PlayerEvents.PlayerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
         
         //game over
