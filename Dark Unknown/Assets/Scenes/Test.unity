@@ -214,7 +214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &285610611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +599,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bow Reward
       objectReference: {fileID: 0}
+    - target: {fileID: 8020449471583359410, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
 --- !u!1 &1034333233
@@ -739,6 +743,10 @@ PrefabInstance:
     - target: {fileID: 52505465654580182, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
       propertyPath: m_Name
       value: Sword Reward
+      objectReference: {fileID: 0}
+    - target: {fileID: 52505465654580182, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7102652850973985895, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
       propertyPath: m_RootOrder
@@ -1272,6 +1280,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider
       objectReference: {fileID: 0}
+    - target: {fileID: 6744332240763664152, guid: 641106bb626d846c79fa91e5d497f392, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 641106bb626d846c79fa91e5d497f392, type: 3}
 --- !u!1001 &1448770085
@@ -1329,6 +1341,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spike Trap 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4403633416165787606, guid: fed3bf843be1d5c438fa018617edeabe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fed3bf843be1d5c438fa018617edeabe, type: 3}
 --- !u!114 &1582310592 stripped
@@ -1369,7 +1385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1790747255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2044,6 +2060,10 @@ PrefabInstance:
     - target: {fileID: 4505435836957910130, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: m_Name
       value: Skeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505435836957910130, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4505435836957910142, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
       propertyPath: m_RootOrder
@@ -13039,11 +13059,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7530360683213043640, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7530360683213043640, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7530360683522735243, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_Pivot.x
@@ -13132,6 +13152,10 @@ PrefabInstance:
     - target: {fileID: 7530360683522735247, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530360683522735247, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 819d8385f5f16184c98410ba7ab7d332, type: 3}
@@ -18142,6 +18166,10 @@ PrefabInstance:
     - target: {fileID: 9114968375143213833, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_Name
       value: Tutorial Commads
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968375143213833, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
