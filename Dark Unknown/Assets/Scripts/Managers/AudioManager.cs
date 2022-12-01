@@ -13,6 +13,12 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioSource _skeletonSound;
     [SerializeField] private AudioSource _playerSound;
 
+    protected new void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
+    
     public void Start()
     {
         _backgroundMusic.clip = _soundBank.SoundTrack;
@@ -26,7 +32,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         _UISound.PlayOneShot(_soundBank.ClickUIButton);
     }
-
+    
     //----- Player -------------------------------------
     public void PlayPLayerWalkSound()
     {
@@ -96,6 +102,11 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySoundTrack()
     {
         _backgroundMusic.Play();
+    }
+
+    public void StopSoundTrack()
+    {
+        _backgroundMusic.Stop();
     }
     public void SetBackgroundVolume(float value)
     {

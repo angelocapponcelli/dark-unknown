@@ -45,6 +45,7 @@ public class GameManager : Singleton<GameManager>
 
     public void BackToMainMenu()
     {
+        AudioManager.Instance.StopSoundTrack();
         SceneManager.LoadScene("Menu");
     }
 }
