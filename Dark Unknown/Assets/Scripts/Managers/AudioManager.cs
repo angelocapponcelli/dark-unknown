@@ -58,6 +58,10 @@ public class AudioManager : Singleton<AudioManager>
     {
         _playerSound.volume = value;
     }
+    public float GetPlayerVolumeSound()
+    {
+        return _playerSound.volume;
+    }
 
     //----- Skeleton -------------------------------------
     public void PlaySkeletonWalkSound()
@@ -80,6 +84,10 @@ public class AudioManager : Singleton<AudioManager>
     {
         _skeletonSound.volume = value;
     }
+    public float GetEnemyVolumeSound()
+    {
+        return _skeletonSound.volume;
+    }
 
     //-------------------------------------
 
@@ -90,6 +98,10 @@ public class AudioManager : Singleton<AudioManager>
     public void SetBackgroundVolume(float value)
     {
         _backgroundMusic.volume = value;
+    }
+    public float GetBackgroundVolumeSound()
+    {
+        return _backgroundMusic.volume;
     }
 
     public void PlayEnterDoorSound()
