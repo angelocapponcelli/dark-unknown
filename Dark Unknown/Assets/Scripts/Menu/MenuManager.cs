@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MenuManager : Singleton<MenuManager>
 {
@@ -19,7 +19,12 @@ public class MenuManager : Singleton<MenuManager>
     public GameObject OptionsMenu;
     public GameObject CreditsMenu;
     public GameObject SuggestionsMenu;
-    
+
+    public Slider _playerVolumeSlider;
+    public Slider _enemyVolumeSlider;
+    public Slider _backgroundVolumeSlider;
+
+
     //generic function to activate a certain menu screen
     private void SetMenu(Menu menu)
     {
@@ -48,6 +53,10 @@ public class MenuManager : Singleton<MenuManager>
     private void Start()
     {
         SetMenu(Menu.Main);
+
+        _playerVolumeSlider.value = AudioManager.Instance.GetPlayerVolumeSound();
+        _enemyVolumeSlider.value = AudioManager.Instance.GetEnemyVolumeSound();
+        _backgroundVolumeSlider.value = AudioManager.Instance.GetBackgroundVolumeSound();
     }
 
     private void Update()
