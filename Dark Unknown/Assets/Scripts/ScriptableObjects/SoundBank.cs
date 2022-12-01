@@ -25,6 +25,4 @@ public class SoundBank : ScriptableObject
 
     [Header("Other")]
     public AudioClip SoundTrack;
-    
-
 }
