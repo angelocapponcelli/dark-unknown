@@ -103,7 +103,7 @@ public class SpiderController : EnemyController
             _animator.AnimateIdle();
         }
 
-        if (_isAttacking) //to flip skeleton in the right direction when is attacking
+        if (_isAttacking && !isDead) //to flip skeleton in the right direction when is attacking
         {
             _animator.flip(_target.transform.position - transform.position);
         }
@@ -194,5 +194,10 @@ public class SpiderController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         AudioManager.Instance.PlaySkeletonDieSound();
+    }
+
+    private void DisableBoxCollider()
+    {
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 }
