@@ -711,7 +711,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.078125, y: 1.53125, z: 0}
   m_MaxChunkCount: 16
@@ -17794,7 +17794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114968375143213832, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 9114968375143213832, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -17852,6 +17852,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -45452603304768307, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: myIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 301726226294614732, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
+      propertyPath: m_SortingOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
@@ -17930,6 +17934,10 @@ PrefabInstance:
     - target: {fileID: -45452603304768307, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: myIndex
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 301726226294614732, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
@@ -18010,7 +18018,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4890878755092904051, guid: a48d2a6a979868847b30bdc0087db3ec, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8084453024595036278, guid: a48d2a6a979868847b30bdc0087db3ec, type: 3}
       propertyPath: m_RootOrder
@@ -18073,6 +18081,10 @@ PrefabInstance:
     - target: {fileID: -45452603304768307, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: myIndex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 301726226294614732, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
@@ -18157,7 +18169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4890878755092904051, guid: 0b3e00340886fd34eb93cd8c7e4d0317, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8084453024595036278, guid: 0b3e00340886fd34eb93cd8c7e4d0317, type: 3}
       propertyPath: m_RootOrder

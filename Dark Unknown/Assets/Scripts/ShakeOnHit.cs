@@ -17,13 +17,13 @@ public class ShakeOnHit : MonoBehaviour
     {
         vCam = GetComponent<CinemachineVirtualCamera>();
         noise = vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        PlayerEvents.playerHit += () => Shake();
+        PlayerEvents.PlayerHit += () => Shake();
         shakeTimeElapsed = 0;
     }
 
     private void OnDestroy()
     {
-        PlayerEvents.playerHit -= () => Shake();
+        PlayerEvents.PlayerHit -= () => Shake();
     }
 
     private void Update()

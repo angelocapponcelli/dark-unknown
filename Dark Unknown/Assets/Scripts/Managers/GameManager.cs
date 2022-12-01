@@ -12,6 +12,9 @@ public class GameManager : Singleton<GameManager>
     private CinemachineVirtualCamera _cineMachine;
     private RoomLogic _currentRoom;
     private GameObject _playerSpawnPoint;
+
+    /*public Animator sceneChanger;
+    private static readonly int Dead = Animator.StringToHash("Death");*/
     
     protected override void Awake()
     {
@@ -21,7 +24,7 @@ public class GameManager : Singleton<GameManager>
     }
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _levelManager.SetInitialRoom();
         _currentRoom = _levelManager.GetCurrentRoom();
@@ -32,11 +35,27 @@ public class GameManager : Singleton<GameManager>
         AudioManager.Instance.PlaySoundTrack();
     }
 
-    // Update is called once per frame
-    void Update()
+    /*// Update is called once per frame
+    private void Update()
     {
-        
+        if (PlayerEvents.PlayerDead != null)
+        {
+            Debug.Log("scene change");
+            SceneChange();
+        }
     }
+
+    private void SceneChange()
+    {
+        sceneChanger.SetTrigger(Dead);
+        StartCoroutine(LoadMenu());
+    }
+
+    private static IEnumerator LoadMenu()
+    {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("Menu");
+    }*/
 
     public void ResetPlayerPosition()
     {

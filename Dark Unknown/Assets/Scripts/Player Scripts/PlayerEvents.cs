@@ -3,5 +3,6 @@ using UnityEngine.Events;
 
 public class PlayerEvents : MonoBehaviour
 {
-    public static UnityAction playerHit;
+    public static UnityAction PlayerHit;
+    public static UnityAction PlayerDead;
 }
