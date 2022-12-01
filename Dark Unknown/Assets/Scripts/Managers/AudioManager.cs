@@ -83,12 +83,17 @@ public class AudioManager : Singleton<AudioManager>
 
     //-------------------------------------
 
-    public void playSoundTrack()
+    public void PlaySoundTrack()
     {
         _backgroundMusic.Play();
     }
     public void SetBackgroundVolume(float value)
     {
         _backgroundMusic.volume = value;
+    }
+
+    public void PlayEnterDoorSound()
+    {
+        _UISound.PlayOneShot(_soundBank.EnterDoor);
     }
 }

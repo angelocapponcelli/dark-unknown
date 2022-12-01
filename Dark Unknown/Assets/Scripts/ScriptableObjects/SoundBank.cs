@@ -22,7 +22,8 @@ public class SoundBank : ScriptableObject
     [Header("UI")]
     public AudioClip ClickUIButton;
     public AudioClip OverUIButton;
+    public AudioClip EnterDoor;
 
     [Header("Other")]
-    public AudioClip SoundTrack;
+    public AudioClip SoundTrack;    
 }

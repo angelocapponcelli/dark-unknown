@@ -60,6 +60,7 @@ public class Door : MonoBehaviour
     {
         if (_canOpen && Input.GetKey(KeyCode.E))
         {
+            AudioManager.Instance.PlayEnterDoorSound();
             LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
             _myBoxCollider.enabled = false;
         }
