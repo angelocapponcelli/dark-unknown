@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4ad7b26b57a24442abebedba990ce040
+guid: 53c624324b9af4effbbe481fb9e6cc49
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,43 +117,148 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bow01_bow
+      name: purple-projectile_destroy_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
-        height: 32
-      alignment: 9
-      pivot: {x: 0.03, y: 0.5}
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f0aa677dd452f4100a30bdc77195e2b7
-      internalID: 839410953
+      spriteID: 9fec6b149847e4025bfadd8563bf7bc2
+      internalID: -1253541437
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: bow01_arrow
+      name: purple-projectile_destroy_1
       rect:
         serializedVersion: 2
-        x: 17
-        y: 7
-        width: 9
-        height: 17
+        x: 50
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2184a164aa6d48c7b35f716cb012a75
-      internalID: -1363870951
+      spriteID: e5527349c442147899d9ed2f375a9b43
+      internalID: -1425137620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: purple-projectile_destroy_2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9dfe33f4d9a343ecbfbed4189d72fb4
+      internalID: 818066531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: purple-projectile_destroy_3
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8814d913a9a7142fd83d2087e15b69ca
+      internalID: -470729467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: purple-projectile_destroy_4
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6599f6f86c6b4759be2294832d2e27d
+      internalID: 1869340764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: purple-projectile_destroy_5
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 0
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 454ed697864c64b4d8f1e60e0d01d3b8
+      internalID: 2120998829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: purple-projectile_destroy_6
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 50
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee8f8872d15a745479e90a4a9395cb14
+      internalID: 1868888961
       vertices: []
       indices: 
       edges: []
@@ -169,8 +274,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      bow01_bow: 839410953
-      bow01_arrow: -1363870951
+      purple-projectile_destroy_0: -1253541437
+      purple-projectile_destroy_6: 1868888961
+      purple-projectile_destroy_5: 2120998829
+      purple-projectile_destroy_1: -1425137620
+      purple-projectile_destroy_3: -470729467
+      purple-projectile_destroy_4: 1869340764
+      purple-projectile_destroy_2: 818066531
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

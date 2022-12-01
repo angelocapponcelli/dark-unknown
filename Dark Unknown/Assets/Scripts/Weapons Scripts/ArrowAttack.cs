@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine;
 public class ArrowAttack : MonoBehaviour
 {
     [SerializeField] private float _damage = 2f;
+
+    private void Start()
+    {
+        StartCoroutine(DeactivateCollider(0.1f));
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,8 +21,14 @@ public class ArrowAttack : MonoBehaviour
             {
                 //Debug.Log("damage");
                 enemy.GetComponentInParent<EnemyController>().TakeDamage(_damage*Player.Instance.GetStrengthMultiplier());
-                Destroy(gameObject);
             }
         }
+        Destroy(gameObject);
+    }
+    
+    private IEnumerator DeactivateCollider(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        GetComponentInChildren<BoxCollider2D>().enabled = true;
     }
 }
