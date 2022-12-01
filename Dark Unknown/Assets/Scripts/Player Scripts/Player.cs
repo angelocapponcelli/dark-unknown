@@ -47,23 +47,26 @@ public class Player : Singleton<Player>
     // Update handles the animation changes based on the mouse pointer 
     void Update()
     {
-        _weaponParent.PointerPosition = _playerInput.PointerPosition;
-        _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, _playerInput.PointerPosition, _playerMovement.GetRBPos());
-
-        if(_canGetWeapon && Input.GetKeyDown(KeyCode.E))
+        if (PauseMenu.GameIsPaused == false)
         {
-            //instantiate new reward
-            GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
-            newReward.transform.position = transform.position;
-            //destroy current weapon
-            Destroy(_weaponParent.gameObject);
-            //instantiate new current weapon
-            _weaponParent = Instantiate(_weaponToGet);
-            _weaponParent.transform.parent = transform;
-            _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
-            //destroy old reward akready taken
-            Destroy(_rewardToGet);            
-            _canGetWeapon = false;
+            _weaponParent.PointerPosition = _playerInput.PointerPosition;
+            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, _playerInput.PointerPosition, _playerMovement.GetRBPos());
+
+            if (_canGetWeapon && Input.GetKeyDown(KeyCode.E))
+            {
+                //instantiate new reward
+                GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
+                newReward.transform.position = transform.position;
+                //destroy current weapon
+                Destroy(_weaponParent.gameObject);
+                //instantiate new current weapon
+                _weaponParent = Instantiate(_weaponToGet);
+                _weaponParent.transform.parent = transform;
+                _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
+                //destroy old reward akready taken
+                Destroy(_rewardToGet);
+                _canGetWeapon = false;
+            }
         }
     }
     
