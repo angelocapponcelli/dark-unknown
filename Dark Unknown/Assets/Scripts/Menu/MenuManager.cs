@@ -87,6 +87,7 @@ public class MenuManager : Singleton<MenuManager>
     public void PlayGame()
     {
         SceneManager.LoadScene("Game");
+        Destroy(gameObject);
     }
 
     public void QuitGame()
