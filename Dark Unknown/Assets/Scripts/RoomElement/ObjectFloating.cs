@@ -12,12 +12,11 @@ public class ObjectFloating : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*Vector2 tempPos = transform.position;
-        tempPos.y += transform.position.y + _amplitude * Mathf.Sin(_speed * Time.time);
-        transform.position = tempPos;*/
-        _tempPos = transform.position;
-        //_tempVal = transform.position.y;
-        _tempPos.y = _tempPos.y + _amplitude * Mathf.Sin(_speed * Time.time);
-        transform.position = _tempPos;
+        if (PauseMenu.GameIsPaused == false)
+        {
+            _tempPos = transform.position;
+            _tempPos.y = _tempPos.y + _amplitude * Mathf.Sin(_speed * Time.time);
+            transform.position = _tempPos;
+        }
     }
 }
