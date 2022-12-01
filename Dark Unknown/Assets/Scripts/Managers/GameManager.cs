@@ -43,9 +43,8 @@ public class GameManager : Singleton<GameManager>
         player.transform.position = new Vector3(0, 0, 0);
     }
 
-    public void PlayerDied()
+    public void BackToMainMenu()
     {
-        Destroy(this);
         SceneManager.LoadScene("Menu");
     }
 }

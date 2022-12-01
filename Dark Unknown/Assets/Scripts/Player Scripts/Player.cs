@@ -87,7 +87,7 @@ public class Player : Singleton<Player>
         //game over
         if (_currentHealth <= 0)
         {
-            GameManager.Instance.PlayerDied();
+            GameManager.Instance.BackToMainMenu();
         }
     }
 

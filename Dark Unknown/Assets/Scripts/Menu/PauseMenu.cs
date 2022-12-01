@@ -83,11 +83,8 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadMenu()
     {
-        Debug.Log("Go to Main Menu");
-        //TODO
-        //SceneManager.LoadScene("Menu");
-        //Destroy(FindObjectOfType<UIController>());
-        //Destroy(FindObjectOfType<Player>());
+        Resume(); //without this, the scene change in GameManager doesn't work
+        GameManager.Instance.BackToMainMenu();
     }
     public void QuitGame()
     {
