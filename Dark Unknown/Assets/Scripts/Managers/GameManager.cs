@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -40,5 +41,11 @@ public class GameManager : Singleton<GameManager>
     public void ResetPlayerPosition()
     {
         player.transform.position = new Vector3(0, 0, 0);
+    }
+
+    public void PlayerDied()
+    {
+        Destroy(this);
+        SceneManager.LoadScene("Menu");
     }
 }

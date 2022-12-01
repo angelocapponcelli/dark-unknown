@@ -45,6 +45,12 @@ public class MenuManager : Singleton<MenuManager>
         }
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     private void Start()
     {
         SetMenu(Menu.Main);
@@ -86,6 +92,7 @@ public class MenuManager : Singleton<MenuManager>
 
     public void PlayGame()
     {
+        Destroy(gameObject);
         SceneManager.LoadScene("Game");
         Destroy(gameObject);
     }
