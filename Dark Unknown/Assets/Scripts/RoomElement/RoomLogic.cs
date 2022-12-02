@@ -23,11 +23,12 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
+    [SerializeField] private SwordReward _swordReward;
 
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, BOSS};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD, BOSS};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -84,6 +85,9 @@ public class RoomLogic : MonoBehaviour
                         case Type.SPEED:
                             _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
+                        case Type.SWORD:
+                            _rewardSpawned = Instantiate(_swordReward, _spawnPointReward.position, Quaternion.identity);
+                            break;
                     }
                     _isControllEnabled = false;
                 }
@@ -115,7 +119,7 @@ public class RoomLogic : MonoBehaviour
         }
 
         _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 6);
         switch (_roomType)
         {
             case Type.INITIAL:
@@ -125,6 +129,7 @@ public class RoomLogic : MonoBehaviour
             case Type.HEALTH:
             case Type.BOW:
             case Type.SPEED:
+            case Type.SWORD:
             case Type.STRENGTH:
                 _numOfEnememy = Random.Range(10, 15);
                 break;
