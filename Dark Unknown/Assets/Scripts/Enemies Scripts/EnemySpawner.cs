@@ -44,6 +44,13 @@ using UnityEngine.Tilemaps;
             _availablePlaces.Remove(randomPlace);
             return enemy;
         }
+        
+        public EnemyController SpawnBoss(EnemyController bossPre, Transform bossSpawnPoint)
+        {
+            Vector3 bossPosition = bossSpawnPoint.position;
+            EnemyController boss = (EnemyController) Instantiate(bossPre, bossPosition, Quaternion.identity);
+            return boss;
+        }
 
         /* Replaced in room logic
         // In this configuration, no 2 enemies can spawn on the same tile

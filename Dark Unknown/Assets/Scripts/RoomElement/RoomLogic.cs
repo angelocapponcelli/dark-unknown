@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomLogic : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
-    private BossSpawner _bossSpawner;
+    //private BossSpawner _bossSpawner;
 
     [Header("Doors")]
     [SerializeField] private Door[] _doors;
@@ -124,11 +126,11 @@ public class RoomLogic : MonoBehaviour
             case Type.SPEED:
             case Type.SWORD:
             case Type.STRENGTH:
-                _numOfEnememy = Random.Range(10, 15);
+                _numOfEnememy = Random.Range(20, 25);
                 break;
             case Type.BOSS:
-                _numOfEnememy = Random.Range(10, 15);
-                _enemies.Add(_bossSpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
+                _numOfEnememy = Random.Range(5, 15);
+                StartCoroutine(spawnBoss());
                 break;
         }
         StartCoroutine(spawnEnemies());
@@ -142,6 +144,12 @@ public class RoomLogic : MonoBehaviour
             yield return new WaitForSeconds(_spawnTime);
             _enemies.Add(_enemySpawner.Spawn(_possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)]));
         }
+    }
+
+    private IEnumerator spawnBoss()
+    {
+        yield return new WaitForSeconds(_spawnTime);
+        _enemies.Add(_enemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
     }
 
     public void DestroyAllEnemies()
