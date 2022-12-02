@@ -39,14 +39,6 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
-        
-        //Set door symbols all different from each other
-        /*foreach (Door d in _doors)
-        {
-            int i = Random.Range(0, _possibleSymbols.Count);
-            d.setSymbol(_possibleSymbols[i]);
-            _possibleSymbols.RemoveAt(i);
-        }*/
     }
  
     // Update is called once per frame
@@ -111,7 +103,6 @@ public class RoomLogic : MonoBehaviour
         }
         else
         {
-            print("NEXT IS BOSS ROOM");
             foreach (Door d in _doors)
             {
                 d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
@@ -157,10 +148,5 @@ public class RoomLogic : MonoBehaviour
             Destroy(_enemies[i].gameObject);
         }
     }
-
-    public Type GetRoomType()
-    {
-        return _roomType;
-    } 
 
 }

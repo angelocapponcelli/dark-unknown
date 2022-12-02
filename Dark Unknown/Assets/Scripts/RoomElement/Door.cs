@@ -30,7 +30,6 @@ public class Door : MonoBehaviour
 
     [Header ("Symbols")]
     [SerializeField] private SpriteRenderer _symbolAboveDoor;    
-    //[SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
 
     private SymbolType _actualDoorSymbol;
     private Animator _animator;
