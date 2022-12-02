@@ -27,7 +27,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, BOSS};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -40,12 +40,12 @@ public class RoomLogic : MonoBehaviour
         _enemySpawner = GetComponent<EnemySpawner>();
         
         //Set door symbols all different from each other
-        foreach (Door d in _doors)
+        /*foreach (Door d in _doors)
         {
             int i = Random.Range(0, _possibleSymbols.Count);
             d.setSymbol(_possibleSymbols[i]);
             _possibleSymbols.RemoveAt(i);
-        }
+        }*/
     }
  
     // Update is called once per frame
@@ -93,7 +93,29 @@ public class RoomLogic : MonoBehaviour
 
     public void StartRoom(Type roomType)
     {
-        
+        //set up the symbols for the next rooms
+        int roomsTraversed = LevelManager.Instance.GetRoomsTraversed() + 1;
+        if (roomsTraversed < LevelManager.Instance.roomsBeforeBoss)
+        {
+            foreach (Door d in _doors)
+            {
+                print("NORMAL ROOM");
+                int i = Random.Range(0, _possibleSymbols.Count);
+                d.setSymbol(_possibleSymbols[i]);
+                _possibleSymbols.RemoveAt(i);
+            }
+        }
+        else
+        {
+            //[SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
+            foreach (Door d in _doors)
+            {
+                print("NEXT IS BOSS ROOM");
+                //int i = Random.Range(0, _possibleSymbols.Count);
+                d.setSymbol(_possibleSymbols.Find((x) => x.GetRoomType()==Type.BOSS));
+            }
+        }
+
         _roomType = roomType;
         if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
         switch (_roomType)
@@ -108,7 +130,9 @@ public class RoomLogic : MonoBehaviour
             case Type.STRENGTH:
                 _numOfEnememy = Random.Range(10, 15);
                 break;
-
+            case Type.BOSS:
+                _numOfEnememy = Random.Range(5, 10);
+                break;
         }
         StartCoroutine(spawnEnemies());
     }

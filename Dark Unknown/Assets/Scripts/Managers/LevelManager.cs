@@ -17,7 +17,7 @@ public class LevelManager : Singleton<LevelManager>
     private RoomLogic _currentRoom;
     private RoomLogic _bossRoom;
     private int _roomsTraversed = 0; //counter to distinguish when the next is the boss
-    [SerializeField] private int roomsBeforeBoss = 5;
+    [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
     [SerializeField] private EnemySpawner enemySpawner;
@@ -106,5 +106,10 @@ public class LevelManager : Singleton<LevelManager>
     public RoomLogic GetCurrentRoom()
     {
         return _currentRoom;
+    }
+
+    public int GetRoomsTraversed()
+    {
+        return _roomsTraversed;
     }
 }

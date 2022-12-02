@@ -16,6 +16,11 @@ public class SymbolType
         type = newTypeitem;
         sprite = newSpriteItem;
     }
+
+    public RoomLogic.Type GetRoomType()
+    {
+        return type;
+    }
 }
 
 public class Door : MonoBehaviour
