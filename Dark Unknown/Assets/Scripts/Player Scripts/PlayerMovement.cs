@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
     private float _activeSpeed;
     [SerializeField] private float dashSpeed;
-    private float _dashDuration = .15f, _dashCooldown = .10f;
+    private float _dashDuration = .15f;//, _dashCooldown = .10f; Set cool down in the UI animation
     private bool _isDashing, _canDash = true;
     private Vector2 _dashDirection;
     [SerializeField]private ParticleSystem _dust;
@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
             _dashDirection = direction;
             CreateDust();
             AudioManager.Instance.PlayPLayerDashSound();
+            UIController.Instance.DashCoolDown();
         }
 
         if (_isDashing)
@@ -56,10 +57,8 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(_dashDuration);
         _isDashing = false;
-        yield return new WaitForSeconds(_dashCooldown);
-        _canDash = true;
-
-
+        //yield return new WaitForSeconds(_dashCooldown);
+        //_canDash = true;
     }
 
     public Vector2 GetRBPos()
@@ -75,5 +74,9 @@ public class PlayerMovement : MonoBehaviour
     public void IncreaseSpeed(float multiplier)
     {
         speed = speed * multiplier;
+    }
+    public void EnableDash()
+    {
+        _canDash = true;
     }
 }
