@@ -107,12 +107,7 @@ public class RoomLogic : MonoBehaviour
     {
         
         _roomType = roomType;
-        //if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
-        for (int i = 0; i < _possibleSymbols.Count; i++)
-        {
-            if (_possibleSymbols[i].type == Type.RANDOM)
-                _possibleSymbols.RemoveAt(i);
-        }
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 6);
         if (_roomType == Type.RANDOM)
         {
             int i = Random.Range(0, _possibleSymbols.Count);
