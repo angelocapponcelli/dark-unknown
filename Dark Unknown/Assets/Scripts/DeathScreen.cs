@@ -31,4 +31,14 @@ public class DeathScreen : MonoBehaviour
         yield return new WaitForSeconds(1);
         Application.Quit();
     }
+
+    //UIAUDIO
+    public void PlayOverUIButtonSound()
+    {
+        AudioManager.Instance.PlayOverUIButtonSound();
+    }
+    public void PlayClickUIButtonSound()
+    {
+        AudioManager.Instance.PlayClickUIButtonSound();
+    }
 }
