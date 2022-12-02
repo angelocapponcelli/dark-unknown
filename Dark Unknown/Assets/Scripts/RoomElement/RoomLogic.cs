@@ -107,9 +107,9 @@ public class RoomLogic : MonoBehaviour
         }
         else
         {
+            print("NEXT IS BOSS ROOM");
             foreach (Door d in _doors)
             {
-                //int i = Random.Range(0, _possibleSymbols.Count);
                 d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
             }
         }
