@@ -9,10 +9,12 @@ public class RoomLogic : MonoBehaviour
 
     [Header("Enemy spawner")]
     [SerializeField] private EnemyController[] _possibleEnemyType;
+    [SerializeField] private EnemyController _bossEnemyController;
     private int _numOfEnememy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
+    private BossSpawner _bossSpawner;
 
     [Header("Doors")]
     [SerializeField] private Door[] _doors;
@@ -56,7 +58,7 @@ public class RoomLogic : MonoBehaviour
                         return;
                     allDead = true;
                 }
-                if (allDead || _numOfEnememy==0)
+                if (allDead)
                 {
                     //Done at the end of the room when all enemy are dead
                     foreach (Door d in _doors)
@@ -125,7 +127,8 @@ public class RoomLogic : MonoBehaviour
                 _numOfEnememy = Random.Range(10, 15);
                 break;
             case Type.BOSS:
-                _numOfEnememy = Random.Range(5, 10);
+                _numOfEnememy = Random.Range(10, 15);
+                _enemies.Add(_bossSpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
                 break;
         }
         StartCoroutine(spawnEnemies());
