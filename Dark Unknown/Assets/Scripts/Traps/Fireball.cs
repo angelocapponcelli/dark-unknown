@@ -16,10 +16,8 @@ public class Fireball : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
-        foreach (Collider2D character in hitCharacters)
+        if (collision.GetComponent<Reward>() == null && collision.tag != "Trap") //if it doesn't collide with a reward or with a spikeTrap
         {
-            if (character.gameObject.CompareTag("Trap") != false) continue;
             _animator.SetTrigger("destroy");
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }

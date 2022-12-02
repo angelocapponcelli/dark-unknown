@@ -21,7 +21,7 @@ public class SkeletonController : EnemyController
     private SkeletonMovement _movement;
     private SkeletonAnimator _animator;
     private SkeletonAI _ai;
-
+    private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +34,13 @@ public class SkeletonController : EnemyController
         _movement = GetComponent<SkeletonMovement>();
         _animator = GetComponent<SkeletonAnimator>();
         _ai = GetComponent<SkeletonAI>();
-        
+
+
+        if (GetComponent<SkeletonBossUIController>() != null)
+        {
+            _bossUIController = GetComponent<SkeletonBossUIController>();
+            _bossUIController.SetMaxHealth(_maxHealth);
+        }
     }
 
     // Update is called once per frame
@@ -138,9 +144,11 @@ public class SkeletonController : EnemyController
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
         } else
         {
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
             _damageCoroutineRunning = true;
             StartCoroutine(Damage());
         }

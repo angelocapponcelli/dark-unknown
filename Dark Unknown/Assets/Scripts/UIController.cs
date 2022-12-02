@@ -3,19 +3,22 @@ using UnityEngine.UI;
 
 public class UIController : Singleton<UIController>
 {
-    [SerializeField] private Slider _healtBar;
+    [SerializeField] private Slider _healthBar;
     [SerializeField] private Text _roomText;
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
+    [Header ("Boss UI")]
+    [SerializeField] private GameObject _bossUIObject;
+    [SerializeField] private Slider _bossHealthBar;
 
     public void SetMaxHealth(float health)
     {
-        _healtBar.maxValue = health;
-        _healtBar.value = health;
+        _healthBar.maxValue = health;
+        _healthBar.value = health;
     }
     public void SetHealth(float value)
     {
-        _healtBar.value = value;
+        _healthBar.value = value;
     }
     public void SetRoomText(string text)
     {
@@ -30,4 +33,17 @@ public class UIController : Singleton<UIController>
         _strengthMultiplierText.text = text;
     }
 
+    public void setActiveBossHealth(bool value)
+    {
+        _bossUIObject.SetActive(value);
+    }
+    public void SetMaxBossHealth(float health)
+    {
+        _bossHealthBar.maxValue = health;
+        _bossHealthBar.value = health;
+    }
+    public void SetBossHealth(float value)
+    {
+        _bossHealthBar.value = value;
+    }
 }
