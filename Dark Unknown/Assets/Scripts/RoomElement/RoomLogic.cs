@@ -23,12 +23,11 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
-    [SerializeField] private SwordReward _swordReward;
 
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, BOSS};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -39,22 +38,14 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
-
-        //Check which weapon player has and remove it from possible symbols
-        for (int i = 0; i < _possibleSymbols.Count; i++)
-        {
-            if (_possibleSymbols[i].type == Type.SWORD && Player.Instance.checkSwordWeapon())
-                _possibleSymbols.RemoveAt(i);
-            else if (_possibleSymbols[i].type == Type.BOW && Player.Instance.checkBowWeapon())
-                _possibleSymbols.RemoveAt(i);
-        }
+        
         //Set door symbols all different from each other
-        foreach (Door d in _doors)
+        /*foreach (Door d in _doors)
         {
             int i = Random.Range(0, _possibleSymbols.Count);
             d.setSymbol(_possibleSymbols[i]);
             _possibleSymbols.RemoveAt(i);
-        }
+        }*/
     }
  
     // Update is called once per frame
@@ -93,9 +84,6 @@ public class RoomLogic : MonoBehaviour
                         case Type.SPEED:
                             _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
-                        case Type.SWORD:
-                            _rewardSpawned = Instantiate(_swordReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
                     }
                     _isControllEnabled = false;
                 }
@@ -105,15 +93,30 @@ public class RoomLogic : MonoBehaviour
 
     public void StartRoom(Type roomType)
     {
-        
-        _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 6);
-        if (_roomType == Type.RANDOM)
+        //set up the symbols for the next rooms
+        if (LevelManager.Instance.GetRoomsTraversed()+1 < LevelManager.Instance.roomsBeforeBoss)
         {
-            int i = Random.Range(0, _possibleSymbols.Count);
-            _roomType = _possibleSymbols[i].type;
+            SymbolType toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
+            _possibleSymbols.Remove(toRemove);
+            foreach (Door d in _doors)
+            {
+                int i = Random.Range(0, _possibleSymbols.Count);
+                d.setSymbol(_possibleSymbols[i]);
+                _possibleSymbols.RemoveAt(i);
+            }
         }
-            switch (_roomType)
+        else
+        {
+            foreach (Door d in _doors)
+            {
+                //int i = Random.Range(0, _possibleSymbols.Count);
+                d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
+            }
+        }
+
+        _roomType = roomType;
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
+        switch (_roomType)
         {
             case Type.INITIAL:
                 _numOfEnememy = 1;
@@ -123,9 +126,11 @@ public class RoomLogic : MonoBehaviour
             case Type.BOW:
             case Type.SPEED:
             case Type.STRENGTH:
-                _numOfEnememy = Random.Range(15, 25);
+                _numOfEnememy = Random.Range(10, 15);
                 break;
-
+            case Type.BOSS:
+                _numOfEnememy = Random.Range(5, 10);
+                break;
         }
         StartCoroutine(spawnEnemies());
     }
@@ -147,4 +152,10 @@ public class RoomLogic : MonoBehaviour
             Destroy(_enemies[i].gameObject);
         }
     }
+
+    public Type GetRoomType()
+    {
+        return _roomType;
+    } 
+
 }

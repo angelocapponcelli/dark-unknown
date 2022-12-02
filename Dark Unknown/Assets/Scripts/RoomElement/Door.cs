@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 //create a new type: SymbolType
@@ -61,8 +62,22 @@ public class Door : MonoBehaviour
         if (_canOpen && Input.GetKey(KeyCode.E))
         {
             AudioManager.Instance.PlayEnterDoorSound();
-            LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
             _myBoxCollider.enabled = false;
+            if (_actualDoorSymbol.type != RoomLogic.Type.BOSS)
+            {
+                LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
+            }
+            else
+            {
+                if (LevelManager.Instance.BossRoomAlreadyDone())
+                {
+                    GameManager.Instance.BackToMainMenu();
+                }
+                else
+                {
+                    LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
+                }
+            }
         }
     }
 

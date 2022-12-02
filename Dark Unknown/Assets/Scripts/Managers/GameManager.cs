@@ -81,10 +81,10 @@ public class GameManager : Singleton<GameManager>
     {
         AudioManager.Instance.StopSoundTrack();
         animator.SetTrigger(Death);
-        StartCoroutine(DeathScreen());
+        StartCoroutine(GameOverScreen());
     }
     
-    private static IEnumerator DeathScreen()
+    private static IEnumerator GameOverScreen()
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("GameOver");
