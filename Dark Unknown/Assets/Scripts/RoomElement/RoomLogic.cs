@@ -23,11 +23,12 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private SpeedReward _speedReward;
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
+    [SerializeField] private SwordReward _swordReward;
 
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -38,7 +39,15 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
-        
+
+        //Check which weapon player has and remove it from possible symbols
+        for (int i = 0; i < _possibleSymbols.Count; i++)
+        {
+            if (_possibleSymbols[i].type == Type.SWORD && Player.Instance.checkSwordWeapon())
+                _possibleSymbols.RemoveAt(i);
+            else if (_possibleSymbols[i].type == Type.BOW && Player.Instance.checkBowWeapon())
+                _possibleSymbols.RemoveAt(i);
+        }
         //Set door symbols all different from each other
         foreach (Door d in _doors)
         {
@@ -84,6 +93,9 @@ public class RoomLogic : MonoBehaviour
                         case Type.SPEED:
                             _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
                             break;
+                        case Type.SWORD:
+                            _rewardSpawned = Instantiate(_swordReward, _spawnPointReward.position, Quaternion.identity);
+                            break;
                     }
                     _isControllEnabled = false;
                 }
@@ -95,8 +107,18 @@ public class RoomLogic : MonoBehaviour
     {
         
         _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
-        switch (_roomType)
+        //if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 5);
+        for (int i = 0; i < _possibleSymbols.Count; i++)
+        {
+            if (_possibleSymbols[i].type == Type.RANDOM)
+                _possibleSymbols.RemoveAt(i);
+        }
+        if (_roomType == Type.RANDOM)
+        {
+            int i = Random.Range(0, _possibleSymbols.Count);
+            _roomType = _possibleSymbols[i].type;
+        }
+            switch (_roomType)
         {
             case Type.INITIAL:
                 _numOfEnememy = 1;

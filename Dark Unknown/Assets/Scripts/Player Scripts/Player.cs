@@ -154,5 +154,18 @@ public class Player : Singleton<Player>
     {
         return _strengthMultiplier;
     }
+
+    public bool checkSwordWeapon()
+    {
+        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Sword"))
+            return true;
+        return false;
+    }
+    public bool checkBowWeapon()
+    {
+        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Bow"))
+            return true;
+        return false;
+    }
 }
 
