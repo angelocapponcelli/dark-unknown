@@ -14,7 +14,10 @@ public class MenuManager : Singleton<MenuManager>
         Credits,
         Suggestions
     };
-
+    
+    public Animator animator;
+    private static readonly int Quit = Animator.StringToHash("Quit");
+    
     public GameObject MainMenu;
     public GameObject OptionsMenu;
     public GameObject CreditsMenu;
@@ -100,6 +103,14 @@ public class MenuManager : Singleton<MenuManager>
 
     public void QuitGame()
     {
+        animator.SetTrigger(Quit);
+        Debug.Log("Quit game...");
+        StartCoroutine(QuitCoroutine());
+    }
+    
+    private static IEnumerator QuitCoroutine()
+    {
+        yield return new WaitForSeconds(1);
         Application.Quit();
     }
 

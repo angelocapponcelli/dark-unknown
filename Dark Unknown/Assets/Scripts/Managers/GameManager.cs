@@ -12,6 +12,8 @@ public class GameManager : Singleton<GameManager>
     private CinemachineVirtualCamera _cineMachine;
     private RoomLogic _currentRoom;
     private GameObject _playerSpawnPoint;
+    [SerializeField] private Animator animator;
+    private static readonly int Death = Animator.StringToHash("Death");
 
     /*public Animator sceneChanger;
     private static readonly int Dead = Animator.StringToHash("Death");*/
@@ -62,9 +64,22 @@ public class GameManager : Singleton<GameManager>
         player.transform.position = new Vector3(0, 0, 0);
     }
 
-    public void BackToMainMenu()
+    public static void BackToMainMenu()
     {
         AudioManager.Instance.StopSoundTrack();
         SceneManager.LoadScene("Menu");
+    }
+    
+    public void LoadDeathScreen()
+    {
+        AudioManager.Instance.StopSoundTrack();
+        animator.SetTrigger(Death);
+        StartCoroutine(DeathScreen());
+    }
+    
+    private static IEnumerator DeathScreen()
+    {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("GameOver");
     }
 }

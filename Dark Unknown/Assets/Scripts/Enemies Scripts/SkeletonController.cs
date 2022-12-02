@@ -83,14 +83,14 @@ public class SkeletonController : EnemyController
         // -- Handle Animations --
         // Hurt
         if (Input.GetKeyDown("e"))
-            TakeDamage(10);
-        // Death
-        if (Input.GetKeyUp("z")) {
+            TakeDamage(50);
+        // Enable while debugging to reanimate enemies
+        /*if (Input.GetKeyUp("z")) {
             if (isDead)
             {
                 StartCoroutine(RecoverySequence());
             }            
-        }
+        }*/
     }
 
     private void AttackEvent()
