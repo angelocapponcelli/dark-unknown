@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager>
         player.transform.position = new Vector3(0, 0, 0);
     }
 
-    public static void BackToMainMenu()
+    public void BackToMainMenu()
     {
         AudioManager.Instance.StopSoundTrack();
         SceneManager.LoadScene("Menu");
@@ -74,10 +74,10 @@ public class GameManager : Singleton<GameManager>
     {
         AudioManager.Instance.StopSoundTrack();
         animator.SetTrigger(Death);
-        StartCoroutine(DeathScreen());
+        StartCoroutine(GameOverScreen());
     }
     
-    private static IEnumerator DeathScreen()
+    private static IEnumerator GameOverScreen()
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("GameOver");

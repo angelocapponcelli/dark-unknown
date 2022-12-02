@@ -16,6 +16,7 @@ public class LevelManager : Singleton<LevelManager>
     private List<RoomLogic> _nextRooms;
     private RoomLogic _currentRoom;
     private RoomLogic _bossRoom;
+    private bool _bossRoomAlreadyEntered = false;
     private int _roomsTraversed = 0; //counter to distinguish when the next is the boss
     [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
@@ -66,6 +67,7 @@ public class LevelManager : Singleton<LevelManager>
     //from other rooms
     private IEnumerator SetRoom(int roomNumber, RoomLogic.Type roomType)
     {
+        //destroy current room
         yield return new WaitForSeconds(1);
         _currentRoom.DestroyAllEnemies();
         Destroy(_currentRoom.gameObject);
@@ -73,14 +75,20 @@ public class LevelManager : Singleton<LevelManager>
         //Destroy reward if player didn't get it 
         if (FindObjectOfType<Reward>())
             Destroy(FindObjectOfType<Reward>().gameObject);
+        
+        //instantiate the new room
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
-        _currentRoom.StartRoom(roomType);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
+        _currentRoom.StartRoom(roomType);
+        if (roomType == RoomLogic.Type.BOSS) _bossRoomAlreadyEntered = true;
 
-        //load next rooms
-        _nextRooms.Clear();
-        _roomsTraversed++;
-        LoadRooms();
+        //load next rooms, only if next is not a boss room
+        if (roomType != RoomLogic.Type.BOSS)
+        {
+            _nextRooms.Clear();
+            _roomsTraversed++;
+            LoadRooms();
+        }
     }
 
     private void LoadRooms()
@@ -111,5 +119,10 @@ public class LevelManager : Singleton<LevelManager>
     public int GetRoomsTraversed()
     {
         return _roomsTraversed;
+    }
+
+    public bool BossRoomAlreadyDone()
+    {
+        return _bossRoomAlreadyEntered;
     }
 }

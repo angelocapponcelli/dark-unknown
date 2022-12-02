@@ -84,7 +84,7 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Resume(); //without this, the scene change in GameManager doesn't work
-        GameManager.BackToMainMenu();
+        GameManager.Instance.BackToMainMenu();
     }
     public void QuitGame()
     {

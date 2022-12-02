@@ -94,12 +94,12 @@ public class RoomLogic : MonoBehaviour
     public void StartRoom(Type roomType)
     {
         //set up the symbols for the next rooms
-        int roomsTraversed = LevelManager.Instance.GetRoomsTraversed() + 1;
-        if (roomsTraversed < LevelManager.Instance.roomsBeforeBoss)
+        if (LevelManager.Instance.GetRoomsTraversed()+1 < LevelManager.Instance.roomsBeforeBoss)
         {
+            SymbolType toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
+            _possibleSymbols.Remove(toRemove);
             foreach (Door d in _doors)
             {
-                print("NORMAL ROOM");
                 int i = Random.Range(0, _possibleSymbols.Count);
                 d.setSymbol(_possibleSymbols[i]);
                 _possibleSymbols.RemoveAt(i);
@@ -107,12 +107,10 @@ public class RoomLogic : MonoBehaviour
         }
         else
         {
-            //[SerializeField] private List<SymbolType> _possibleSymbols = new List<SymbolType>();
             foreach (Door d in _doors)
             {
-                print("NEXT IS BOSS ROOM");
                 //int i = Random.Range(0, _possibleSymbols.Count);
-                d.setSymbol(_possibleSymbols.Find((x) => x.GetRoomType()==Type.BOSS));
+                d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
             }
         }
 
@@ -154,4 +152,10 @@ public class RoomLogic : MonoBehaviour
             Destroy(_enemies[i].gameObject);
         }
     }
+
+    public Type GetRoomType()
+    {
+        return _roomType;
+    } 
+
 }
