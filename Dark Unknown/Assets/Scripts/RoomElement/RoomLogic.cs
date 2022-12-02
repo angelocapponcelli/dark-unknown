@@ -123,7 +123,7 @@ public class RoomLogic : MonoBehaviour
             case Type.BOW:
             case Type.SPEED:
             case Type.STRENGTH:
-                _numOfEnememy = Random.Range(10, 15);
+                _numOfEnememy = Random.Range(15, 25);
                 break;
 
         }
