@@ -23,7 +23,7 @@ public class SkeletonAI : MonoBehaviour
     private void Start()
     {
         //Detecting Player and Obstacles around
-        InvokeRepeating("PerformDetection", 0, detectionDelay);
+        InvokeRepeating(nameof(PerformDetection), 0, detectionDelay);
     }
 
     private void PerformDetection()

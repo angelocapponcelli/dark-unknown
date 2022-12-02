@@ -45,7 +45,7 @@ public class Player : Singleton<Player>
     }
 
     // Update handles the animation changes based on the mouse pointer 
-    void Update()
+    private void Update()
     {
         if (PauseMenu.GameIsPaused == false)
         {
@@ -60,10 +60,9 @@ public class Player : Singleton<Player>
                 //destroy current weapon
                 Destroy(_weaponParent.gameObject);
                 //instantiate new current weapon
-                _weaponParent = Instantiate(_weaponToGet);
-                _weaponParent.transform.parent = transform;
+                _weaponParent = Instantiate(_weaponToGet, transform, true);
                 _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
-                //destroy old reward akready taken
+                //destroy old reward already taken
                 Destroy(_rewardToGet);
                 _canGetWeapon = false;
             }
@@ -85,15 +84,43 @@ public class Player : Singleton<Player>
         AudioManager.Instance.PlayPLayerHurtSound();
         
         //game over
-        if (_currentHealth <= 0)
-        {
-            GameManager.Instance.LoadDeathScreen();
-        }
+        if (!(_currentHealth <= 0)) return;
+        StartCoroutine(Death());
+        _playerMovement.IncreaseSpeed(0);
+        _playerMovement.enabled = false;
+        _playerInput.enabled = false;
+        PlayerEvents.PlayerHit.Invoke();
+        AudioManager.Instance.PlayPLayerHurtSound();
+        GameManager.Instance.LoadDeathScreen();
     }
 
     private IEnumerator FlashRed()
     {
         SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
+    }
+    
+    private IEnumerator Death()
+    {
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        playerRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
         playerRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         playerRenderer.color = Color.white;
@@ -125,7 +152,7 @@ public class Player : Singleton<Player>
         UIController.Instance.SetHealth(_currentHealth);
     }
 
-    public void IncreaseStrenght(float increaseMultiplier)
+    public void IncreaseStrength(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
         UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
