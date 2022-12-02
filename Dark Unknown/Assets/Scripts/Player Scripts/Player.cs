@@ -99,6 +99,18 @@ public class Player : Singleton<Player>
         playerRenderer.color = Color.white;
     }
 
+    private IEnumerator FlashBlue()
+    {
+        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
+        playerRenderer.color = Color.cyan;
+        yield return new WaitForSeconds(0.2f);
+        playerRenderer.color = Color.white;
+        yield return new WaitForSeconds(0.2f);
+        playerRenderer.color = Color.cyan;
+        yield return new WaitForSeconds(0.2f);
+        playerRenderer.color = Color.white;
+    }
+
     public void SetPosition(Vector3 newPos)
     {
         transform.position = newPos;
@@ -109,6 +121,7 @@ public class Player : Singleton<Player>
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
         UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt( (_speedMultiplier-1)*100 ) + " %");
+        StartCoroutine(FlashBlue());
     }
 
     public void IncreaseHealth(float increaseMultiplier)
@@ -117,18 +130,21 @@ public class Player : Singleton<Player>
         _healthMultiplier += increaseMultiplier;
         _currentHealth = _currentHealth * _healthMultiplier;
         UIController.Instance.SetHealth(_currentHealth);
+        StartCoroutine(FlashBlue());
     }
 
     public void RegenerateHealth()
     {
         _currentHealth = _maxHealth;
         UIController.Instance.SetHealth(_currentHealth);
+        StartCoroutine(FlashBlue());
     }
 
     public void IncreaseStrenght(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
         UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
+        StartCoroutine(FlashBlue());
     }
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward)
