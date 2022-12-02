@@ -11,7 +11,7 @@ public class MakeDamageToPlayer : MonoBehaviour
         Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
         foreach (Collider2D character in hitCharacters)
         {
-            if (character.gameObject.CompareTag("Player"))
+            if (character.gameObject.CompareTag("PlayerFeet"))
             {
                 character.GetComponentInParent<Player>().TakeDamage(_damage);
             }
