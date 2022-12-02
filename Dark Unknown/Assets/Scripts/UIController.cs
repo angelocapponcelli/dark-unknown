@@ -15,6 +15,7 @@ public class UIController : Singleton<UIController>
     {
         _healthBar.maxValue = health;
         _healthBar.value = health;
+
     }
     public void SetHealth(float value)
     {
@@ -45,5 +46,15 @@ public class UIController : Singleton<UIController>
     public void SetBossHealth(float value)
     {
         _bossHealthBar.value = value;
+    }
+
+    public void DashCoolDown()
+    {
+        GetComponent<Animator>().Play("DashLoading", 0);
+    }
+
+    public void EnableDash()
+    {
+        Player.Instance.GetComponent<PlayerMovement>().EnableDash();
     }
 }

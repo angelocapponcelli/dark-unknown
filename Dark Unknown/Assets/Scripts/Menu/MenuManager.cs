@@ -98,6 +98,13 @@ public class MenuManager : Singleton<MenuManager>
 
     public void PlayGame()
     {
+        animator.SetTrigger(Quit);
+        StartCoroutine(LoadGameCoroutine());
+    }
+    
+    private static IEnumerator LoadGameCoroutine()
+    {
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Game");
     }
 

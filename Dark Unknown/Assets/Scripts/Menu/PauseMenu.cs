@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -84,12 +85,13 @@ public class PauseMenu : MonoBehaviour
     public void LoadMenu()
     {
         Resume(); //without this, the scene change in GameManager doesn't work
-        GameManager.BackToMainMenu();
+        GameManager.Instance.BackToMainMenu();
     }
+    
     public void QuitGame()
     {
-        Debug.Log("Quit game...");
-        Application.Quit();
+        Resume(); //without this, the scene change in GameManager doesn't work
+        GameManager.Instance.QuitGame();
     }
 
     //UIAUDIO
