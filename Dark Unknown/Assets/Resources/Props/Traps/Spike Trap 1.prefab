@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4403633416165787607}
   m_Layer: 0
   m_Name: Spike Trap 1
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,11 +116,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5263606506073299272}
   - component: {fileID: 2762637706860417199}
-  - component: {fileID: 7254841539502572315}
+  - component: {fileID: 2138156548852510411}
   - component: {fileID: 3694982540641366959}
   m_Layer: 0
   m_Name: SpikeCollider
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,7 +166,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7254841539502572315
+--- !u!114 &2138156548852510411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,10 +175,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8019685695995638723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 655e11092d2d7764ab868b7f3ce45876, type: 3}
+  m_Script: {fileID: 11500000, guid: 6212b5ce6c33b164482c8c70ba7012f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 5
+  _damage: 10
 --- !u!114 &3694982540641366959
 MonoBehaviour:
   m_ObjectHideFlags: 0

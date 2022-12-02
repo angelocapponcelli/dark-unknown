@@ -16,8 +16,13 @@ public class Fireball : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        _animator.SetTrigger("destroy");
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
+        foreach (Collider2D character in hitCharacters)
+        {
+            if (character.gameObject.CompareTag("Trap") != false) continue;
+            _animator.SetTrigger("destroy");
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
     }
 
     /* Initially, the collider is deactivated due to the collider in the column in which it is located, 
