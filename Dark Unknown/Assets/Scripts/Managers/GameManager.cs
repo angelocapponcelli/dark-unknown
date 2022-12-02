@@ -64,9 +64,16 @@ public class GameManager : Singleton<GameManager>
         player.transform.position = new Vector3(0, 0, 0);
     }
 
-    public static void BackToMainMenu()
+    public void BackToMainMenu()
     {
         AudioManager.Instance.StopSoundTrack();
+        animator.SetTrigger(Death);
+        StartCoroutine(LoadMainMenu());
+    }
+    
+    private static IEnumerator LoadMainMenu()
+    {
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Menu");
     }
     
@@ -81,5 +88,19 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("GameOver");
+    }
+    
+    public void QuitGame()
+    {
+        AudioManager.Instance.StopSoundTrack();
+        animator.SetTrigger(Death);
+        Debug.Log("Quit game...");
+        StartCoroutine(Quit());
+    }
+    
+    private static IEnumerator Quit()
+    {
+        yield return new WaitForSeconds(1);
+        Application.Quit();
     }
 }
