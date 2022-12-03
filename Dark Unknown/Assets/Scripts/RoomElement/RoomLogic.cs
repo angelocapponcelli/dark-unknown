@@ -118,7 +118,7 @@ public class RoomLogic : MonoBehaviour
                 _numOfEnemy = Random.Range(20, 25);
                 break;
             case Type.BOSS:
-                _numOfEnemy = Random.Range(5, 15);
+                _numOfEnemy = Random.Range(10, 15);
                 StartCoroutine(SpawnBoss());
                 //StartCoroutine(SpawnCrystals());
                 break;
