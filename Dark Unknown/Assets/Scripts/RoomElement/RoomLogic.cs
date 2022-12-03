@@ -9,7 +9,7 @@ public class RoomLogic : MonoBehaviour
 
     [Header("Enemy spawner")]
     [SerializeField] private EnemyController[] _possibleEnemyType;
-    private int _numOfEnememy;
+    private int _numOfEnemy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
@@ -28,7 +28,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD, BOSS};
+    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD};
     private Type _roomType;
     private bool _isControllEnabled = true;
 
@@ -39,6 +39,22 @@ public class RoomLogic : MonoBehaviour
 
         //initialize _enemySpawner and call the coroutine which call the enemySpawner method to spawn all enemies 
         _enemySpawner = GetComponent<EnemySpawner>();
+
+        //Check which weapon player has and remove it from possible symbols
+        for (int i = 0; i < _possibleSymbols.Count; i++)
+        {
+            if (_possibleSymbols[i].type == Type.SWORD && Player.Instance.checkSwordWeapon())
+                _possibleSymbols.RemoveAt(i);
+            else if (_possibleSymbols[i].type == Type.BOW && Player.Instance.checkBowWeapon())
+                _possibleSymbols.RemoveAt(i);
+        }
+        //Set door symbols all different from each other
+        foreach (Door d in _doors)
+        {
+            int i = Random.Range(0, _possibleSymbols.Count);
+            d.setSymbol(_possibleSymbols[i]);
+            _possibleSymbols.RemoveAt(i);
+        }
     }
  
     // Update is called once per frame
@@ -56,7 +72,7 @@ public class RoomLogic : MonoBehaviour
                         return;
                     allDead = true;
                 }
-                if (allDead || _numOfEnememy==0)
+                if (allDead || _numOfEnemy==0)
                 {
                     //Done at the end of the room when all enemy are dead
                     foreach (Door d in _doors)
@@ -89,44 +105,27 @@ public class RoomLogic : MonoBehaviour
 
     public void StartRoom(Type roomType)
     {
-        //set up the symbols for the next rooms
-        if (LevelManager.Instance.GetRoomsTraversed()+1 < LevelManager.Instance.roomsBeforeBoss)
-        {
-            SymbolType toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
-            _possibleSymbols.Remove(toRemove);
-            foreach (Door d in _doors)
-            {
-                int i = Random.Range(0, _possibleSymbols.Count);
-                d.setSymbol(_possibleSymbols[i]);
-                _possibleSymbols.RemoveAt(i);
-            }
-        }
-        else
-        {
-            foreach (Door d in _doors)
-            {
-                d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
-            }
-        }
-
+        
         _roomType = roomType;
         if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 6);
-        switch (_roomType)
+        if (_roomType == Type.RANDOM)
+        {
+            int i = Random.Range(0, _possibleSymbols.Count);
+            _roomType = _possibleSymbols[i].type;
+        }
+            switch (_roomType)
         {
             case Type.INITIAL:
-                _numOfEnememy = 1;
+                _numOfEnemy = 1;
                 break;
             //Follower types do same thing at first
             case Type.HEALTH:
             case Type.BOW:
             case Type.SPEED:
-            case Type.SWORD:
             case Type.STRENGTH:
-                _numOfEnememy = Random.Range(10, 15);
+                _numOfEnemy = Random.Range(15, 25);
                 break;
-            case Type.BOSS:
-                _numOfEnememy = Random.Range(5, 10);
-                break;
+
         }
         StartCoroutine(spawnEnemies());
     }
@@ -134,7 +133,7 @@ public class RoomLogic : MonoBehaviour
     private IEnumerator spawnEnemies()
     {
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < _numOfEnememy; i++) // uncomment to spawn a fixed amount of enemies
+        for (int i = 0; i < _numOfEnemy; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
             _enemies.Add(_enemySpawner.Spawn(_possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)]));
@@ -143,10 +142,22 @@ public class RoomLogic : MonoBehaviour
 
     public void DestroyAllEnemies()
     {
-        for (int i = 0; i < _enemies.Count; i++)
+        foreach (var t in _enemies)
         {
-            Destroy(_enemies[i].gameObject);
+            Destroy(t.gameObject);
         }
     }
-
+    
+    /*public void DisableAllEnemies()
+    {
+        Debug.Log("disable");
+        foreach (var t in _enemies)
+        {
+            //t.enabled = false;
+            t.SetTargetNull();
+            /*t.GetComponentInParent<SkeletonMovement>().enabled = false;
+            t.GetComponentInParent<SkeletonAnimator>().enabled = false;
+            t.GetComponentInParent<SkeletonAI>().enabled = false;#1#
+        }
+    }*/
 }

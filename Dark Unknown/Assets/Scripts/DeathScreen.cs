@@ -32,7 +32,7 @@ public class DeathScreen : MonoBehaviour
         Application.Quit();
     }
 
-    //UIAUDIO
+    //UI-AUDIO
     public void PlayOverUIButtonSound()
     {
         AudioManager.Instance.PlayOverUIButtonSound();
