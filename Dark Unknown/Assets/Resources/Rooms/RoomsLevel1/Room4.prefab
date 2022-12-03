@@ -13450,7 +13450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5743028008671518668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.61, y: 2.46, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13497,7 +13497,9 @@ MonoBehaviour:
   _possibleEnemyType:
   - {fileID: 4505435836957910141, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
   - {fileID: 88221112922392182, guid: 641106bb626d846c79fa91e5d497f392, type: 3}
+  possibleCrystalType: []
   _bossEnemyController: {fileID: -7007413687502791323, guid: bbe7dde9b7fcb48a289b474abe81319e, type: 3}
+  numOfCrystals: 0
   _spawnTime: 0
   _doors:
   - {fileID: 7078878979403399149}

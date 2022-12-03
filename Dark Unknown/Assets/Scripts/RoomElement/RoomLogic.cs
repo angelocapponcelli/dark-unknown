@@ -11,12 +11,13 @@ public class RoomLogic : MonoBehaviour
 
     [Header("Enemy spawner")]
     [SerializeField] private EnemyController[] _possibleEnemyType;
+    [SerializeField] private EnemyController[] possibleCrystalType;
     [SerializeField] private EnemyController _bossEnemyController;
-    private int _numOfEnememy;
+    [SerializeField] private int numOfCrystals;
+    private int _numOfEnemy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private EnemySpawner _enemySpawner;
-    //private BossSpawner _bossSpawner;
 
     [Header("Doors")]
     [SerializeField] private Door[] _doors;
@@ -34,7 +35,7 @@ public class RoomLogic : MonoBehaviour
     
     public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD, BOSS};
     private Type _roomType;
-    private bool _isControllEnabled = true;
+    private bool _isControlEnabled = true;
 
     private void Start()
     {
@@ -46,49 +47,37 @@ public class RoomLogic : MonoBehaviour
     }
  
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (_isControllEnabled)
+        if (!_isControlEnabled) return;
+        //Check that all enemies are dead
+        if (_enemies == null) return;
+        var allDead = false;
+        foreach (var t in _enemies)
         {
-            //Check that all enemies are dead
-            if (_enemies != null)
-            {
-                bool allDead = false;
-                for (int i = 0; i < _enemies.Count; i++)
-                {
-                    if (_enemies[i].IsDead() == false)
-                        return;
-                    allDead = true;
-                }
-                if (allDead)
-                {
-                    //Done at the end of the room when all enemy are dead
-                    foreach (Door d in _doors)
-                    {
-                        d.Open();
-                    }                    
-                    switch (_roomType)
-                    {
-                        case Type.HEALTH:
-                            _rewardSpawned = Instantiate(_healthReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
-                        case Type.BOW:
-                            _rewardSpawned = Instantiate(_bowReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
-                        case Type.STRENGTH:
-                            _rewardSpawned = Instantiate(_strengthReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
-                        case Type.SPEED:
-                            _rewardSpawned = Instantiate(_speedReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
-                        case Type.SWORD:
-                            _rewardSpawned = Instantiate(_swordReward, _spawnPointReward.position, Quaternion.identity);
-                            break;
-                    }
-                    _isControllEnabled = false;
-                }
-            }
-        }     
+            if (t.IsDead() == false)
+                return;
+            allDead = true;
+        }
+
+        if (!allDead) return;
+        //Done at the end of the room when all enemy are dead
+        foreach (var d in _doors)
+        {
+            d.Open();
+        }
+
+        var position = _spawnPointReward.position;
+        _rewardSpawned = _roomType switch
+        {
+            Type.HEALTH => Instantiate(_healthReward, position, Quaternion.identity),
+            Type.BOW => Instantiate(_bowReward, position, Quaternion.identity),
+            Type.STRENGTH => Instantiate(_strengthReward, position, Quaternion.identity),
+            Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
+            Type.SWORD => Instantiate(_swordReward, position, Quaternion.identity),
+            _ => _rewardSpawned
+        };
+        _isControlEnabled = false;
     }
 
     public void StartRoom(Type roomType)
@@ -96,18 +85,18 @@ public class RoomLogic : MonoBehaviour
         //set up the symbols for the next rooms
         if (LevelManager.Instance.GetRoomsTraversed()+1 < LevelManager.Instance.roomsBeforeBoss)
         {
-            SymbolType toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
+            var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
-            foreach (Door d in _doors)
+            foreach (var d in _doors)
             {
-                int i = Random.Range(0, _possibleSymbols.Count);
+                var i = Random.Range(0, _possibleSymbols.Count);
                 d.setSymbol(_possibleSymbols[i]);
                 _possibleSymbols.RemoveAt(i);
             }
         }
         else
         {
-            foreach (Door d in _doors)
+            foreach (var d in _doors)
             {
                 d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
             }
@@ -118,7 +107,7 @@ public class RoomLogic : MonoBehaviour
         switch (_roomType)
         {
             case Type.INITIAL:
-                _numOfEnememy = 1;
+                _numOfEnemy = 1;
                 break;
             //Follower types do same thing at first
             case Type.HEALTH:
@@ -126,37 +115,56 @@ public class RoomLogic : MonoBehaviour
             case Type.SPEED:
             case Type.SWORD:
             case Type.STRENGTH:
-                _numOfEnememy = Random.Range(20, 25);
+                _numOfEnemy = Random.Range(20, 25);
                 break;
             case Type.BOSS:
-                _numOfEnememy = Random.Range(5, 15);
-                StartCoroutine(spawnBoss());
+                _numOfEnemy = Random.Range(5, 15);
+                StartCoroutine(SpawnBoss());
+                //StartCoroutine(SpawnCrystals());
                 break;
         }
-        StartCoroutine(spawnEnemies());
+        StartCoroutine(SpawnEnemies());
     }
 
-    private IEnumerator spawnEnemies()
+    private IEnumerator SpawnEnemies()
     {
+        if (numOfCrystals != 0)
+        {
+            for (int i = 0; i < numOfCrystals; i++)
+            {
+                yield return new WaitForSeconds(_spawnTime);
+                _enemies.Add(_enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]));
+            }
+        }
+        
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < _numOfEnememy; i++) // uncomment to spawn a fixed amount of enemies
+        for (int i = 0; i < _numOfEnemy; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
             _enemies.Add(_enemySpawner.Spawn(_possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)]));
         }
     }
 
-    private IEnumerator spawnBoss()
+    private IEnumerator SpawnBoss()
     {
         yield return new WaitForSeconds(_spawnTime);
-        _enemies.Add(_enemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
+        _enemies.Add(EnemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
     }
+    
+    /*private IEnumerator SpawnCrystals()
+    {
+        for (int i = 0; i < numOfCrystals; i++) // uncomment to spawn a fixed amount of enemies
+        {
+            yield return new WaitForSeconds(_spawnTime);
+            _enemies.Add(_enemySpawner.Spawn(crystalController));
+        }
+    }*/
 
     public void DestroyAllEnemies()
     {
-        for (int i = 0; i < _enemies.Count; i++)
+        foreach (var t in _enemies)
         {
-            Destroy(_enemies[i].gameObject);
+            Destroy(t.gameObject);
         }
     }
 

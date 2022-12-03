@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &2642080735476311428
 Grid:
@@ -3306,7 +3306,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5743028007720649072
 GameObject:
@@ -3339,7 +3339,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &5743028007720649085
 Tilemap:
@@ -8629,7 +8629,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &5743028008125306573
 Tilemap:
@@ -16820,7 +16820,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1839735485 &5743028008443819084
 Tilemap:
@@ -21735,15 +21735,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2324431213472306016}
   - {fileID: 5743028008125306575}
   - {fileID: 5743028008443819073}
   - {fileID: 5743028007720649087}
   - {fileID: 6887109528829747453}
-  - {fileID: 2324431213472306016}
+  - {fileID: 6551664730706294152}
   - {fileID: 1030254482597044443}
   - {fileID: 8725740040261632583}
   - {fileID: 566230402110784308}
-  - {fileID: 6551664730706294152}
   - {fileID: 9198324002147808736}
   - {fileID: 3925543232982838960}
   - {fileID: 1007418837886139380}
@@ -21803,7 +21803,10 @@ MonoBehaviour:
   _possibleEnemyType:
   - {fileID: 4505435836957910141, guid: e93ca2d8f13ca794cbdd9db59f10a502, type: 3}
   - {fileID: 88221112922392182, guid: 641106bb626d846c79fa91e5d497f392, type: 3}
+  possibleCrystalType:
+  - {fileID: 1977814443818894065, guid: 5fec0c74a24574363b7eed72427b5324, type: 3}
   _bossEnemyController: {fileID: -7007413687502791323, guid: bbe7dde9b7fcb48a289b474abe81319e, type: 3}
+  numOfCrystals: 4
   _spawnTime: 0
   _doors:
   - {fileID: 8447984892798682843}
@@ -21932,7 +21935,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7484711894410779905
 GameObject:
@@ -22418,7 +22421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22871,7 +22874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -31110,7 +31113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x

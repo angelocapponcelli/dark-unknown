@@ -5,8 +5,9 @@ using UnityEngine;
 public class CrystalManager : EnemyController
 {
     private float _health = 40f;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private ParticleSystem _particles;
+    [SerializeField] private Animator animator;
+    [SerializeField] private ParticleSystem particles;
+    private static readonly int Dead = Animator.StringToHash("dead");
 
     /* Start is called before the first frame update
     void Start()
@@ -19,16 +20,26 @@ public class CrystalManager : EnemyController
     {
         Debug.Log("damage");
         _health -= damage;
+        StartCoroutine(FlashRed());
         if (_health <= 0)
         {
             Destroyed();
         }
     }
+    
+    private IEnumerator FlashRed()
+    {
+        SpriteRenderer crystalRenderer = GetComponent<SpriteRenderer>();
+        crystalRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        crystalRenderer.color = Color.white;
+    }
 
     private void Destroyed()
     {
+        isDead = true;
         GameObject.FindGameObjectWithTag("Boss").GetComponent<SkeletonBossController>().CrystalDestroyed();
-        _particles.Stop();
-        _animator.SetTrigger("dead");
+        particles.Stop();
+        animator.SetTrigger(Dead);
     }
 }
