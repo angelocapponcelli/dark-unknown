@@ -61,7 +61,9 @@ public class Player : Singleton<Player>
                 Destroy(_weaponParent.gameObject);
                 //instantiate new current weapon
                 _weaponParent = Instantiate(_weaponToGet, transform, true);
-                _weaponParent.transform.localPosition = new Vector2(0.1f, 0.7f);
+                var weaponTransform = _weaponParent.transform;
+                weaponTransform.localPosition = new Vector2(0f, 0.673f);
+                weaponTransform.localScale = new Vector3(1, 1, 1);
                 //destroy old reward already taken
                 Destroy(_rewardToGet);
                 _canGetWeapon = false;
