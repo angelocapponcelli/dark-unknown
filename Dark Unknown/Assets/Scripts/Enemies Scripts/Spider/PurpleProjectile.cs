@@ -19,7 +19,7 @@ public class PurpleProjectile : MonoBehaviour
         var hitEnemies = collision.GetComponentsInChildren<Collider2D>();
         foreach (var player in hitEnemies)
         {
-            if (player.gameObject.CompareTag("Player"))
+            if (player.gameObject.CompareTag("Player") || player.gameObject.CompareTag("PlayerFeet"))
             {
                 player.GetComponentInParent<Player>().TakeDamage(_damage);
             }

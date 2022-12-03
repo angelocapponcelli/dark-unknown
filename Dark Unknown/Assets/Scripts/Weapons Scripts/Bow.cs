@@ -10,6 +10,7 @@ public class Bow : Weapon
     //private Animator _weaponAnimator;
     //[SerializeField] private Animator _effectAnimator;
     [SerializeField] private GameObject _arrow;
+    [SerializeField] private float travellingTime = 1.0f;
 
     private void Start()
     {
@@ -29,7 +30,7 @@ public class Bow : Weapon
         GameObject arrow = Instantiate(_arrow, transform.position, Quaternion.Euler(0f,0f,-90f) );
         arrow.GetComponent<Rigidbody2D>().velocity = (direction*10).normalized * 8;
         arrow.transform.Rotate(0.0f,0.0f,rotation);
-        Destroy(arrow, 2.5f);
+        Destroy(arrow, travellingTime);
 
         //_effectAnimator.SetTrigger("Attack");
         _attackBlocked = true;
