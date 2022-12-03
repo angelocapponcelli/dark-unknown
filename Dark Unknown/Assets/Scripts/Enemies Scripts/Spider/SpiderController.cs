@@ -69,8 +69,15 @@ public class SpiderController : EnemyController
                 {
                     AttackEvent();
                 }
-                _movement.MoveSkeleton(_ai.GetMovingDirection());
-                _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                if (!_ai.GetMovingDirection().Equals(Vector2.zero))
+                {
+                    _movement.MoveSkeleton(_ai.GetMovingDirection());
+                    _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
+                }
+                else
+                {
+                    _animator.AnimateIdle();
+                }
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (_distance < _minDistance - _offset && _canMove)

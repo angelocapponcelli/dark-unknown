@@ -63,8 +63,15 @@ public class SkeletonController : EnemyController
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
             {
-                _movement.MoveSkeleton(_ai.GetMovingDirection());
-                _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                if (!_ai.GetMovingDirection().Equals(Vector2.zero))
+                {
+                    _movement.MoveSkeleton(_ai.GetMovingDirection());
+                    _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
+                }
+                else
+                {
+                    _animator.AnimateIdle();
+                }
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_isAttacking && !_damageCoroutineRunning)
