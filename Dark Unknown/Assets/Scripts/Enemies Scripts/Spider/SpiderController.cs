@@ -117,15 +117,15 @@ public class SpiderController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(10);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);
         // Death
         if (Input.GetKeyUp("z")) {
             if (isDead)
             {
                 StartCoroutine(RecoverySequence());
             }            
-        }
+        }*/
     }
 
     private void AttackEvent()
