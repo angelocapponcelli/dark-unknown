@@ -128,15 +128,6 @@ public class RoomLogic : MonoBehaviour
 
     private IEnumerator SpawnEnemies()
     {
-        if (numOfCrystals != 0)
-        {
-            for (int i = 0; i < numOfCrystals; i++)
-            {
-                yield return new WaitForSeconds(_spawnTime);
-                _enemies.Add(_enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]));
-            }
-        }
-        
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
         for (int i = 0; i < _numOfEnemy; i++) // uncomment to spawn a fixed amount of enemies
         {
@@ -147,6 +138,14 @@ public class RoomLogic : MonoBehaviour
 
     private IEnumerator SpawnBoss()
     {
+        if (numOfCrystals != 0)
+        {
+            for (int i = 0; i < numOfCrystals; i++)
+            {
+                yield return new WaitForSeconds(_spawnTime);
+                _enemies.Add(_enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]));
+            }
+        }
         yield return new WaitForSeconds(_spawnTime);
         _enemies.Add(EnemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
     }
