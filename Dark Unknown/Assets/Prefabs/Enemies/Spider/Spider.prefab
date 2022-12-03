@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _chaseDistance: 10
+  _chaseDistance: 8
   _maxHealth: 30
   _projectile: {fileID: 7627823171936585592, guid: 3aef751ee76794dd4a382e8e44fd4e60, type: 3}
 --- !u!114 &2761477236736097162
@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eee8264a9e834627a8ff9056ab7c188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectionRange: 5
+  targetDetectionRange: 8
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2304

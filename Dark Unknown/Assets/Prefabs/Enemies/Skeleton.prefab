@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eee8264a9e834627a8ff9056ab7c188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDetectionRange: 5
+  targetDetectionRange: 8
   obstaclesLayerMask:
     serializedVersion: 2
     m_Bits: 2304
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655e11092d2d7764ab868b7f3ce45876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 20
+  _damage: 15
 --- !u!1 &2088329241
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4505435836957910130}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.03, y: 3.56, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minDistance: 0.5
-  _chaseDistance: 50
+  _chaseDistance: 8
   _maxHealth: 50
 --- !u!114 &4993529497654733024
 MonoBehaviour:
@@ -701,7 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55aab046f69cd4841b89067d19a9054a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 4
 --- !u!114 &5455391190335581568
 MonoBehaviour:
   m_ObjectHideFlags: 0
