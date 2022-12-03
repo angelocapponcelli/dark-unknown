@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,7 @@ public class RoomLogic : MonoBehaviour
     private List<EnemyController> _enemies = new List<EnemyController>();
     private GameObject[] _projectiles;
     private EnemySpawner _enemySpawner;
+    [SerializeField] private float spiderPercentage;
 
     [Header("Doors")]
     [SerializeField] private Door[] _doors;
@@ -129,11 +131,29 @@ public class RoomLogic : MonoBehaviour
 
     private IEnumerator SpawnEnemies()
     {
+        int spiderCounter = 0;
+        int spiderMax = (int) (_numOfEnemy * spiderPercentage);
+        print("spiders: " + spiderMax);
+        print("skeletons" + (_numOfEnemy-spiderMax));
+        
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
         for (int i = 0; i < _numOfEnemy; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
-            _enemies.Add(_enemySpawner.Spawn(_possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)]));
+            EnemyController type = _possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)];
+            if (type.GetType() == typeof(SpiderController) && spiderCounter<spiderMax)
+            {
+                spiderCounter++;
+                _enemies.Add(_enemySpawner.Spawn(type));
+            }
+            else if(type.GetType() == typeof(SkeletonController))
+            {
+                _enemies.Add(_enemySpawner.Spawn(type));
+            }
+            else
+            {
+                i--;
+            }
         }
     }
 

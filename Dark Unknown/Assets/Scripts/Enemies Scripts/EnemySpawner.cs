@@ -26,12 +26,6 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
-    
-        /* Replaced in room logic
-        if (enemyPrefab != null)
-        {
-           // StartCoroutine(nameof(SpawnEnemy));
-        }*/
     }
 
     // In this configuration, no 2 enemies can spawn on the same tile

@@ -9,12 +9,9 @@ public class MakeDamageToPlayer : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
-        foreach (Collider2D character in hitCharacters)
+        if (hitCharacters[0].gameObject.CompareTag("Player") || hitCharacters[0].gameObject.CompareTag("PlayerFeet"))
         {
-            if (character.gameObject.CompareTag("Player") || character.gameObject.CompareTag("PlayerFeet"))
-            {
-                character.GetComponentInParent<Player>().TakeDamage(_damage);
-            }
+            hitCharacters[0].GetComponentInParent<Player>().TakeDamage(_damage);
         }
     }
 }
