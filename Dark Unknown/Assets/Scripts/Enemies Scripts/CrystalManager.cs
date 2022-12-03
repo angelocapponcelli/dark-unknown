@@ -18,10 +18,13 @@ public class CrystalManager : EnemyController
 
     public override void TakeDamage(float damage)
     {
-        Debug.Log("damage");
-        _health -= damage;
-        StartCoroutine(FlashRed());
-        if (_health <= 0)
+        if (_health > 0)
+        {
+            Debug.Log("damage");
+            _health -= damage;
+            StartCoroutine(FlashRed());
+        }
+        else if (isDead==false)
         {
             Destroyed();
         }

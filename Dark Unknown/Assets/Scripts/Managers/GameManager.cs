@@ -37,28 +37,6 @@ public class GameManager : Singleton<GameManager>
         AudioManager.Instance.PlaySoundTrack();
     }
 
-    /*// Update is called once per frame
-    private void Update()
-    {
-        if (PlayerEvents.PlayerDead != null)
-        {
-            Debug.Log("scene change");
-            SceneChange();
-        }
-    }
-
-    private void SceneChange()
-    {
-        sceneChanger.SetTrigger(Dead);
-        StartCoroutine(LoadMenu());
-    }
-
-    private static IEnumerator LoadMenu()
-    {
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene("Menu");
-    }*/
-
     public void ResetPlayerPosition()
     {
         player.transform.position = new Vector3(0, 0, 0);

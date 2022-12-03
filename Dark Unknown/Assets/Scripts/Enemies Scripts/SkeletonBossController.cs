@@ -28,7 +28,7 @@ public class SkeletonBossController : EnemyController
     private SkeletonAI _ai;
     private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
@@ -43,15 +43,13 @@ public class SkeletonBossController : EnemyController
         _ai = GetComponent<SkeletonAI>();
 
 
-        if (GetComponent<SkeletonBossUIController>() != null)
-        {
-            _bossUIController = GetComponent<SkeletonBossUIController>();
-            _bossUIController.SetMaxHealth(_maxHealth);
-        }
+        if (GetComponent<SkeletonBossUIController>() == null) return;
+        _bossUIController = GetComponent<SkeletonBossUIController>();
+        _bossUIController.SetMaxHealth(_maxHealth);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_target == null)
         {
@@ -190,19 +188,16 @@ public class SkeletonBossController : EnemyController
 
     public void CrystalDestroyed()
     {
-        if (_crystals.Length > 0)
+        if (_crystals.Length <= 0) return;
+        _crystals = _crystals.SkipLast(1).ToArray();
+        Debug.Log("Number of crystals: " + _crystals.Length);
+        if (_crystals.Length == 0)
         {
-            _crystals = _crystals.SkipLast(1).ToArray();
-            if (_crystals.Length == 0)
-            {
-                AllCrystalsDestroyed();
-                return;
-            }
-
-            StartCoroutine(CrystalDestroyedCoroutine());
-        }
-        else
+            Debug.Log("all crystals destroyed");
+            AllCrystalsDestroyed();
             return;
+        }
+        StartCoroutine(CrystalDestroyedCoroutine());
     }
 
     private IEnumerator CrystalDestroyedCoroutine()
