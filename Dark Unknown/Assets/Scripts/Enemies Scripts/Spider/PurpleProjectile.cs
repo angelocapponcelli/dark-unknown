@@ -8,7 +8,7 @@ public class PurpleProjectile : MonoBehaviour
     [SerializeField] private float _damage = 2f;
     private Animator _animator;
 
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         StartCoroutine(DeactivateCollider(0.3f));
@@ -16,16 +16,16 @@ public class PurpleProjectile : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Collider2D[] hitEnemies = collision.GetComponentsInChildren<Collider2D>();
-        _animator.SetTrigger("destroy");
-        foreach (Collider2D player in hitEnemies)
+        var hitEnemies = collision.GetComponentsInChildren<Collider2D>();
+        foreach (var player in hitEnemies)
         {
             if (player.gameObject.CompareTag("Player"))
             {
                 player.GetComponentInParent<Player>().TakeDamage(_damage);
             }
+            if (player.gameObject.CompareTag("Enemy")) return;
         }
-
+        _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
     }
