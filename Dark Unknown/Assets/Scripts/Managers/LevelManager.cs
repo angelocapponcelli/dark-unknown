@@ -21,7 +21,6 @@ public class LevelManager : Singleton<LevelManager>
     [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
-    [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private Animator animator;
     private static readonly int StartTransition = Animator.StringToHash("Starting");
     //private static readonly int EndTransition = Animator.StringToHash("End");

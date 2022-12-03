@@ -33,7 +33,7 @@ public class SkeletonBossController : EnemyController
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
         _crystals = GameObject.FindGameObjectsWithTag("Crystal");
-        Debug.Log(_crystals.Length);
+        Debug.Log("Number of crystals: " + _crystals.Length);
         
         _currentHealth = _maxHealth;
         _canMove = true;
