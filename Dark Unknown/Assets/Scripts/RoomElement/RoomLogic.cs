@@ -17,6 +17,7 @@ public class RoomLogic : MonoBehaviour
     private int _numOfEnemy;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
+    private GameObject[] _projectiles;
     private EnemySpawner _enemySpawner;
 
     [Header("Doors")]
@@ -162,6 +163,15 @@ public class RoomLogic : MonoBehaviour
     public void DestroyAllEnemies()
     {
         foreach (var t in _enemies)
+        {
+            Destroy(t.gameObject);
+        }
+    }
+    
+    public void DestroyAllFireballs()
+    {
+        _projectiles = GameObject.FindGameObjectsWithTag("Projectile");
+        foreach (var t in _projectiles)
         {
             Destroy(t.gameObject);
         }

@@ -23,7 +23,6 @@ public class LevelManager : Singleton<LevelManager>
     private Player _player;
     [SerializeField] private Animator animator;
     private static readonly int StartTransition = Animator.StringToHash("Starting");
-    //private static readonly int EndTransition = Animator.StringToHash("End");
 
     protected override void Awake()
     {
@@ -39,12 +38,6 @@ public class LevelManager : Singleton<LevelManager>
     void Start()
     {
         UIController.Instance.SetRoomText("Room 0");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     //from GameManager
@@ -69,6 +62,7 @@ public class LevelManager : Singleton<LevelManager>
         //destroy current room
         yield return new WaitForSeconds(1);
         _currentRoom.DestroyAllEnemies();
+        _currentRoom.DestroyAllFireballs();
         Destroy(_currentRoom.gameObject);
 
         //Destroy reward if player didn't get it 
