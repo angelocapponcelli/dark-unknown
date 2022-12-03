@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _chaseDistance: 5
-  _maxHealth: 20
+  _chaseDistance: 10
+  _maxHealth: 30
   _projectile: {fileID: 7627823171936585592, guid: 3aef751ee76794dd4a382e8e44fd4e60, type: 3}
 --- !u!114 &2761477236736097162
 MonoBehaviour:
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f7ff837d5d3b45298bd250f0bde5020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRechedThreshold: 0.5
+  targetReachedThreshold: 0.5
   showGizmo: 1
 --- !u!1 &7142190542497936024
 GameObject:
