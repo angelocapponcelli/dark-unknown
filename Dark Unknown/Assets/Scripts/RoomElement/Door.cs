@@ -70,7 +70,8 @@ public class Door : MonoBehaviour
             {
                 if (LevelManager.Instance.BossRoomAlreadyDone())
                 {
-                    GameManager.Instance.BackToMainMenu();
+                    
+                    GameManager.Instance.LoadVictoryScreen();
                 }
                 else
                 {

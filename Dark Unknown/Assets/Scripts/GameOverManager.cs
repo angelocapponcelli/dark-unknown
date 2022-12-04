@@ -1,15 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DeathScreen : MonoBehaviour
+public class GameOverManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private static readonly int Death = Animator.StringToHash("Death");
+    private static readonly int PlayerHasWon = Animator.StringToHash("PlayerHasWon");
+    private static readonly int Choice = Animator.StringToHash("Choice");
+
+    private void Start()
+    {
+        Debug.Log(GameManager.PlayerHasWon);
+        animator.SetBool(PlayerHasWon, GameManager.PlayerHasWon);
+    }
+
     public void BackToMainMenu()
     {
-        animator.SetTrigger(Death);
+        animator.SetTrigger(Choice);
         StartCoroutine(MainMenu());
     }
     
@@ -21,7 +30,7 @@ public class DeathScreen : MonoBehaviour
     
     public void RestartGame()
     {
-        animator.SetTrigger(Death);
+        animator.SetTrigger(Choice);
         StartCoroutine(Restart());
     }
     
@@ -33,7 +42,7 @@ public class DeathScreen : MonoBehaviour
 
     public void QuitGame()
     {
-        animator.SetTrigger(Death);
+        animator.SetTrigger(Choice);
         Debug.Log("Quit game...");
         StartCoroutine(Quit());
     }

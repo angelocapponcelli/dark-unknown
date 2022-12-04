@@ -14,10 +14,8 @@ public class GameManager : Singleton<GameManager>
     private GameObject _playerSpawnPoint;
     [SerializeField] private Animator animator;
     private static readonly int Death = Animator.StringToHash("Death");
+    public static bool PlayerHasWon;
 
-    /*public Animator sceneChanger;
-    private static readonly int Dead = Animator.StringToHash("Death");*/
-    
     protected override void Awake()
     {
         base.Awake();
@@ -33,6 +31,7 @@ public class GameManager : Singleton<GameManager>
         _playerSpawnPoint = _currentRoom.transform.Find("PlayerSpawn").gameObject;
         player = Instantiate(player,_playerSpawnPoint.transform.position,Quaternion.identity);
         _cineMachine.Follow = player.transform;
+        PlayerHasWon = false;
 
         AudioManager.Instance.PlaySoundTrack();
     }
@@ -55,9 +54,19 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene("Menu");
     }
     
+    public void LoadVictoryScreen()
+    {
+        PlayerHasWon = true;
+        AudioManager.Instance.StopSoundTrack();
+        UIController.Instance.DeactivatePlayerUI();
+        animator.SetTrigger(Death);
+        StartCoroutine(GameOverScreen());
+    }
+    
     public void LoadDeathScreen()
     {
         AudioManager.Instance.StopSoundTrack();
+        UIController.Instance.DeactivatePlayerUI();
         animator.SetTrigger(Death);
         StartCoroutine(GameOverScreen());
     }

@@ -69,6 +69,12 @@ public class Player : Singleton<Player>
                 _canGetWeapon = false;
             }
         }
+        
+        // Use while testing to suicide
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            TakeDamage(_currentHealth);
+        }
     }
     
     // FixedUpdate handles the movement 

@@ -37,7 +37,7 @@ public class LevelManager : Singleton<LevelManager>
     // Start is called before the first frame update
     void Start()
     {
-        UIController.Instance.SetRoomText("Room 0");
+        //UIController.Instance.SetRoomText("Tutorial room");
     }
 
     //from GameManager
@@ -46,6 +46,7 @@ public class LevelManager : Singleton<LevelManager>
         RoomLogic tmp = Resources.Load<RoomLogic>("Rooms/InitialRoom");
         _currentRoom = Instantiate(tmp, Vector3.zero, Quaternion.identity);
         _currentRoom.StartRoom(RoomLogic.Type.INITIAL);
+        UIController.Instance.SetRoomText("Tutorial room");
         _roomPool.Remove(tmp);
         LoadRooms();
     }
@@ -73,20 +74,25 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
         _currentRoom.StartRoom(roomType);
-        if (roomType == RoomLogic.Type.BOSS) _bossRoomAlreadyEntered = true;
-
-        //load next rooms, only if next is not a boss room
-        if (roomType != RoomLogic.Type.BOSS)
+        if (roomType == RoomLogic.Type.BOSS)
         {
-            _nextRooms.Clear();
-            _roomsTraversed++;
-            LoadRooms();
+            _bossRoomAlreadyEntered = true;
+            UIController.Instance.SetRoomText("Boss Room");
         }
+        else
+        {
+            UIController.Instance.SetRoomText("Rooms before Boss: " + (roomsBeforeBoss - _roomsTraversed));
+        }
+        //load next rooms, only if next is not a boss room
+        if (roomType == RoomLogic.Type.BOSS) yield break;
+        _nextRooms.Clear();
+        _roomsTraversed++;
+        LoadRooms();
     }
 
     private void LoadRooms()
     {
-        UIController.Instance.SetRoomText("Room "+_roomsTraversed);
+        //UIController.Instance.SetRoomText("Rooms before Boss: "+ (roomsBeforeBoss - _roomsTraversed));
 
         if (_roomsTraversed < roomsBeforeBoss)
         {

@@ -8,11 +8,13 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Text _roomText;
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
+    public Animator playerUIAnimator;
     
     [Header ("Boss UI")]
     [SerializeField] private GameObject _bossUIObject;
     [SerializeField] private Slider _bossHealthBar;
-    public Animator animator;
+    public Animator bossUIAnimator;
+    private static readonly int Deactivate = Animator.StringToHash("Deactivate");
 
     public void SetMaxHealth(float health)
     {
@@ -37,13 +39,18 @@ public class UIController : Singleton<UIController>
         _strengthMultiplierText.text = text;
     }
 
+    public void DeactivatePlayerUI()
+    {
+        playerUIAnimator.SetTrigger(Deactivate);
+    }
+
     public void SetActiveBossHealth()
     {
         _bossUIObject.SetActive(true);
     }
     public void SetInactiveBossHealth()
     {
-        animator.SetTrigger("Deactivate");
+        bossUIAnimator.SetTrigger(Deactivate);
         StartCoroutine(DeactivateBossHealthBar());
     }
 
