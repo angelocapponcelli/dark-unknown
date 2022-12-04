@@ -44,6 +44,7 @@ public class SkeletonBossController : EnemyController
         _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
 
+        _timeForNextAttack = 0;
 
         if (GetComponent<SkeletonBossUIController>() == null) return;
         _bossUIController = GetComponent<SkeletonBossUIController>();
@@ -73,7 +74,7 @@ public class SkeletonBossController : EnemyController
             if (_distance > _minDistance && _canMove)
             {
                 _movement.MoveEnemy(_ai.GetMovingDirection());
-                _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                _animator.AnimateEnemy(true, _ai.GetMovingDirection());
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_damageCoroutineRunning && _timeForNextAttack <= 0)
@@ -154,21 +155,20 @@ public class SkeletonBossController : EnemyController
  
     public override void TakeDamage(float damage)
     {
-        if (_isHittable)
+        if (!_isHittable) return;
+        _movement.StopMovement();
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
         {
-            _movement.StopMovement();
-            _currentHealth -= damage;
-            if (_currentHealth <= 0)
-            {
-                if (_bossUIController != null) _bossUIController.SetHealth(0);
-                Die();
-                DisableBoxCollider();
-            } else
-            {
-                if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
-                _damageCoroutineRunning = true;
-                StartCoroutine(Damage());
-            }
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
+            Die();
+            DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
+        } else
+        {
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
+            _damageCoroutineRunning = true;
+            StartCoroutine(Damage());
         }
     }
     

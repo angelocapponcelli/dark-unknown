@@ -35,6 +35,8 @@ public class SkeletonController : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
+
+        _timeForNextAttack = 0;
     }
 
     // Update is called once per frame
@@ -62,7 +64,7 @@ public class SkeletonController : EnemyController
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
                     _movement.MoveEnemy(_ai.GetMovingDirection());
-                    _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
+                    _animator.AnimateEnemy(true, _ai.GetMovingDirection());    
                 }
                 else
                 {

@@ -17,13 +17,13 @@ public class PurpleProjectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var hitEnemies = collision.GetComponentsInChildren<Collider2D>();
-        foreach (var player in hitEnemies)
+        foreach (var element in hitEnemies)
         {
-            if (player.gameObject.CompareTag("Player") || player.gameObject.CompareTag("PlayerFeet"))
+            if (element.gameObject.CompareTag("Player") || element.gameObject.CompareTag("PlayerFeetCollider"))
             {
-                player.GetComponentInParent<Player>().TakeDamage(_damage);
+                element.GetComponentInParent<Player>().TakeDamage(_damage);
             }
-            if (player.gameObject.CompareTag("Enemy")) return;
+            if (element.gameObject.CompareTag("Enemy") || element.gameObject.CompareTag("EnemyFeetCollider")) return;
         }
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;

@@ -34,7 +34,7 @@ public class UIController : Singleton<UIController>
         _strengthMultiplierText.text = text;
     }
 
-    public void setActiveBossHealth(bool value)
+    public void SetActiveBossHealth(bool value)
     {
         _bossUIObject.SetActive(value);
     }

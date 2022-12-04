@@ -72,7 +72,7 @@ public class SpiderController : EnemyController
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
                     _movement.MoveEnemy(_ai.GetMovingDirection());
-                    _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
+                    _animator.AnimateEnemy(true, _ai.GetMovingDirection());    
                 }
                 else
                 {
@@ -83,7 +83,7 @@ public class SpiderController : EnemyController
             else if (_distance < _minDistance - _offset && _canMove)
             {
                 _movement.MoveEnemy(_ai.GetMovingDirection()*(-1));
-                _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
+                _animator.AnimateEnemy(true, _ai.GetMovingDirection());
             } else if (_distance >= _minDistance - _offset && _distance <= _minDistance + _offset && _canMove)
             {
                 _animator.AnimateIdle();

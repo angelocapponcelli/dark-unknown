@@ -11,7 +11,7 @@ public class EnemyAnimator : MonoBehaviour
         _animator.SetBool("canMove", true);
     }
 
-    public void AnimateSkeleton(bool isMoving, Vector2 direction)
+    public void AnimateEnemy(bool isMoving, Vector2 direction)
     {
         _animator.SetBool("isMoving", isMoving);
         if (isMoving) flip(direction);
