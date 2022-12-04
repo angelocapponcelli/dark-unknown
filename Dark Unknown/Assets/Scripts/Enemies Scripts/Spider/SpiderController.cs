@@ -9,7 +9,7 @@ public class SpiderController : EnemyController
     [SerializeField] private Player _target;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
-    private float _minDistance = 3f;
+    [SerializeField]private float _minDistance = 3f;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
 
