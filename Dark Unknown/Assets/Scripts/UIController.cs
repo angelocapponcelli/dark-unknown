@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +8,11 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Text _roomText;
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
+    
     [Header ("Boss UI")]
     [SerializeField] private GameObject _bossUIObject;
     [SerializeField] private Slider _bossHealthBar;
+    public Animator animator;
 
     public void SetMaxHealth(float health)
     {
@@ -34,9 +37,20 @@ public class UIController : Singleton<UIController>
         _strengthMultiplierText.text = text;
     }
 
-    public void SetActiveBossHealth(bool value)
+    public void SetActiveBossHealth()
     {
-        _bossUIObject.SetActive(value);
+        _bossUIObject.SetActive(true);
+    }
+    public void SetInactiveBossHealth()
+    {
+        animator.SetTrigger("Deactivate");
+        StartCoroutine(DeactivateBossHealthBar());
+    }
+
+    private IEnumerator DeactivateBossHealthBar()
+    {
+        yield return new WaitForSeconds(1);
+        _bossUIObject.SetActive(false);   
     }
     public void SetMaxBossHealth(float health)
     {

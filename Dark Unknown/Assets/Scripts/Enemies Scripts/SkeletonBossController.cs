@@ -27,7 +27,7 @@ public class SkeletonBossController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SkeletonAI _ai;
+    private EnemyAI _ai;
     private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
     private void Start()
@@ -42,7 +42,7 @@ public class SkeletonBossController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _ai = GetComponent<SkeletonAI>();
+        _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
 

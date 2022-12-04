@@ -25,7 +25,7 @@ public class SpiderController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SkeletonAI _ai;
+    private EnemyAI _ai;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +38,7 @@ public class SpiderController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _ai = GetComponent<SkeletonAI>();
+        _ai = GetComponent<EnemyAI>();
 
         _timeElapsedFromShot = 0;
 
@@ -117,10 +117,10 @@ public class SpiderController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown("e"))
             TakeDamage(50);
         // Death
-        if (Input.GetKeyUp("z")) {
+        /*if (Input.GetKeyUp("z")) {
             if (isDead)
             {
                 StartCoroutine(RecoverySequence());

@@ -6,7 +6,7 @@ public class SkeletonBossUIController : MonoBehaviour
 {
     public void SetMaxHealth(float maxHealth)
     {
-        UIController.Instance.SetActiveBossHealth(true);
+        UIController.Instance.SetActiveBossHealth();
         UIController.Instance.SetMaxBossHealth(maxHealth);
     }
     public void SetHealth(float health)
@@ -16,6 +16,6 @@ public class SkeletonBossUIController : MonoBehaviour
     
     public void DeactivateHealthBar()
     {
-        UIController.Instance.SetActiveBossHealth(false);
+        UIController.Instance.SetInactiveBossHealth();
     }
 }

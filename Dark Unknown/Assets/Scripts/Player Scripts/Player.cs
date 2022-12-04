@@ -86,14 +86,14 @@ public class Player : Singleton<Player>
         AudioManager.Instance.PlayPLayerHurtSound();
         
         //game over
-        /*if (!(_currentHealth <= 0)) return;
+        if (!(_currentHealth <= 0)) return;
         StartCoroutine(Death());
         _playerMovement.IncreaseSpeed(0);
         _playerMovement.enabled = false;
         _playerInput.enabled = false;
         PlayerEvents.PlayerHit.Invoke();
         AudioManager.Instance.PlayPLayerHurtSound();
-        GameManager.Instance.LoadDeathScreen();*/
+        GameManager.Instance.LoadDeathScreen();
     }
 
     private IEnumerator FlashRed()
