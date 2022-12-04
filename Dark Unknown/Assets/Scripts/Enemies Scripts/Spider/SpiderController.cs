@@ -148,10 +148,10 @@ public class SpiderController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
-        do
+        /*do
         {
             yield return null;
-        } while (_distance < _minDistance);
+        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
         //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);

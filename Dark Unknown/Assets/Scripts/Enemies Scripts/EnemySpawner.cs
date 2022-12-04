@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         // comment this next while building
-        StartCoroutine(SpawnEnemy());
+        //StartCoroutine(SpawnEnemy());
     }
 
     // In this configuration, no 2 enemies can spawn on the same tile
@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
 
     // Replaced in room logic
     // In this configuration, no 2 enemies can spawn on the same tile
-    private IEnumerator SpawnEnemy()
+    /*private IEnumerator SpawnEnemy()
     {
         while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
         //for (int i = 0; i < totalEnemies; i++) // uncomment to spawn a fixed amount of enemies
@@ -60,5 +60,5 @@ public class EnemySpawner : MonoBehaviour
             Instantiate(enemyPrefab, randomPlace, Quaternion.identity);
             _availablePlaces.Remove(randomPlace);
         }
-    }
+    }*/
 }

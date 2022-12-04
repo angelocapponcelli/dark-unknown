@@ -9,6 +9,8 @@ public class SkeletonController : EnemyController
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
+    [SerializeField] private float attackDelay = 3f;
+    private float _timeForNextAttack;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -21,7 +23,6 @@ public class SkeletonController : EnemyController
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SkeletonAI _ai;
-    private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
     private void Start()
     {
@@ -34,13 +35,6 @@ public class SkeletonController : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
-
-
-        if (GetComponent<SkeletonBossUIController>() != null)
-        {
-            _bossUIController = GetComponent<SkeletonBossUIController>();
-            _bossUIController.SetMaxHealth(_maxHealth);
-        }
     }
 
     // Update is called once per frame
@@ -56,7 +50,9 @@ public class SkeletonController : EnemyController
         /*
         _direction = _target.transform.position - transform.position;
         _direction.Normalize();*/
-        
+
+        if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
+
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
@@ -74,13 +70,19 @@ public class SkeletonController : EnemyController
                 }
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
-            else if (!_isAttacking && !_damageCoroutineRunning)
+            //else if (!_isAttacking && !_damageCoroutineRunning)
+            else if (!_damageCoroutineRunning && _timeForNextAttack <= 0) //&& !_isAttacking)
             {
                 // At the minimum distance, it stops moving
                 _isAttacking = true;
                 _canMove = false;
                 _movement.StopMovement();
+                _timeForNextAttack = attackDelay;
                 StartCoroutine(Attack(_ai.GetMovingDirection()));
+            }
+            else
+            {
+                _animator.AnimateIdle();
             }
         }
         else
@@ -123,10 +125,10 @@ public class SkeletonController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
-        do
+        /*do
         {
             yield return null;
-        } while (_distance < _minDistance);
+        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
         //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
@@ -151,12 +153,10 @@ public class SkeletonController : EnemyController
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
             DisableBoxCollider();
         } else
         {
-            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
             _damageCoroutineRunning = true;
             StartCoroutine(Damage());
         }
