@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     
     private float _activeSpeed;
     [SerializeField] private float dashSpeed;
-    private float _dashDuration = .15f;//, _dashCooldown = .10f; Set cool down in the UI animation
+    private float _dashDuration = .1f;//, _dashCooldown = .10f; Set cool down in the UI animation
     private bool _isDashing, _canDash = true;
     private Vector2 _dashDirection;
     [SerializeField]private ParticleSystem _dust;

@@ -18,6 +18,18 @@ public class DeathScreen : MonoBehaviour
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Menu");
     }
+    
+    public void RestartGame()
+    {
+        animator.SetTrigger(Death);
+        StartCoroutine(Restart());
+    }
+    
+    private static IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("Game");
+    }
 
     public void QuitGame()
     {

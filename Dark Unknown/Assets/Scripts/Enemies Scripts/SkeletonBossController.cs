@@ -23,8 +23,8 @@ public class SkeletonBossController : EnemyController
     private GameObject[] _crystals;
     [SerializeField] private ParticleSystem _particleSystem;
 
-    private SkeletonMovement _movement;
-    private SkeletonAnimator _animator;
+    private EnemyMovement _movement;
+    private EnemyAnimator _animator;
     private SkeletonAI _ai;
     private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
@@ -38,8 +38,8 @@ public class SkeletonBossController : EnemyController
         _currentHealth = _maxHealth;
         _canMove = true;
 
-        _movement = GetComponent<SkeletonMovement>();
-        _animator = GetComponent<SkeletonAnimator>();
+        _movement = GetComponent<EnemyMovement>();
+        _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
 
 
@@ -68,7 +68,7 @@ public class SkeletonBossController : EnemyController
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
             {
-                _movement.MoveSkeleton(_ai.GetMovingDirection());
+                _movement.MoveEnemy(_ai.GetMovingDirection());
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
                 //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
@@ -153,6 +153,7 @@ public class SkeletonBossController : EnemyController
             {
                 if (_bossUIController != null) _bossUIController.SetHealth(0);
                 Die();
+                DisableBoxCollider();
             } else
             {
                 if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
@@ -183,7 +184,11 @@ public class SkeletonBossController : EnemyController
 
     private void DisableBoxCollider()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
+        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var collider in spiderColliders)
+        {
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 
     public void CrystalDestroyed()

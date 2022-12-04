@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody2D _rb;
@@ -12,7 +12,7 @@ public class SkeletonMovement : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    public void MoveSkeleton(Vector2 direction)
+    public void MoveEnemy(Vector2 direction)
     {
         //transform.Translate((_speed * Time.deltaTime) * direction);
 

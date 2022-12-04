@@ -18,12 +18,12 @@ public class SkeletonController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
 
-    private SkeletonMovement _movement;
-    private SkeletonAnimator _animator;
+    private EnemyMovement _movement;
+    private EnemyAnimator _animator;
     private SkeletonAI _ai;
     private SkeletonBossUIController _bossUIController = null;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
@@ -31,8 +31,8 @@ public class SkeletonController : EnemyController
         _currentHealth = _maxHealth;
         _canMove = true;
 
-        _movement = GetComponent<SkeletonMovement>();
-        _animator = GetComponent<SkeletonAnimator>();
+        _movement = GetComponent<EnemyMovement>();
+        _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
 
 
@@ -44,7 +44,7 @@ public class SkeletonController : EnemyController
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_target == null)
         {
@@ -65,7 +65,7 @@ public class SkeletonController : EnemyController
             {
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
-                    _movement.MoveSkeleton(_ai.GetMovingDirection());
+                    _movement.MoveEnemy(_ai.GetMovingDirection());
                     _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
                 }
                 else
@@ -95,8 +95,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50);*/
+        if (Input.GetKeyDown("e"))
+            TakeDamage(50);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -153,6 +153,7 @@ public class SkeletonController : EnemyController
         {
             if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
+            DisableBoxCollider();
         } else
         {
             if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
@@ -182,6 +183,10 @@ public class SkeletonController : EnemyController
 
     private void DisableBoxCollider()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
+        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var collider in skeletonColliders)
+        {
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 }

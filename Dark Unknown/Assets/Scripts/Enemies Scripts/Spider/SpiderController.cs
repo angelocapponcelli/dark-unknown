@@ -23,8 +23,8 @@ public class SpiderController : EnemyController
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
 
-    private SkeletonMovement _movement;
-    private SkeletonAnimator _animator;
+    private EnemyMovement _movement;
+    private EnemyAnimator _animator;
     private SkeletonAI _ai;
 
     // Start is called before the first frame update
@@ -36,8 +36,8 @@ public class SpiderController : EnemyController
         _currentHealth = _maxHealth;
         _canMove = true;
 
-        _movement = GetComponent<SkeletonMovement>();
-        _animator = GetComponent<SkeletonAnimator>();
+        _movement = GetComponent<EnemyMovement>();
+        _animator = GetComponent<EnemyAnimator>();
         _ai = GetComponent<SkeletonAI>();
 
         _timeElapsedFromShot = 0;
@@ -71,7 +71,7 @@ public class SpiderController : EnemyController
                 }
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
-                    _movement.MoveSkeleton(_ai.GetMovingDirection());
+                    _movement.MoveEnemy(_ai.GetMovingDirection());
                     _animator.AnimateSkeleton(true, _ai.GetMovingDirection());    
                 }
                 else
@@ -82,7 +82,7 @@ public class SpiderController : EnemyController
             }
             else if (_distance < _minDistance - _offset && _canMove)
             {
-                _movement.MoveSkeleton(_ai.GetMovingDirection()*(-1));
+                _movement.MoveEnemy(_ai.GetMovingDirection()*(-1));
                 _animator.AnimateSkeleton(true, _ai.GetMovingDirection());
             } else if (_distance >= _minDistance - _offset && _distance <= _minDistance + _offset && _canMove)
             {
@@ -177,6 +177,7 @@ public class SpiderController : EnemyController
         if (_currentHealth <= 0)
         {
             Die();
+            DisableBoxCollider();
         } else
         {
             _damageCoroutineRunning = true;
@@ -205,6 +206,10 @@ public class SpiderController : EnemyController
 
     private void DisableBoxCollider()
     {
-        GetComponent<BoxCollider2D>().enabled = false;
+        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var collider in spiderColliders)
+        {
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
 }

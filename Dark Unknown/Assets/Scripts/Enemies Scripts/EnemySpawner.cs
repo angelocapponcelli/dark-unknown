@@ -8,6 +8,8 @@ public class EnemySpawner : MonoBehaviour
     private List<Vector3> _availablePlaces;
 
     [SerializeField] public Tilemap tileMap;
+    [SerializeField] public float spawnTime;
+    [SerializeField] public EnemyController enemyPrefab;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,6 +28,8 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
         }
+        // comment this next while building
+        StartCoroutine(SpawnEnemy());
     }
 
     // In this configuration, no 2 enemies can spawn on the same tile
@@ -44,21 +48,17 @@ public class EnemySpawner : MonoBehaviour
         return boss;
     }
 
-    /* Replaced in room logic
+    // Replaced in room logic
     // In this configuration, no 2 enemies can spawn on the same tile
     private IEnumerator SpawnEnemy()
     {
-        //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < totalEnemies; i++) // uncomment to spawn a fixed amount of enemies
+        while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
+        //for (int i = 0; i < totalEnemies; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(spawnTime);
             var randomPlace = _availablePlaces[Random.Range(0, _availablePlaces.Count)];
             Instantiate(enemyPrefab, randomPlace, Quaternion.identity);
             _availablePlaces.Remove(randomPlace);
-            /*for (int i = 0; i < enemyPerSpawn; i++)
-            {
-                Instantiate(enemyPrefab, _availablePlaces[Random.Range(0, _availablePlaces.Count)], Quaternion.identity);
-            }/
         }
-    }*/
+    }
 }
