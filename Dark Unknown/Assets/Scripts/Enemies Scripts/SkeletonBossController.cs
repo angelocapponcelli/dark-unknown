@@ -103,8 +103,8 @@ public class SkeletonBossController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)

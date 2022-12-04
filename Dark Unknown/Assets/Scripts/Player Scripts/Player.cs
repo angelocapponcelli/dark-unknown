@@ -71,10 +71,10 @@ public class Player : Singleton<Player>
         }
         
         // Use while testing to suicide
-        if (Input.GetKeyDown(KeyCode.Q))
+        /*if (Input.GetKeyDown(KeyCode.Q))
         {
             TakeDamage(_currentHealth);
-        }
+        }*/
     }
     
     // FixedUpdate handles the movement 
