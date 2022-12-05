@@ -23,6 +23,7 @@ public class ArrowAttack : MonoBehaviour
                 enemy.GetComponentInParent<EnemyController>().TakeDamage(_damage*Player.Instance.GetStrengthMultiplier());
             }
         }
+        if (collision.CompareTag("Trap")) return;
         Destroy(gameObject);
     }
     
