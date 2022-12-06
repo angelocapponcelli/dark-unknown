@@ -30,6 +30,15 @@ public class CrystalManager : EnemyController
         }
     }
     
+    /*private IEnumerator CrystalDestroyedCoroutine()
+    {
+        _isHittable = true;
+        _particleSystem.Stop();
+        yield return new WaitForSeconds(5f);
+        _isHittable = false;
+        _particleSystem.Play();
+    }*/
+    
     private IEnumerator FlashRed()
     {
         SpriteRenderer crystalRenderer = GetComponent<SpriteRenderer>();

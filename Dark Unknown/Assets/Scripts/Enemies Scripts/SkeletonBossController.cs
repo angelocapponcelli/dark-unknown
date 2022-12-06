@@ -23,6 +23,7 @@ public class SkeletonBossController : EnemyController
     private bool _damageCoroutineRunning;
     private bool _isHittable;
     private GameObject[] _crystals;
+    private bool _allCrystalsDestroyed;
     [SerializeField] private ParticleSystem _particleSystem;
 
     private EnemyMovement _movement;
@@ -33,9 +34,13 @@ public class SkeletonBossController : EnemyController
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _allCrystalsDestroyed = false;
         _target = Player.Instance;
         _crystals = GameObject.FindGameObjectsWithTag("Crystal");
-        if (_crystals.Length==0) AllCrystalsDestroyed();
+        if (_crystals.Length == 0)
+        {
+            AllCrystalsDestroyed();
+        }
         
         _currentHealth = _maxHealth;
         _canMove = true;
@@ -57,6 +62,11 @@ public class SkeletonBossController : EnemyController
         if (_target == null)
         {
             return;
+        }
+
+        if (_crystals.Length == 0 && _allCrystalsDestroyed == false)
+        {
+            AllCrystalsDestroyed();
         }
         
         // Calculates distance and direction of movement
@@ -228,5 +238,6 @@ public class SkeletonBossController : EnemyController
         Debug.Log("all crystals destroyed");
         _particleSystem.Stop();
         _isHittable = true;
+        _allCrystalsDestroyed = true;
     }
 }
