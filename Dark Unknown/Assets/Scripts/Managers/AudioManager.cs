@@ -87,6 +87,7 @@ public class AudioManager : Singleton<AudioManager>
     public void PlaySkeletonDieSound()
     {
         _skeletonSound.PlayOneShot(_soundBank.SkeletonDie);
+        print("SOUND PLAYED");
     }
     public void SetSkeletonVolume(float value) //TODO 'skeleton' change into 'enemy'
     {

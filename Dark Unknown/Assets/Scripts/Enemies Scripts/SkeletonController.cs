@@ -23,6 +23,9 @@ public class SkeletonController : EnemyController
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private EnemyAI _ai;
+
+    private bool _deathSoundPlayed = false;
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -99,8 +102,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50);*/
+        if (Input.GetKeyDown("e"))
+            TakeDamage(50);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -155,8 +158,8 @@ public class SkeletonController : EnemyController
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            Die();
             DisableBoxCollider();
+            Die();
         } else
         {
             _damageCoroutineRunning = true;
@@ -180,7 +183,11 @@ public class SkeletonController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        AudioManager.Instance.PlaySkeletonDieSound();
+        if (!_deathSoundPlayed)
+        {
+            AudioManager.Instance.PlaySkeletonDieSound();
+            _deathSoundPlayed = true;
+        }
     }
 
     private void DisableBoxCollider()
