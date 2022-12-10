@@ -16,7 +16,7 @@ public class CrystalManager : EnemyController
         _particles = GetComponent<ParticleSystem>();
     }*/
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, bool damageFromArrow)
     {
         if (_health > 0)
         {

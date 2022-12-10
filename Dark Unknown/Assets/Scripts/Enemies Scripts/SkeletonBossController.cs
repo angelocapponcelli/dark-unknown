@@ -153,7 +153,7 @@ public class SkeletonBossController : EnemyController
         _canMove = true;
     }    
  
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, bool damageFromArrow)
     {
         if (!_isHittable) return;
         _movement.StopMovement();
@@ -174,7 +174,10 @@ public class SkeletonBossController : EnemyController
     
     private IEnumerator Damage()
     {
-        _animator.AnimateTakeDamage();
+        if (!_damageFromDistance)
+        {
+            _animator.AnimateTakeDamage();
+        }
         AudioManager.Instance.PlaySkeletonHurtSound();
         _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
