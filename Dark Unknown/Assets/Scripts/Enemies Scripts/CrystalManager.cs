@@ -7,22 +7,27 @@ public class CrystalManager : EnemyController
     private float _health = 40f;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem particles;
+    [SerializeField] private Material flashMaterial;
     private static readonly int Dead = Animator.StringToHash("dead");
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
 
-    /* Start is called before the first frame update
+    //Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
-        _particles = GetComponent<ParticleSystem>();
-    }*/
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
+        // _animator = GetComponent<Animator>();
+        // _particles = GetComponent<ParticleSystem>();
+    }
 
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (_health > 0)
         {
             Debug.Log("damage");
             _health -= damage;
-            StartCoroutine(FlashRed());
+            StartCoroutine(Flash());
         }
         else if (isDead==false)
         {
@@ -30,12 +35,25 @@ public class CrystalManager : EnemyController
         }
     }
     
-    private IEnumerator FlashRed()
+    public override void TakeDamageDistance(float damage)
     {
-        SpriteRenderer crystalRenderer = GetComponent<SpriteRenderer>();
-        crystalRenderer.color = Color.red;
+        if (_health > 0)
+        {
+            Debug.Log("damage");
+            _health -= damage;
+            StartCoroutine(Flash());
+        }
+        else if (isDead==false)
+        {
+            Destroyed();
+        }
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        crystalRenderer.color = Color.white;
+        _spriteRenderer.material = _originalMaterial;
     }
 
     private void Destroyed()

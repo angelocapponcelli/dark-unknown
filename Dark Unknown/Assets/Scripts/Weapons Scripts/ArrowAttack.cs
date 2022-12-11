@@ -20,7 +20,7 @@ public class ArrowAttack : MonoBehaviour
             if (enemy.gameObject.CompareTag("Enemy"))
             {
                 //Debug.Log("damage");
-                enemy.GetComponentInParent<EnemyController>().TakeDamage(_damage*Player.Instance.GetStrengthMultiplier(), true);
+                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage*Player.Instance.GetStrengthMultiplier());
             }
         }
         Destroy(gameObject);

@@ -12,6 +12,7 @@ public class SpiderController : EnemyController
     [SerializeField]private float _minDistance = 3f;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
+    [SerializeField] private Material flashMaterial;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -22,6 +23,8 @@ public class SpiderController : EnemyController
     private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
@@ -30,6 +33,8 @@ public class SpiderController : EnemyController
     // Start is called before the first frame update
     void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
 
@@ -170,11 +175,10 @@ public class SpiderController : EnemyController
         _canMove = true;
     }    
  
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
             Die();
@@ -182,20 +186,39 @@ public class SpiderController : EnemyController
         } else
         {
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
         }
     }
     
-    private IEnumerator Damage()
+    public override void TakeDamageDistance(float damage)
     {
-        if (!_damageFromDistance)
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
         {
-            _animator.AnimateTakeDamage();
+            Die();
+            DisableBoxCollider();
+        } else
+        {
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
         }
+    }
+    
+    private IEnumerator DamageMelee()
+    {
+        _animator.AnimateTakeDamage();
         AudioManager.Instance.PlaySkeletonHurtSound();
         _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator DamageDistance()
+    {
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _damageCoroutineRunning = false;
     }
 
@@ -206,6 +229,13 @@ public class SpiderController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         AudioManager.Instance.PlaySkeletonDieSound();
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spriteRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(0.1f);
+        _spriteRenderer.material = _originalMaterial;
     }
 
     private void DisableBoxCollider()

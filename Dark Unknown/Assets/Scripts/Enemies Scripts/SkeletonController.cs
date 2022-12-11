@@ -10,6 +10,7 @@ public class SkeletonController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
+    [SerializeField] private Material flashMaterial;
     private float _timeForNextAttack;
 
     private Rigidbody2D _rb;
@@ -19,6 +20,8 @@ public class SkeletonController : EnemyController
     private float _currentHealth;
     private bool _canMove;
     private bool _damageCoroutineRunning;
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
@@ -26,6 +29,8 @@ public class SkeletonController : EnemyController
     // Start is called before the first frame update
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
         
@@ -149,11 +154,10 @@ public class SkeletonController : EnemyController
         _canMove = true;
     }    
  
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
             Die();
@@ -161,24 +165,39 @@ public class SkeletonController : EnemyController
         } else
         {
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
         }
     }
     
-    private IEnumerator Damage()
+    public override void TakeDamageDistance(float damage)
     {
-        if (!_damageFromDistance)
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
         {
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
+            Die();
+            DisableBoxCollider();
+        } else
         {
-            _canMove = true;
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
         }
+    }
+    
+    private IEnumerator DamageMelee()
+    {
+        _animator.AnimateTakeDamage();
         AudioManager.Instance.PlaySkeletonHurtSound();
+        _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator DamageDistance()
+    {
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _damageCoroutineRunning = false;
     }
 
@@ -198,5 +217,12 @@ public class SkeletonController : EnemyController
         {
             collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spriteRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(0.1f);
+        _spriteRenderer.material = _originalMaterial;
     }
 }
