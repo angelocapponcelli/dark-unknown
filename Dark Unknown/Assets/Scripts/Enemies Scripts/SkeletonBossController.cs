@@ -22,7 +22,7 @@ public class SkeletonBossController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
     private bool _isHittable;
-    private GameObject[] _crystals;
+    //private GameObject[] _crystals;
     private bool _allCrystalsDestroyed;
     [SerializeField] private ParticleSystem _particleSystem;
 
@@ -30,18 +30,17 @@ public class SkeletonBossController : EnemyController
     private EnemyAnimator _animator;
     private EnemyAI _ai;
     private SkeletonBossUIController _bossUIController = null;
+    
+    private bool _deathSoundPlayed = false;
+    
     // Start is called before the first frame update
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _allCrystalsDestroyed = false;
         _target = Player.Instance;
-        _crystals = GameObject.FindGameObjectsWithTag("Crystal");
-        if (_crystals.Length == 0)
-        {
-            AllCrystalsDestroyed();
-        }
-        
+        //StateGameManager.Crystals = GameObject.FindGameObjectsWithTag("Crystal");
+
         _currentHealth = _maxHealth;
         _canMove = true;
 
@@ -54,6 +53,17 @@ public class SkeletonBossController : EnemyController
         if (GetComponent<SkeletonBossUIController>() == null) return;
         _bossUIController = GetComponent<SkeletonBossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
+        
+        // Testing
+        /*foreach (var crystal in GameObject.FindGameObjectsWithTag("Crystal"))
+        {
+            StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
+        }*/
+        
+        if (StateGameManager.Crystals.Count == 0)
+        {
+            AllCrystalsDestroyed();
+        }
     }
 
     // Update is called once per frame
@@ -64,17 +74,14 @@ public class SkeletonBossController : EnemyController
             return;
         }
 
-        if (_crystals.Length == 0 && _allCrystalsDestroyed == false)
+        /*if (StateGameManager.Crystals.Length == 0 && _allCrystalsDestroyed == false)
         {
             AllCrystalsDestroyed();
-        }
+        }*/
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
-        /*
-        _direction = _target.transform.position - transform.position;
-        _direction.Normalize();*/
-        
+
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
         
         // If the skeleton is not dead
@@ -85,7 +92,6 @@ public class SkeletonBossController : EnemyController
             {
                 _movement.MoveEnemy(_ai.GetMovingDirection());
                 _animator.AnimateEnemy(true, _ai.GetMovingDirection());
-                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_damageCoroutineRunning && _timeForNextAttack <= 0)
             {
@@ -111,7 +117,7 @@ public class SkeletonBossController : EnemyController
             _animator.flip(_target.transform.position - transform.position);
         }
 
-        // -- Handle Animations --
+        // -- Cheats --
         // Hurt
         /*if (Input.GetKeyDown("e"))
             TakeDamage(50);*/
@@ -141,13 +147,8 @@ public class SkeletonBossController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
-        /*do
-        {
-            yield return null;
-        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
-        //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
 
         _isAttacking = false;
         _canMove = true;
@@ -198,7 +199,12 @@ public class SkeletonBossController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        AudioManager.Instance.PlaySkeletonDieSound();
+        if (!_deathSoundPlayed)
+        {
+            AudioManager.Instance.PlaySkeletonDieSound();
+            _deathSoundPlayed = true;
+            ReduceEnemyCounter();
+        }
     }
 
     private void DisableBoxCollider()
@@ -212,12 +218,15 @@ public class SkeletonBossController : EnemyController
 
     public void CrystalDestroyed()
     {
-        if (_crystals.Length <= 0) return;
-        _crystals = _crystals.SkipLast(1).ToArray();
-        Debug.Log("Number of crystals: " + _crystals.Length);
-        if (_crystals.Length == 0)
+        if (StateGameManager.Crystals.Count <= 0) return;
+        for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
-            Debug.Log("all crystals destroyed");
+            var crystal = StateGameManager.Crystals[i];
+            if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
+        }
+        Debug.Log(StateGameManager.Crystals.Count);
+        if (StateGameManager.Crystals.Count == 0)
+        {
             AllCrystalsDestroyed();
             return;
         }
@@ -228,7 +237,16 @@ public class SkeletonBossController : EnemyController
     {
         _isHittable = true;
         _particleSystem.Stop();
+        foreach (var crystal in StateGameManager.Crystals)
+        {
+            crystal.GetComponent<CrystalController>().DisableVulnerability();
+        }
         yield return new WaitForSeconds(5f);
+        if (_allCrystalsDestroyed) yield break;
+        foreach (var crystal in StateGameManager.Crystals)
+        {
+            crystal.GetComponent<CrystalController>().EnableVulnerability();
+        }
         _isHittable = false;
         _particleSystem.Play();
     }

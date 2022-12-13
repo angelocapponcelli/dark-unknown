@@ -6,6 +6,7 @@ public class UIController : Singleton<UIController>
 {
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Text _roomText;
+    [SerializeField] private Text enemyLeftCounter;
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
     public Animator playerUIAnimator;
@@ -69,6 +70,11 @@ public class UIController : Singleton<UIController>
         _bossHealthBar.value = value;
     }
 
+    public void SetEnemyCounter(int value)
+    {
+        enemyLeftCounter.text = "Enemies left: " + value;
+    }
+    
     public void DashCoolDown()
     {
         GetComponent<Animator>().Play("DashLoading", 0);

@@ -13,4 +13,11 @@ public abstract class EnemyController : MonoBehaviour
     {
         return isDead;
     }
+
+    protected static void ReduceEnemyCounter()
+    {
+        StateGameManager.NumOfEnemies -= 1;
+        UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+    }
+
 }

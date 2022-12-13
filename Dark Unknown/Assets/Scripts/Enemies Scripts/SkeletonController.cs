@@ -52,9 +52,6 @@ public class SkeletonController : EnemyController
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
-        /*
-        _direction = _target.transform.position - transform.position;
-        _direction.Normalize();*/
 
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
 
@@ -73,9 +70,7 @@ public class SkeletonController : EnemyController
                 {
                     _animator.AnimateIdle();
                 }
-                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
-            //else if (!_isAttacking && !_damageCoroutineRunning)
             else if (!_damageCoroutineRunning && _timeForNextAttack <= 0) //&& !_isAttacking)
             {
                 // At the minimum distance, it stops moving
@@ -130,13 +125,8 @@ public class SkeletonController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
-        /*do
-        {
-            yield return null;
-        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
-        //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
 
         _isAttacking = false;
         _canMove = true;
@@ -187,6 +177,7 @@ public class SkeletonController : EnemyController
         {
             AudioManager.Instance.PlaySkeletonDieSound();
             _deathSoundPlayed = true;
+            ReduceEnemyCounter();
         }
     }
 

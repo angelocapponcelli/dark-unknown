@@ -26,6 +26,8 @@ public class SpiderController : EnemyController
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private EnemyAI _ai;
+    
+    private bool _deathSoundPlayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -201,7 +203,12 @@ public class SpiderController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        AudioManager.Instance.PlaySkeletonDieSound();
+        if (!_deathSoundPlayed)
+        {
+            AudioManager.Instance.PlaySkeletonDieSound();
+            _deathSoundPlayed = true;
+            ReduceEnemyCounter();
+        }
     }
 
     private void DisableBoxCollider()

@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrystalManager : EnemyController
+public class CrystalController : EnemyController
 {
     private float _health = 40f;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem particles;
     private static readonly int Dead = Animator.StringToHash("dead");
+    private bool _isHittable = true;
+    private ParticleSystem _particleSystem;
 
-    /* Start is called before the first frame update
-    void Start()
+    //Start is called before the first frame update
+    private void Start()
     {
-        _animator = GetComponent<Animator>();
-        _particles = GetComponent<ParticleSystem>();
-    }*/
+        _isHittable = true;
+        _particleSystem = GetComponentInChildren<ParticleSystem>();
+    }
 
     public override void TakeDamage(float damage)
     {
+        if (!_isHittable) return;
         if (_health > 0)
         {
             Debug.Log("damage");
@@ -53,5 +56,28 @@ public class CrystalManager : EnemyController
         GameObject.FindGameObjectWithTag("Boss").GetComponent<SkeletonBossController>().CrystalDestroyed();
         particles.Stop();
         animator.SetTrigger(Dead);
+    }
+    
+    /*public IEnumerator CrystalDestroyedCoroutine()
+    {
+        Debug.Log("coroutine started");
+        yield return new WaitForSeconds(5f);
+        _isHittable = true;
+        _particleSystem.Play();
+    }*/
+
+    public void DisableVulnerability()
+    {
+        Debug.Log("start");
+        _isHittable = false;
+        _particleSystem.Stop();
+    }
+    
+    public void EnableVulnerability()
+    {
+        if (isDead) return;
+        Debug.Log("stop");
+        _isHittable = true;
+        _particleSystem.Play();
     }
 }

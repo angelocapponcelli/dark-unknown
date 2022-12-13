@@ -208,15 +208,11 @@ public class Player : Singleton<Player>
 
     public bool checkSwordWeapon()
     {
-        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Sword"))
-            return true;
-        return false;
+        return _weaponParent.CompareTag("Sword");
     }
     public bool checkBowWeapon()
     {
-        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Bow"))
-            return true;
-        return false;
+        return _weaponParent.CompareTag("Bow");
     }
 }
 
