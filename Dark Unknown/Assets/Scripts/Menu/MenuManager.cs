@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,6 +13,9 @@ public class MenuManager : Singleton<MenuManager>
     {
         Main,
         Options,
+        Audio,
+        Graphics,
+        Keybindings,
         Credits,
         Suggestions
     };
@@ -20,6 +25,9 @@ public class MenuManager : Singleton<MenuManager>
     
     public GameObject MainMenu;
     public GameObject OptionsMenu;
+    public GameObject AudioMenu;
+    public GameObject GraphicsMenu;
+    public GameObject KeybindingsMenu;
     public GameObject CreditsMenu;
     public GameObject SuggestionsMenu;
 
@@ -27,12 +35,18 @@ public class MenuManager : Singleton<MenuManager>
     public Slider _enemyVolumeSlider;
     public Slider _backgroundVolumeSlider;
 
+    private Resolution[] _resolutions;
+    public Dropdown resolutionDropdown;
+
 
     //generic function to activate a certain menu screen
     private void SetMenu(Menu menu)
     {
         MainMenu.SetActive(false);
         OptionsMenu.SetActive(false);
+        AudioMenu.SetActive(false);
+        GraphicsMenu.SetActive(false);
+        KeybindingsMenu.SetActive(false);
         CreditsMenu.SetActive(false);
         SuggestionsMenu.SetActive(false);
 
@@ -43,6 +57,15 @@ public class MenuManager : Singleton<MenuManager>
                 break;
             case Menu.Options:
                 OptionsMenu.SetActive(true);
+                break;
+            case Menu.Audio:
+                AudioMenu.SetActive(true);
+                break;
+            case Menu.Graphics:
+                GraphicsMenu.SetActive(true);
+                break;
+            case Menu.Keybindings:
+                KeybindingsMenu.SetActive(true);
                 break;
             case Menu.Credits:
                 CreditsMenu.SetActive(true);
@@ -57,6 +80,30 @@ public class MenuManager : Singleton<MenuManager>
     {
         SetMenu(Menu.Main);
 
+        var resolutions = Screen.resolutions.Select(resolution => new Resolution
+        {
+            width = resolution.width, height = resolution.height
+        }).Distinct();
+        _resolutions = resolutions as Resolution[] ?? resolutions.ToArray();
+        
+        resolutionDropdown.ClearOptions();
+        var options = new List<string>();
+        var currentResolutionIndex = 0;
+        for (var i = 0; i < _resolutions.Length; i++)
+        {
+            var option = _resolutions[i].width + "x" + _resolutions[i].height;
+            options.Add(option);
+    
+            if (_resolutions[i].width == Screen.currentResolution.width &&
+                _resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+        
         _playerVolumeSlider.value = AudioManager.Instance.GetPlayerVolumeSound();
         _enemyVolumeSlider.value = AudioManager.Instance.GetEnemyVolumeSound();
         _backgroundVolumeSlider.value = AudioManager.Instance.GetBackgroundVolumeSound();
@@ -64,7 +111,14 @@ public class MenuManager : Singleton<MenuManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))   //return to main menu
+        if ((AudioMenu.activeSelf ||
+            GraphicsMenu.activeSelf ||
+            KeybindingsMenu.activeSelf) &&
+            Input.GetKeyDown(KeyCode.Escape))   //return to main menu
+        {
+            SetMenu(Menu.Options);
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
         {
             SetMenu(Menu.Main);
         }
@@ -79,6 +133,21 @@ public class MenuManager : Singleton<MenuManager>
     public void OpenOptionsMenu()
     {
         SetMenu(Menu.Options);
+    }
+    
+    public void OpenAudioMenu()
+    {
+        SetMenu(Menu.Audio);
+    }
+    
+    public void OpenGraphicsMenu()
+    {
+        SetMenu(Menu.Graphics);
+    }
+    
+    public void OpenKeybindingsMenu()
+    {
+        SetMenu(Menu.Keybindings);
     }
 
     public void OpenCreditsMenu()
@@ -143,6 +212,22 @@ public class MenuManager : Singleton<MenuManager>
     public void SetEnemyVolume(float value)
     {
         AudioManager.Instance.SetSkeletonVolume(value);
+    }
+
+    public void SetQuality(int qualityIndex)
+    {
+        QualitySettings.SetQualityLevel(qualityIndex);
+    }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
+
+    public void SetResolution(int resolutionIndex)
+    {
+        var resolution = _resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
 }

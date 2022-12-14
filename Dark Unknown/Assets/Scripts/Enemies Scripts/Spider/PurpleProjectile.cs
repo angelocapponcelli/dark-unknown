@@ -27,10 +27,10 @@ public class PurpleProjectile : MonoBehaviour
         }
         /*if (collision.CompareTag("Trap") || 
             collision.CompareTag("EnemyFeetCollider") ||
+            collision.CompareTag("Projectile") ||
             collision.CompareTag("Enemy")) return;*/
         if (collision.CompareTag("Trap") ||
-            collision.CompareTag("Projectile") ||
-            collision.gameObject.transform.parent.CompareTag("Enemy")) return;
+            collision.gameObject.transform.parent.CompareTag("EnemyCollider")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
