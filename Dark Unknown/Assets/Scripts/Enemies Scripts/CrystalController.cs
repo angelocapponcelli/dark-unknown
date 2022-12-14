@@ -4,43 +4,36 @@ using UnityEngine;
 
 public class CrystalController : EnemyController
 {
-    private float _health = 40f;
+    private float _currentHealth = 40f;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem particles;
     private static readonly int Dead = Animator.StringToHash("dead");
-    private bool _isHittable = true;
-    private ParticleSystem _particleSystem;
+    private bool _isHittable;
 
     //Start is called before the first frame update
     private void Start()
     {
-        _isHittable = true;
-        _particleSystem = GetComponentInChildren<ParticleSystem>();
+        DisableVulnerability();
     }
 
     public override void TakeDamage(float damage)
     {
         if (!_isHittable) return;
-        if (_health > 0)
+        if (_currentHealth > 0)
         {
-            Debug.Log("damage");
-            _health -= damage;
+            _currentHealth -= damage;
             StartCoroutine(FlashRed());
         }
-        else if (isDead==false)
+        else if (!isDead)
         {
             Destroyed();
         }
     }
-    
-    /*private IEnumerator CrystalDestroyedCoroutine()
+
+    public override IEnumerator RecoverySequence()
     {
-        _isHittable = true;
-        _particleSystem.Stop();
-        yield return new WaitForSeconds(5f);
-        _isHittable = false;
-        _particleSystem.Play();
-    }*/
+        yield break; 
+    }
     
     private IEnumerator FlashRed()
     {
@@ -57,20 +50,11 @@ public class CrystalController : EnemyController
         particles.Stop();
         animator.SetTrigger(Dead);
     }
-    
-    /*public IEnumerator CrystalDestroyedCoroutine()
-    {
-        Debug.Log("coroutine started");
-        yield return new WaitForSeconds(5f);
-        _isHittable = true;
-        _particleSystem.Play();
-    }*/
 
     public void DisableVulnerability()
     {
-        Debug.Log("start");
         _isHittable = false;
-        _particleSystem.Stop();
+        particles.Stop();
     }
     
     public void EnableVulnerability()
@@ -78,6 +62,6 @@ public class CrystalController : EnemyController
         if (isDead) return;
         Debug.Log("stop");
         _isHittable = true;
-        _particleSystem.Play();
+        particles.Play();
     }
 }

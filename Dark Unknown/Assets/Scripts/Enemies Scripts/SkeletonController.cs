@@ -133,7 +133,7 @@ public class SkeletonController : EnemyController
         _animator.canMove();
     }
 
-    private IEnumerator RecoverySequence()
+    public override IEnumerator RecoverySequence()
     {
         _currentHealth = _maxHealth;
         _animator.AnimateRecover();

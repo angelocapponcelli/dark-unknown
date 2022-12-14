@@ -8,6 +8,8 @@ public abstract class EnemyController : MonoBehaviour
     protected bool isDead;
     
     public abstract void TakeDamage(float damage);
+    
+    public abstract IEnumerator RecoverySequence();
 
     public bool IsDead()
     {

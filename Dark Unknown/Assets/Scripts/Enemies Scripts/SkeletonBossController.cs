@@ -12,7 +12,9 @@ public class SkeletonBossController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
+    //[SerializeField] private float reanimationCountDown = 20f;
     private float _timeForNextAttack;
+    //private float _timeForNextReanimation;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -22,6 +24,7 @@ public class SkeletonBossController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
     private bool _isHittable;
+    private int _numOfCrystals;
     //private GameObject[] _crystals;
     private bool _allCrystalsDestroyed;
     [SerializeField] private ParticleSystem _particleSystem;
@@ -59,6 +62,8 @@ public class SkeletonBossController : EnemyController
         {
             StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
         }*/
+        _numOfCrystals = StateGameManager.Crystals.Count;
+        //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
         if (StateGameManager.Crystals.Count == 0)
         {
@@ -83,6 +88,12 @@ public class SkeletonBossController : EnemyController
         _distance = Vector2.Distance(transform.position, _target.transform.position);
 
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
+        /*if (_timeForNextReanimation > 0) _timeForNextReanimation -= Time.deltaTime;
+        else
+        {
+            ReanimateMobs();
+            _timeForNextReanimation = reanimationCountDown;
+        }*/
         
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
@@ -119,8 +130,8 @@ public class SkeletonBossController : EnemyController
 
         // -- Cheats --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50);*/
+        if (Input.GetKeyDown("e"))
+            TakeDamage(50);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -155,14 +166,25 @@ public class SkeletonBossController : EnemyController
         _animator.canMove();
     }
 
-    private IEnumerator RecoverySequence()
+    /*private void ReanimateMobs()
+    {
+        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            if (enemy.GetComponent<EnemyController>().IsDead())
+            {
+                StartCoroutine(enemy.GetComponent<EnemyController>().RecoverySequence());
+            }
+        }
+    }   */ 
+    
+    public override IEnumerator RecoverySequence()
     {
         _currentHealth = _maxHealth;
         _animator.AnimateRecover();
         yield return new WaitForSeconds(2);
         isDead = false; 
         _canMove = true;
-    }    
+    }
  
     public override void TakeDamage(float damage)
     {
@@ -203,7 +225,7 @@ public class SkeletonBossController : EnemyController
         {
             AudioManager.Instance.PlaySkeletonDieSound();
             _deathSoundPlayed = true;
-            ReduceEnemyCounter();
+            //ReduceEnemyCounter();
         }
     }
 
@@ -212,20 +234,23 @@ public class SkeletonBossController : EnemyController
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var collider in spiderColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            collider.gameObject.SetActive(false);
         }
     }
 
     public void CrystalDestroyed()
     {
         if (StateGameManager.Crystals.Count <= 0) return;
-        for (var i=0; i<StateGameManager.Crystals.Count; i++)
+        var crystal = StateGameManager.Crystals[_numOfCrystals-1];
+        if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
+        _numOfCrystals -= 1;
+        /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
             var crystal = StateGameManager.Crystals[i];
             if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
-        }
-        Debug.Log(StateGameManager.Crystals.Count);
-        if (StateGameManager.Crystals.Count == 0)
+        }*/
+        Debug.Log(_numOfCrystals);
+        if (_numOfCrystals == 0)
         {
             AllCrystalsDestroyed();
             return;
@@ -233,7 +258,7 @@ public class SkeletonBossController : EnemyController
         StartCoroutine(CrystalDestroyedCoroutine());
     }
 
-    private IEnumerator CrystalDestroyedCoroutine()
+    /*private IEnumerator CrystalDestroyedCoroutine()
     {
         _isHittable = true;
         _particleSystem.Stop();
@@ -247,6 +272,17 @@ public class SkeletonBossController : EnemyController
         {
             crystal.GetComponent<CrystalController>().EnableVulnerability();
         }
+        _isHittable = false;
+        _particleSystem.Play();
+    }*/
+    
+    private IEnumerator CrystalDestroyedCoroutine()
+    {
+        _isHittable = true;
+        _particleSystem.Stop();
+        yield return new WaitForSeconds(5f);
+        if (_allCrystalsDestroyed) yield break;
+        StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;
         _particleSystem.Play();
     }
