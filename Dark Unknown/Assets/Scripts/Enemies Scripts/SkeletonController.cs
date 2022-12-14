@@ -22,6 +22,7 @@ public class SkeletonController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
+    private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
 
     private bool _deathSoundPlayed = false;
@@ -37,6 +38,7 @@ public class SkeletonController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
+        _skeletonRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -159,12 +161,20 @@ public class SkeletonController : EnemyController
         }
         else
         {
+            StartCoroutine(FlashRed());
             _canMove = true;
         }
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator FlashRed()
+    {
+        _skeletonRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _skeletonRenderer.color = Color.white;
     }
 
     private void Die()

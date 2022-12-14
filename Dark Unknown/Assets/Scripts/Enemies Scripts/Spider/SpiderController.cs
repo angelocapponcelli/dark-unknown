@@ -26,6 +26,7 @@ public class SpiderController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
+    private SpriteRenderer _spiderRenderer;
     private EnemyAI _ai;
     
     private bool _deathSoundPlayed = false;
@@ -41,6 +42,7 @@ public class SpiderController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
+        _spiderRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeElapsedFromShot = 0;
@@ -182,12 +184,19 @@ public class SpiderController : EnemyController
         if (!_damageFromDistance)
         {
             _animator.AnimateTakeDamage();
-        }
+        } else StartCoroutine(FlashRed());
         AudioManager.Instance.PlaySkeletonHurtSound();
         _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator FlashRed()
+    {
+        _spiderRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _spiderRenderer.color = Color.white;
     }
 
     private void Die()

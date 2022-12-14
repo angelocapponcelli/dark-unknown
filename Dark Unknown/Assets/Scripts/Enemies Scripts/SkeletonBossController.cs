@@ -225,12 +225,24 @@ public class SkeletonBossController : EnemyController
         if (!_damageFromDistance)
         {
             _animator.AnimateTakeDamage();
+            _canMove = false;
+        }
+        else
+        {
+            StartCoroutine(FlashRed());
+            _canMove = true;
         }
         AudioManager.Instance.PlaySkeletonHurtSound();
-        _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator FlashRed()
+    {
+        _skeletonRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _skeletonRenderer.color = Color.white;
     }
 
     private void Die()
