@@ -79,7 +79,7 @@ public class SkeletonBossController : EnemyController
     // Update is called once per frame
     private void Update()
     {
-        if (_target == null)
+        if (_target == null || isDead)
         {
             return;
         }
@@ -146,7 +146,7 @@ public class SkeletonBossController : EnemyController
         // -- Cheats --
         // Hurt
         /*if (Input.GetKeyDown("e"))
-            TakeDamage(50);*/
+            TakeDamage(50,false);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
