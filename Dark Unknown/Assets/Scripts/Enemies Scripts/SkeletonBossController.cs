@@ -281,7 +281,7 @@ public class SkeletonBossController : EnemyController
         _isHittable = true;
         _particleSystem.Stop();
         yield return new WaitForSeconds(5f);
-        if (_allCrystalsDestroyed) yield break;
+        if (_allCrystalsDestroyed || isDead) yield break;
         StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;
         _particleSystem.Play();
