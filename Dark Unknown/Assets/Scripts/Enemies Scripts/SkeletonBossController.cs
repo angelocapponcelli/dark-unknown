@@ -12,9 +12,11 @@ public class SkeletonBossController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
+    [SerializeField] private float vulnerabilityTime = 5f;
     [SerializeField] private float reanimationCountDown = 20f;
     private float _timeForNextAttack;
     private float _timeForNextReanimation;
+    private bool _reanimationStarted = false;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -31,6 +33,7 @@ public class SkeletonBossController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
+    private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
     private SkeletonBossUIController _bossUIController = null;
     
@@ -49,6 +52,7 @@ public class SkeletonBossController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
+        _skeletonRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -92,13 +96,18 @@ public class SkeletonBossController : EnemyController
         if (_timeForNextReanimation > 0)
         {
             _timeForNextReanimation -= Time.deltaTime;
-            Debug.Log(_timeForNextReanimation);
+            if (_timeForNextReanimation is < 2f and > 0 && _reanimationStarted==false)
+            {
+                _reanimationStarted = true;
+                StartCoroutine(ReanimationTelegraph());
+            }
         }
         else
         {
             Debug.Log("Reanimating");
             ReanimateMobs();
             _timeForNextReanimation = reanimationCountDown;
+            _reanimationStarted = false;
         }
         
         // If the skeleton is not dead
@@ -233,6 +242,17 @@ public class SkeletonBossController : EnemyController
         //ReduceEnemyCounter();
     }
 
+    private IEnumerator ReanimationTelegraph()
+    {
+        for (float i = 0; i < 2f; i += 0.1f)
+        {
+            _skeletonRenderer.color = Color.cyan;
+            yield return new WaitForSeconds(0.1f);
+            _skeletonRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     private void DisableBoxCollider()
     {
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
@@ -284,7 +304,7 @@ public class SkeletonBossController : EnemyController
     {
         _isHittable = true;
         _particleSystem.Stop();
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(vulnerabilityTime);
         if (_allCrystalsDestroyed || isDead) yield break;
         StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;

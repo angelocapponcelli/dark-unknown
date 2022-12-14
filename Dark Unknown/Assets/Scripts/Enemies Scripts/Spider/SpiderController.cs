@@ -31,7 +31,7 @@ public class SpiderController : EnemyController
     private bool _deathSoundPlayed = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
@@ -48,7 +48,7 @@ public class SpiderController : EnemyController
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _timeElapsedFromShot += (Time.deltaTime % 60);
         if (_target == null)
