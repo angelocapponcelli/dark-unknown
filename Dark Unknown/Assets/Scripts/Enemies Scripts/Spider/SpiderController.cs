@@ -12,6 +12,7 @@ public class SpiderController : EnemyController
     [SerializeField]private float _minDistance = 3f;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
+    [SerializeField] private float _projectileSpeed = 5f;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -119,8 +120,8 @@ public class SpiderController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Death
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -135,7 +136,7 @@ public class SpiderController : EnemyController
         if (_ai.GetMovingDirection() != Vector2.zero)
         {
             GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*6;
+            projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed;
             Destroy(projectile, 2.5f);
             // At the minimum distance, it stops moving
             _isAttacking = true;
@@ -150,10 +151,6 @@ public class SpiderController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
-        /*do
-        {
-            yield return null;
-        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
         //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
@@ -163,17 +160,9 @@ public class SpiderController : EnemyController
         _animator.canMove();
     }
 
-    public override IEnumerator RecoverySequence()
-    {
-        _currentHealth = _maxHealth;
-        _animator.AnimateRecover();
-        yield return new WaitForSeconds(2);
-        isDead = false; 
-        _canMove = true;
-    }    
- 
     public override void TakeDamage(float damage)
     {
+        if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
@@ -203,12 +192,23 @@ public class SpiderController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        if (!_deathSoundPlayed)
-        {
-            AudioManager.Instance.PlaySkeletonDieSound();
-            _deathSoundPlayed = true;
-            ReduceEnemyCounter();
-        }
+        if (_deathSoundPlayed) return;
+        AudioManager.Instance.PlaySkeletonDieSound();
+        _deathSoundPlayed = true;
+        ReduceEnemyCounter();
+    }
+    
+    public override IEnumerator RecoverySequence()
+    {
+        _currentHealth = _maxHealth;
+        _animator.AnimateRecover();
+        yield return new WaitForSeconds(1f);
+        _animator.AnimateIdle();
+        yield return new WaitForSeconds(1.5f);
+        IncrementEnemyCounter();
+        isDead = false; 
+        _canMove = true;
+        _deathSoundPlayed = false;
     }
 
     private void DisableBoxCollider()

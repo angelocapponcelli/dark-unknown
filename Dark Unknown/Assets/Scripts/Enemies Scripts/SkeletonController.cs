@@ -97,8 +97,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -133,17 +133,9 @@ public class SkeletonController : EnemyController
         _animator.canMove();
     }
 
-    public override IEnumerator RecoverySequence()
-    {
-        _currentHealth = _maxHealth;
-        _animator.AnimateRecover();
-        yield return new WaitForSeconds(2);
-        isDead = false; 
-        _canMove = true;
-    }    
- 
     public override void TakeDamage(float damage)
     {
+        if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
@@ -173,13 +165,24 @@ public class SkeletonController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        if (!_deathSoundPlayed)
-        {
-            AudioManager.Instance.PlaySkeletonDieSound();
-            _deathSoundPlayed = true;
-            ReduceEnemyCounter();
-        }
+        if (_deathSoundPlayed) return;
+        AudioManager.Instance.PlaySkeletonDieSound();
+        _deathSoundPlayed = true;
+        ReduceEnemyCounter();
     }
+    
+    public override IEnumerator RecoverySequence()
+    {
+        _currentHealth = _maxHealth;
+        _animator.AnimateRecover();
+        yield return new WaitForSeconds(1f);
+        _animator.AnimateIdle();
+        yield return new WaitForSeconds(1.5f);
+        IncrementEnemyCounter();
+        isDead = false; 
+        _canMove = true;
+        _deathSoundPlayed = false;
+    }  
 
     private void DisableBoxCollider()
     {

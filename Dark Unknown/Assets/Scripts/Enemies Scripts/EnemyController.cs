@@ -21,5 +21,11 @@ public abstract class EnemyController : MonoBehaviour
         StateGameManager.NumOfEnemies -= 1;
         UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
     }
+    
+    protected static void IncrementEnemyCounter()
+    {
+        StateGameManager.NumOfEnemies += 1;
+        UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+    }
 
 }

@@ -12,9 +12,9 @@ public class SkeletonBossController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
-    //[SerializeField] private float reanimationCountDown = 20f;
+    [SerializeField] private float reanimationCountDown = 20f;
     private float _timeForNextAttack;
-    //private float _timeForNextReanimation;
+    private float _timeForNextReanimation;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -52,6 +52,7 @@ public class SkeletonBossController : EnemyController
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
+        _timeForNextReanimation = reanimationCountDown;
 
         if (GetComponent<SkeletonBossUIController>() == null) return;
         _bossUIController = GetComponent<SkeletonBossUIController>();
@@ -88,12 +89,17 @@ public class SkeletonBossController : EnemyController
         _distance = Vector2.Distance(transform.position, _target.transform.position);
 
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
-        /*if (_timeForNextReanimation > 0) _timeForNextReanimation -= Time.deltaTime;
+        if (_timeForNextReanimation > 0)
+        {
+            _timeForNextReanimation -= Time.deltaTime;
+            Debug.Log(_timeForNextReanimation);
+        }
         else
         {
+            Debug.Log("Reanimating");
             ReanimateMobs();
             _timeForNextReanimation = reanimationCountDown;
-        }*/
+        }
         
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
@@ -130,8 +136,8 @@ public class SkeletonBossController : EnemyController
 
         // -- Cheats --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -166,7 +172,7 @@ public class SkeletonBossController : EnemyController
         _animator.canMove();
     }
 
-    /*private void ReanimateMobs()
+    private void ReanimateMobs()
     {
         foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
@@ -175,7 +181,7 @@ public class SkeletonBossController : EnemyController
                 StartCoroutine(enemy.GetComponent<EnemyController>().RecoverySequence());
             }
         }
-    }   */ 
+    }
     
     public override IEnumerator RecoverySequence()
     {
@@ -221,12 +227,10 @@ public class SkeletonBossController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        if (!_deathSoundPlayed)
-        {
-            AudioManager.Instance.PlaySkeletonDieSound();
-            _deathSoundPlayed = true;
-            //ReduceEnemyCounter();
-        }
+        if (_deathSoundPlayed) return;
+        AudioManager.Instance.PlaySkeletonDieSound();
+        _deathSoundPlayed = true;
+        //ReduceEnemyCounter();
     }
 
     private void DisableBoxCollider()
