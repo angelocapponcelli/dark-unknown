@@ -9,9 +9,25 @@ public abstract class EnemyController : MonoBehaviour
     protected bool _damageFromDistance;
     
     public abstract void TakeDamage(float damage, bool source);
+    //public abstract void TakeDamage(float damage);
+    
+    public abstract IEnumerator RecoverySequence();
 
     public bool IsDead()
     {
         return isDead;
     }
+
+    protected static void ReduceEnemyCounter()
+    {
+        StateGameManager.NumOfEnemies -= 1;
+        UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+    }
+    
+    protected static void IncrementEnemyCounter()
+    {
+        StateGameManager.NumOfEnemies += 1;
+        UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+    }
+
 }

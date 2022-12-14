@@ -101,7 +101,7 @@ public class Door : MonoBehaviour
         //_isClose = true;
         _animator.SetTrigger(Closing);
         _animator.SetBool(IsClosed, true);
-        //_mySpriteRender.sprite = _opendDoorSprite;
+        //_mySpriteRender.sprite = _openedDoorSprite;
         _myBoxCollider.enabled = false;
     }
 

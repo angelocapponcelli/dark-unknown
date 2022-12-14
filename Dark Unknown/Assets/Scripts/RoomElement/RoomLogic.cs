@@ -15,7 +15,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private EnemyController[] possibleCrystalType;
     [SerializeField] private EnemyController _bossEnemyController;
     [SerializeField] private int numOfCrystals;
-    private int _numOfEnemy;
+    //private int _numOfEnemies;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private GameObject[] _projectiles;
@@ -90,6 +90,25 @@ public class RoomLogic : MonoBehaviour
         {
             var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
+            if (roomType == Type.INITIAL)
+            {
+                toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
+                _possibleSymbols.Remove(toRemove);
+            }
+            else
+            {
+                if (Player.Instance.checkBowWeapon())
+                {
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
+                    _possibleSymbols.Remove(toRemove);
+                }
+                else if (Player.Instance.checkSwordWeapon())
+                {
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
+                    _possibleSymbols.Remove(toRemove);
+                }
+            }
+            
             foreach (var d in _doors)
             {
                 var i = Random.Range(0, _possibleSymbols.Count);
@@ -110,7 +129,7 @@ public class RoomLogic : MonoBehaviour
         switch (_roomType)
         {
             case Type.INITIAL:
-                _numOfEnemy = 1;
+                StateGameManager.NumOfEnemies = 1;
                 break;
             //Follower types do same thing at first
             case Type.HEALTH:
@@ -118,25 +137,26 @@ public class RoomLogic : MonoBehaviour
             case Type.SPEED:
             case Type.SWORD:
             case Type.STRENGTH:
-                _numOfEnemy = Random.Range(12, 15);
+                StateGameManager.NumOfEnemies = Random.Range(12, 15);
                 break;
             case Type.BOSS:
-                _numOfEnemy = Random.Range(5, 10);
+                StateGameManager.NumOfEnemies = Random.Range(5, 10);
                 StartCoroutine(SpawnBoss());
                 break;
         }
+        UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
         StartCoroutine(SpawnEnemies());
     }
 
     private IEnumerator SpawnEnemies()
     {
         int spiderCounter = 0;
-        int spiderMax = (int) (_numOfEnemy * spiderPercentage);
+        int spiderMax = (int) (StateGameManager.NumOfEnemies * spiderPercentage);
         print("spiders: " + spiderMax);
-        print("skeletons" + (_numOfEnemy-spiderMax));
+        print("skeletons" + (StateGameManager.NumOfEnemies-spiderMax));
         
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < _numOfEnemy; i++) // uncomment to spawn a fixed amount of enemies
+        for (int i = 0; i < StateGameManager.NumOfEnemies; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
             EnemyController type = _possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)];
@@ -163,11 +183,13 @@ public class RoomLogic : MonoBehaviour
             for (int i = 0; i < numOfCrystals; i++)
             {
                 yield return new WaitForSeconds(_spawnTime);
-                _enemies.Add(_enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]));
+                var crystal = _enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]);
+                StateGameManager.Crystals.Add(crystal);
             }
         }
         yield return new WaitForSeconds(_spawnTime);
         _enemies.Add(EnemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
+        StateGameManager.Crystals[numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
     }
     
     /*private IEnumerator SpawnCrystals()
@@ -194,6 +216,11 @@ public class RoomLogic : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+    }
+
+    public int GetNumOfEnemies()
+    {
+        return StateGameManager.NumOfEnemies;
     }
 
 }

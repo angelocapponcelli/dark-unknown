@@ -17,12 +17,13 @@ public class ArrowAttack : MonoBehaviour
         Collider2D[] hitEnemies = collision.GetComponentsInChildren<Collider2D>();
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.gameObject.CompareTag("Enemy"))
+            if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
                 //Debug.Log("damage");
                 enemy.GetComponentInParent<EnemyController>().TakeDamage(_damage*Player.Instance.GetStrengthMultiplier(), true);
             }
         }
+        if (collision.CompareTag("Trap")) return;
         Destroy(gameObject);
     }
     
