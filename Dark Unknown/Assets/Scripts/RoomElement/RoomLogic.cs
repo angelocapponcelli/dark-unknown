@@ -36,7 +36,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, BOW, SPEED, STRENGTH, SWORD, BOSS};
+    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -99,12 +99,12 @@ public class RoomLogic : MonoBehaviour
             }
             else
             {
-                if (Player.Instance.checkBowWeapon())
+                if (Player.Instance.checkBowWeapon() || roomType == Type.BOW)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
                     _possibleSymbols.Remove(toRemove);
                 }
-                else if (Player.Instance.checkSwordWeapon())
+                else if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
                     _possibleSymbols.Remove(toRemove);
@@ -127,7 +127,7 @@ public class RoomLogic : MonoBehaviour
         }
 
         _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 6);
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 4);
         switch (_roomType)
         {
             case Type.INITIAL:
