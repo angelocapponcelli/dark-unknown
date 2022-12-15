@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetIndicator : MonoBehaviour
 {
     public Transform target;
-    [SerializeField] public float hideDistance;
+    public float hideDistance;
 
     void Update()
     {
@@ -26,6 +26,9 @@ public class TargetIndicator : MonoBehaviour
 
     void SetChildrenActive(bool value)
     {
-        transform.gameObject.SetActive(value);
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(value);
+        }
     }
 }
