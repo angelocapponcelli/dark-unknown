@@ -11,7 +11,7 @@ public class SpeedReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().IncreaseSpeed(Random.Range(1,5)/100f);
+                character.GetComponentInParent<Player>().IncreaseSpeed(Random.Range(5,10)/100f);
                 AudioManager.Instance.PlayPLayerRewardSound();
                 Destroy(gameObject);
             }
