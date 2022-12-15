@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1680
     height: 913
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Timeline
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 8348
+  controlID: 11068
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 8349
+  controlID: 11069
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
+  m_Name: TimelineWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -192,16 +192,16 @@ MonoBehaviour:
     y: 455
     width: 935
     height: 408
-  m_MinSize: {x: 201, y: 221}
+  m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 13}
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 3
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 8399
+  controlID: 11105
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -756,14 +756,14 @@ MonoBehaviour:
     m_KeySerializationHelper:
     - {fileID: 7022707401684161394, guid: 50e279630d6174a73b29457b783381b0, type: 2}
     m_ValueSerializationHelper:
-    - e00: 1
+    - e00: 0.9598576
       e01: 0
       e02: 0
-      e03: 0
+      e03: -318.69775
       e10: 0
-      e11: 1
+      e11: 0.9598576
       e12: 0
-      e13: 0
+      e13: -31.87352
       e20: 0
       e21: 0
       e22: 1
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_MiniTool: 0
   m_LockTracker:
     m_IsLocked: 0
-  m_CurrentEditor: 0
+  m_CurrentEditor: 1
   m_LayerEditor:
     m_SelectedLayerIndex: 0
 --- !u!114 &16
@@ -823,7 +823,7 @@ MonoBehaviour:
     m_IsLocked: 0
   m_SequenceHierarchy: {fileID: 0}
   m_SequencePath:
-    m_SelectionRoot: 0
+    m_SelectionRoot: 25310
     m_SubElements: []
 --- !u!114 &17
 MonoBehaviour:
@@ -857,7 +857,7 @@ MonoBehaviour:
     m_CachedPref: 50
     m_ControlHash: 1964396721
     m_PrefName: Preview_TilemapBrushInspector
-  m_Palette: {fileID: 8628940023583589937, guid: 69076fe3a27622b42b4b148f4ead0830, type: 3}
+  m_Palette: {fileID: 4643627296979114795, guid: 20210d015cbe11541a27897e4915a5bc, type: 3}
   m_DrawGridGizmo: 1
   m_DrawGizmos: 0
 --- !u!114 &18
@@ -890,7 +890,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 25350
+  m_LastSelectedObjectID: -19690
 --- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -922,9 +922,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b8f8ffff
-      m_LastClickedID: -1864
-      m_ExpandedIDs: c8d7ffff3ee2ffff50f1ffffd2f8ffff0cfbffffd2620000d862000006630000
+      m_SelectedIDs: 1e630000
+      m_LastClickedID: 25374
+      m_ExpandedIDs: 0cfbffffd8620000de6200000c630000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -940,7 +940,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
+        m_ClientGUIView: {fileID: 10}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -989,22 +989,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Timelines
+    - Assets/EPIC RPG PACKS/EPIC RPG World Pack - [FREE Demo]Ancient Ruins - Copia/Props
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 49
   m_LastFolders:
-  - Assets/Timelines
+  - Assets/EPIC RPG PACKS/EPIC RPG World Pack - [FREE Demo]Ancient Ruins - Copia/Props
   m_LastFoldersGridSize: 49
   m_LastProjectPath: /Users/pierofornasari/Documents/GitHub/dark-unknown/Dark Unknown
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 6a6c0000
-    m_LastClickedID: 27754
-    m_ExpandedIDs: 00000000fe690000006a0000026a0000066a0000086a00004e6c0000646c0000267d000008bb000000ca9a3b
+    scrollPos: {x: 0, y: 41.5}
+    m_SelectedIDs: 70960000
+    m_LastClickedID: 38512
+    m_ExpandedIDs: 00000000a66a0000a86a0000aa6a0000ac6a0000ae6a0000b46a0000b66a0000ec6c0000fe6c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1032,7 +1032,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000fe690000006a0000026a0000066a0000086a00004e6c0000646c0000267d000008bb000000ca9a3b
+    m_ExpandedIDs: 00000000a66a0000a86a0000aa6a0000ac6a0000ae6a0000b06a0000b26a0000b46a0000b66a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1059,8 +1059,8 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: c623000038a10000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: c623000038a10000b8cd0000e2640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1084,7 +1084,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 853.5}
     m_GridSize: 49
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 115
