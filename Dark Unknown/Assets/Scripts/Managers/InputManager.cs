@@ -8,21 +8,6 @@ using UnityEngine.UI;
 
 public class InputManager : Singleton<InputManager>
 {
-    /*public static InputManager instance;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != null)
-        {
-            Destroy(this);
-        }
-        DontDestroyOnLoad(this);
-    }*/
-
     [SerializeField] public Keybindings keybindings;
 
     protected new void Awake()
@@ -99,5 +84,22 @@ public class InputManager : Singleton<InputManager>
     {
         return (from keybindingCheck in keybindings.KeybindingChecks
             where keybindingCheck.KeybindingAction == key select Input.GetKeyUp(keybindingCheck.KeyCode)).FirstOrDefault();
+    }
+
+    public int GetAxisRaw(string axis)
+    {
+        var axisRaw = 0;
+        switch (axis)
+        {
+            case "Horizontal":
+                if (GetKey(KeybindingActions.MoveLeft)) axisRaw = -1;
+                if (GetKey(KeybindingActions.MoveRight)) axisRaw = +1;
+                break;
+            case "Vertical":
+                if (GetKey(KeybindingActions.MoveUp)) axisRaw = +1;
+                if (GetKey(KeybindingActions.MoveDown)) axisRaw = -1;
+                break;
+        }
+        return axisRaw;
     }
 }

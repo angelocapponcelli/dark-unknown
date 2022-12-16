@@ -145,8 +145,8 @@ public class SkeletonBossController : EnemyController
 
         // -- Cheats --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);*/
+        if (Input.GetKeyDown("e"))
+            TakeDamage(50,false);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)

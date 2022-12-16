@@ -52,9 +52,10 @@ public class Player : Singleton<Player>
         if (PauseMenu.GameIsPaused == false)
         {
             _weaponParent.PointerPosition = _playerInput.PointerPosition;
-            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, _playerInput.PointerPosition, _playerMovement.GetRBPos());
+            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
+                _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
-            if (_canGetWeapon && Input.GetKeyDown(KeyCode.E))
+            if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
             {
                 //instantiate new reward
                 GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
@@ -82,7 +83,7 @@ public class Player : Singleton<Player>
     // FixedUpdate handles the movement 
     private void FixedUpdate()
     {
-        _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetShiftDown());
+        _playerMovement.MovePlayer(_playerInput.MovementDirection, PlayerInput.GetDashKeyDown());
     }
 
     public void TakeDamage(float damage)
@@ -171,7 +172,9 @@ public class Player : Singleton<Player>
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward)
     {
-        ShowPlayerUI(true, "Press E to get new weapon");
+        // change to "Press keybindingAction.Interact.ToString() to get new weapon"
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
+                           " to get new weapon");
         _canGetWeapon = true;
         _weaponToGet = weapon;
         _rewardToGet = reward;

@@ -11,7 +11,7 @@ public class KeybindManager : Singleton<KeybindManager>
     private InputManager _inputManager;
     [SerializeField] private Keybindings savedKeybindings;
 
-    public Text up, down, left, right, dash, potion, spell1, spell2;
+    public Text up, down, left, right, dash, interact, potion, spell;
     private string _bindName;
     private GameObject _currentKey;
     private GameObject _swappedKey;
@@ -19,11 +19,11 @@ public class KeybindManager : Singleton<KeybindManager>
     private readonly Color32 _normal = new Color32(12, 37, 63, 255);
     private readonly Color32 _selected = new Color32(12, 18, 32, 255);
 
-    protected new void Awake()
+    /*protected new void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-    }
+    }*/
 
     private void Start()
     {
@@ -39,18 +39,21 @@ public class KeybindManager : Singleton<KeybindManager>
             PlayerPrefs.GetString("MoveRight", "D")));
         _inputManager.SetKeyForAction(KeybindingActions.Dash, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
             PlayerPrefs.GetString("Dash", "LeftShift")));
+        _inputManager.SetKeyForAction(KeybindingActions.Interact, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
+            PlayerPrefs.GetString("Interact", "E")));
         
-        UpdateKeyText();
+        UpdateAllKeysText();
         SaveKeybindingsArray();
     }
 
-    private void UpdateKeyText()
+    private void UpdateAllKeysText()
     {
         up.text = _inputManager.GetKeyForAction(KeybindingActions.MoveUp).ToString();
         down.text = _inputManager.GetKeyForAction(KeybindingActions.MoveDown).ToString();
         left.text = _inputManager.GetKeyForAction(KeybindingActions.MoveLeft).ToString();
         right.text = _inputManager.GetKeyForAction(KeybindingActions.MoveRight).ToString();
         dash.text = _inputManager.GetKeyForAction(KeybindingActions.Dash).ToString();
+        interact.text = _inputManager.GetKeyForAction(KeybindingActions.Interact).ToString();
         //TODO:Add remaining cases
     }
     
@@ -61,8 +64,9 @@ public class KeybindManager : Singleton<KeybindManager>
         _inputManager.SetKeyForAction(KeybindingActions.MoveLeft, KeyCode.A);
         _inputManager.SetKeyForAction(KeybindingActions.MoveRight, KeyCode.D);
         _inputManager.SetKeyForAction(KeybindingActions.Dash, KeyCode.LeftShift);
+        _inputManager.SetKeyForAction(KeybindingActions.Interact, KeyCode.E);
         
-        UpdateKeyText();
+        UpdateAllKeysText();
     }
 
     private static KeybindingActions ToKeybindingActions(string keyName)
@@ -83,6 +87,9 @@ public class KeybindManager : Singleton<KeybindManager>
                 break;
             case "Dash":
                 keybindingAction = KeybindingActions.Dash;
+                break;
+            case "Interact":
+                keybindingAction = KeybindingActions.Interact;
                 break;
             //TODO:add remaining cases
         }
@@ -158,6 +165,6 @@ public class KeybindManager : Singleton<KeybindManager>
         {
             _inputManager.keybindings.KeybindingChecks[i].KeyCode = savedKeybindings.KeybindingChecks[i].KeyCode;
         }
-        UpdateKeyText();
+        UpdateAllKeysText();
     }
 }

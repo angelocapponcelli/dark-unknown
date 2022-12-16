@@ -9,7 +9,7 @@ public enum KeybindingActions
     MoveLeft,
     MoveRight,
     Dash,
+    Interact,
     Potion,
-    Spell1,
-    Spell2
+    Spell
 }
