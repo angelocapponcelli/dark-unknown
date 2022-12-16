@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 116194054}
   - component: {fileID: 116194053}
   m_Layer: 0
-  m_Name: Spell1
+  m_Name: Potion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2126,7 +2126,7 @@ GameObject:
   - component: {fileID: 372198431}
   - component: {fileID: 372198434}
   m_Layer: 0
-  m_Name: Potion
+  m_Name: Interact
   m_TagString: KeyBind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4664,7 +4664,7 @@ GameObject:
   - component: {fileID: 618485305}
   - component: {fileID: 618485308}
   m_Layer: 0
-  m_Name: Spell1
+  m_Name: Potion
   m_TagString: KeyBind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5253,7 +5253,7 @@ GameObject:
   - component: {fileID: 647459590}
   - component: {fileID: 647459593}
   m_Layer: 0
-  m_Name: Spell2
+  m_Name: Spell
   m_TagString: KeyBind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5540,7 +5540,7 @@ GameObject:
   - component: {fileID: 706807386}
   - component: {fileID: 706807385}
   m_Layer: 0
-  m_Name: Spell2
+  m_Name: Spell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7777,7 +7777,7 @@ GameObject:
   - component: {fileID: 969871102}
   - component: {fileID: 969871101}
   m_Layer: 0
-  m_Name: KeyBindSpell1
+  m_Name: KeyBindPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7837,7 +7837,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Spell 1
+  m_Text: Use potion
 --- !u!222 &969871102
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12227,7 +12227,7 @@ GameObject:
   - component: {fileID: 1476579114}
   - component: {fileID: 1476579113}
   m_Layer: 0
-  m_Name: KeyBindSpell2
+  m_Name: KeyBindSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12287,7 +12287,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Spell 2
+  m_Text: Use spell
 --- !u!222 &1476579114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12308,7 +12308,7 @@ GameObject:
   - component: {fileID: 1485691908}
   - component: {fileID: 1485691907}
   m_Layer: 0
-  m_Name: KeyBindPotion
+  m_Name: KeyBindInteract
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12368,7 +12368,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Use potion
+  m_Text: Interact
 --- !u!222 &1485691908
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15713,7 +15713,7 @@ GameObject:
   - component: {fileID: 2004518165}
   - component: {fileID: 2004518164}
   m_Layer: 0
-  m_Name: Potion
+  m_Name: Interact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16705,9 +16705,9 @@ MonoBehaviour:
   left: {fileID: 1560036001}
   right: {fileID: 581700924}
   dash: {fileID: 427079999}
-  potion: {fileID: 2004518164}
-  spell1: {fileID: 116194053}
-  spell2: {fileID: 706807385}
+  interact: {fileID: 2004518164}
+  potion: {fileID: 116194053}
+  spell: {fileID: 706807385}
 --- !u!4 &2124862361
 Transform:
   m_ObjectHideFlags: 0
