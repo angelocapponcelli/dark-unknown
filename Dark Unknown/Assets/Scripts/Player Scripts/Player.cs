@@ -80,7 +80,7 @@ public class Player : Singleton<Player>
     // FixedUpdate handles the movement 
     private void FixedUpdate()
     {
-        _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetShiftDown());
+        _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetSpaceDown());
     }
 
     public void TakeDamage(float damage)

@@ -6,7 +6,7 @@ public class TargetIndicator : MonoBehaviour
 {
     public Transform target;
     public float hideDistance;
-
+    
     void Update()
     {
         var dir = target.position - transform.position;

@@ -27,8 +27,8 @@ public class PlayerInput : MonoBehaviour
             LeftClick?.Invoke();
     }
 
-    public bool GetShiftDown()
+    public bool GetSpaceDown()
     {
-        return Input.GetKeyDown(KeyCode.LeftShift);
+        return Input.GetKeyDown(KeyCode.Space);
     }
 }
