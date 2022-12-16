@@ -38,6 +38,9 @@ public class MenuManager : Singleton<MenuManager>
     private Resolution[] _resolutions;
     public Dropdown resolutionDropdown;
 
+    private GameObject[] _keybindingButtons;
+    public static bool IsChangingKey;
+
 
     //generic function to activate a certain menu screen
     private void SetMenu(Menu menu)
@@ -80,6 +83,9 @@ public class MenuManager : Singleton<MenuManager>
     {
         SetMenu(Menu.Main);
 
+        Resources.Load("Keybindings");
+        Resources.Load("SavedKeybindings");
+
         var resolutions = Screen.resolutions.Select(resolution => new Resolution
         {
             width = resolution.width, height = resolution.height
@@ -113,10 +119,14 @@ public class MenuManager : Singleton<MenuManager>
     {
         if ((AudioMenu.activeSelf ||
             GraphicsMenu.activeSelf ||
-            KeybindingsMenu.activeSelf) &&
+            (KeybindingsMenu.activeSelf && !IsChangingKey)) &&
             Input.GetKeyDown(KeyCode.Escape))   //return to main menu
         {
             SetMenu(Menu.Options);
+            KeybindManager.Instance.ResetIfNotSaved();
+        }
+        else if (KeybindingsMenu.activeSelf && IsChangingKey)
+        {
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -228,6 +238,12 @@ public class MenuManager : Singleton<MenuManager>
     {
         var resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void UpdateKeyText(string key, KeyCode code)
+    {
+        var tmp = Array.Find(_keybindingButtons, x => x.name == key).GetComponentInChildren<Text>();
+        tmp.text = code.ToString();
     }
 
 }

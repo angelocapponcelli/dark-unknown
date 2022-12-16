@@ -67,10 +67,10 @@ public class SkeletonBossController : EnemyController
         {
             StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
         }*/
-        _numOfCrystals = StateGameManager.Crystals.Count;
+        _numOfCrystals = GameManager.Crystals.Count;
         //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
-        if (StateGameManager.Crystals.Count == 0)
+        if (GameManager.Crystals.Count == 0)
         {
             AllCrystalsDestroyed();
         }
@@ -279,9 +279,9 @@ public class SkeletonBossController : EnemyController
 
     public void CrystalDestroyed()
     {
-        if (StateGameManager.Crystals.Count <= 0) return;
-        var crystal = StateGameManager.Crystals[_numOfCrystals-1];
-        if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
+        if (GameManager.Crystals.Count <= 0) return;
+        var crystal = GameManager.Crystals[_numOfCrystals-1];
+        if (crystal.IsDead()) GameManager.Crystals.Remove(crystal);
         _numOfCrystals -= 1;
         /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
@@ -321,7 +321,7 @@ public class SkeletonBossController : EnemyController
         _particleSystem.Stop();
         yield return new WaitForSeconds(vulnerabilityTime);
         if (_allCrystalsDestroyed || isDead) yield break;
-        StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        GameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;
         _particleSystem.Play();
     }
