@@ -21,11 +21,11 @@ public class PlayerMovement : MonoBehaviour
         _activeSpeed = speed;
     }
 
-    public void MovePlayer(Vector2 direction, bool shiftDown)
+    public void MovePlayer(Vector2 direction, bool dashKeyDown)
     {
         
 
-        if (shiftDown && _canDash)
+        if (dashKeyDown && _canDash)
         {
             _isDashing = true;
             _canDash = false;

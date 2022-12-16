@@ -12,8 +12,8 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        _x = Input.GetAxisRaw("Horizontal");
-        _y = Input.GetAxisRaw("Vertical");
+        _x = InputManager.Instance.GetAxisRaw("Horizontal");
+        _y = InputManager.Instance.GetAxisRaw("Vertical");
         MovementDirection = new Vector2(_x, _y).normalized;
         
         PointerPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -27,8 +27,8 @@ public class PlayerInput : MonoBehaviour
             LeftClick?.Invoke();
     }
 
-    public bool GetShiftDown()
+    public static bool GetDashKeyDown()
     {
-        return Input.GetKeyDown(KeyCode.LeftShift);
+        return InputManager.Instance.GetKeyDown(KeybindingActions.Dash);
     }
 }
