@@ -18,7 +18,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private Slider _playerVolumeSlider;
     [SerializeField] private Slider _enemyVolumeSlider;
     [SerializeField] private Slider _backgroundVolumeSlider;
-    [SerializeField] private Texture2D customCursor;
 
     private void Start()
     {
@@ -44,14 +43,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
         _pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
     }
     public void Pause()
     {
-        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         _pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
@@ -119,15 +116,5 @@ public class PauseMenu : MonoBehaviour
     public void SetEnemyVolume(float value)
     {
         AudioManager.Instance.SetSkeletonVolume(value);
-    }
-    
-    private void OnMouseEnter()
-    {
-        
-    }
-    
-    private void OnMouseExit()
-    {
-        
     }
 }

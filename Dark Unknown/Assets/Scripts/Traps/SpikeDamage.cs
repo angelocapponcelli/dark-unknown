@@ -18,7 +18,7 @@ public class SpikeDamage : MonoBehaviour
             if(character.GetComponentInParent<Player>()!=null)
                 character.GetComponentInParent<Player>().TakeDamage(_damage);
             if(character.GetComponentInParent<EnemyController>()!=null)
-                character.GetComponentInParent<EnemyController>().TakeDamageMelee(_damage);
+                character.GetComponentInParent<EnemyController>().TakeDamage(_damage, false);
         }
     }
 }
