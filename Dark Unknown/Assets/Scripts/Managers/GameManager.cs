@@ -15,12 +15,15 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Animator animator;
     private static readonly int Death = Animator.StringToHash("Death");
     public static bool PlayerHasWon;
+    private CursorManager _cursorManager;
 
     protected override void Awake()
     {
         base.Awake();
         _levelManager = FindObjectOfType<LevelManager>();
         _cineMachine = FindObjectOfType<CinemachineVirtualCamera>();
+        _cursorManager = FindObjectOfType<CursorManager>();
+        _cursorManager.setPlayCursor();
     }
     
     // Start is called before the first frame update
@@ -45,6 +48,7 @@ public class GameManager : Singleton<GameManager>
     {
         AudioManager.Instance.StopSoundTrack();
         animator.SetTrigger(Death);
+        _cursorManager.setMenuCursor();
         StartCoroutine(LoadMainMenu());
     }
     

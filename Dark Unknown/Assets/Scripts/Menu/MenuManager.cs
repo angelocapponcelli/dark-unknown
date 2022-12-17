@@ -26,6 +26,8 @@ public class MenuManager : Singleton<MenuManager>
     public Slider _playerVolumeSlider;
     public Slider _enemyVolumeSlider;
     public Slider _backgroundVolumeSlider;
+    
+    private CursorManager _cursorManager;
 
 
     //generic function to activate a certain menu screen
@@ -60,6 +62,8 @@ public class MenuManager : Singleton<MenuManager>
         _playerVolumeSlider.value = AudioManager.Instance.GetPlayerVolumeSound();
         _enemyVolumeSlider.value = AudioManager.Instance.GetEnemyVolumeSound();
         _backgroundVolumeSlider.value = AudioManager.Instance.GetBackgroundVolumeSound();
+        _cursorManager = FindObjectOfType<CursorManager>();
+        _cursorManager.setMenuCursor();
     }
 
     private void Update()
@@ -73,6 +77,7 @@ public class MenuManager : Singleton<MenuManager>
     //reactors to the pressing of a button
     public void OpenMainMenu()
     {
+        _cursorManager.setMenuCursor();
         SetMenu(Menu.Main);
     }
     
@@ -99,6 +104,7 @@ public class MenuManager : Singleton<MenuManager>
     public void PlayGame()
     {
         animator.SetTrigger(Quit);
+        _cursorManager.setPlayCursor();
         StartCoroutine(LoadGameCoroutine());
     }
     
@@ -144,5 +150,4 @@ public class MenuManager : Singleton<MenuManager>
     {
         AudioManager.Instance.SetSkeletonVolume(value);
     }
-
 }
