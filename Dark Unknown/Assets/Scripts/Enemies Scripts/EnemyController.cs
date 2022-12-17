@@ -15,14 +15,4 @@ public abstract class EnemyController : MonoBehaviour
     {
         return isDead;
     }
-    
-    private void OnMouseEnter()
-    {
-        Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
-    }
-    
-    private void OnMouseExit()
-    {
-        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
-    }
 }
