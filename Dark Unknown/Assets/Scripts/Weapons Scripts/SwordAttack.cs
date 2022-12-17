@@ -11,7 +11,7 @@ public class SwordAttack : MonoBehaviour
         Collider2D[] hitEnemies = collision.GetComponents<Collider2D>();
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.gameObject.CompareTag("EnemyCollider"))
+            if (enemy.gameObject.CompareTag("Enemy"))
             {
                 enemy.GetComponentInParent<EnemyController>().TakeDamageMelee(_damage*Player.Instance.GetStrengthMultiplier());
             }

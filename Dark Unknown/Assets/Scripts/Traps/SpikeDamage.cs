@@ -13,7 +13,7 @@ public class SpikeDamage : MonoBehaviour
         {
             if (!character.gameObject.CompareTag("EnemyFeetCollider") &&
                 !character.gameObject.CompareTag("PlayerFeetCollider")) continue;
-            //Debug.Log("damage taken");
+            Debug.Log("damage taken");
             //character.GetComponentInParent<Player>().TakeDamage(_damage);
             if(character.GetComponentInParent<Player>()!=null)
                 character.GetComponentInParent<Player>().TakeDamage(_damage);

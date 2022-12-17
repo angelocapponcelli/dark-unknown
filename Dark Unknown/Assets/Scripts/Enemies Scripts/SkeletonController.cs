@@ -25,11 +25,7 @@ public class SkeletonController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
-
-    private bool _deathSoundPlayed = false;
-    
     // Start is called before the first frame update
     private void Start()
     {
@@ -43,7 +39,6 @@ public class SkeletonController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -59,6 +54,9 @@ public class SkeletonController : EnemyController
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
+        /*
+        _direction = _target.transform.position - transform.position;
+        _direction.Normalize();*/
 
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
 
@@ -77,7 +75,9 @@ public class SkeletonController : EnemyController
                 {
                     _animator.AnimateIdle();
                 }
+                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
+            //else if (!_isAttacking && !_damageCoroutineRunning)
             else if (!_damageCoroutineRunning && _timeForNextAttack <= 0) //&& !_isAttacking)
             {
                 // At the minimum distance, it stops moving
@@ -104,8 +104,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -132,15 +132,19 @@ public class SkeletonController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
+        /*do
+        {
+            yield return null;
+        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
+        //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
 
         _isAttacking = false;
         _canMove = true;
         _animator.canMove();
     }
 
-<<<<<<< HEAD
     private IEnumerator RecoverySequence()
     {
         _currentHealth = _maxHealth;
@@ -151,17 +155,13 @@ public class SkeletonController : EnemyController
     }    
  
     public override void TakeDamageMelee(float damage)
-=======
-    public override void TakeDamage(float damage, bool damageFromArrow)
->>>>>>> develop
     {
-        if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            DisableBoxCollider();
             Die();
+            DisableBoxCollider();
         } else
         {
             _damageCoroutineRunning = true;
@@ -178,13 +178,8 @@ public class SkeletonController : EnemyController
             DisableBoxCollider();
         } else
         {
-<<<<<<< HEAD
             _damageCoroutineRunning = true;
             StartCoroutine(DamageDistance());
-=======
-            StartCoroutine(FlashRed());
-            _canMove = true;
->>>>>>> develop
         }
     }
     
@@ -198,20 +193,12 @@ public class SkeletonController : EnemyController
         _damageCoroutineRunning = false;
     }
     
-<<<<<<< HEAD
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _damageCoroutineRunning = false;
-=======
-    private IEnumerator FlashRed()
-    {
-        _skeletonRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
->>>>>>> develop
     }
 
     private void Die()
@@ -220,24 +207,8 @@ public class SkeletonController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
-        _deathSoundPlayed = true;
-        ReduceEnemyCounter();
     }
-    
-    public override IEnumerator RecoverySequence()
-    {
-        _currentHealth = _maxHealth;
-        _animator.AnimateRecover();
-        yield return new WaitForSeconds(1f);
-        _animator.AnimateIdle();
-        yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
-        isDead = false; 
-        _canMove = true;
-        _deathSoundPlayed = false;
-    }  
 
     private void DisableBoxCollider()
     {

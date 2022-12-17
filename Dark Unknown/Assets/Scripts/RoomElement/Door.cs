@@ -58,7 +58,7 @@ public class Door : MonoBehaviour
 
     void Update()
     {
-        if (_canOpen && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        if (_canOpen && Input.GetKey(KeyCode.E))
         {
             AudioManager.Instance.PlayEnterDoorSound();
             _myBoxCollider.enabled = false;
@@ -101,7 +101,7 @@ public class Door : MonoBehaviour
         //_isClose = true;
         _animator.SetTrigger(Closing);
         _animator.SetBool(IsClosed, true);
-        //_mySpriteRender.sprite = _openedDoorSprite;
+        //_mySpriteRender.sprite = _opendDoorSprite;
         _myBoxCollider.enabled = false;
     }
 
@@ -112,9 +112,7 @@ public class Door : MonoBehaviour
             //set room colliders to false
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
-            Player.Instance.ShowPlayerUI(true, "Press " + 
-                                               InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                                               " to enter the door");
+            Player.Instance.ShowPlayerUI(true, "Press E to enter the door");
             _canOpen = true;
         }
     }

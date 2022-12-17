@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 518739039}
   m_Layer: 10
   m_Name: EnemyCollider
-  m_TagString: EnemyCollider
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 1853442235}
   m_Layer: 10
   m_Name: Skeleton
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -665,12 +665,8 @@ MonoBehaviour:
   _minDistance: 0.8
   _chaseDistance: 8
   _maxHealth: 50
-<<<<<<< HEAD
   attackDelay: 1.2
   flashMaterial: {fileID: 2100000, guid: 8d0a29a826d85b847b526c19e2d612a0, type: 2}
-=======
-  attackDelay: 1.5
->>>>>>> develop
 --- !u!114 &4993529497654733024
 MonoBehaviour:
   m_ObjectHideFlags: 0

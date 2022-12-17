@@ -12,11 +12,7 @@ public class SkeletonBossController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
-    [SerializeField] private float vulnerabilityTime = 5f;
-    [SerializeField] private float reanimationCountDown = 20f;
     private float _timeForNextAttack;
-    private float _timeForNextReanimation;
-    private bool _reanimationStarted = false;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -26,98 +22,55 @@ public class SkeletonBossController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
     private bool _isHittable;
-<<<<<<< HEAD
     private SpriteRenderer _spriteRenderer;
     private Material _originalMaterial;
     private GameObject[] _crystals;
-=======
-    private int _numOfCrystals;
-    //private GameObject[] _crystals;
-    private bool _allCrystalsDestroyed;
->>>>>>> develop
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Material flashMaterial;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
     private SkeletonBossUIController _bossUIController = null;
-    
-    private bool _deathSoundPlayed = false;
-    
     // Start is called before the first frame update
     private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
-        _allCrystalsDestroyed = false;
         _target = Player.Instance;
-        //StateGameManager.Crystals = GameObject.FindGameObjectsWithTag("Crystal");
-
+        _crystals = GameObject.FindGameObjectsWithTag("Crystal");
+        if (_crystals.Length==0) AllCrystalsDestroyed();
+        
         _currentHealth = _maxHealth;
         _canMove = true;
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
-        _timeForNextReanimation = reanimationCountDown;
 
         if (GetComponent<SkeletonBossUIController>() == null) return;
         _bossUIController = GetComponent<SkeletonBossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
-        
-        // Testing
-        /*foreach (var crystal in GameObject.FindGameObjectsWithTag("Crystal"))
-        {
-            StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
-        }*/
-        _numOfCrystals = GameManager.Crystals.Count;
-        //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
-        
-        if (GameManager.Crystals.Count == 0)
-        {
-            AllCrystalsDestroyed();
-        }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (_target == null || isDead)
+        if (_target == null)
         {
             return;
         }
-
-        /*if (StateGameManager.Crystals.Length == 0 && _allCrystalsDestroyed == false)
-        {
-            AllCrystalsDestroyed();
-        }*/
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
-
+        /*
+        _direction = _target.transform.position - transform.position;
+        _direction.Normalize();*/
+        
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
-        if (_timeForNextReanimation > 0)
-        {
-            _timeForNextReanimation -= Time.deltaTime;
-            if (_timeForNextReanimation is < 2f and > 0 && _reanimationStarted==false)
-            {
-                _reanimationStarted = true;
-                StartCoroutine(ReanimationTelegraph());
-            }
-        }
-        else
-        {
-            Debug.Log("Reanimating");
-            ReanimateMobs();
-            _timeForNextReanimation = reanimationCountDown;
-            _reanimationStarted = false;
-        }
         
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
@@ -127,6 +80,7 @@ public class SkeletonBossController : EnemyController
             {
                 _movement.MoveEnemy(_ai.GetMovingDirection());
                 _animator.AnimateEnemy(true, _ai.GetMovingDirection());
+                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (!_damageCoroutineRunning && _timeForNextAttack <= 0)
             {
@@ -152,10 +106,10 @@ public class SkeletonBossController : EnemyController
             _animator.flip(_target.transform.position - transform.position);
         }
 
-        // -- Cheats --
+        // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);
+        /*if (Input.GetKeyDown("e"))
+            TakeDamage(50);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -182,33 +136,27 @@ public class SkeletonBossController : EnemyController
     {
         _animator.AnimateAttack(direction);
         AudioManager.Instance.PlaySkeletonAttackSound();
+        /*do
+        {
+            yield return null;
+        } while (_distance < _minDistance);*/
 
         yield return new WaitForSeconds(0.7f);
+        //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
 
         _isAttacking = false;
         _canMove = true;
         _animator.canMove();
     }
 
-    private void ReanimateMobs()
-    {
-        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if (enemy.GetComponent<EnemyController>().IsDead())
-            {
-                StartCoroutine(enemy.GetComponent<EnemyController>().RecoverySequence());
-            }
-        }
-    }
-    
-    public override IEnumerator RecoverySequence()
+    private IEnumerator RecoverySequence()
     {
         _currentHealth = _maxHealth;
         _animator.AnimateRecover();
         yield return new WaitForSeconds(2);
         isDead = false; 
         _canMove = true;
-    }
+    }    
  
     public override void TakeDamageMelee(float damage)
     {
@@ -230,22 +178,12 @@ public class SkeletonBossController : EnemyController
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-<<<<<<< HEAD
             Die();
             DisableBoxCollider();
         } else
         {
             _damageCoroutineRunning = true;
             StartCoroutine(DamageDistance());
-=======
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
-        {
-            StartCoroutine(FlashRed());
-            _canMove = true;
->>>>>>> develop
         }
     }
     
@@ -253,25 +191,18 @@ public class SkeletonBossController : EnemyController
     {
         _animator.AnimateTakeDamage();
         AudioManager.Instance.PlaySkeletonHurtSound();
+        _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
     
-<<<<<<< HEAD
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _damageCoroutineRunning = false;
-=======
-    private IEnumerator FlashRed()
-    {
-        _skeletonRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
->>>>>>> develop
     }
 
     private void Die()
@@ -280,21 +211,7 @@ public class SkeletonBossController : EnemyController
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
-        if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
-        _deathSoundPlayed = true;
-        //ReduceEnemyCounter();
-    }
-
-    private IEnumerator ReanimationTelegraph()
-    {
-        for (float i = 0; i < 2f; i += 0.1f)
-        {
-            _skeletonRenderer.color = Color.cyan;
-            yield return new WaitForSeconds(0.1f);
-            _skeletonRenderer.color = Color.white;
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     private void DisableBoxCollider()
@@ -302,55 +219,29 @@ public class SkeletonBossController : EnemyController
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var collider in spiderColliders)
         {
-            collider.gameObject.SetActive(false);
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
     public void CrystalDestroyed()
     {
-        if (GameManager.Crystals.Count <= 0) return;
-        var crystal = GameManager.Crystals[_numOfCrystals-1];
-        if (crystal.IsDead()) GameManager.Crystals.Remove(crystal);
-        _numOfCrystals -= 1;
-        /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
+        if (_crystals.Length <= 0) return;
+        _crystals = _crystals.SkipLast(1).ToArray();
+        Debug.Log("Number of crystals: " + _crystals.Length);
+        if (_crystals.Length == 0)
         {
-            var crystal = StateGameManager.Crystals[i];
-            if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
-        }*/
-        Debug.Log(_numOfCrystals);
-        if (_numOfCrystals == 0)
-        {
+            Debug.Log("all crystals destroyed");
             AllCrystalsDestroyed();
             return;
         }
         StartCoroutine(CrystalDestroyedCoroutine());
     }
 
-    /*private IEnumerator CrystalDestroyedCoroutine()
-    {
-        _isHittable = true;
-        _particleSystem.Stop();
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().DisableVulnerability();
-        }
-        yield return new WaitForSeconds(5f);
-        if (_allCrystalsDestroyed) yield break;
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().EnableVulnerability();
-        }
-        _isHittable = false;
-        _particleSystem.Play();
-    }*/
-    
     private IEnumerator CrystalDestroyedCoroutine()
     {
         _isHittable = true;
         _particleSystem.Stop();
-        yield return new WaitForSeconds(vulnerabilityTime);
-        if (_allCrystalsDestroyed || isDead) yield break;
-        GameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        yield return new WaitForSeconds(5f);
         _isHittable = false;
         _particleSystem.Play();
     }
@@ -367,6 +258,5 @@ public class SkeletonBossController : EnemyController
         Debug.Log("all crystals destroyed");
         _particleSystem.Stop();
         _isHittable = true;
-        _allCrystalsDestroyed = true;
     }
 }

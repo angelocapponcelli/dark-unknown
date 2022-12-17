@@ -5140,7 +5140,7 @@ GameObject:
   - component: {fileID: 1283080098868788214}
   m_Layer: 10
   m_Name: EnemyCollider
-  m_TagString: EnemyCollider
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5394,10 +5394,8 @@ MonoBehaviour:
   customCursor: {fileID: 2800000, guid: 65028297a3f418f4b8ddad73a71b38ff, type: 3}
   _minDistance: 1.3
   _chaseDistance: 14
-  _maxHealth: 400
-  attackDelay: 2.5
-  vulnerabilityTime: 10
-  reanimationCountDown: 30
+  _maxHealth: 300
+  attackDelay: 2
   _particleSystem: {fileID: 1413696389}
   flashMaterial: {fileID: 2100000, guid: 8d0a29a826d85b847b526c19e2d612a0, type: 2}
 --- !u!114 &6089709000809252681

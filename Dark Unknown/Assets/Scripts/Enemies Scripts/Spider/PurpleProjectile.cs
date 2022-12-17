@@ -19,18 +19,12 @@ public class PurpleProjectile : MonoBehaviour
         var hitEnemies = collision.GetComponentsInChildren<Collider2D>();
         foreach (var element in hitEnemies)
         {
-            //if (element.gameObject.CompareTag("Player") || element.gameObject.CompareTag("PlayerFeetCollider"))
-            if (element.gameObject.transform.CompareTag("Player"))
+            if (element.gameObject.CompareTag("Player") || element.gameObject.CompareTag("PlayerFeetCollider"))
             {
                 element.GetComponentInParent<Player>().TakeDamage(_damage);
             }
+            if (element.gameObject.CompareTag("Enemy") || element.gameObject.CompareTag("EnemyFeetCollider")) return;
         }
-        /*if (collision.CompareTag("Trap") || 
-            collision.CompareTag("EnemyFeetCollider") ||
-            collision.CompareTag("Projectile") ||
-            collision.CompareTag("Enemy")) return;*/
-        if (collision.CompareTag("Trap") ||
-            collision.gameObject.transform.parent.CompareTag("EnemyCollider")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
