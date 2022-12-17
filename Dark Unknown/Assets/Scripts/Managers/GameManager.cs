@@ -15,6 +15,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Animator animator;
     private static readonly int Death = Animator.StringToHash("Death");
     public static bool PlayerHasWon;
+    
+    public static int NumOfEnemies;
+    public static List<EnemyController> Crystals = new List<EnemyController>();
 
     protected override void Awake()
     {

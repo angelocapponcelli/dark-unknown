@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7142190542362188753}
   m_Layer: 10
   m_Name: Spider
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +156,11 @@ MonoBehaviour:
   _maxHealth: 30
   _minDistance: 4.5
   _projectile: {fileID: 7627823171936585592, guid: 3aef751ee76794dd4a382e8e44fd4e60, type: 3}
+<<<<<<< HEAD
   flashMaterial: {fileID: 2100000, guid: 8d0a29a826d85b847b526c19e2d612a0, type: 2}
+=======
+  _projectileSpeed: 4.5
+>>>>>>> develop
 --- !u!114 &2761477236736097162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,7 +488,7 @@ GameObject:
   - component: {fileID: 7142190543696889653}
   m_Layer: 10
   m_Name: EnemyCollider
-  m_TagString: Enemy
+  m_TagString: EnemyCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

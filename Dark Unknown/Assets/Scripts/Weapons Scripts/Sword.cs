@@ -11,7 +11,7 @@ public class Sword : Weapon
 
     private void Start()
     {
-        _delay = 0.8f;
+        _delay = 0.6f;
         //_damage = 10f; non � pi� usato in questa classe, vedi WeaponAttack
         _canRotateFreely = false;
         

@@ -10,6 +10,7 @@ public class Player : Singleton<Player>
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
     private PlayerAnimation _playerAnimation;
+    private SpriteRenderer _playerRenderer;
     
     private Vector2 _direction;    
     private Vector2 _pointerPos;
@@ -32,6 +33,7 @@ public class Player : Singleton<Player>
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
         _playerAnimation = GetComponent<PlayerAnimation>();
+        _playerRenderer = GetComponent<SpriteRenderer>();
 
         _weaponParent = GetComponentInChildren<WeaponParent>();
 
@@ -50,9 +52,10 @@ public class Player : Singleton<Player>
         if (PauseMenu.GameIsPaused == false)
         {
             _weaponParent.PointerPosition = _playerInput.PointerPosition;
-            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, _playerInput.PointerPosition, _playerMovement.GetRBPos());
+            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
+                _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
-            if (_canGetWeapon && Input.GetKeyDown(KeyCode.E))
+            if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
             {
                 //instantiate new reward
                 GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
@@ -80,7 +83,7 @@ public class Player : Singleton<Player>
     // FixedUpdate handles the movement 
     private void FixedUpdate()
     {
-        _playerMovement.MovePlayer(_playerInput.MovementDirection, _playerInput.GetShiftDown());
+        _playerMovement.MovePlayer(_playerInput.MovementDirection, PlayerInput.GetDashKeyDown());
     }
 
     public void TakeDamage(float damage)
@@ -104,46 +107,31 @@ public class Player : Singleton<Player>
 
     private IEnumerator FlashRed()
     {
-        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
-        playerRenderer.color = Color.red;
+        _playerRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
+        _playerRenderer.color = Color.white;
     }
     
     private IEnumerator Death()
     {
-        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
-        playerRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        playerRenderer.color = Color.white;
+        for (float i = 0; i < 1f; i += 0.1f)
+        {
+            _playerRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            _playerRenderer.color = Color.white;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     private IEnumerator FlashBlue()
     {
-        SpriteRenderer playerRenderer = GetComponent<SpriteRenderer>();
-        playerRenderer.color = Color.cyan;
+        _playerRenderer.color = Color.cyan;
         yield return new WaitForSeconds(0.2f);
-        playerRenderer.color = Color.white;
+        _playerRenderer.color = Color.white;
         yield return new WaitForSeconds(0.2f);
-        playerRenderer.color = Color.cyan;
+        _playerRenderer.color = Color.cyan;
         yield return new WaitForSeconds(0.2f);
-        playerRenderer.color = Color.white;
+        _playerRenderer.color = Color.white;
     }
 
     public void SetPosition(Vector3 newPos)
@@ -184,7 +172,9 @@ public class Player : Singleton<Player>
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward)
     {
-        ShowPlayerUI(true, "Press E to get new weapon");
+        // change to "Press keybindingAction.Interact.ToString() to get new weapon"
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
+                           " to get new weapon");
         _canGetWeapon = true;
         _weaponToGet = weapon;
         _rewardToGet = reward;
@@ -208,15 +198,11 @@ public class Player : Singleton<Player>
 
     public bool checkSwordWeapon()
     {
-        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Sword"))
-            return true;
-        return false;
+        return _weaponParent.CompareTag("Sword");
     }
     public bool checkBowWeapon()
     {
-        if (GetComponentInChildren<WeaponParent>().gameObject.CompareTag("Bow"))
-            return true;
-        return false;
+        return _weaponParent.CompareTag("Bow");
     }
 }
 

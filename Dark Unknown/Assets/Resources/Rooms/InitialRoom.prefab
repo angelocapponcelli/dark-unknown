@@ -17869,6 +17869,7 @@ MonoBehaviour:
   _bossEnemyController: {fileID: -7007413687502791323, guid: bbe7dde9b7fcb48a289b474abe81319e, type: 3}
   numOfCrystals: 0
   _spawnTime: 0
+  spiderPercentage: 0
   _doors:
   - {fileID: 3550606861565156287}
   - {fileID: 5320269347205147827}
@@ -17878,11 +17879,11 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 797afd6846413124682dd2d8d9c9a66a, type: 2}
   - type: 2
     sprite: {fileID: 21300000, guid: f39b653cec91f964196dc49a74ffd750, type: 2}
-  - type: 3
-    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
-  - type: 4
-    sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
   - type: 5
+    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
+  - type: 3
+    sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
+  - type: 4
     sprite: {fileID: 21300000, guid: 6f9a80946479b1d4993b0809129d72dc, type: 2}
   - type: 6
     sprite: {fileID: 21300000, guid: c43b07a70874b084494b3a589632db25, type: 2}
@@ -17905,6 +17906,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 6768996833809911731}
+  spawnTime: 0
+  enemyPrefab: {fileID: 0}
 --- !u!1001 &100388419335640648
 PrefabInstance:
   m_ObjectHideFlags: 0
