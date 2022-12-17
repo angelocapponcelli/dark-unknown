@@ -7,22 +7,41 @@ public class CrystalController : EnemyController
     private float _currentHealth = 40f;
     [SerializeField] private Animator animator;
     [SerializeField] private ParticleSystem particles;
+    [SerializeField] private Material flashMaterial;
     private static readonly int Dead = Animator.StringToHash("dead");
     private bool _isHittable;
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
 
     //Start is called before the first frame update
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
         DisableVulnerability();
     }
 
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (!_isHittable) return;
         if (_currentHealth > 0)
         {
             _currentHealth -= damage;
-            StartCoroutine(FlashRed());
+            StartCoroutine(Flash());
+        }
+        else if (!isDead)
+        {
+            Destroyed();
+        }
+    }
+    
+    public override void TakeDamageDistance(float damage)
+    {
+        if (!_isHittable) return;
+        if (_currentHealth > 0)
+        {
+            _currentHealth -= damage;
+            StartCoroutine(Flash());
         }
         else if (!isDead)
         {
@@ -35,12 +54,11 @@ public class CrystalController : EnemyController
         yield break; 
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator Flash()
     {
-        SpriteRenderer crystalRenderer = GetComponent<SpriteRenderer>();
-        crystalRenderer.color = Color.red;
+        _spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        crystalRenderer.color = Color.white;
+        _spriteRenderer.material = _originalMaterial;
     }
 
     private void Destroyed()

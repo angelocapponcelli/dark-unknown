@@ -26,11 +26,14 @@ public class SkeletonBossController : EnemyController
     private bool _canMove;
     private bool _damageCoroutineRunning;
     private bool _isHittable;
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
     private int _numOfCrystals;
     //private GameObject[] _crystals;
     private bool _allCrystalsDestroyed;
     [SerializeField] private ParticleSystem _particleSystem;
-
+    [SerializeField] private Material flashMaterial;
+    
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SpriteRenderer _skeletonRenderer;
@@ -42,6 +45,8 @@ public class SkeletonBossController : EnemyController
     // Start is called before the first frame update
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _allCrystalsDestroyed = false;
         _target = Player.Instance;
@@ -146,7 +151,7 @@ public class SkeletonBossController : EnemyController
         // -- Cheats --
         // Hurt
         if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);
+            TakeDamageMelee(50);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -201,7 +206,7 @@ public class SkeletonBossController : EnemyController
         _canMove = true;
     }
  
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (!_isHittable) return;
         _movement.StopMovement();
@@ -216,33 +221,53 @@ public class SkeletonBossController : EnemyController
         {
             if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
         }
     }
     
-    private IEnumerator Damage()
+    public override void TakeDamageDistance(float damage)
     {
-        if (!_damageFromDistance)
+        if (!_isHittable) return;
+        _movement.StopMovement();
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
         {
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
+            Die();
+            DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
+        } else
         {
-            StartCoroutine(FlashRed());
-            _canMove = true;
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
         }
+    }
+    
+    private IEnumerator DamageMelee()
+    {
+        _animator.AnimateTakeDamage();
+        _canMove = false;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator DamageDistance()
     {
-        _skeletonRenderer.color = Color.red;
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
+        _spriteRenderer.material = _originalMaterial;
     }
 
     private void Die()

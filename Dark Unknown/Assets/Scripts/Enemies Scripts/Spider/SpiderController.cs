@@ -12,6 +12,7 @@ public class SpiderController : EnemyController
     [SerializeField]private float _minDistance = 3f;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
+    [SerializeField] private Material flashMaterial;
     [SerializeField] private float _projectileSpeed = 5f;
 
     private Rigidbody2D _rb;
@@ -23,6 +24,8 @@ public class SpiderController : EnemyController
     private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
+    private SpriteRenderer _spriteRenderer;
+    private Material _originalMaterial;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
@@ -34,6 +37,8 @@ public class SpiderController : EnemyController
     // Start is called before the first frame update
     private void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
 
@@ -123,7 +128,7 @@ public class SpiderController : EnemyController
         // -- Handle Animations --
         // Hurt
         if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);
+            TakeDamageMelee(50);
         // Death
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -162,41 +167,61 @@ public class SpiderController : EnemyController
         _animator.canMove();
     }
     
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
-            Die();
             DisableBoxCollider();
+            Die();
         } else
         {
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
         }
     }
     
-    private IEnumerator Damage()
+    public override void TakeDamageDistance(float damage)
     {
-        if (!_damageFromDistance)
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
         {
-            _animator.AnimateTakeDamage();
-        } else StartCoroutine(FlashRed());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
+        }
+    }
+    
+    private IEnumerator DamageMelee()
+    {
+        _animator.AnimateTakeDamage(); 
         _canMove = false;
+        AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator DamageDistance()
     {
-        _spiderRenderer.color = Color.red;
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spriteRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _spiderRenderer.color = Color.white;
+        _spriteRenderer.material = _originalMaterial;
     }
 
     private void Die()
