@@ -54,11 +54,13 @@ public class GameManager : Singleton<GameManager>
     private static IEnumerator LoadMainMenu()
     {
         yield return new WaitForSeconds(1);
+        Cursor.SetCursor(null,Vector2.zero, CursorMode.Auto);
         SceneManager.LoadScene("Menu");
     }
     
     public void LoadVictoryScreen()
     {
+        Cursor.SetCursor(null,Vector2.zero, CursorMode.Auto);
         PlayerHasWon = true;
         AudioManager.Instance.StopSoundTrack();
         UIController.Instance.DeactivatePlayerUI();
@@ -68,6 +70,7 @@ public class GameManager : Singleton<GameManager>
     
     public void LoadDeathScreen()
     {
+        Cursor.SetCursor(null,Vector2.zero, CursorMode.Auto);
         AudioManager.Instance.StopSoundTrack();
         UIController.Instance.DeactivatePlayerUI();
         animator.SetTrigger(Death);
