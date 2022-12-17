@@ -46,6 +46,7 @@ public class GameManager : Singleton<GameManager>
 
     public void BackToMainMenu()
     {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         AudioManager.Instance.StopSoundTrack();
         animator.SetTrigger(Death);
         StartCoroutine(LoadMainMenu());

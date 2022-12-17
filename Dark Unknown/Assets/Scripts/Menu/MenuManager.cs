@@ -40,6 +40,7 @@ public class MenuManager : Singleton<MenuManager>
 
     private GameObject[] _keybindingButtons;
     public static bool IsChangingKey;
+    [SerializeField] private Texture2D customCursor;
 
 
     //generic function to activate a certain menu screen
@@ -177,6 +178,7 @@ public class MenuManager : Singleton<MenuManager>
 
     public void PlayGame()
     {
+        Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
         animator.SetTrigger(Quit);
         StartCoroutine(LoadGameCoroutine());
     }
