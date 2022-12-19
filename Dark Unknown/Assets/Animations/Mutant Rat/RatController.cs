@@ -138,8 +138,8 @@ public class RatController : EnemyController
         if (_ai.GetMovingDirection() != Vector2.zero)
         {
             GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed;
-            Destroy(projectile, 2.5f);
+            //projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed; //TO REMOVE
+            //Destroy(projectile, 2.5f); //TO REMOVE
             // At the minimum distance, it stops moving
             _isAttacking = true;
             _canMove = false;
