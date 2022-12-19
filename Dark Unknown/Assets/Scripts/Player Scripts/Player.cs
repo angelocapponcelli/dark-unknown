@@ -49,30 +49,26 @@ public class Player : Singleton<Player>
     // Update handles the animation changes based on the mouse pointer 
     private void Update()
     {
-        if (PauseMenu.GameIsPaused == false)
-        {
-            _weaponParent.PointerPosition = _playerInput.PointerPosition;
-            _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
-                _playerInput.PointerPosition, _playerMovement.GetRBPos());
+        if (PauseMenu.GameIsPaused) return;
+        _weaponParent.PointerPosition = _playerInput.PointerPosition;
+        _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
+            _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
-            if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
-            {
-                //instantiate new reward
-                GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
-                newReward.transform.position = transform.position;
-                //destroy current weapon
-                Destroy(_weaponParent.gameObject);
-                //instantiate new current weapon
-                _weaponParent = Instantiate(_weaponToGet, transform, true);
-                var weaponTransform = _weaponParent.transform;
-                weaponTransform.localPosition = new Vector2(0f, 0.673f);
-                weaponTransform.localScale = new Vector3(1, 1, 1);
-                //destroy old reward already taken
-                Destroy(_rewardToGet);
-                _canGetWeapon = false;
-            }
-        }
-        
+        if (!_canGetWeapon || !InputManager.Instance.GetKeyDown(KeybindingActions.Interact)) return;
+        //instantiate new reward
+        GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
+        newReward.transform.position = transform.position;
+        //destroy current weapon
+        Destroy(_weaponParent.gameObject);
+        //instantiate new current weapon
+        _weaponParent = Instantiate(_weaponToGet, transform, true);
+        var weaponTransform = _weaponParent.transform;
+        weaponTransform.localPosition = new Vector2(0f, 0.673f);
+        weaponTransform.localScale = new Vector3(1, 1, 1);
+        //destroy old reward already taken
+        Destroy(_rewardToGet);
+        _canGetWeapon = false;
+
         // Use while testing to suicide
         /*if (Input.GetKeyDown(KeyCode.Q))
         {

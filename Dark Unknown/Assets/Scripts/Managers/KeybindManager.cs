@@ -38,9 +38,13 @@ public class KeybindManager : Singleton<KeybindManager>
         _inputManager.SetKeyForAction(KeybindingActions.MoveRight, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
             PlayerPrefs.GetString("MoveRight", "D")));
         _inputManager.SetKeyForAction(KeybindingActions.Dash, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
-            PlayerPrefs.GetString("Dash", "LeftShift")));
+            PlayerPrefs.GetString("Dash", "Space")));
         _inputManager.SetKeyForAction(KeybindingActions.Interact, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
-            PlayerPrefs.GetString("Interact", "E")));
+            PlayerPrefs.GetString("Interact", "F")));
+        _inputManager.SetKeyForAction(KeybindingActions.Potion, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
+            PlayerPrefs.GetString("Potion", "Q")));
+        _inputManager.SetKeyForAction(KeybindingActions.Spell, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
+            PlayerPrefs.GetString("Spell", "E")));
         
         UpdateAllKeysText();
         SaveKeybindingsArray();
@@ -54,7 +58,8 @@ public class KeybindManager : Singleton<KeybindManager>
         right.text = _inputManager.GetKeyForAction(KeybindingActions.MoveRight).ToString();
         dash.text = _inputManager.GetKeyForAction(KeybindingActions.Dash).ToString();
         interact.text = _inputManager.GetKeyForAction(KeybindingActions.Interact).ToString();
-        //TODO:Add remaining cases
+        potion.text = _inputManager.GetKeyForAction(KeybindingActions.Potion).ToString();
+        spell.text = _inputManager.GetKeyForAction(KeybindingActions.Spell).ToString();
     }
     
     public void ResetDefault()
@@ -63,8 +68,10 @@ public class KeybindManager : Singleton<KeybindManager>
         _inputManager.SetKeyForAction(KeybindingActions.MoveDown, KeyCode.S);
         _inputManager.SetKeyForAction(KeybindingActions.MoveLeft, KeyCode.A);
         _inputManager.SetKeyForAction(KeybindingActions.MoveRight, KeyCode.D);
-        _inputManager.SetKeyForAction(KeybindingActions.Dash, KeyCode.LeftShift);
-        _inputManager.SetKeyForAction(KeybindingActions.Interact, KeyCode.E);
+        _inputManager.SetKeyForAction(KeybindingActions.Dash, KeyCode.Space);
+        _inputManager.SetKeyForAction(KeybindingActions.Interact, KeyCode.F);
+        _inputManager.SetKeyForAction(KeybindingActions.Potion, KeyCode.Q);
+        _inputManager.SetKeyForAction(KeybindingActions.Spell, KeyCode.E);
         
         UpdateAllKeysText();
     }
@@ -91,7 +98,12 @@ public class KeybindManager : Singleton<KeybindManager>
             case "Interact":
                 keybindingAction = KeybindingActions.Interact;
                 break;
-            //TODO:add remaining cases
+            case "Potion":
+                keybindingAction = KeybindingActions.Potion;
+                break;
+            case "Spell":
+                keybindingAction = KeybindingActions.Spell;
+                break;
         }
 
         return keybindingAction;
