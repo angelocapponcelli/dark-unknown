@@ -158,6 +158,7 @@ public class RatProjectile : MonoBehaviour
     
     //Funzione da rimuovere serve solo per visualizzare i punti della traiettoria nell'editor
     //TO REMOVE
+    /*
     public void OnDrawGizmos() {
         Gizmos.color = Color.cyan;
         Gizmos.DrawSphere(_targetPosition + _offsetPosition, 0.2f);
@@ -165,5 +166,5 @@ public class RatProjectile : MonoBehaviour
         Gizmos.DrawSphere(_initialPosition + _offsetPosition, 0.2f);
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(_vertexPosition + _offsetPosition, 0.2f);
-    }
+    }*/
 }

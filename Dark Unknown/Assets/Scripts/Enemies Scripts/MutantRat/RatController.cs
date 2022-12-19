@@ -9,18 +9,16 @@ public class RatController : EnemyController
     [SerializeField] private Player _target;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
-    [SerializeField]private float _minDistance = 3f;
+    [SerializeField] private float _minDistance = 3f;
+    [SerializeField] private float meleeAttackDistance;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
-    [SerializeField] private float _projectileSpeed = 5f;
-
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
-    private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
 
@@ -67,12 +65,15 @@ public class RatController : EnemyController
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            // It follows the player till it reaches a minimum distance
-            if (_distance > _minDistance + _offset && _canMove)
+            if (_distance <= meleeAttackDistance)
+            {
+                AttackEvent(true);
+            }
+            else if (_distance > _minDistance + _offset && _canMove)
             {
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
@@ -83,7 +84,6 @@ public class RatController : EnemyController
                 {
                     _animator.AnimateIdle();
                 }
-                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (_distance < _minDistance - _offset && _canMove)
             {
@@ -95,7 +95,7 @@ public class RatController : EnemyController
                 _movement.StopMovement();
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
             }
             /*else if (_distance == _minDistance && !_isAttacking && !_damageCoroutineRunning)
@@ -133,9 +133,9 @@ public class RatController : EnemyController
         }*/
     }
 
-    private void AttackEvent()
+    private void AttackEvent(bool meleeAttack)
     {
-        if (_ai.GetMovingDirection() != Vector2.zero)
+        if (_ai.GetMovingDirection() != Vector2.zero && !meleeAttack)
         {
             GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
             //projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed; //TO REMOVE
@@ -144,17 +144,29 @@ public class RatController : EnemyController
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
-            StartCoroutine(Attack(_ai.GetMovingDirection()));
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
             _timeElapsedFromShot = 0;   
+        } else if (meleeAttack)
+        {
+            _isAttacking = true;
+            _canMove = false;
+            _movement.StopMovement();
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
         }
     }
 
-    private IEnumerator Attack(Vector2 direction)
+    private IEnumerator Attack(Vector2 direction, bool meleeAttack)
     {
-        _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        if(meleeAttack)
+            _animator.AnimateSecondAttack(direction);
+        else
+        {
+            _animator.AnimateAttack(direction);
+            AudioManager.Instance.PlaySkeletonAttackSound(); 
+        }
 
-        yield return new WaitForSeconds(0.7f);
+
+        yield return new WaitForSeconds(1f);
         //yield return new WaitForSeconds(_animator.GetCurrentState().length+_animator.GetCurrentState().normalizedTime);
 
         _isAttacking = false;
@@ -174,7 +186,6 @@ public class RatController : EnemyController
             DisableBoxCollider();
         } else
         {
-            _damageCoroutineRunning = true;
             StartCoroutine(Damage());
         }
     }
@@ -189,7 +200,6 @@ public class RatController : EnemyController
         _canMove = false;
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        _damageCoroutineRunning = false;
     }
     
     private IEnumerator FlashRed()

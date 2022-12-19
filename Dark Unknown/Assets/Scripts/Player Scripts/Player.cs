@@ -4,8 +4,9 @@ using Vector2 = UnityEngine.Vector2;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
-public class Player : Singleton<Player>
+public class Player : Singleton<Player>, IEffectable
 {
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
@@ -18,6 +19,11 @@ public class Player : Singleton<Player>
     [SerializeField] private float _maxHealth = 100;
     private float _currentHealth;
     [SerializeField] private GameObject _playerUI;
+
+    private StatusEffectData _statusEffect;
+    private float _currentEffectTime = 0;
+    private float _nextTickTime = 0;
+    private GameObject _statusEffectParticles;
 
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
@@ -70,6 +76,8 @@ public class Player : Singleton<Player>
                 Destroy(_rewardToGet);
                 _canGetWeapon = false;
             }
+            
+            if(_statusEffect != null) HandleEffect();
         }
         
         // Use while testing to suicide
@@ -200,6 +208,36 @@ public class Player : Singleton<Player>
     public bool checkBowWeapon()
     {
         return _weaponParent.CompareTag("Bow");
+    }
+
+    public void ApplyEffect(StatusEffectData _data)
+    {
+        _statusEffect = _data;
+        _statusEffectParticles = Instantiate(_data.particles, transform);
+    }
+
+    public void RemoveEffect()
+    {
+        Destroy(_statusEffectParticles);
+        _statusEffect = null;
+        _currentEffectTime = 0;
+        _nextTickTime = 0;
+    }
+
+
+    private void HandleEffect()
+    {
+        _currentEffectTime += Time.deltaTime;
+        
+        if(_currentEffectTime >= _statusEffect.time) RemoveEffect();
+
+        if (_statusEffect == null) return;
+        if (_currentEffectTime > _nextTickTime)
+        {
+            _nextTickTime += _statusEffect.tickSpeed;
+            _currentHealth -= _statusEffect.damage;
+            UIController.Instance.SetHealth(_currentHealth);
+        }
     }
 }
 
