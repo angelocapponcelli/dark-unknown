@@ -13,7 +13,7 @@ public class SwordAttack : MonoBehaviour
         {
             if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
-                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage*Player.Instance.GetStrengthMultiplier());
+                enemy.GetComponentInParent<EnemyController>().TakeDamageMelee(_damage*Player.Instance.GetStrengthMultiplier());
             }
         }
     }
