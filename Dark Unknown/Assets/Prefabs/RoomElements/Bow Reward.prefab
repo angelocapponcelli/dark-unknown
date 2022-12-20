@@ -94,9 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 965287781336206851}
   - component: {fileID: 4787766352846518200}
-  - component: {fileID: 345883424446398951}
   - component: {fileID: 1342939382246166150}
   - component: {fileID: 1979369502604163559}
+  - component: {fileID: -3173650134716081864}
   m_Layer: 0
   m_Name: Bow Reward
   m_TagString: Untagged
@@ -172,19 +172,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &345883424446398951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8020449471583359410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8ea18462f447ab4480ff43857fb79a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bowPrefab: {fileID: 2667557497074954354, guid: 57526733ddb4040068a7b31eccca6d16, type: 3}
 --- !u!114 &1342939382246166150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,3 +202,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.8
+--- !u!114 &-3173650134716081864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020449471583359410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9e6bcc8af9e5e4e806ce5bbf5fdc94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponPrefab: {fileID: 2667557497074954354, guid: 57526733ddb4040068a7b31eccca6d16, type: 3}

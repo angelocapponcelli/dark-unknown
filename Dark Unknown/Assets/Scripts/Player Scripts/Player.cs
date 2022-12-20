@@ -204,5 +204,9 @@ public class Player : Singleton<Player>
     {
         return _weaponParent.CompareTag("Bow");
     }
+    public bool checkAxeWeapon()
+    {
+        return _weaponParent.CompareTag("Axe");
+    }
 }
 

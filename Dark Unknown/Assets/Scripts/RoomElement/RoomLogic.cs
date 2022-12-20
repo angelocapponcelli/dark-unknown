@@ -29,14 +29,15 @@ public class RoomLogic : MonoBehaviour
     [Header("Rewards")]
     [SerializeField] private HealthReward _healthReward;
     [SerializeField] private SpeedReward _speedReward;
-    [SerializeField] private BowReward _bowReward;
+    [SerializeField] private WeaponReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
-    [SerializeField] private SwordReward _swordReward;
+    [SerializeField] private WeaponReward _swordReward;
+    [SerializeField] private WeaponReward _axeReward;
 
     [SerializeField] private Transform _spawnPointReward;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, BOSS};
+    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -78,6 +79,7 @@ public class RoomLogic : MonoBehaviour
             Type.STRENGTH => Instantiate(_strengthReward, position, Quaternion.identity),
             Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
             Type.SWORD => Instantiate(_swordReward, position, Quaternion.identity),
+            Type.AXE => Instantiate(_axeReward, position, Quaternion.identity),
             _ => _rewardSpawned
         };
         _isControlEnabled = false;
@@ -96,6 +98,8 @@ public class RoomLogic : MonoBehaviour
                 _possibleSymbols.Remove(toRemove);
                 toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
                 _possibleSymbols.Remove(toRemove);
+                toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
+                _possibleSymbols.Remove(toRemove);
             }
             else
             {
@@ -107,6 +111,11 @@ public class RoomLogic : MonoBehaviour
                 else if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
+                    _possibleSymbols.Remove(toRemove);
+                }
+                else if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
+                {
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                     _possibleSymbols.Remove(toRemove);
                 }
             }
@@ -127,7 +136,14 @@ public class RoomLogic : MonoBehaviour
         }
 
         _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 4);
+        if (_roomType == Type.RANDOM)
+        {
+            List<Type> randomSymbols = new List<Type>();
+            randomSymbols.Add(Type.SPEED);
+            randomSymbols.Add(Type.HEALTH);
+            randomSymbols.Add(Type.STRENGTH);
+            _roomType = randomSymbols[Random.Range (1,(randomSymbols.Count - 1))];
+        }
         switch (_roomType)
         {
             case Type.INITIAL:
@@ -139,6 +155,7 @@ public class RoomLogic : MonoBehaviour
             case Type.SPEED:
             case Type.SWORD:
             case Type.STRENGTH:
+            case Type.AXE:
                 GameManager.NumOfEnemies = Random.Range(12, 15);
                 break;
             case Type.BOSS:
