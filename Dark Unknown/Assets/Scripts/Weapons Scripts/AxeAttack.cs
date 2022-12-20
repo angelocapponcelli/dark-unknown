@@ -6,10 +6,11 @@ using UnityEngine;
 
 public class AxeAttack : MonoBehaviour
 {
-    [SerializeField] private float _damage = 2f;
+    [SerializeField] private float _damage = 10f;
     private bool _returnToPlayer = false;
     private Vector2 _target;
     private Rigidbody2D _rigidbody2D;
+    private int _countTriggerStay = 0;
 
     private void Start()
     {
@@ -66,5 +67,21 @@ public class AxeAttack : MonoBehaviour
     public void setTarget(Vector2 target)
     {
         _target = target;
+    }
+
+    private void OnTriggerStay2D(Collider2D coll)
+    {
+        if (coll.gameObject.tag == "Player" || coll.gameObject.tag == "PlayerFeetCollider")
+        {
+            _countTriggerStay++;
+            if (_countTriggerStay > 20)
+            {
+                if (Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>())
+                {
+                    Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>().enableSprite(true);
+                }
+                Destroy(gameObject);
+            }
+        }
     }
 }
