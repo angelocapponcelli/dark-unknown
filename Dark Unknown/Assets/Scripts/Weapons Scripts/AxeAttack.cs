@@ -8,6 +8,7 @@ using UnityEngine;
 public class AxeAttack : MonoBehaviour
 {
     //ver1: axe launch based on the pointer / ver2: axe launch based on the distance
+    // **ver1 still doesn't work with multiple axes
     [SerializeField] private float _damage = 10f;
     private bool _returnToPlayer = false;
     private Vector2 _target;
@@ -42,30 +43,26 @@ public class AxeAttack : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D objectHit)
     {
-        Collider2D[] hitObjects = collision.GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D objectHit in hitObjects)
+        if (objectHit.gameObject.CompareTag("EnemyCollider"))
         {
-            if (objectHit.gameObject.CompareTag("EnemyCollider"))
+            objectHit.GetComponentInParent<EnemyController>()
+                .TakeDamageDistance(_damage * Player.Instance.GetStrengthMultiplier());
+        }
+        else if (objectHit.gameObject.CompareTag("Player") && _returnToPlayer)
+        {
+            if (Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>())
             {
-                objectHit.GetComponentInParent<EnemyController>()
-                    .TakeDamageDistance(_damage * Player.Instance.GetStrengthMultiplier());
+                Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>().enableSprite(true);
             }
-            else if (objectHit.gameObject.CompareTag("Player") && _returnToPlayer)
-            {
-                if (Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>())
-                {
-                    Player.Instance.GetComponentInChildren<WeaponParent>().GetComponentInChildren<Axe>().enableSprite(true);
-                }
-                Destroy(gameObject);
-            } else if (objectHit.gameObject.layer == 8) //layer 8: Obstacle
-            {
-                _returnToPlayer = true;
-            }
+            Destroy(gameObject);
+        } else if (objectHit.gameObject.layer == 8) //layer 8: Obstacle
+        {
+            _returnToPlayer = true;
         }
 
-        if (collision.CompareTag("Trap")) return;
+        if (objectHit.CompareTag("Trap")) return;
     }
     
     public void setTarget(Vector2 target)
