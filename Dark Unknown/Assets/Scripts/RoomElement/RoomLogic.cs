@@ -108,12 +108,12 @@ public class RoomLogic : MonoBehaviour
                     toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
                     _possibleSymbols.Remove(toRemove);
                 }
-                else if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
+                if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
                     _possibleSymbols.Remove(toRemove);
                 }
-                else if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
+                if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                     _possibleSymbols.Remove(toRemove);

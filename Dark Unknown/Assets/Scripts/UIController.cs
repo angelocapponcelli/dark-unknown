@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class UIController : Singleton<UIController>
 {
     [SerializeField] private Slider _healthBar;
+    [SerializeField] private Text _healthText;
+    [SerializeField] private Slider _manaBar;
     [SerializeField] private Text _roomText;
     [SerializeField] private Text enemyLeftCounter;
     [SerializeField] private Text _speedMultiplierText;
@@ -21,11 +23,40 @@ public class UIController : Singleton<UIController>
     {
         _healthBar.maxValue = health;
         _healthBar.value = health;
-
+        _healthText.text = "HP " + health + "/" + health;
     }
     public void SetHealth(float value)
     {
         _healthBar.value = value;
+        _healthText.text = "HP " + value + "/" + _healthBar.maxValue;
+    }
+    public void SetMaxMana(float mana)
+    {
+        _manaBar.maxValue = mana;
+        _manaBar.value = 0;
+    }
+    public IEnumerator SetMana(float value)
+    {
+        do
+        {
+            _manaBar.value = Mathf.MoveTowards(_manaBar.value, value, Time.deltaTime);
+            yield return new WaitForSecondsRealtime(0.01f);
+        } while (_manaBar.value < value);
+
+        if (_manaBar.value == _manaBar.maxValue) StartCoroutine(pulseMana());
+    }
+
+    IEnumerator pulseMana()
+    {
+        Color a = new Color32(30, 171, 200, 255);
+        Color b = new Color32(172,242,255,255);
+        do
+        {
+            Color lerpedColor = Color.Lerp(a, b, Mathf.PingPong(Time.time, 1));
+            _manaBar.fillRect.GetComponent<Image>().color = lerpedColor;
+            yield return new WaitForSecondsRealtime(0.005f);
+        } while (_manaBar.value == _manaBar.maxValue);
+        _manaBar.fillRect.GetComponent<Image>().color = a;
     }
     public void SetRoomText(string text)
     {

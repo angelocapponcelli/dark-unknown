@@ -1,4 +1,6 @@
 //using System.Numerics;
+
+using System;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
@@ -17,6 +19,8 @@ public class Player : Singleton<Player>
     private WeaponParent _weaponParent;
     [SerializeField] private float _maxHealth = 100;
     private float _currentHealth;
+    [SerializeField] private float _maxMana = 10;
+    private float _currentMana;
     [SerializeField] private GameObject _playerUI;
 
     private float _healthMultiplier = 1;
@@ -42,6 +46,8 @@ public class Player : Singleton<Player>
 
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);
+        _currentMana = 0;
+        UIController.Instance.SetMaxMana(_maxMana);
         UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
         UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
     }
@@ -134,6 +140,18 @@ public class Player : Singleton<Player>
         _playerRenderer.color = Color.white;
     }
 
+    public void IncreaseMana(float value)
+    {
+        _currentMana += value;
+        _currentMana = Math.Min(_currentMana, _maxMana);
+        StartCoroutine(UIController.Instance.SetMana(_currentMana));
+    }
+
+    public void ManaToZero()
+    {
+        _currentMana = 0;
+        StartCoroutine(UIController.Instance.SetMana(_currentMana));
+    }
     public void SetPosition(Vector3 newPos)
     {
         transform.position = newPos;
