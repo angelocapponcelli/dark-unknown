@@ -11,6 +11,7 @@ public class RatController : EnemyController
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _minDistance = 3f;
     [SerializeField] private float meleeAttackDistance;
+    [SerializeField] private Transform _spawnProjectilePoint;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
     private Rigidbody2D _rb;
@@ -65,13 +66,13 @@ public class RatController : EnemyController
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            if (_distance <= meleeAttackDistance)
+            if (_distance <= meleeAttackDistance && !_isAttacking)
             {
                 AttackEvent(true);
             }
             else if (_distance > _minDistance + _offset && _canMove)
             {
-                if (_timeElapsedFromShot >= _shotFrequency)
+                if (_timeElapsedFromShot >= _shotFrequency && !_isAttacking)
                 {
                     AttackEvent(false);
                 }
@@ -93,7 +94,7 @@ public class RatController : EnemyController
             {
                 _animator.AnimateIdle();
                 _movement.StopMovement();
-                if (_timeElapsedFromShot >= _shotFrequency)
+                if (_timeElapsedFromShot >= _shotFrequency && !_isAttacking)
                 {
                     AttackEvent(false);
                 }
@@ -137,10 +138,6 @@ public class RatController : EnemyController
     {
         if (_ai.GetMovingDirection() != Vector2.zero && !meleeAttack)
         {
-            GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
-            //projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed; //TO REMOVE
-            //Destroy(projectile, 2.5f); //TO REMOVE
-            // At the minimum distance, it stops moving
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
@@ -172,6 +169,11 @@ public class RatController : EnemyController
         _isAttacking = false;
         _canMove = true;
         _animator.canMove();
+    }
+
+    public void ShotProjectile()
+    {
+        GameObject projectile = Instantiate(_projectile, _spawnProjectilePoint.position, Quaternion.identity);
     }
     
     public override void TakeDamage(float damage, bool damageFromArrow)

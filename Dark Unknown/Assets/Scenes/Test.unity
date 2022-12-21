@@ -294,6 +294,37 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_Damping: 0
   m_MaxWindowSize: -1
+--- !u!1 &480358340
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 480358341}
+  m_Layer: 10
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &480358341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480358340}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.42, y: 1.47, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1802233994}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &659522011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -699,6 +730,11 @@ Transform:
   m_Father: {fileID: 9114286210111145514}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1802233994 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3609180586988413625, guid: 971ff23e943bd4576ab8d295ba8f0255, type: 3}
+  m_PrefabInstance: {fileID: 2532558877194021127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1883923559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -781,7 +817,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 50
   m_LinearDrag: 50
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -865,6 +901,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.4580803
       objectReference: {fileID: 0}
+    - target: {fileID: 5322252030561742374, guid: 971ff23e943bd4576ab8d295ba8f0255, type: 3}
+      propertyPath: _spawnProjectilePoint
+      value: 
+      objectReference: {fileID: 480358341}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 971ff23e943bd4576ab8d295ba8f0255, type: 3}
 --- !u!4 &2715132526588636809
