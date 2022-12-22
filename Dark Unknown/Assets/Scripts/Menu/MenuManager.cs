@@ -242,10 +242,4 @@ public class MenuManager : Singleton<MenuManager>
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
-    public void UpdateKeyText(string key, KeyCode code)
-    {
-        var tmp = Array.Find(_keybindingButtons, x => x.name == key).GetComponentInChildren<Text>();
-        tmp.text = code.ToString();
-    }
-
 }

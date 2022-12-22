@@ -24,6 +24,8 @@ public class KeybindManager : Singleton<KeybindManager>
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }*/
+    
+    //TODO: add press ESC to interrupt new keybinding
 
     private void Start()
     {

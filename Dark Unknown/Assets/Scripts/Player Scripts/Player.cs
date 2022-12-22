@@ -1,9 +1,12 @@
 //using System.Numerics;
+
+using System;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 
 public class Player : Singleton<Player>
 {
@@ -23,12 +26,15 @@ public class Player : Singleton<Player>
     private float _speedMultiplier = 1;
     private float _strengthMultiplier = 1;
 
-    private bool _canGetWeapon = false;
+    private bool _canGetPotion;
+    private bool _canGetWeapon;
     private WeaponParent _weaponToGet;
     private GameObject _rewardToGet;
 
+    private bool _hasPotion;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
@@ -54,26 +60,41 @@ public class Player : Singleton<Player>
         _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
             _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
-        if (!_canGetWeapon || !InputManager.Instance.GetKeyDown(KeybindingActions.Interact)) return;
-        //instantiate new reward
-        GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
-        newReward.transform.position = transform.position;
-        //destroy current weapon
-        Destroy(_weaponParent.gameObject);
-        //instantiate new current weapon
-        _weaponParent = Instantiate(_weaponToGet, transform, true);
-        var weaponTransform = _weaponParent.transform;
-        weaponTransform.localPosition = new Vector2(0f, 0.673f);
-        weaponTransform.localScale = new Vector3(1, 1, 1);
-        //destroy old reward already taken
-        Destroy(_rewardToGet);
-        _canGetWeapon = false;
-
-        // Use while testing to suicide
-        /*if (Input.GetKeyDown(KeyCode.Q))
+        if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
-            TakeDamage(_currentHealth);
-        }*/
+            GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
+            newReward.transform.position = transform.position;
+            //destroy current weapon
+            Destroy(_weaponParent.gameObject);
+            //instantiate new current weapon
+            _weaponParent = Instantiate(_weaponToGet, transform, true);
+            var weaponTransform = _weaponParent.transform;
+            weaponTransform.localPosition = new Vector2(0f, 0.673f);
+            weaponTransform.localScale = new Vector3(1, 1, 1);
+            //destroy old reward already taken
+            Destroy(_rewardToGet);
+            _canGetWeapon = false;
+        } else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        {
+            //destroy old reward already taken
+            Destroy(_rewardToGet);
+            _canGetPotion = false;
+            _hasPotion = true;
+            Debug.Log("Picked up potion.");
+        }
+
+        // Use while testing to try potions
+        if (_hasPotion && Math.Abs(_currentHealth - _maxHealth) > 0 && 
+            InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
+        {
+            RegenerateHealth(_maxHealth/2);
+            _hasPotion = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TakeDamage(100f);
+        }
     }
     
     // FixedUpdate handles the movement 
@@ -152,9 +173,10 @@ public class Player : Singleton<Player>
         StartCoroutine(FlashBlue());
     }
 
-    public void RegenerateHealth()
+    public void RegenerateHealth(float value)
     {
-        _currentHealth = _maxHealth;
+        if (_currentHealth + value >= _maxHealth) _currentHealth = _maxHealth;
+        else _currentHealth += value;
         UIController.Instance.SetHealth(_currentHealth);
         StartCoroutine(FlashBlue());
     }
@@ -175,10 +197,24 @@ public class Player : Singleton<Player>
         _weaponToGet = weapon;
         _rewardToGet = reward;
     }
+    
+    public void PickUpPotion(GameObject reward)
+    {
+        // change to "Press keybindingAction.Interact.ToString() to get new weapon"
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
+                           " to get pick up potion");
+        _canGetPotion = true;
+        _rewardToGet = reward;
+    }
 
-    public void disableCanGetWeapon()
+    public void DisableCanGetWeapon()
     {
         _canGetWeapon = false;
+    }
+    
+    public void DisableCanGetPotion()
+    {
+        _canGetPotion = false;
     }
 
     public void ShowPlayerUI(bool show, string text)
@@ -199,6 +235,11 @@ public class Player : Singleton<Player>
     public bool checkBowWeapon()
     {
         return _weaponParent.CompareTag("Bow");
+    }
+
+    public float GetMaxHealth()
+    {
+        return _maxHealth;
     }
 }
 

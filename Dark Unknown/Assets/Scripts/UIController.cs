@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,8 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Slider _bossHealthBar;
     public Animator bossUIAnimator;
     private static readonly int Deactivate = Animator.StringToHash("Deactivate");
+
+    private ActionButton[] _actionButtons;
 
     public void SetMaxHealth(float health)
     {
@@ -83,5 +86,17 @@ public class UIController : Singleton<UIController>
     public void EnableDash()
     {
         Player.Instance.GetComponent<PlayerMovement>().EnableDash();
+    }
+
+    public void ClickActionButton(string buttonName)
+    {
+        Array.Find(_actionButtons, x=>x.gameObject.name == buttonName).MyButton.onClick.Invoke();
+    }
+
+    public void SetUsable(ActionButton btn, IUsable usable)
+    {
+        btn.MyButton.image.sprite = usable.MyIcon;
+        btn.MyButton.image.color = Color.white;
+        btn.MyUsable = usable;
     }
 }

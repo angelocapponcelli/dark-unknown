@@ -23,7 +23,7 @@ public class SwordReward : Reward
         if (col.CompareTag("Player"))
         {
             Player.Instance.ShowPlayerUI(false, "");
-            Player.Instance.disableCanGetWeapon();
+            Player.Instance.DisableCanGetWeapon();
         }
     }
 }
