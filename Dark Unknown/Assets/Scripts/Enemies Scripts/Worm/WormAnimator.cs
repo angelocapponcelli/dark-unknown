@@ -32,6 +32,28 @@ public class WormAnimator : MonoBehaviour
         _animator.SetTrigger("Attack");
     }
     
+    public void AnimateTakeDamage()
+    {
+        _animator.SetTrigger("Hurt");
+    }
+    
+    public void AnimateDie()
+    {
+        _animator.SetFloat("multiplier", 1f);
+        _animator.SetTrigger("Dead");
+    }
+    
+    public void AnimateRecover()
+    {
+        _animator.SetFloat("multiplier", -1f);
+        _animator.SetTrigger("Dead");
+    }
+    
+    public void AnimateIdle()
+    {
+        _animator.SetBool("isMoving", false);
+    }
+    
     public void flip(Vector2 direction)
     {
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -43,6 +65,11 @@ public class WormAnimator : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(Mathf.Abs(gameObject.transform.localScale.x) * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         }
+    }
+    
+    public AnimatorStateInfo GetCurrentState()
+    {
+        return _animator.GetCurrentAnimatorStateInfo(0);
     }
     
 }
