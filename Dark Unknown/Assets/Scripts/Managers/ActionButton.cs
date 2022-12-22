@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
@@ -16,13 +17,19 @@ public class ActionButton : MonoBehaviour
         get => icon;
         set => icon = value;
     }
+    
+    public Image MyKeyIcon
+    {
+        get => keyIcon;
+        set => keyIcon = value;
+    }
 
     [SerializeField] private Image icon;
+    [SerializeField] private Image keyIcon;
     
     private void Awake()
     {
         MyButton = GetComponent<Button>();
-        // fix infinitely usable potion on mouse click
         MyButton.onClick.AddListener(OnClick);
     }
 

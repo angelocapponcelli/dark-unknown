@@ -16,8 +16,12 @@ public class Potion : IUsable
     public void Use()
     {
         //if (_used) return;
-        Debug.Log("Potion used.");
+        if (!Player.Instance.HasPotion() ||
+            !(Math.Abs(Player.Instance.GetCurrentHealth() - Player.Instance.GetMaxHealth()) > 0)) return;
         Player.Instance.RegenerateHealth(Player.Instance.GetMaxHealth()/2);
+        Player.Instance.SetHasPotion(false);
+        UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], new UsedPotion());
+
         //_used = true;
     }
 }

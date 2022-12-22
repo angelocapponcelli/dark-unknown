@@ -88,16 +88,12 @@ public class Player : Singleton<Player>
             UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _newPotion);
             _canGetPotion = false;
             _hasPotion = true;
-            Debug.Log("Picked up potion.");
         }
 
         // Use potion only when the player has one and has lower than max health
-        if (_hasPotion && Math.Abs(_currentHealth - _maxHealth) > 0 && 
-            InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
         {
             UIController.Instance.ClickActionButton("PotionButton");
-            UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _usedPotion);
-            _hasPotion = false;
         }
 
         if (Input.GetKeyDown(KeyCode.T))
@@ -199,7 +195,6 @@ public class Player : Singleton<Player>
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
-        // change to "Press keybindingAction.Interact.ToString() to get new weapon"
         ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
                            " to get new weapon");
         _canGetWeapon = true;
@@ -250,6 +245,21 @@ public class Player : Singleton<Player>
     public float GetMaxHealth()
     {
         return _maxHealth;
+    }
+    
+    public float GetCurrentHealth()
+    {
+        return _currentHealth;
+    }
+    
+    public bool HasPotion()
+    {
+        return _hasPotion;
+    }
+    
+    public void SetHasPotion(bool value)
+    {
+        _hasPotion = value;
     }
 
     public WeaponParent GetCurrentWeapon()

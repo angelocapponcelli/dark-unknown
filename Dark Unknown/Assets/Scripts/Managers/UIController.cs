@@ -21,12 +21,26 @@ public class UIController : Singleton<UIController>
     [SerializeField] public ActionButton[] actionButtons;
     private readonly Color32 _emptyActionButton = new Color32(35, 38, 63, 255);
     private SwordUsable _newSwordUsable;
+    private Sprite[] _availableLetters;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        _availableLetters = Resources.LoadAll<Sprite>("ActionBarIcons/KeybindIcons");
+    }
 
     private void Start()
     {
+        /*foreach (var sprite in _availableLetters)
+        {
+            Debug.Log(sprite.name);
+        }*/
+        
         _newSwordUsable = new SwordUsable();
         //set sword as default icon
         SetUsable(actionButtons[0], _newSwordUsable);
+        SetKeyActionSlot(actionButtons[1], KeybindingActions.Spell);
+        SetKeyActionSlot(actionButtons[2], KeybindingActions.Potion);
     }
 
     public void SetMaxHealth(float health)
@@ -100,7 +114,6 @@ public class UIController : Singleton<UIController>
     public void ClickActionButton(string buttonName)
     {
         Array.Find(actionButtons, x=>x.gameObject.name == buttonName).MyButton.onClick.Invoke();
-        Debug.Log("Button clicked.");
     }
 
     public void SetUsable(ActionButton btn, IUsable usable = null)
@@ -117,5 +130,12 @@ public class UIController : Singleton<UIController>
             btn.MyIcon.color = _emptyActionButton;
             btn.MyUsable = null;
         }
+    }
+
+    public void SetKeyActionSlot(ActionButton btn, KeybindingActions action)
+    {
+        var keybind = InputManager.Instance.GetKeyForAction(action).ToString();
+        var keySprite = Array.Find(_availableLetters, x => x.name == keybind);
+        btn.MyKeyIcon.sprite = keySprite;
     }
 }
