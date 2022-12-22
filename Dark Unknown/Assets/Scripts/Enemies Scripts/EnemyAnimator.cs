@@ -24,6 +24,12 @@ public class EnemyAnimator : MonoBehaviour
         _animator.SetTrigger("Attack");
     }
 
+    public void AnimateSecondAttack(Vector2 direction)
+    {
+        _animator.SetBool("canMove", false);
+        _animator.SetTrigger("MeleeAttack");
+    }
+
     public void AnimateTakeDamage()
     {
         _animator.SetTrigger("Hurt");
