@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -32,11 +33,12 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private BowReward _bowReward;
     [SerializeField] private StrengthReward _strengthReward;
     [SerializeField] private SwordReward _swordReward;
-
+    
     [SerializeField] private Transform _spawnPointReward;
+    [SerializeField] private Transform spawnPointPotion;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, BOSS};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -73,7 +75,6 @@ public class RoomLogic : MonoBehaviour
         var position = _spawnPointReward.position;
         _rewardSpawned = _roomType switch
         {
-            Type.HEALTH => Instantiate(_healthReward, position, Quaternion.identity),
             Type.BOW => Instantiate(_bowReward, position, Quaternion.identity),
             Type.STRENGTH => Instantiate(_strengthReward, position, Quaternion.identity),
             Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
@@ -127,14 +128,13 @@ public class RoomLogic : MonoBehaviour
         }
 
         _roomType = roomType;
-        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 4);
+        if (_roomType == Type.RANDOM) _roomType = (Type)Random.Range(2, 3);
         switch (_roomType)
         {
             case Type.INITIAL:
                 GameManager.NumOfEnemies = 1;
                 break;
             //Follower types do same thing at first
-            case Type.HEALTH:
             case Type.BOW:
             case Type.SPEED:
             case Type.SWORD:
@@ -218,5 +218,12 @@ public class RoomLogic : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+    }
+
+    public void InstantiatePotion()
+    {
+        var position = spawnPointPotion.position;
+        Instantiate(_healthReward, position, Quaternion.identity);
+        Debug.Log("Potion spawned.");
     }
 }

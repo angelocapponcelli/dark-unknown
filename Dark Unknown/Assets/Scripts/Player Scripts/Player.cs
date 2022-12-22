@@ -46,8 +46,8 @@ public class Player : Singleton<Player>
 
         _weaponParent = GetComponentInChildren<WeaponParent>();
         
-        //_playerInput.LeftClick += () => _weaponParent.Attack();
-        _playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
+        _playerInput.LeftClick += () => _weaponParent.Attack();
+        //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
         
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);

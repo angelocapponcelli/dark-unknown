@@ -41,6 +41,11 @@ public class UIController : Singleton<UIController>
         SetUsable(actionButtons[0], _newSwordUsable);
         SetKeyActionSlot(actionButtons[1], KeybindingActions.Spell);
         SetKeyActionSlot(actionButtons[2], KeybindingActions.Potion);
+
+        foreach (var letter in _availableLetters)
+        {
+            Resources.UnloadAsset(letter);
+        }
     }
 
     public void SetMaxHealth(float health)

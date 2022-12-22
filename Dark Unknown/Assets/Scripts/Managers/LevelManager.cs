@@ -17,18 +17,23 @@ public class LevelManager : Singleton<LevelManager>
     private RoomLogic _currentRoom;
     private RoomLogic _bossRoom;
     private bool _bossRoomAlreadyEntered = false;
-    private int _roomsTraversed = 0; //counter to distinguish when the next is the boss
+    private int _roomsTraversed = 0; //counter to distinguish when the next room is the boss room
     [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
     [SerializeField] private Animator animator;
     private static readonly int StartTransition = Animator.StringToHash("Starting");
+    
+    private int _potionCounter;
+    [SerializeField] private int roomsBetweenPotions = 2;
 
     protected override void Awake()
     {
         base.Awake();
         _roomPool = new List<RoomLogic>();
         _nextRooms = new List<RoomLogic>();
+
+        _potionCounter = roomsBetweenPotions;
         
         _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/RoomsLevel1/"));
         _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom1");
@@ -66,9 +71,11 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom.DestroyAllFireballs();
         Destroy(_currentRoom.gameObject);
 
-        //Destroy reward if player didn't get it 
-        if (FindObjectOfType<Reward>())
-            Destroy(FindObjectOfType<Reward>().gameObject);
+        //Destroy reward and potion if player didn't get it
+        foreach (var reward in FindObjectsOfType<Reward>())
+        {
+            Destroy(reward.gameObject);
+        }
         
         //instantiate the new room
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
@@ -82,6 +89,16 @@ public class LevelManager : Singleton<LevelManager>
         else
         {
             UIController.Instance.SetRoomText("Rooms before Boss: " + (roomsBeforeBoss - _roomsTraversed));
+        }
+        //Instantiate potion every tot rooms
+        if (_potionCounter == 0 || roomType == RoomLogic.Type.BOSS)
+        {
+            _currentRoom.InstantiatePotion();
+            _potionCounter = roomsBetweenPotions;
+        } else if (_potionCounter > 0)
+        {
+            Debug.Log("Potion countdown: " + _potionCounter);
+            _potionCounter--;
         }
         //load next rooms, only if next is not a boss room
         if (roomType == RoomLogic.Type.BOSS) yield break;
