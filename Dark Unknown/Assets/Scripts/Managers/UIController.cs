@@ -18,7 +18,16 @@ public class UIController : Singleton<UIController>
     public Animator bossUIAnimator;
     private static readonly int Deactivate = Animator.StringToHash("Deactivate");
 
-    private ActionButton[] _actionButtons;
+    [SerializeField] public ActionButton[] actionButtons;
+    private readonly Color32 _emptyActionButton = new Color32(35, 38, 63, 255);
+    private SwordUsable _newSwordUsable;
+
+    private void Start()
+    {
+        _newSwordUsable = new SwordUsable();
+        //set sword as default icon
+        SetUsable(actionButtons[0], _newSwordUsable);
+    }
 
     public void SetMaxHealth(float health)
     {
@@ -90,13 +99,23 @@ public class UIController : Singleton<UIController>
 
     public void ClickActionButton(string buttonName)
     {
-        Array.Find(_actionButtons, x=>x.gameObject.name == buttonName).MyButton.onClick.Invoke();
+        Array.Find(actionButtons, x=>x.gameObject.name == buttonName).MyButton.onClick.Invoke();
+        Debug.Log("Button clicked.");
     }
 
-    public void SetUsable(ActionButton btn, IUsable usable)
+    public void SetUsable(ActionButton btn, IUsable usable = null)
     {
-        btn.MyButton.image.sprite = usable.MyIcon;
-        btn.MyButton.image.color = Color.white;
-        btn.MyUsable = usable;
+        if (usable != null)
+        {
+            btn.MyIcon.sprite = usable.MyIcon;
+            btn.MyIcon.color = Color.white;
+            btn.MyUsable = usable;
+        }
+        else
+        {
+            btn.MyIcon.sprite = null;
+            btn.MyIcon.color = _emptyActionButton;
+            btn.MyUsable = null;
+        }
     }
 }

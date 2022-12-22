@@ -29,9 +29,12 @@ public class Player : Singleton<Player>
     private bool _canGetPotion;
     private bool _canGetWeapon;
     private WeaponParent _weaponToGet;
+    private IUsable _weaponUsable;
     private GameObject _rewardToGet;
 
     private bool _hasPotion;
+    private Potion _newPotion;
+    private UsedPotion _usedPotion;
 
     // Start is called before the first frame update
     private void Start()
@@ -42,14 +45,17 @@ public class Player : Singleton<Player>
         _playerRenderer = GetComponent<SpriteRenderer>();
 
         _weaponParent = GetComponentInChildren<WeaponParent>();
-
-
-        _playerInput.LeftClick += () => _weaponParent.Attack();
-
+        
+        //_playerInput.LeftClick += () => _weaponParent.Attack();
+        _playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
+        
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);
         UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
         UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
+        
+        _newPotion = new Potion();
+        _usedPotion = new UsedPotion();
     }
 
     // Update handles the animation changes based on the mouse pointer 
@@ -71,23 +77,26 @@ public class Player : Singleton<Player>
             var weaponTransform = _weaponParent.transform;
             weaponTransform.localPosition = new Vector2(0f, 0.673f);
             weaponTransform.localScale = new Vector3(1, 1, 1);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[0], _weaponUsable);
             //destroy old reward already taken
             Destroy(_rewardToGet);
             _canGetWeapon = false;
         } else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
-            //destroy old reward already taken
+            //destroy potion taken game-object
             Destroy(_rewardToGet);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _newPotion);
             _canGetPotion = false;
             _hasPotion = true;
             Debug.Log("Picked up potion.");
         }
 
-        // Use while testing to try potions
+        // Use potion only when the player has one and has lower than max health
         if (_hasPotion && Math.Abs(_currentHealth - _maxHealth) > 0 && 
             InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
         {
-            RegenerateHealth(_maxHealth/2);
+            UIController.Instance.ClickActionButton("PotionButton");
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _usedPotion);
             _hasPotion = false;
         }
 
@@ -188,13 +197,14 @@ public class Player : Singleton<Player>
         StartCoroutine(FlashBlue());
     }
 
-    public void ChangeWeapon(WeaponParent weapon, GameObject reward)
+    public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
         // change to "Press keybindingAction.Interact.ToString() to get new weapon"
         ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
                            " to get new weapon");
         _canGetWeapon = true;
         _weaponToGet = weapon;
+        _weaponUsable = usable;
         _rewardToGet = reward;
     }
     
@@ -240,6 +250,11 @@ public class Player : Singleton<Player>
     public float GetMaxHealth()
     {
         return _maxHealth;
+    }
+
+    public WeaponParent GetCurrentWeapon()
+    {
+        return _weaponParent;
     }
 }
 

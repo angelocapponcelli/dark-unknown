@@ -11,10 +11,7 @@ public class SwordReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                //TODO
-                character.GetComponentInParent<Player>().ChangeWeapon(_swordPrefab, gameObject);
-                //Destroy(gameObject);
-
+                character.GetComponentInParent<Player>().ChangeWeapon(_swordPrefab, gameObject, new SwordUsable());
             }
         }
     }

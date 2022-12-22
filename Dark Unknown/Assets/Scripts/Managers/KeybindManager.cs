@@ -15,7 +15,7 @@ public class KeybindManager : Singleton<KeybindManager>
     private string _bindName;
     private GameObject _currentKey;
     private GameObject _swappedKey;
-    private GameObject[] _keybindingButtons;
+    //private GameObject[] _keybindingButtons;
     private readonly Color32 _normal = new Color32(12, 37, 63, 255);
     private readonly Color32 _selected = new Color32(12, 18, 32, 255);
 
