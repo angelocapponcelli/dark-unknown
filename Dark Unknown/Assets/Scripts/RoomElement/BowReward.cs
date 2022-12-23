@@ -12,7 +12,7 @@ public class BowReward : Reward
             if (character.gameObject.CompareTag("Player"))
             {
                 //TODO
-                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab, gameObject);
+                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab, gameObject, new BowUsable());
                 //Destroy(gameObject);
 
             }
@@ -23,7 +23,7 @@ public class BowReward : Reward
         if (col.CompareTag("Player"))
         {
             Player.Instance.ShowPlayerUI(false, "");
-            Player.Instance.disableCanGetWeapon();
+            Player.Instance.DisableCanGetWeapon();
         }
     }
 }

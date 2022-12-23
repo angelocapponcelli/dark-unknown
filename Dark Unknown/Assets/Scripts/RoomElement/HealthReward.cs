@@ -11,10 +11,20 @@ public class HealthReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().RegenerateHealth();
+                /*character.GetComponentInParent<Player>().RegenerateHealth(Player.Instance.GetMaxHealth());
                 AudioManager.Instance.PlayPLayerRewardSound();
-                Destroy(gameObject);
+                Destroy(gameObject);*/
+                character.GetComponentInParent<Player>().PickUpPotion(gameObject);
             }
+        }
+    }
+    
+    public void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            Player.Instance.ShowPlayerUI(false, "");
+            Player.Instance.DisableCanGetPotion();
         }
     }
 }
