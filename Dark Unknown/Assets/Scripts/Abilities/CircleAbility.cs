@@ -13,6 +13,7 @@ public class CircleAbility : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.localPosition = new Vector2(0,0.5f);
         for (int i = 0; i < _numberProjectile; i++)
         {
             float angle = i * Mathf.PI*2f / _numberProjectile;
