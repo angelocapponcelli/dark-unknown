@@ -186,7 +186,7 @@ public class MenuManager : Singleton<MenuManager>
     private static IEnumerator LoadGameCoroutine()
     {
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("InitialCutscene");
     }
 
     public void QuitGame()
@@ -202,7 +202,7 @@ public class MenuManager : Singleton<MenuManager>
         Application.Quit();
     }
 
-    //UIAUDIO
+    //UI AUDIO
     public void PlayOverUIButtonSound()
     {
         AudioManager.Instance.PlayOverUIButtonSound();
