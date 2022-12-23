@@ -84,6 +84,7 @@ public class Player : Singleton<Player>
         {
             TakeDamage(_currentHealth);
         }*/
+        
     }
     
     // FixedUpdate handles the movement 
