@@ -20,12 +20,12 @@ public class SkeletonController : EnemyController
     private float _currentHealth;
     private bool _canMove;
     private bool _damageCoroutineRunning;
-    private SpriteRenderer _spriteRenderer;
-    private Material _originalMaterial;
+    
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SpriteRenderer _skeletonRenderer;
+    private Material _originalMaterial;
     private EnemyAI _ai;
 
     private bool _deathSoundPlayed = false;
@@ -33,8 +33,6 @@ public class SkeletonController : EnemyController
     // Start is called before the first frame update
     private void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _originalMaterial = _spriteRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
         
@@ -44,6 +42,7 @@ public class SkeletonController : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _skeletonRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _skeletonRenderer.material;
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -192,9 +191,9 @@ public class SkeletonController : EnemyController
     
     private IEnumerator Flash()
     {
-        _spriteRenderer.material = flashMaterial;
+        _skeletonRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _spriteRenderer.material = _originalMaterial;
+        _skeletonRenderer.material = _originalMaterial;
     }
 
     private void Die()

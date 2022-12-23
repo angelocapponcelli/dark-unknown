@@ -21,7 +21,7 @@ public class SpiderController : EnemyController
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
-    private bool _damageCoroutineRunning;
+    //private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
     private SpriteRenderer _spriteRenderer;
@@ -178,7 +178,7 @@ public class SpiderController : EnemyController
             Die();
         } else
         {
-            _damageCoroutineRunning = true;
+            //_damageCoroutineRunning = true;
             StartCoroutine(DamageMelee());
         }
     }
@@ -193,7 +193,7 @@ public class SpiderController : EnemyController
             Die();
         } else
         {
-            _damageCoroutineRunning = true;
+            //_damageCoroutineRunning = true;
             StartCoroutine(DamageDistance());
         }
     }
@@ -205,7 +205,7 @@ public class SpiderController : EnemyController
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        _damageCoroutineRunning = false;
+        //_damageCoroutineRunning = false;
     }
     
     private IEnumerator DamageDistance()
@@ -214,7 +214,7 @@ public class SpiderController : EnemyController
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        _damageCoroutineRunning = false;
+        //_damageCoroutineRunning = false;
     }
     
     private IEnumerator Flash()

@@ -14,18 +14,22 @@ public class RatController : EnemyController
     [SerializeField] private Transform _spawnProjectilePoint;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
+    [SerializeField] private Material flashMaterial;
+    
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
+    //private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SpriteRenderer _ratRenderer;
+    private Material _originalMaterial;
     private EnemyAI _ai;
     
     private bool _deathSoundPlayed = false;
@@ -42,6 +46,7 @@ public class RatController : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _ratRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _ratRenderer.material;
         _ai = GetComponent<EnemyAI>();
 
         _timeElapsedFromShot = 0;
@@ -176,32 +181,61 @@ public class RatController : EnemyController
         GameObject projectile = Instantiate(_projectile, _spawnProjectilePoint.position, Quaternion.identity);
     }
     
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
-            Die();
             DisableBoxCollider();
+            Die();
         } else
         {
-            StartCoroutine(Damage());
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageMelee());
+        }
+    }
+
+    public override void TakeDamageDistance(float damage)
+    {
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
         }
     }
     
-    private IEnumerator Damage()
+    private IEnumerator DamageMelee()
     {
-        if (!_damageFromDistance)
-        {
-            _animator.AnimateTakeDamage();
-        } else StartCoroutine(FlashRed());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        _animator.AnimateTakeDamage(); 
         _canMove = false;
+        AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
+        //_damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator DamageDistance()
+    {
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        //_damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator Flash()
+    {
+        _ratRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(0.1f);
+        _ratRenderer.material = _originalMaterial;
     }
     
     private IEnumerator FlashRed()
@@ -222,7 +256,7 @@ public class RatController : EnemyController
         _deathSoundPlayed = true;
         ReduceEnemyCounter();
     }
-    
+
     public override IEnumerator RecoverySequence()
     {
         _currentHealth = _maxHealth;
