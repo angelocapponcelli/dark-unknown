@@ -196,7 +196,7 @@ public class Player : Singleton<Player>
     public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
         ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                           " to get new weapon");
+                           " to get new weapon.");
         _canGetWeapon = true;
         _weaponToGet = weapon;
         _weaponUsable = usable;
@@ -207,7 +207,7 @@ public class Player : Singleton<Player>
     {
         // change to "Press keybindingAction.Interact.ToString() to get new weapon"
         ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                           " to get pick up potion");
+                           " to pick up healing potion.");
         _canGetPotion = true;
         _rewardToGet = reward;
     }

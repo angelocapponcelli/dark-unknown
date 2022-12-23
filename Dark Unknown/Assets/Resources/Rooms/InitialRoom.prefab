@@ -17827,7 +17827,7 @@ Transform:
   - {fileID: 2928072729069849593}
   - {fileID: 5301835759484037038}
   - {fileID: 1869979925253996180}
-  - {fileID: 9158766717365976384}
+  - {fileID: 7436275211905102643}
   - {fileID: 5626187771340429734}
   - {fileID: 2182695873445555890}
   - {fileID: 4369359960852910124}
@@ -17918,9 +17918,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5743028008671518666}
     m_Modifications:
+    - target: {fileID: 12517123596653512, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1887860902674942666, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_SortingLayerID
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594563569357898554, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -7.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 9107437980959224988, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968374620577681, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Name
+      value: Space Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968374620577683, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Text
+      value: Press space to dash
       objectReference: {fileID: 0}
     - target: {fileID: 9114968375143213832, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_RootOrder
@@ -17970,8 +18002,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tutorial Commads
       objectReference: {fileID: 0}
+    - target: {fileID: 9114968375289900765, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Name
+      value: Space Text Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968375944896977, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Name
+      value: Space
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968376483435361, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Name
+      value: Space Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114968376483435362, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: 7bc403575e7d1a84ebcf17fa490ebe8a, type: 2}
+    - target: {fileID: 9114968376483435363, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5bf549379d8d4264cb2d95b4a33d0615, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+--- !u!224 &7436275211905102643 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
+  m_PrefabInstance: {fileID: 100388419335640648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9158766717090893367 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9114968374866073727, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
@@ -18006,11 +18063,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!4 &9158766717365976384 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9114968375143213832, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
-  m_PrefabInstance: {fileID: 100388419335640648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1014049127397974676
 PrefabInstance:
   m_ObjectHideFlags: 0
