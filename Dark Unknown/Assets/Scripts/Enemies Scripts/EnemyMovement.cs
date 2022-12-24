@@ -6,10 +6,12 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody2D _rb;
+    private float _originalSpeed;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _originalSpeed = _speed;
     }
 
     public void MoveEnemy(Vector2 direction)
@@ -24,6 +26,16 @@ public class EnemyMovement : MonoBehaviour
     public void StopMovement()
     {
         _rb.velocity = Vector2.zero;
+    }
+
+    public void setSpeed(float newSpeed)
+    {
+        _speed = newSpeed;
+    }
+
+    public void resetSpeed()
+    {
+        _speed = _originalSpeed;
     }
 
 }
