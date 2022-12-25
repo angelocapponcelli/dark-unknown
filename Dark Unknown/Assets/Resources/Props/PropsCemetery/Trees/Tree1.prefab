@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6929327746468522521}
   - component: {fileID: 2664476735217912226}
   - component: {fileID: 1720888670893343798}
+  - component: {fileID: 902271897568855503}
   - component: {fileID: 7541050370853611685}
   m_Layer: 8
   m_Name: Tree1
@@ -26,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2758046906934031071}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.445456, y: 52.064034, z: -0.5143953}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,10 +100,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.7348099, y: 0.2910595}
+  m_Offset: {x: -0.27831936, y: 0.30970573}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.375, y: 0.75}
     newSize: {x: 1.6880915, y: 2.71875}
     adaptiveTilingThreshold: 0.5
@@ -110,7 +111,33 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4399757, y: 0.60975266}
+  m_Size: {x: 0.75626945, y: 0.5724602}
+  m_EdgeRadius: 0
+--- !u!61 &902271897568855503
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2758046906934031071}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.38674068, y: 0.43401718}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.375, y: 0.75}
+    newSize: {x: 1.6880915, y: 2.71875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.56980324, y: 0.32383728}
   m_EdgeRadius: 0
 --- !u!50 &7541050370853611685
 Rigidbody2D:
