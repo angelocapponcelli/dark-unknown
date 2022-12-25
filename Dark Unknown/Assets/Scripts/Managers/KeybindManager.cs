@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class KeybindManager : Singleton<KeybindManager>
@@ -12,6 +13,7 @@ public class KeybindManager : Singleton<KeybindManager>
     [SerializeField] private Keybindings savedKeybindings;
 
     public Text up, down, left, right, dash, interact, potion, spell;
+    public Tooltip toolTip;
     private string _bindName;
     private GameObject _currentKey;
     private GameObject _swappedKey;
@@ -132,6 +134,11 @@ public class KeybindManager : Singleton<KeybindManager>
         if(_inputManager.SetKeyForAction(tmpAction, e.keyCode))
         {
             _currentKey.GetComponentInChildren<Text>().text = e.keyCode.ToString();
+        }
+        else
+        {
+            // activate notification of key already set
+            toolTip.StartOpen();
         }
         _currentKey.GetComponent<Image>().color = _normal;
         _currentKey = null;
