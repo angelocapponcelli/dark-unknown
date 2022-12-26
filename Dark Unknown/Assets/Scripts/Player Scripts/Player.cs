@@ -84,6 +84,7 @@ public class Player : Singleton<Player>, IEffectable
             weaponTransform.localPosition = new Vector2(0f, 0.673f);
             weaponTransform.localScale = new Vector3(1, 1, 1);
             UIController.Instance.SetUsable(UIController.Instance.actionButtons[0], _weaponUsable);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[3], _weaponUsable);
             //destroy old reward already taken
             Destroy(_rewardToGet);
             _canGetWeapon = false;
