@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class WeaponParent : MonoBehaviour
 {
+    [SerializeField] private string name;
     public Vector2 PointerPosition { get; set; }
     private Weapon _weapon;
     private Vector2 direction;
@@ -71,6 +72,11 @@ public class WeaponParent : MonoBehaviour
     public GameObject getWeaponReward()
     {
         return _weaponReward;
+    }
+
+    public string Name()
+    {
+        return name;
     }
 
 }

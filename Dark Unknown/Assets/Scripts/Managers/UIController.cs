@@ -39,6 +39,7 @@ public class UIController : Singleton<UIController>
         _newSwordUsable = new SwordUsable();
         //set sword as default icon
         SetUsable(actionButtons[0], _newSwordUsable);
+        SetUsable(actionButtons[3], _newSwordUsable);
         SetKeyActionSlot(actionButtons[1], KeybindingActions.Spell);
         SetKeyActionSlot(actionButtons[2], KeybindingActions.Potion);
 

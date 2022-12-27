@@ -303,5 +303,10 @@ public class Player : Singleton<Player>, IEffectable
             UIController.Instance.SetHealth(_currentHealth);
         }
     }
+
+    public string GetWeaponName()
+    {
+        return _weaponParent.Name();
+    }
 }
 

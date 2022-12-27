@@ -2,17 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MerchantController : MonoBehaviour
 {
     private bool _isTriggered;
     [SerializeField] private GameObject shopUI;
+    [SerializeField] private Button xButton;
+
+    private void Start()
+    {
+        xButton.onClick.AddListener(OnExitClick);
+    }
 
     private void Update()
     {
         if (_isTriggered && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
             shopUI.SetActive(true);
+            Time.timeScale = 0f;
         }
     }
 
@@ -37,6 +45,12 @@ public class MerchantController : MonoBehaviour
             _isTriggered = false;
             Player.Instance.ShowPlayerUI(false, "");
         }
+    }
+
+    private void OnExitClick()
+    {
+        Time.timeScale = 1f;
+        DeactivateUI();
     }
 
     public void DeactivateUI()
