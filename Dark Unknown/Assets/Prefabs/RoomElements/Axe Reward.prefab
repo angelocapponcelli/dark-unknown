@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -1590530223
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -499254112, guid: 57169b5bf1707c14e815039c69051a91, type: 3}
+  m_Sprite: {fileID: -156756860, guid: 57169b5bf1707c14e815039c69051a91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,9 +96,9 @@ GameObject:
   - component: {fileID: 4787766352846518200}
   - component: {fileID: 1342939382246166150}
   - component: {fileID: 1979369502604163559}
-  - component: {fileID: -3173650134716081864}
+  - component: {fileID: 8752958621951605471}
   m_Layer: 0
-  m_Name: Bow Reward
+  m_Name: Axe Reward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,8 +160,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
-  m_Sprite: {fileID: 21300000, guid: 36cff30898ed9924c983d7398f23423b, type: 2}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 26c8047530d9e3841922e0bf7ef69d44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,7 +202,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.8
---- !u!114 &-3173650134716081864
+--- !u!114 &8752958621951605471
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,4 +214,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9e6bcc8af9e5e4e806ce5bbf5fdc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponPrefab: {fileID: 2667557497074954354, guid: 57526733ddb4040068a7b31eccca6d16, type: 3}
+  _weaponPrefab: {fileID: 2667557497074954354, guid: e21c75455f575a44eadf2744a7059e08, type: 3}

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class BowReward : Reward
+public class WeaponReward : Reward
 {
-    [SerializeField] private WeaponParent _bowPrefab;
+    [SerializeField] private WeaponParent _weaponPrefab;
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
@@ -11,10 +11,7 @@ public class BowReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                //TODO
-                character.GetComponentInParent<Player>().ChangeWeapon(_bowPrefab, gameObject, new BowUsable());
-                //Destroy(gameObject);
-
+                character.GetComponentInParent<Player>().ChangeWeapon(_weaponPrefab, gameObject);
             }
         }
     }
@@ -23,7 +20,7 @@ public class BowReward : Reward
         if (col.CompareTag("Player"))
         {
             Player.Instance.ShowPlayerUI(false, "");
-            Player.Instance.DisableCanGetWeapon();
+            Player.Instance.disableCanGetWeapon();
         }
     }
 }

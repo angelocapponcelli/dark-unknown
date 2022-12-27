@@ -21,6 +21,7 @@ public abstract class EnemyController : MonoBehaviour
     {
         GameManager.NumOfEnemies -= 1;
         UIController.Instance.SetEnemyCounter(GameManager.NumOfEnemies);
+        Player.Instance.IncreaseMana(1);
     }
     
     protected static void IncrementEnemyCounter()
