@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class SpiderController : EnemyController
 {
+    [SerializeField] private GameObject _killedReward;
+    [SerializeField] private int _rewardAmount = 5;
     [SerializeField] private Player _target;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -226,6 +228,12 @@ public class SpiderController : EnemyController
 
     private void Die()
     {
+        //instantiate the rewards
+        for (int i = 0; i < _rewardAmount; i++)
+        {
+            Instantiate(_killedReward,transform.position,Quaternion.identity);
+        }
+        
         isDead = true;
         _canMove = false;
         _movement.StopMovement();
