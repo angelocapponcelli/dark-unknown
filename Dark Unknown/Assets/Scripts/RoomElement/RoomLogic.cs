@@ -75,6 +75,7 @@ public class RoomLogic : MonoBehaviour
         var position = _spawnPointReward.position;
         _rewardSpawned = _roomType switch
         {
+            Type.INITIAL => Instantiate(_healthReward, position, Quaternion.identity),
             Type.BOW => Instantiate(_bowReward, position, Quaternion.identity),
             Type.STRENGTH => Instantiate(_strengthReward, position, Quaternion.identity),
             Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
