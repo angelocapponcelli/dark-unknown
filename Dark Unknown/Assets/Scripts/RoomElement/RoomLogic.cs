@@ -98,8 +98,6 @@ public class RoomLogic : MonoBehaviour
                 _possibleSymbols.Remove(toRemove);
                 toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
                 _possibleSymbols.Remove(toRemove);
-                toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
-                _possibleSymbols.Remove(toRemove);
             }
             else
             {
