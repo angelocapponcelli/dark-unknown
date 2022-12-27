@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonController : EnemyController
@@ -51,7 +50,15 @@ public class SkeletonController : EnemyController
     // Update is called once per frame
     private void Update()
     {
-        if (_target == null)
+        // Enable while debugging to reanimate enemies
+        /*if (Input.GetKeyUp("z")) {
+            if (isDead)
+            {
+                StartCoroutine(RecoverySequence());
+            }            
+        }*/
+        
+        if (_target == null || isDead)
         {
             return;
         }
@@ -103,15 +110,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(50);
-        // Enable while debugging to reanimate enemies
-        /*if (Input.GetKeyUp("z")) {
-            if (isDead)
-            {
-                StartCoroutine(RecoverySequence());
-            }            
-        }*/
+        /*if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);*/
     }
 
     private void AttackEvent()
@@ -136,7 +136,7 @@ public class SkeletonController : EnemyController
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
 
     public override void TakeDamageMelee(float damage)
@@ -214,6 +214,7 @@ public class SkeletonController : EnemyController
         _animator.AnimateRecover();
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
+        EnableBoxCollider();
         yield return new WaitForSeconds(1.5f);
         IncrementEnemyCounter();
         isDead = false; 
@@ -224,9 +225,20 @@ public class SkeletonController : EnemyController
     private void DisableBoxCollider()
     {
         var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        foreach (var c in skeletonColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.gameObject.SetActive(false);
+        }
+    }
+    
+    private void EnableBoxCollider()
+    {
+        // GetComponentsInChildren only returns components of active children
+        // Use the parameter includeInactive: true to search through inactive children too
+        var allChildren = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var c in allChildren)
+        {
+            c.gameObject.SetActive(true);
         }
     }
 }

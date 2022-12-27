@@ -173,7 +173,7 @@ public class RatController : EnemyController
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
 
     public void ShotProjectile()

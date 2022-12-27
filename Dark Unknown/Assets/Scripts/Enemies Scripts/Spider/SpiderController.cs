@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,12 +23,11 @@ public class SpiderController : EnemyController
     //private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
-    private SpriteRenderer _spriteRenderer;
-    private Material _originalMaterial;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SpriteRenderer _spiderRenderer;
+    private Material _originalMaterial;
     private EnemyAI _ai;
     
     private bool _deathSoundPlayed = false;
@@ -37,8 +35,8 @@ public class SpiderController : EnemyController
     // Start is called before the first frame update
     private void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _originalMaterial = _spriteRenderer.material;
+        _spiderRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spiderRenderer.material;
         _rb = GetComponent<Rigidbody2D>();
         _target = Player.Instance;
 
@@ -57,11 +55,17 @@ public class SpiderController : EnemyController
     // Update is called once per frame
     private void Update()
     {
+        // Enable while debugging to reanimate enemies
+        /*if (Input.GetKeyUp("z")) {
+            if (isDead)
+            {
+                StartCoroutine(RecoverySequence());
+            }            
+        }*/
+        
+        if (isDead) return;
         _timeElapsedFromShot += (Time.deltaTime % 60);
-        if (_target == null)
-        {
-            return;
-        }
+        if (_target == null) return;
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
@@ -127,15 +131,8 @@ public class SpiderController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(50);
-        // Death
-        /*if (Input.GetKeyUp("z")) {
-            if (isDead)
-            {
-                StartCoroutine(RecoverySequence());
-            }            
-        }*/
+        /*if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);*/
     }
 
     private void AttackEvent()
@@ -164,7 +161,7 @@ public class SpiderController : EnemyController
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
     
     public override void TakeDamageMelee(float damage)
@@ -219,9 +216,9 @@ public class SpiderController : EnemyController
     
     private IEnumerator Flash()
     {
-        _spriteRenderer.material = flashMaterial;
+        _spiderRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _spriteRenderer.material = _originalMaterial;
+        _spiderRenderer.material = _originalMaterial;
     }
 
     private void Die()
@@ -242,6 +239,7 @@ public class SpiderController : EnemyController
         _animator.AnimateRecover();
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
+        EnableBoxCollider();
         yield return new WaitForSeconds(1.5f);
         IncrementEnemyCounter();
         isDead = false; 
@@ -254,7 +252,19 @@ public class SpiderController : EnemyController
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var collider in spiderColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            Debug.Log(collider.name);
+            collider.gameObject.SetActive(false);
+        }
+    }
+    
+    private void EnableBoxCollider()
+    {
+        // GetComponentsInChildren only returns components of active children
+        // Use the parameter includeInactive: true to search through inactive children too
+        var allChildren = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var c in allChildren)
+        {
+            c.gameObject.SetActive(true);
         }
     }
 }

@@ -68,7 +68,7 @@ public class EnemyAnimator : MonoBehaviour
         return _animator.GetCurrentAnimatorStateInfo(0);
     }
 
-    public void canMove()
+    public void CanMove()
     {
         _animator.SetBool("canMove", true);
     }
