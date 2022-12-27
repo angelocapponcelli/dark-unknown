@@ -127,7 +127,7 @@ public class SpiderController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
             TakeDamageMelee(50);
         // Death
         /*if (Input.GetKeyUp("z")) {

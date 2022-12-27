@@ -105,11 +105,11 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.ClickActionButton("PotionButton");
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
+        // Use while testing to hurt the player
+        /*if (Input.GetKeyDown(KeyCode.T))
         {
             TakeDamage(100f);
-        }
+        }*/
     }
     
     // FixedUpdate handles the movement 
