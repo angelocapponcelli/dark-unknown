@@ -38,7 +38,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private Transform spawnPointPotion;
     private Reward _rewardSpawned;
     
-    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -75,7 +75,6 @@ public class RoomLogic : MonoBehaviour
         var position = _spawnPointReward.position;
         _rewardSpawned = _roomType switch
         {
-            Type.HEALTH => Instantiate(_healthReward, position, Quaternion.identity),
             Type.BOW => Instantiate(_bowReward, position, Quaternion.identity),
             Type.STRENGTH => Instantiate(_strengthReward, position, Quaternion.identity),
             Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
@@ -139,7 +138,6 @@ public class RoomLogic : MonoBehaviour
         {
             List<Type> randomSymbols = new List<Type>();
             randomSymbols.Add(Type.SPEED);
-            randomSymbols.Add(Type.HEALTH);
             randomSymbols.Add(Type.STRENGTH);
             _roomType = randomSymbols[Random.Range (1,(randomSymbols.Count - 1))];
         }
@@ -149,7 +147,6 @@ public class RoomLogic : MonoBehaviour
                 GameManager.NumOfEnemies = 1;
                 break;
             //Follower types do same thing at first
-            case Type.HEALTH:
             case Type.BOW:
             case Type.SPEED:
             case Type.SWORD:
