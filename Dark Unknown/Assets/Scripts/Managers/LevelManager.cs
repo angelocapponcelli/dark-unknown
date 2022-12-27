@@ -93,8 +93,7 @@ public class LevelManager : Singleton<LevelManager>
         //Instantiate potion every tot rooms
         if (_potionCounter == 0 || roomType == RoomLogic.Type.BOSS)
         {
-            //TODO
-            //_currentRoom.InstantiatePotion();
+            _currentRoom.InstantiatePotion();
             _potionCounter = roomsBetweenPotions;
         } else if (_potionCounter > 0)
         {

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &615085862738316038
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3809324561273925839}
+  m_Layer: 0
+  m_Name: PotionSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3809324561273925839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615085862738316038}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.93, y: 3.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6236189055175773079}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &719862419942977816
 GameObject:
   m_ObjectHideFlags: 0
@@ -37259,7 +37290,7 @@ Transform:
   - {fileID: 4363436386905300000}
   - {fileID: 6381860715162755927}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2686601316256835600
 GameObject:
@@ -37694,7 +37725,7 @@ Transform:
   - {fileID: 2261469878409670875}
   - {fileID: 8736293597890198208}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3239180580993753103
 GameObject:
@@ -38756,6 +38787,7 @@ Transform:
   - {fileID: 2724574688933681457}
   - {fileID: 7394876665712730298}
   - {fileID: 4683134100056943358}
+  - {fileID: 3809324561273925839}
   - {fileID: 873778693943942156}
   - {fileID: 6640291959248602953}
   - {fileID: 7160409921493966489}
@@ -38812,19 +38844,15 @@ MonoBehaviour:
   - type: 1
     sprite: {fileID: 21300000, guid: 797afd6846413124682dd2d8d9c9a66a, type: 2}
   - type: 2
-    sprite: {fileID: 21300000, guid: f39b653cec91f964196dc49a74ffd750, type: 2}
-  - type: 5
-    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
-  - type: 3
     sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
-  - type: 4
-    sprite: {fileID: 21300000, guid: 6f9a80946479b1d4993b0809129d72dc, type: 2}
-  - type: 6
+  - type: 5
     sprite: {fileID: 21300000, guid: c43b07a70874b084494b3a589632db25, type: 2}
-  - type: 7
-    sprite: {fileID: 21300000, guid: 8e4ff7feb079b824abff193270c2472a, type: 2}
-  - type: 8
-    sprite: {fileID: 21300000, guid: e7bb948064a45f447a55ecfe6b60a3d3, type: 2}
+  - type: 3
+    sprite: {fileID: 21300000, guid: 6f9a80946479b1d4993b0809129d72dc, type: 2}
+  - type: 4
+    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
+  - type: 6
+    sprite: {fileID: 21300000, guid: 4996a9d738629484ca4b8690106260ce, type: 3}
   _healthReward: {fileID: 5992409601021831828, guid: 8846d5bad02b1544589785cdc7713db5, type: 3}
   _speedReward: {fileID: 5084005978826926403, guid: 6c8de4b33704757409246d160f349dc5, type: 3}
   _bowReward: {fileID: -3173650134716081864, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
@@ -38832,6 +38860,7 @@ MonoBehaviour:
   _swordReward: {fileID: -6292163774279860839, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
   _axeReward: {fileID: 8752958621951605471, guid: de9f57b94d2ca374fbcfcbb09a016b89, type: 3}
   _spawnPointReward: {fileID: 4683134100056943358}
+  spawnPointPotion: {fileID: 3809324561273925839}
 --- !u!114 &9179055940878401788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39242,7 +39271,7 @@ Transform:
   - {fileID: 1405306598564345962}
   - {fileID: 6352433829771222133}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5300269433569383169
 GameObject:
@@ -39276,7 +39305,7 @@ Transform:
   - {fileID: 6624812451838711431}
   - {fileID: 4313666667269839097}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5309347417113727826
 GameObject:
@@ -47937,7 +47966,7 @@ Transform:
   - {fileID: 8157829427571404916}
   - {fileID: 8283818071303515477}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5702484895611329810
 GameObject:
@@ -48009,7 +48038,7 @@ Transform:
   - {fileID: 4557686153814976808}
   - {fileID: 6587877229848174212}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6397353491937030810
 GameObject:
@@ -48066,7 +48095,7 @@ Transform:
   - {fileID: 5888457449709458253}
   - {fileID: 3121780513102019478}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7275288870392651986
 GameObject:
@@ -48099,7 +48128,7 @@ Transform:
   - {fileID: 8156538176006594384}
   - {fileID: 6505585882656548057}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7569234618359982848
 GameObject:
@@ -49300,7 +49329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -53343,7 +53372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54374,7 +54403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x

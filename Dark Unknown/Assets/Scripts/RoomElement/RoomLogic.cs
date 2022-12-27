@@ -35,6 +35,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private WeaponReward _axeReward;
 
     [SerializeField] private Transform _spawnPointReward;
+    [SerializeField] private Transform spawnPointPotion;
     private Reward _rewardSpawned;
     
     public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
@@ -233,5 +234,12 @@ public class RoomLogic : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+    }
+    
+    public void InstantiatePotion()
+    {
+        var position = spawnPointPotion.position;
+        Instantiate(_healthReward, position, Quaternion.identity);
+        Debug.Log("Potion spawned.");
     }
 }
