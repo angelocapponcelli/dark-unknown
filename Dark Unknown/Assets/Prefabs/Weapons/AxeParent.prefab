@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7814450263959976512}
   - component: {fileID: 22963233423617954}
-  - component: {fileID: 8003816789982437606}
+  - component: {fileID: 1475561851480843178}
   m_Layer: 11
   m_Name: Weapon
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &8003816789982437606
+--- !u!114 &1475561851480843178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _axeLaunch: {fileID: 1105058837425331149, guid: de1568e3752966d45909c70d7546e829, type: 3}
   _angleStep: 30
-  _axesNumber: 3
+  _axesNumber: 1
 --- !u!1 &8871161822003816252
 GameObject:
   m_ObjectHideFlags: 0

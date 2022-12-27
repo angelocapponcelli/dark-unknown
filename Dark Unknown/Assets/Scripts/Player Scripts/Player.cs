@@ -21,6 +21,8 @@ public class Player : Singleton<Player>, IEffectable
     private WeaponParent _weaponParent;
     [SerializeField] private float _maxHealth = 100;
     private float _currentHealth;
+    [SerializeField] private float _maxMana = 10;
+    private float _currentMana;
     [SerializeField] private GameObject _playerUI;
     
     private StatusEffectData _statusEffect;
@@ -249,6 +251,10 @@ public class Player : Singleton<Player>, IEffectable
     {
         return _weaponParent.CompareTag("Bow");
     }
+    public bool checkAxeWeapon()
+    {
+        return _weaponParent.CompareTag("Axe");
+    }
 
     public float GetMaxHealth()
     {
@@ -258,6 +264,19 @@ public class Player : Singleton<Player>, IEffectable
     public float GetCurrentHealth()
     {
         return _currentHealth;
+    }
+    
+    public void IncreaseMana(float value)
+    {
+        _currentMana += value;
+        _currentMana = Math.Min(_currentMana, _maxMana);
+        StartCoroutine(UIController.Instance.SetMana(_currentMana));
+    }
+
+    public void ManaToZero()
+    {
+        _currentMana = 0;
+        StartCoroutine(UIController.Instance.SetMana(_currentMana));
     }
     
     public bool HasPotion()
