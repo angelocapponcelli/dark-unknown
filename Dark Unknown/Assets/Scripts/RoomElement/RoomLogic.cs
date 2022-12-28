@@ -37,8 +37,11 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private Transform _spawnPointReward;
     [SerializeField] private Transform spawnPointPotion;
     private Reward _rewardSpawned;
-    
-    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
+
+    private int _numOfEnemies;
+    public List<EnemyController> crystals = new List<EnemyController>();
+
+    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -89,7 +92,7 @@ public class RoomLogic : MonoBehaviour
     public void StartRoom(Type roomType)
     {
         //set up the symbols for the next rooms
-        if (LevelManager.Instance.GetRoomsTraversed()+1 < LevelManager.Instance.roomsBeforeBoss)
+        if (LevelManager.Instance.GetRoomsTraversed()+1 != LevelManager.Instance.roomsBeforeBoss)
         {
             var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
@@ -147,7 +150,7 @@ public class RoomLogic : MonoBehaviour
         switch (_roomType)
         {
             case Type.INITIAL:
-                GameManager.NumOfEnemies = 1;
+                _numOfEnemies = 1;
                 break;
             //Follower types do same thing at first
             case Type.BOW:
@@ -155,26 +158,26 @@ public class RoomLogic : MonoBehaviour
             case Type.SWORD:
             case Type.STRENGTH:
             case Type.AXE:
-                GameManager.NumOfEnemies = Random.Range(12, 15);
+                _numOfEnemies = Random.Range(12, 15);
                 break;
             case Type.BOSS:
-                GameManager.NumOfEnemies = Random.Range(5, 10);
+                _numOfEnemies = Random.Range(5, 10);
                 StartCoroutine(SpawnBoss());
                 break;
         }
-        UIController.Instance.SetEnemyCounter(GameManager.NumOfEnemies);
+        UIController.Instance.SetEnemyCounter(_numOfEnemies);
         StartCoroutine(SpawnEnemies());
     }
 
     private IEnumerator SpawnEnemies()
     {
         int spiderCounter = 0;
-        int spiderMax = (int) (GameManager.NumOfEnemies * spiderPercentage);
-        print("spiders: " + spiderMax);
-        print("skeletons" + (GameManager.NumOfEnemies-spiderMax));
+        int spiderMax = (int) (_numOfEnemies * spiderPercentage);
+        /*print("spiders: " + spiderMax);
+        print("skeletons" + (_numOfEnemies-spiderMax));*/
         
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < GameManager.NumOfEnemies; i++) // uncomment to spawn a fixed amount of enemies
+        for (int i = 0; i < _numOfEnemies; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
             EnemyController type = _possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)];
@@ -202,12 +205,12 @@ public class RoomLogic : MonoBehaviour
             {
                 yield return new WaitForSeconds(_spawnTime);
                 var crystal = _enemySpawner.Spawn(possibleCrystalType[Random.Range(0, possibleCrystalType.Length)]);
-                GameManager.Crystals.Add(crystal);
+                crystals.Add(crystal);
             }
         }
         yield return new WaitForSeconds(_spawnTime);
         _enemies.Add(EnemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
-        GameManager.Crystals[numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        crystals[numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
     }
     
     /*private IEnumerator SpawnCrystals()
@@ -234,6 +237,24 @@ public class RoomLogic : MonoBehaviour
         {
             Destroy(t.gameObject);
         }
+    }
+
+    public void DestroyAllCrystals()
+    {
+        foreach (EnemyController c in crystals)
+        {
+            Destroy(c.gameObject);
+        }
+    }
+
+    public int GetNumOfEnemies()
+    {
+        return _numOfEnemies;
+    }
+
+    public void ModifyNumOfEnemies(int delta)
+    {
+        _numOfEnemies += delta;
     }
     
     public void InstantiatePotion()

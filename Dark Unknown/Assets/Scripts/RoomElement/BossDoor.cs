@@ -103,7 +103,7 @@ public class BossDoor : MonoBehaviour
             //set room colliders to false
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
-            Player.Instance.ShowPlayerUI(true, "Press E to enter the door");
+            Player.Instance.ShowPlayerUI(true, "Press F to enter the door");
             _canOpen = true;
         }
     }

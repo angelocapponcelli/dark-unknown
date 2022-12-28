@@ -16,9 +16,6 @@ public class GameManager : Singleton<GameManager>
     private static readonly int Death = Animator.StringToHash("Death");
     public static bool PlayerHasWon;
     
-    public static int NumOfEnemies;
-    public static List<EnemyController> Crystals = new List<EnemyController>();
-
     protected override void Awake()
     {
         base.Awake();
@@ -57,8 +54,8 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Menu");
     }
-    
-    public void LoadVictoryScreen()
+
+    public void LoadVictoryScene()
     {
         PlayerHasWon = true;
         AudioManager.Instance.StopSoundTrack();

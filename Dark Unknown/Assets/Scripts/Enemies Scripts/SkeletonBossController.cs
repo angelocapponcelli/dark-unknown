@@ -41,7 +41,8 @@ public class SkeletonBossController : EnemyController
     private SkeletonBossUIController _bossUIController = null;
     
     private bool _deathSoundPlayed = false;
-    
+    private RoomLogic _currentRoom;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -66,16 +67,18 @@ public class SkeletonBossController : EnemyController
         if (GetComponent<SkeletonBossUIController>() == null) return;
         _bossUIController = GetComponent<SkeletonBossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
+
+        _currentRoom = LevelManager.Instance.GetCurrentRoom();
         
         // Testing
         /*foreach (var crystal in GameObject.FindGameObjectsWithTag("Crystal"))
         {
             StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
         }*/
-        _numOfCrystals = GameManager.Crystals.Count;
+        _numOfCrystals = _currentRoom.crystals.Count;
         //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
-        if (GameManager.Crystals.Count == 0)
+        if (_currentRoom.crystals.Count == 0)
         {
             AllCrystalsDestroyed();
         }
@@ -304,9 +307,9 @@ public class SkeletonBossController : EnemyController
 
     public void CrystalDestroyed()
     {
-        if (GameManager.Crystals.Count <= 0) return;
-        var crystal = GameManager.Crystals[_numOfCrystals-1];
-        if (crystal.IsDead()) GameManager.Crystals.Remove(crystal);
+        if (_currentRoom.crystals.Count <= 0) return;
+        var crystal = _currentRoom.crystals[_numOfCrystals-1];
+        if (crystal.IsDead()) _currentRoom.crystals.Remove(crystal);
         _numOfCrystals -= 1;
         /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
@@ -346,7 +349,7 @@ public class SkeletonBossController : EnemyController
         _particleSystem.Stop();
         yield return new WaitForSeconds(vulnerabilityTime);
         if (_allCrystalsDestroyed || isDead) yield break;
-        GameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;
         _particleSystem.Play();
     }

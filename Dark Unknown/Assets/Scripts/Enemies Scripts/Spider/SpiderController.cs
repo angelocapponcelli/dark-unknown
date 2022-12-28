@@ -230,7 +230,7 @@ public class SpiderController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
     
     public override IEnumerator RecoverySequence()
@@ -241,7 +241,7 @@ public class SpiderController : EnemyController
         _animator.AnimateIdle();
         EnableBoxCollider();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
+        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;

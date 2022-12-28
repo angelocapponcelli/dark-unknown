@@ -24,7 +24,7 @@ public class Door : MonoBehaviour
     [Range(1, 3)]
     public int myIndex;
     private SpriteRenderer _mySpriteRender;
-
+    
     //TODO insert animation
     //[SerializeField] private Sprite _opendDoorSprite;
 
@@ -62,21 +62,10 @@ public class Door : MonoBehaviour
         {
             AudioManager.Instance.PlayEnterDoorSound();
             _myBoxCollider.enabled = false;
-            if (_actualDoorSymbol.type != RoomLogic.Type.BOSS)
+            LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
+            if (_actualDoorSymbol.type == RoomLogic.Type.BOSS)
             {
-                LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
-            }
-            else
-            {
-                if (LevelManager.Instance.BossRoomAlreadyDone())
-                {
-                    
-                    GameManager.Instance.LoadVictoryScreen();
-                }
-                else
-                {
-                    LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
-                }
+                LevelManager.Instance.IncrementCurrentLevel();
             }
         }
     }
