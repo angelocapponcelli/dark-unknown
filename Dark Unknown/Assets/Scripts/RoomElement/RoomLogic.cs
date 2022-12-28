@@ -41,7 +41,7 @@ public class RoomLogic : MonoBehaviour
     private int _numOfEnemies;
     public List<EnemyController> crystals = new List<EnemyController>();
 
-    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -96,46 +96,57 @@ public class RoomLogic : MonoBehaviour
         {
             var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
-            if (roomType == Type.INITIAL)
+            if (roomType == Type.HUB)
             {
-                toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
-                _possibleSymbols.Remove(toRemove);
-                toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
-                _possibleSymbols.Remove(toRemove);
-                toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
-                _possibleSymbols.Remove(toRemove);
+                foreach (var d in _doors)
+                {
+                    d.SetSymbol(_possibleSymbols.Find((x) => x.type==Type.HUB));
+                }
             }
             else
             {
-                if (Player.Instance.checkBowWeapon() || roomType == Type.BOW)
-                {
-                    toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
-                    _possibleSymbols.Remove(toRemove);
-                }
-                if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
+                if (roomType == Type.INITIAL)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
                     _possibleSymbols.Remove(toRemove);
-                }
-                if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
-                {
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
+                    _possibleSymbols.Remove(toRemove);
                     toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                     _possibleSymbols.Remove(toRemove);
                 }
+                else
+                {
+                    if (Player.Instance.checkBowWeapon() || roomType == Type.BOW)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                }
+            
+                foreach (var d in _doors)
+                {
+                    var i = Random.Range(0, _possibleSymbols.Count);
+                    d.SetSymbol(_possibleSymbols[i]);
+                    _possibleSymbols.RemoveAt(i);
+                }
             }
             
-            foreach (var d in _doors)
-            {
-                var i = Random.Range(0, _possibleSymbols.Count);
-                d.setSymbol(_possibleSymbols[i]);
-                _possibleSymbols.RemoveAt(i);
-            }
         }
         else
         {
             foreach (var d in _doors)
             {
-                d.setSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
+                d.SetSymbol(_possibleSymbols.Find((x) => x.type==Type.BOSS));
             }
         }
 
@@ -151,6 +162,10 @@ public class RoomLogic : MonoBehaviour
         {
             case Type.INITIAL:
                 _numOfEnemies = 1;
+                break;
+            case Type.HUB:
+                _numOfEnemies = 0;
+                LevelManager.Instance.IncrementCurrentLevel();
                 break;
             //Follower types do same thing at first
             case Type.BOW:

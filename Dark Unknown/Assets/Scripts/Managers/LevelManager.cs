@@ -20,11 +20,11 @@ public class LevelManager : Singleton<LevelManager>
     private List<RoomLogic> _roomPool;
     private List<RoomLogic> _nextRooms;
     private RoomLogic _currentRoom;
-
+    private RoomLogic _hubRoom;
     private RoomLogic _bossRoom;
 
     //private bool _bossRoomAlreadyEntered = false;
-    private int _roomsTraversed = 0; //counter to distinguish when the next room is the boss room
+    private int _roomsTraversed = -1; //counter to distinguish when the next room is the boss room
     [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
@@ -51,12 +51,13 @@ public class LevelManager : Singleton<LevelManager>
         //UIController.Instance.SetRoomText("Tutorial room");
     }
 
-    public void AddResources()
+    private void AddResources()
     {
         print("currentLevel: " + _currentLevel);
         _roomPool.Clear();
         _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/RoomsLevel" + _currentLevel + "/"));
         _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom" + _currentLevel);
+        _hubRoom = Resources.Load<RoomLogic>("Rooms/Hub" + _currentLevel);
     }
 
     //from GameManager
@@ -67,7 +68,7 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom.StartRoom(RoomLogic.Type.INITIAL);
         UIController.Instance.SetRoomText("Tutorial room");
         _roomPool.Remove(tmp);
-        LoadRooms();
+        LoadHubRooms();
     }
 
     public void SetNewRoom(int roomNumber, RoomLogic.Type roomType)
@@ -98,8 +99,11 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom.StartRoom(roomType);
         if (roomType == RoomLogic.Type.BOSS)
         {
-            //_bossRoomAlreadyEntered = true;
             UIController.Instance.SetRoomText("Boss Room");
+        }
+        else if (roomType == RoomLogic.Type.HUB)
+        {
+            UIController.Instance.SetRoomText("Hub Room");
         }
         else
         {
@@ -121,7 +125,23 @@ public class LevelManager : Singleton<LevelManager>
         //load next rooms
         _roomsTraversed++;
         print("Rooms traversed: " + _roomsTraversed);
-        LoadRooms();
+        if (roomType != RoomLogic.Type.BOSS)
+        {
+            LoadRooms();
+        }
+        else
+        {
+            if (_currentLevel < 3)
+            {
+                AddResources();
+                _roomsTraversed = 0;
+                LoadHubRooms(); //next room is always hub
+            }
+            else
+            {
+                GameManager.Instance.LoadVictoryScene();
+            }
+        }
     }
 
     private void LoadRooms()
@@ -145,10 +165,12 @@ public class LevelManager : Singleton<LevelManager>
         }
         else
         {
-            if (_currentLevel < 3)
+            print("ENTRATO QUI ANCHE SE NON DOVREI");
+            /*if (_currentLevel < 3)
             {
                 AddResources();
-                _roomsTraversed = 0;
+                _roomsTraversed = -1;
+                LoadHubRooms();
                 for (int i = 0; i < 3; i++)
                 {
                     _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
@@ -157,7 +179,15 @@ public class LevelManager : Singleton<LevelManager>
             else
             {
                 GameManager.Instance.LoadVictoryScene();
-            }
+            }*/
+        }
+    }
+
+    private void LoadHubRooms()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            _nextRooms.Add(_hubRoom); //assign random rooms
         }
     }
 

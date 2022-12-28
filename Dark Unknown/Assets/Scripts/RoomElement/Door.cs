@@ -63,14 +63,10 @@ public class Door : MonoBehaviour
             AudioManager.Instance.PlayEnterDoorSound();
             _myBoxCollider.enabled = false;
             LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
-            if (_actualDoorSymbol.type == RoomLogic.Type.BOSS)
-            {
-                LevelManager.Instance.IncrementCurrentLevel();
-            }
         }
     }
 
-    public void setSymbol(SymbolType symbolType)
+    public void SetSymbol(SymbolType symbolType)
     {
         _actualDoorSymbol = symbolType;
         _symbolAboveDoor.sprite = _actualDoorSymbol.sprite;

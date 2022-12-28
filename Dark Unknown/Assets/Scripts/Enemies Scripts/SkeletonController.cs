@@ -110,8 +110,8 @@ public class SkeletonController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(50);*/
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
     }
 
     private void AttackEvent()
