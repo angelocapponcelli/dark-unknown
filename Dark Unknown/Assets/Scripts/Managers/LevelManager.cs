@@ -120,8 +120,7 @@ public class LevelManager : Singleton<LevelManager>
             _potionCounter--;
         }
 
-        //load next rooms, only if next is not a boss room
-        //if (roomType == RoomLogic.Type.BOSS) yield break; //-> THIS LINE WAS NOT COMMENTED
+        //load next rooms
         _roomsTraversed++;
         print("Rooms traversed: " + _roomsTraversed);
         LoadRooms();
@@ -178,9 +177,4 @@ public class LevelManager : Singleton<LevelManager>
     {
         _currentLevel++;
     }
-
-    //public bool BossRoomAlreadyDone()
-    //{
-    //    return _bossRoomAlreadyEntered;
-    //}
 }

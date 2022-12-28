@@ -67,24 +67,6 @@ public class Door : MonoBehaviour
             {
                 LevelManager.Instance.IncrementCurrentLevel();
             }
-
-            /*if (_actualDoorSymbol.type != RoomLogic.Type.BOSS)
-            {
-                LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
-            }
-            else
-            {
-                if (LevelManager.Instance.BossRoomAlreadyDone())
-                {
-                    GameManager.Instance.LoadNextLevel();
-                    
-                }
-                else
-                {
-                    print("ENTRATO IN DOOR -> SECONDO ELSE; NON DOVREBBE ACCADERE");
-                    LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
-                }
-            }*/
         }
     }
 
