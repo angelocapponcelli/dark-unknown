@@ -56,8 +56,7 @@ public class LevelManager : Singleton<LevelManager>
         print("currentLevel: " + _currentLevel);
         _roomPool.Clear();
         _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/RoomsLevel" + _currentLevel + "/"));
-        //_bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom" + currentLevel);
-        _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom1"); //WHEN THERE ARE MORE BOSS ROOMS, USE THE LINE ABOVE
+        _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom" + _currentLevel);
     }
 
     //from GameManager
