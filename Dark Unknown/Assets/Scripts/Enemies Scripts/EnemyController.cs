@@ -17,17 +17,17 @@ public abstract class EnemyController : MonoBehaviour
         return isDead;
     }
 
-    protected static void ReduceEnemyCounter()
+    protected static void ReduceEnemyCounter(RoomLogic currentRoom)
     {
-        GameManager.NumOfEnemies -= 1;
-        UIController.Instance.SetEnemyCounter(GameManager.NumOfEnemies);
+        currentRoom.ModifyNumOfEnemies(-1);
+        UIController.Instance.SetEnemyCounter(currentRoom.GetNumOfEnemies());
         Player.Instance.IncreaseMana(1);
     }
     
-    protected static void IncrementEnemyCounter()
+    protected static void IncrementEnemyCounter(RoomLogic currentRoom)
     {
-        GameManager.NumOfEnemies += 1;
-        UIController.Instance.SetEnemyCounter(GameManager.NumOfEnemies);
+        currentRoom.ModifyNumOfEnemies(1);
+        UIController.Instance.SetEnemyCounter(currentRoom.GetNumOfEnemies());
     }
 
 }
