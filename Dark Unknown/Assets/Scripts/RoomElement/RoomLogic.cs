@@ -41,7 +41,7 @@ public class RoomLogic : MonoBehaviour
     private int _numOfEnemies;
     public List<EnemyController> crystals = new List<EnemyController>();
 
-    public enum Type {INITIAL, RANDOM, HEALTH, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
