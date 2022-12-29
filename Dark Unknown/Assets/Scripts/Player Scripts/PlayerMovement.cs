@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 150f;
+    [SerializeField] private float speed = 300f;
     
     private float _activeSpeed;
     [SerializeField] private float dashSpeed;
@@ -75,6 +75,17 @@ public class PlayerMovement : MonoBehaviour
     {
         speed = speed * multiplier;
     }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public void SetSpeed(float resetSpeed)
+    {
+        speed = resetSpeed;
+    }
+
     public void EnableDash()
     {
         _canDash = true;

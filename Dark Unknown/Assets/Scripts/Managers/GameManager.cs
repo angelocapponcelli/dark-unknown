@@ -9,6 +9,8 @@ public class GameManager : Singleton<GameManager>
 {
     private LevelManager _levelManager;
     [SerializeField] private Player player;
+    private bool _playerRespawned = false;
+    public float playerSpeed = 0.0f;
     private CinemachineVirtualCamera _cineMachine;
     private RoomLogic _currentRoom;
     private GameObject _playerSpawnPoint;
@@ -66,10 +68,33 @@ public class GameManager : Singleton<GameManager>
     
     public void LoadDeathScreen()
     {
-        AudioManager.Instance.StopSoundTrack();
-        UIController.Instance.DeactivatePlayerUI();
-        animator.SetTrigger(Death);
-        StartCoroutine(GameOverScreen());
+        if (!_playerRespawned)
+        {
+            //disable colliders
+            BoxCollider2D playerCollider = player.GetComponentInChildren<BoxCollider2D>();
+            playerCollider.enabled = false;
+            CapsuleCollider2D playerFeetCollider = player.GetComponentInChildren<CapsuleCollider2D>();
+            playerFeetCollider.enabled = false;
+            
+            LevelManager.Instance.RestartFromHubRoom();
+            
+            //reset previous status
+            player.GetPlayerMovement().SetSpeed(playerSpeed);
+            player.GetPlayerMovement().enabled = true;
+            player.GetPlayerInput().enabled = true;
+            playerCollider.enabled = true;
+            playerFeetCollider.enabled = true;
+            UIController.Instance.SetHealth(player.GetMaxHealth());
+            player.ResetCurrentHealth();
+            _playerRespawned = true;
+        }
+        else
+        {
+            AudioManager.Instance.StopSoundTrack();
+            UIController.Instance.DeactivatePlayerUI();
+            animator.SetTrigger(Death);
+            StartCoroutine(GameOverScreen());
+        }
     }
     
     private static IEnumerator GameOverScreen()

@@ -124,17 +124,14 @@ public class LevelManager : Singleton<LevelManager>
 
         //load next rooms
         _roomsTraversed++;
-        print("Rooms traversed: " + _roomsTraversed + "; roomType: " + roomType);
         if (roomType != RoomLogic.Type.BOSS)
         {
-            print("this is a normal room");
             LoadRooms();
         }
         else
         {
             if (_currentLevel < 3)
             {
-                print("this is a boss room, next are all hubs");
                 AddResources();
                 _roomsTraversed = -1;
                 LoadHubRooms(); //next room is always hub
@@ -152,7 +149,6 @@ public class LevelManager : Singleton<LevelManager>
 
         if (_roomsTraversed < roomsBeforeBoss)
         {
-            print("normal add of the rooms");
             for (int i = 0; i < 3; i++)
             {
                 _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
@@ -175,6 +171,36 @@ public class LevelManager : Singleton<LevelManager>
         {
             _nextRooms.Add(_hubRoom); //assign random rooms
         }
+    }
+
+    public void RestartFromHubRoom()
+    {
+        animator.SetTrigger(StartTransition);
+
+        //destroy current room
+        _currentRoom.DestroyAllEnemies();
+        _currentRoom.DestroyAllFireballs();
+        _currentRoom.DestroyAllCrystals();
+        Destroy(_currentRoom.gameObject);
+
+        //Destroy reward and potion if player didn't get it
+        foreach (var reward in FindObjectsOfType<Reward>())
+        {
+            Destroy(reward.gameObject);
+        }
+
+        //instantiate the new room
+        _currentLevel--;
+        AddResources();
+        _currentRoom = Instantiate(_hubRoom, Vector3.zero, Quaternion.identity);
+        _currentRoom.StartRoom(RoomLogic.Type.HUB);
+        UIController.Instance.SetRoomText("Hub Room");
+
+        _potionCounter = roomsBetweenPotions;
+        _roomsTraversed = 0;
+        
+        //load next rooms
+        LoadRooms();
     }
 
     public RoomLogic GetCurrentRoom()

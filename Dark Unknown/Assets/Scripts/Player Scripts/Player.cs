@@ -19,9 +19,9 @@ public class Player : Singleton<Player>, IEffectable
     private Vector2 _direction;    
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
-    [SerializeField] private float _maxHealth = 100;
+    [SerializeField] private float _maxHealth = 150;
     private float _currentHealth;
-    [SerializeField] private float _maxMana = 10;
+    [SerializeField] private float _maxMana = 100;
     private float _currentMana;
     [SerializeField] private GameObject _playerUI;
     
@@ -129,6 +129,7 @@ public class Player : Singleton<Player>, IEffectable
         //game over
         if (!(_currentHealth <= 0)) return;
         StartCoroutine(Death());
+        GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
         _playerMovement.IncreaseSpeed(0);
         _playerMovement.enabled = false;
         _playerInput.enabled = false;
@@ -265,6 +266,11 @@ public class Player : Singleton<Player>, IEffectable
     {
         return _currentHealth;
     }
+
+    public void ResetCurrentHealth()
+    {
+        _currentHealth = _maxHealth;
+    }
     
     public void IncreaseMana(float value)
     {
@@ -320,6 +326,16 @@ public class Player : Singleton<Player>, IEffectable
             _currentHealth -= _statusEffect.damage;
             UIController.Instance.SetHealth(_currentHealth);
         }
+    }
+
+    public PlayerMovement GetPlayerMovement()
+    {
+        return _playerMovement;
+    }
+
+    public PlayerInput GetPlayerInput()
+    {
+        return _playerInput;
     }
 }
 
