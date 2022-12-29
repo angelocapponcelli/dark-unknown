@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShieldAbility : MonoBehaviour
+public class ShieldAbility : Ability
 {
     [SerializeField] private float _delay = 2f;
     private SpriteRenderer _spriteRenderer;
     private CircleCollider2D _collider;
-    private bool _isActive = false;
 
         // Start is called before the first frame update
     void Start()
@@ -19,7 +18,7 @@ public class ShieldAbility : MonoBehaviour
         activation(false);
     }
 
-    public void Activate()
+    public override void Activate()
     {
         if (!_spriteRenderer.enabled)
         {
@@ -28,10 +27,7 @@ public class ShieldAbility : MonoBehaviour
         }
     }
 
-    public bool isActive()
-    {
-        return _isActive;
-    }
+    
     private IEnumerator delayedDeactivation()
     {
         yield return new WaitForSeconds(_delay);
@@ -42,6 +38,6 @@ public class ShieldAbility : MonoBehaviour
     {
         _spriteRenderer.enabled = value;
         _collider.enabled = value;
-        _isActive = value;
+        isActive = value;
     }
 }

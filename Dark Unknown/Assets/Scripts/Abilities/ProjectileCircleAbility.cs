@@ -1,11 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class ProjectileCircleAbility : MonoBehaviour
 {
     [SerializeField] private float _damage = 0.5f;
-    // Start is called before the first frame update
+    private Animator _animator;
+    private static readonly int _destroyTrigger = Animator.StringToHash("Destroy");
+
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Collider2D[] hitEnemies = collision.GetComponentsInChildren<Collider2D>();
@@ -14,8 +23,14 @@ public class ProjectileCircleAbility : MonoBehaviour
             if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
                 enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage);
+                _animator.SetTrigger(_destroyTrigger);
             }
         }
         if (collision.CompareTag("Trap")) return;
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
