@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CircleAbility : Ability
 {
@@ -9,6 +10,7 @@ public class CircleAbility : Ability
     [SerializeField] private float _radius = 1.5f;
     [SerializeField] private float _speedRotate = 50f;
     private List<GameObject> _activeProjectile = new List<GameObject>();
+    [SerializeField] private GameObject _abilityReward;
     
     // Start is called before the first frame update
     private void Start()
@@ -45,5 +47,15 @@ public class CircleAbility : Ability
             if (_activeProjectile.Count == 0)
                 isActive = false;
         }
+    }
+
+    public override string GetText()
+    {
+        return "new ability that create a circle of fireball around you";
+    }
+    
+    public override GameObject GetAbilityReward()
+    {
+        return _abilityReward;
     }
 }

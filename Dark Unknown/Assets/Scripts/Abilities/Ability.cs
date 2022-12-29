@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
     protected bool isActive;
 
-    public void SetIsActive(bool value)
+        public void SetIsActive(bool value)
     {
         isActive = value;
     }
@@ -15,4 +14,6 @@ public abstract class Ability : MonoBehaviour
         return isActive;
     }
     public abstract void Activate();
+    public abstract string GetText();
+    public abstract GameObject GetAbilityReward();
 }

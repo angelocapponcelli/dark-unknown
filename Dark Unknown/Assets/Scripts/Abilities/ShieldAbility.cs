@@ -1,13 +1,13 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShieldAbility : Ability
 {
     [SerializeField] private float _delay = 2f;
     private SpriteRenderer _spriteRenderer;
     private CircleCollider2D _collider;
+    [SerializeField] private GameObject _abilityReward;
 
         // Start is called before the first frame update
     void Start()
@@ -39,5 +39,15 @@ public class ShieldAbility : Ability
         _spriteRenderer.enabled = value;
         _collider.enabled = value;
         isActive = value;
+    }
+    
+    public override string GetText()
+    {
+        return "new ability that create a shield that protect you from enemies";
+    }
+    
+    public override GameObject GetAbilityReward()
+    {
+        return _abilityReward;
     }
 }
