@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class UndeadHeart : MonoBehaviour
+public class UndeadHeart : EnemyController
 {
     private Vector2 _targetPosition;
     private Vector2 _initialPosition;
@@ -133,19 +133,24 @@ public class UndeadHeart : MonoBehaviour
         Destroy();
     }
 
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-        if (health <= 0)
-        {
-            Destroy();
-        }
-    }
-  
 
     public void Destroy()
     {
         Destroy(gameObject);
     }
-    
+
+    public override void TakeDamage(float damage, bool source)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            _parent.ReduceEnemyCounterPublic();
+            Destroy();
+        }
+    }
+
+    public override IEnumerator RecoverySequence()
+    {
+        throw new NotImplementedException();
+    }
 }

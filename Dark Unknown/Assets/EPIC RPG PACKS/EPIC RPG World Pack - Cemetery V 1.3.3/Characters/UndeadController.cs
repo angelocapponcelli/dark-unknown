@@ -191,7 +191,7 @@ public class UndeadController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        ReduceEnemyCounter();
+        //ReduceEnemyCounter();
     }
 
     public void Recover()
@@ -225,5 +225,10 @@ public class UndeadController : EnemyController
         {
             collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
+    }
+
+    public void ReduceEnemyCounterPublic()
+    {
+        ReduceEnemyCounter();
     }
 }
