@@ -12,7 +12,7 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private int _currentLevel = 1; //is actually incremented when entering the boss room,
+    private int _currentLevel = 0; //is actually incremented when entering the boss room,
                                    //in order to properly update the resources. For the checkpoint, check both this and
                                    //_roomsTraversed, so that if this is n and _roomsTraversed=roomsBeforeBoss+1,
                                    //then you have to restart from the boss room of Level n-1
@@ -53,11 +53,10 @@ public class LevelManager : Singleton<LevelManager>
 
     private void AddResources()
     {
-        print("currentLevel: " + _currentLevel);
         _roomPool.Clear();
-        _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/RoomsLevel" + _currentLevel + "/"));
-        _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom" + _currentLevel);
-        _hubRoom = Resources.Load<RoomLogic>("Rooms/Hub" + _currentLevel);
+        _roomPool.AddRange(Resources.LoadAll<RoomLogic>("Rooms/RoomsLevel" + (_currentLevel+1) + "/"));
+        _bossRoom = Resources.Load<RoomLogic>("Rooms/BossRoom" + (_currentLevel+1));
+        _hubRoom = Resources.Load<RoomLogic>("Rooms/Hub" + (_currentLevel+1));
     }
 
     //from GameManager
@@ -147,7 +146,6 @@ public class LevelManager : Singleton<LevelManager>
     private void LoadRooms()
     {
         _nextRooms.Clear();
-        //UIController.Instance.SetRoomText("Rooms before Boss: "+ (roomsBeforeBoss - _roomsTraversed));
 
         if (_roomsTraversed < roomsBeforeBoss)
         {
@@ -162,24 +160,6 @@ public class LevelManager : Singleton<LevelManager>
             {
                 _nextRooms.Add(_bossRoom); //assign boss room to each door
             }
-        }
-        else
-        {
-            print("ENTRATO QUI ANCHE SE NON DOVREI");
-            /*if (_currentLevel < 3)
-            {
-                AddResources();
-                _roomsTraversed = -1;
-                LoadHubRooms();
-                for (int i = 0; i < 3; i++)
-                {
-                    _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
-                }
-            }
-            else
-            {
-                GameManager.Instance.LoadVictoryScene();
-            }*/
         }
     }
 
@@ -204,5 +184,6 @@ public class LevelManager : Singleton<LevelManager>
     public void IncrementCurrentLevel()
     {
         _currentLevel++;
+        print("QUESTA currentLevel: " + _currentLevel);
     }
 }

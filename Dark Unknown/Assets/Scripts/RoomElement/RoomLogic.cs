@@ -60,7 +60,7 @@ public class RoomLogic : MonoBehaviour
         if (!_isControlEnabled) return;
         //Check that all enemies are dead
         if (_enemies == null) return;
-        var allDead = false;
+        bool allDead = false;
         foreach (var t in _enemies)
         {
             if (t.IsDead() == false)
@@ -68,6 +68,10 @@ public class RoomLogic : MonoBehaviour
             allDead = true;
         }
 
+        if (_roomType == Type.HUB)
+        {
+            allDead = true;
+        }
         if (!allDead) return;
         //Done at the end of the room when all enemy are dead
         foreach (var d in _doors)
@@ -96,7 +100,7 @@ public class RoomLogic : MonoBehaviour
         {
             var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
-            if (roomType == Type.HUB)
+            if (roomType == Type.INITIAL || roomType == Type.BOSS)
             {
                 foreach (var d in _doors)
                 {
@@ -105,7 +109,7 @@ public class RoomLogic : MonoBehaviour
             }
             else
             {
-                if (roomType == Type.INITIAL)
+                if (roomType == Type.HUB)
                 {
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
                     _possibleSymbols.Remove(toRemove);

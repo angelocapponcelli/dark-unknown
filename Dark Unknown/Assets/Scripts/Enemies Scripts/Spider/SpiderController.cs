@@ -252,7 +252,7 @@ public class SpiderController : EnemyController
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var collider in spiderColliders)
         {
-            Debug.Log(collider.name);
+            //Debug.Log(collider.name);
             collider.gameObject.SetActive(false);
         }
     }
