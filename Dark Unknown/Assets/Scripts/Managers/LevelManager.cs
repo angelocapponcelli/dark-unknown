@@ -25,6 +25,7 @@ public class LevelManager : Singleton<LevelManager>
 
     //private bool _bossRoomAlreadyEntered = false;
     private int _roomsTraversed = -1; //counter to distinguish when the next room is the boss room
+                                    //starts at -1 to account for the hub room
     [SerializeField] public int roomsBeforeBoss = 5;
     private GameObject _playerSpawnPoint;
     private Player _player;
@@ -123,17 +124,19 @@ public class LevelManager : Singleton<LevelManager>
 
         //load next rooms
         _roomsTraversed++;
-        print("Rooms traversed: " + _roomsTraversed);
+        print("Rooms traversed: " + _roomsTraversed + "; roomType: " + roomType);
         if (roomType != RoomLogic.Type.BOSS)
         {
+            print("this is a normal room");
             LoadRooms();
         }
         else
         {
             if (_currentLevel < 3)
             {
+                print("this is a boss room, next are all hubs");
                 AddResources();
-                _roomsTraversed = 0;
+                _roomsTraversed = -1;
                 LoadHubRooms(); //next room is always hub
             }
             else
@@ -149,6 +152,7 @@ public class LevelManager : Singleton<LevelManager>
 
         if (_roomsTraversed < roomsBeforeBoss)
         {
+            print("normal add of the rooms");
             for (int i = 0; i < 3; i++)
             {
                 _nextRooms.Add(_roomPool[Random.Range(0, _roomPool.Count)]); //assign random rooms
@@ -165,6 +169,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void LoadHubRooms()
     {
+        _nextRooms.Clear();
+        
         for (int i = 0; i < 3; i++)
         {
             _nextRooms.Add(_hubRoom); //assign random rooms
@@ -184,6 +190,5 @@ public class LevelManager : Singleton<LevelManager>
     public void IncrementCurrentLevel()
     {
         _currentLevel++;
-        print("QUESTA currentLevel: " + _currentLevel);
     }
 }
