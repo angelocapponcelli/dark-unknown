@@ -27,8 +27,6 @@ public class LevelManager : Singleton<LevelManager>
     private int _roomsTraversed = -1; //counter to distinguish when the next room is the boss room
                                     //starts at -1 to account for the hub room
     [SerializeField] public int roomsBeforeBoss = 5;
-    private GameObject _playerSpawnPoint;
-    private Player _player;
     [SerializeField] private Animator animator;
     private static readonly int StartTransition = Animator.StringToHash("Starting");
 
@@ -173,7 +171,7 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    public void RestartFromHubRoom()
+    /*public void RestartFromHubRoom()
     {
         animator.SetTrigger(StartTransition);
 
@@ -183,7 +181,7 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom.DestroyAllCrystals();
         Destroy(_currentRoom.gameObject);
 
-        //Destroy reward and potion if player didn't get it
+        //destroy reward and potion if player didn't get it
         foreach (var reward in FindObjectsOfType<Reward>())
         {
             Destroy(reward.gameObject);
@@ -201,6 +199,54 @@ public class LevelManager : Singleton<LevelManager>
         
         //load next rooms
         LoadRooms();
+    }*/
+    
+    public IEnumerator RestartFromHubRoom(float playerSpeed)
+    {
+        Player player = GameManager.Instance.player;
+        //disable colliders
+        BoxCollider2D playerCollider = player.GetComponentInChildren<BoxCollider2D>();
+        playerCollider.enabled = false;
+        CapsuleCollider2D playerFeetCollider = player.GetComponentInChildren<CapsuleCollider2D>();
+        playerFeetCollider.enabled = false;
+        
+        animator.SetTrigger(StartTransition);
+        yield return new WaitForSeconds(1);
+
+        //destroy current room
+        _currentRoom.DestroyAllEnemies();
+        _currentRoom.DestroyAllFireballs();
+        _currentRoom.DestroyAllCrystals();
+        Destroy(_currentRoom.gameObject);
+
+        //destroy reward and potion if player didn't get it
+        foreach (var reward in FindObjectsOfType<Reward>())
+        {
+            Destroy(reward.gameObject);
+        }
+        
+        //reset previous status
+        player.GetPlayerMovement().SetSpeed(playerSpeed);
+        player.GetPlayerMovement().enabled = true;
+        player.GetPlayerInput().enabled = true;
+        playerCollider.enabled = true;
+        playerFeetCollider.enabled = true;
+        UIController.Instance.SetHealth(player.GetMaxHealth());
+        player.ResetCurrentHealth();
+
+        //instantiate the new room
+        _currentLevel--;
+        AddResources();
+        _currentRoom = Instantiate(_hubRoom, Vector3.zero, Quaternion.identity);
+        _currentRoom.StartRoom(RoomLogic.Type.HUB);
+        UIController.Instance.SetRoomText("Hub Room");
+
+        _potionCounter = roomsBetweenPotions;
+        _roomsTraversed = 0;
+        
+        //load next rooms
+        LoadRooms();
+        GameManager.Instance.SetPlayerRespawned();
     }
 
     public RoomLogic GetCurrentRoom()

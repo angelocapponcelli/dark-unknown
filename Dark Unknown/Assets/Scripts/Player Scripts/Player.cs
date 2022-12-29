@@ -147,7 +147,7 @@ public class Player : Singleton<Player>, IEffectable
     
     private IEnumerator Death()
     {
-        for (float i = 0; i < 1f; i += 0.1f)
+        for (float i = 0; i < 0.5f; i += 0.1f)
         {
             _playerRenderer.color = Color.red;
             yield return new WaitForSeconds(0.1f);

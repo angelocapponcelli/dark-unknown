@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
 {
     private LevelManager _levelManager;
-    [SerializeField] private Player player;
+    [SerializeField] public Player player;
     private bool _playerRespawned = false;
     public float playerSpeed = 0.0f;
     private CinemachineVirtualCamera _cineMachine;
@@ -70,6 +70,8 @@ public class GameManager : Singleton<GameManager>
     {
         if (!_playerRespawned)
         {
+            StartCoroutine(LevelManager.Instance.RestartFromHubRoom(playerSpeed));
+            /*
             //disable colliders
             BoxCollider2D playerCollider = player.GetComponentInChildren<BoxCollider2D>();
             playerCollider.enabled = false;
@@ -85,8 +87,8 @@ public class GameManager : Singleton<GameManager>
             playerCollider.enabled = true;
             playerFeetCollider.enabled = true;
             UIController.Instance.SetHealth(player.GetMaxHealth());
-            player.ResetCurrentHealth();
-            _playerRespawned = true;
+            player.ResetCurrentHealth();*/
+            //_playerRespawned = true;
         }
         else
         {
@@ -115,5 +117,10 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitForSeconds(1);
         Application.Quit();
+    }
+
+    public void SetPlayerRespawned()
+    {
+        _playerRespawned = true;
     }
 }

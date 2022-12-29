@@ -308,8 +308,6 @@ public class SkeletonBossController : EnemyController
     public void CrystalDestroyed()
     {
         if (_currentRoom.crystals.Count <= 0) return;
-        var crystal = _currentRoom.crystals[_numOfCrystals-1];
-        if (crystal.IsDead()) _currentRoom.crystals.Remove(crystal);
         _numOfCrystals -= 1;
         /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
