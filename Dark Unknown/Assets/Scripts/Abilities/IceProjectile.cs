@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class IceProjectile : MonoBehaviour
 {
-    [SerializeField] private float _damage = 0.5f;
     private Animator _animator;
     private static readonly int _destroyTrigger = Animator.StringToHash("Destroy");
     private Rigidbody2D _rigidbody2D;
@@ -26,7 +25,7 @@ public class IceProjectile : MonoBehaviour
         {
             if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
-                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage); //Change to ice effect TODO
+                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(0); //Change to ice effect TODO
                 enemyHit = true;
             }
         }
