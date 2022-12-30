@@ -24,6 +24,10 @@ public class GemReward : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             //save the taken gems in the UI
+
+            LevelManager.Instance.killedRewards.Remove(gameObject);
+            GameManager.Instance.player.ModifyKilledReward(1);
+            
             Destroy(gameObject);
         }
     }

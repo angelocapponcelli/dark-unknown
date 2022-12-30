@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class RatController : EnemyController
 {
+    [SerializeField] private GameObject _killedReward;
+    [SerializeField] private int _rewardAmount = 3;
     [SerializeField] private Player _target;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -247,6 +249,12 @@ public class RatController : EnemyController
 
     private void Die()
     {
+        //instantiate the rewards
+        for (int i = 0; i < _rewardAmount; i++)
+        {
+            LevelManager.Instance.killedRewards.Add(Instantiate(_killedReward,transform.position,Quaternion.identity));
+        }
+        
         isDead = true;
         _canMove = false;
         _movement.StopMovement();

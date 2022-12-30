@@ -228,7 +228,7 @@ public class SpiderController : EnemyController
         //instantiate the rewards
         for (int i = 0; i < _rewardAmount; i++)
         {
-            Instantiate(_killedReward,transform.position,Quaternion.identity);
+            LevelManager.Instance.killedRewards.Add(Instantiate(_killedReward,transform.position,Quaternion.identity));
         }
         
         isDead = true;
