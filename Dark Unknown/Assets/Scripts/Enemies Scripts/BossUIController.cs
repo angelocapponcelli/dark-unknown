@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonBossUIController : MonoBehaviour
+public class BossUIController : MonoBehaviour
 {
     public void SetMaxHealth(float maxHealth)
     {

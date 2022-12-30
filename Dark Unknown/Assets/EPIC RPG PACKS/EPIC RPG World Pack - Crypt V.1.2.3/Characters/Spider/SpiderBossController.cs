@@ -1,23 +1,25 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class SkeletonBossController : EnemyController
+public class SpiderBossController : EnemyController
 {
-    private Player _target;
+private Player _target;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
-    [SerializeField] private float attackDelay = 3f;
+    private float _offset = 0.3f;
+    [SerializeField] private GameObject _projectile;
+    [SerializeField] private float _projectileSpeed = 5f;
     [SerializeField] private float vulnerabilityTime = 5f;
-    [SerializeField] private float reanimationCountDown = 20f;
+    [SerializeField] private ParticleSystem _particleSystem;
+    private int _numOfCrystals;
+    private bool _isHittable;
+    private bool _allCrystalsDestroyed;
     private float _timeForNextAttack;
-    private float _timeForNextReanimation;
-    private bool _reanimationStarted = false;
+    private BossUIController _bossUIController = null;
 
+    
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
@@ -25,48 +27,29 @@ public class SkeletonBossController : EnemyController
     private float _currentHealth;
     private bool _canMove;
     private bool _damageCoroutineRunning;
-    private bool _isHittable;
-    private int _numOfCrystals;
-    //private GameObject[] _crystals;
-    private bool _allCrystalsDestroyed;
-    [SerializeField] private ParticleSystem _particleSystem;
+    private float _timeElapsedFromShot;
+    private float _shotFrequency = 3;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
     private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
-    private BossUIController _bossUIController = null;
-    
+
     private bool _deathSoundPlayed = false;
     
     // Start is called before the first frame update
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _allCrystalsDestroyed = false;
         _target = Player.Instance;
-        //StateGameManager.Crystals = GameObject.FindGameObjectsWithTag("Crystal");
-
+        
         _currentHealth = _maxHealth;
         _canMove = true;
-
-        _movement = GetComponent<EnemyMovement>();
-        _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
-        _ai = GetComponent<EnemyAI>();
-
-        _timeForNextAttack = 0;
-        _timeForNextReanimation = reanimationCountDown;
-
+        
         if (GetComponent<BossUIController>() == null) return;
         _bossUIController = GetComponent<BossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
         
-        // Testing
-        /*foreach (var crystal in GameObject.FindGameObjectsWithTag("Crystal"))
-        {
-            StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
-        }*/
         _numOfCrystals = StateGameManager.Crystals.Count;
         //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
@@ -74,80 +57,91 @@ public class SkeletonBossController : EnemyController
         {
             AllCrystalsDestroyed();
         }
+
+        _movement = GetComponent<EnemyMovement>();
+        _animator = GetComponent<EnemyAnimator>();
+        _skeletonRenderer = GetComponent<SpriteRenderer>();
+        _ai = GetComponent<EnemyAI>();
+
+        _timeForNextAttack = 0;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (_target == null || isDead)
+        _timeElapsedFromShot += (Time.deltaTime % 60);
+        if (_target == null)
         {
             return;
         }
-
-        /*if (StateGameManager.Crystals.Length == 0 && _allCrystalsDestroyed == false)
-        {
-            AllCrystalsDestroyed();
-        }*/
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
-
-        if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
-        if (_timeForNextReanimation > 0)
-        {
-            _timeForNextReanimation -= Time.deltaTime;
-            if (_timeForNextReanimation is < 2f and > 0 && _reanimationStarted==false)
-            {
-                _reanimationStarted = true;
-                StartCoroutine(ReanimationTelegraph());
-            }
-        }
-        else
-        {
-            Debug.Log("Reanimating");
-            ReanimateMobs();
-            _timeForNextReanimation = reanimationCountDown;
-            _reanimationStarted = false;
-        }
+        /*
+        _direction = _target.transform.position - transform.position;
+        _direction.Normalize();*/
         
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
-            if (_distance > _minDistance && _canMove)
+            if (_distance > _minDistance + _offset && _canMove)
             {
-                _movement.MoveEnemy(_ai.GetMovingDirection());
-                _animator.AnimateEnemy(true, _ai.GetMovingDirection());
+                if (_timeElapsedFromShot >= _shotFrequency)
+                {
+                    AttackEvent();
+                }
+                if (!_ai.GetMovingDirection().Equals(Vector2.zero))
+                {
+                    _movement.MoveEnemy(_ai.GetMovingDirection());
+                    _animator.AnimateEnemy(true, _ai.GetMovingDirection());    
+                }
+                else
+                {
+                    _animator.AnimateIdle();
+                }
+                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
-            else if (!_damageCoroutineRunning && _timeForNextAttack <= 0)
+            else if (_distance < _minDistance - _offset && _canMove)
             {
+                _movement.MoveEnemy(_ai.GetMovingDirection()*(-1));
+                _animator.AnimateEnemy(true, _ai.GetMovingDirection());
+            } else if (_distance >= _minDistance - _offset && _distance <= _minDistance + _offset && _canMove)
+            {
+                _animator.AnimateIdle();
+                _movement.StopMovement();
+                if (_timeElapsedFromShot >= _shotFrequency)
+                {
+                    AttackEvent();
+                }
+            }
+            /*else if (_distance == _minDistance && !_isAttacking && !_damageCoroutineRunning)
+            {
+                GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
+                projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection();
+                Destroy(projectile, 2.5f);
                 // At the minimum distance, it stops moving
                 _isAttacking = true;
                 _canMove = false;
                 _movement.StopMovement();
-                _timeForNextAttack = attackDelay;
                 StartCoroutine(Attack(_ai.GetMovingDirection()));
-            }
-            else
-            {
-                _animator.AnimateIdle();
-            }
+            }*/
         }
         else
         {
             _animator.AnimateIdle();
         }
 
-        if (_isAttacking) //to flip skeleton in the right direction when is attacking
+        if (_isAttacking && !isDead) //to flip skeleton in the right direction when is attacking
         {
             _animator.flip(_target.transform.position - transform.position);
         }
 
-        // -- Cheats --
+        // -- Handle Animations --
         // Hurt
         /*if (Input.GetKeyDown("e"))
             TakeDamage(50,false);*/
-        // Enable while debugging to reanimate enemies
+        // Death
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
             {
@@ -158,14 +152,17 @@ public class SkeletonBossController : EnemyController
 
     private void AttackEvent()
     {
-        if (!_isAttacking && !_damageCoroutineRunning)
+        if (_ai.GetMovingDirection() != Vector2.zero)
         {
+            GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
+            projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed;
+            Destroy(projectile, 2.5f);
             // At the minimum distance, it stops moving
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
-            
             StartCoroutine(Attack(_ai.GetMovingDirection()));
+            _timeElapsedFromShot = 0;   
         }
     }
 
@@ -181,28 +178,9 @@ public class SkeletonBossController : EnemyController
         _animator.canMove();
     }
 
-    private void ReanimateMobs()
-    {
-        foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if (enemy.GetComponent<EnemyController>().IsDead())
-            {
-                StartCoroutine(enemy.GetComponent<EnemyController>().RecoverySequence());
-            }
-        }
-    }
-    
-    public override IEnumerator RecoverySequence()
-    {
-        _currentHealth = _maxHealth;
-        _animator.AnimateRecover();
-        yield return new WaitForSeconds(2);
-        isDead = false; 
-        _canMove = true;
-    }
- 
     public override void TakeDamage(float damage, bool damageFromArrow)
     {
+        if (isDead) return;
         if (!_isHittable) return;
         _movement.StopMovement();
         _currentHealth -= damage;
@@ -254,29 +232,31 @@ public class SkeletonBossController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        //ReduceEnemyCounter();
+        ReduceEnemyCounter();
     }
-
-    private IEnumerator ReanimationTelegraph()
+    
+    public override IEnumerator RecoverySequence()
     {
-        for (float i = 0; i < 2f; i += 0.1f)
-        {
-            _skeletonRenderer.color = Color.cyan;
-            yield return new WaitForSeconds(0.1f);
-            _skeletonRenderer.color = Color.white;
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
+        _currentHealth = _maxHealth;
+        _animator.AnimateRecover();
+        yield return new WaitForSeconds(1f);
+        _animator.AnimateIdle();
+        yield return new WaitForSeconds(1.5f);
+        IncrementEnemyCounter();
+        isDead = false; 
+        _canMove = true;
+        _deathSoundPlayed = false;
+    }  
 
     private void DisableBoxCollider()
     {
-        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in spiderColliders)
+        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var collider in skeletonColliders)
         {
-            collider.gameObject.SetActive(false);
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
-
+    
     public void CrystalDestroyed()
     {
         if (StateGameManager.Crystals.Count <= 0) return;
