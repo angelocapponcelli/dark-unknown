@@ -4,7 +4,7 @@ public class IceProjectileAbilityUsable : IUsable
 {
     public IceProjectileAbilityUsable()
     {
-        MyIcon = Resources.Load<Sprite>("ActionBarIcons/Spells/CircleAbility");
+        MyIcon = Resources.Load<Sprite>("ActionBarIcons/Spells/IceProjectileAbility");
     }
 
     public Sprite MyIcon { get; }

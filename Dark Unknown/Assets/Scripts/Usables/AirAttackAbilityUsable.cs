@@ -4,7 +4,7 @@ public class AirAttackAbilityUsable : IUsable
 {
     public AirAttackAbilityUsable()
     {
-        MyIcon = Resources.Load<Sprite>("ActionBarIcons/Spells/CircleAbility");
+        MyIcon = Resources.Load<Sprite>("ActionBarIcons/Spells/AirAttackAbility");
     }
 
     public Sprite MyIcon { get; }
