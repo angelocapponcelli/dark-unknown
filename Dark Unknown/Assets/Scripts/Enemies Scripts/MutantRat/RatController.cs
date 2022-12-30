@@ -212,6 +212,17 @@ public class RatController : EnemyController
         }
     }
     
+    public override IEnumerator Freeze(float seconds, float slowdownFactor)
+    {
+        _animator.Freeze(slowdownFactor);
+        _movement.DecreaseSpeed(slowdownFactor);
+        _ratRenderer.color = Color.cyan;
+        yield return new WaitForSeconds(seconds);
+        _animator.StopFreeze(slowdownFactor);
+        _movement.IncreaseSpeed(slowdownFactor);
+        _ratRenderer.color = Color.white;
+    }
+    
     private IEnumerator DamageMelee()
     {
         _animator.AnimateTakeDamage(); 

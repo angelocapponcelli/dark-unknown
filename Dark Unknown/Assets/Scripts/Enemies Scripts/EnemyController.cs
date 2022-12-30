@@ -10,6 +10,8 @@ public abstract class EnemyController : MonoBehaviour
     public abstract void TakeDamageMelee(float damage);
     public abstract void TakeDamageDistance(float damage);
     
+    public abstract IEnumerator Freeze(float seconds, float slowdownFactor);
+    
     public abstract IEnumerator RecoverySequence();
 
     public bool IsDead()

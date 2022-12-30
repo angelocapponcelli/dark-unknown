@@ -195,6 +195,17 @@ public class SpiderController : EnemyController
         }
     }
     
+    public override IEnumerator Freeze(float seconds, float slowdownFactor)
+    {
+        _animator.Freeze(slowdownFactor);
+        _movement.DecreaseSpeed(slowdownFactor);
+        _spiderRenderer.color = Color.cyan;
+        yield return new WaitForSeconds(seconds);
+        _animator.StopFreeze(slowdownFactor);
+        _movement.IncreaseSpeed(slowdownFactor);
+        _spiderRenderer.color = Color.white;
+    }
+    
     private IEnumerator DamageMelee()
     {
         _animator.AnimateTakeDamage(); 

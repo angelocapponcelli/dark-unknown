@@ -26,4 +26,13 @@ public class EnemyMovement : MonoBehaviour
         _rb.velocity = Vector2.zero;
     }
 
+    public void IncreaseSpeed(float value)
+    {
+        _speed *= value;
+    }
+    public void DecreaseSpeed(float value)
+    {
+        _speed /= value;
+    }
+
 }

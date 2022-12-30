@@ -72,4 +72,13 @@ public class EnemyAnimator : MonoBehaviour
     {
         _animator.SetBool("canMove", true);
     }
+
+    public void Freeze(float value)
+    {
+        _animator.speed /= value;
+    }
+    public void StopFreeze(float value)
+    {
+        _animator.speed *= value;
+    }
 }

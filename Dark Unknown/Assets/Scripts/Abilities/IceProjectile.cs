@@ -10,6 +10,8 @@ public class IceProjectile : MonoBehaviour
     private static readonly int _destroyTrigger = Animator.StringToHash("Destroy");
     private Rigidbody2D _rigidbody2D;
     private IceProjectileAbility _iceProjectileAbility;
+    [SerializeField] private float _timeToFrezee = 4f;
+    [SerializeField] private float _slowDownFactor = 2f;
 
     private void Start()
     {
@@ -25,12 +27,12 @@ public class IceProjectile : MonoBehaviour
         {
             if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
-                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(0); //Change to ice effect TODO
+                StartCoroutine(enemy.GetComponentInParent<EnemyController>().Freeze(_timeToFrezee, _slowDownFactor)); //Change to ice effect TODO
                 enemyHit = true;
             }
         }
         if (collision.GetComponent<Reward>() != null || enemyHit || collision.CompareTag("Trap") ||
-            collision.gameObject.layer == 11) return; //layer 11 == "Player"
+            collision.gameObject.layer == 11 || collision.gameObject.layer == 10) return; //layer 11 == "Player" - layer 10 == "Enemy"
         DestroyProjectileRoutine();
         _iceProjectileAbility.Deactivate();
     }

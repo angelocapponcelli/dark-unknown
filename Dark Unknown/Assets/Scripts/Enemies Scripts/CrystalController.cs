@@ -48,6 +48,11 @@ public class CrystalController : EnemyController
             Destroyed();
         }
     }
+    
+    public override IEnumerator Freeze(float seconds, float slowdownFactor)
+    {
+        yield break;
+    }
 
     public override IEnumerator RecoverySequence()
     {
