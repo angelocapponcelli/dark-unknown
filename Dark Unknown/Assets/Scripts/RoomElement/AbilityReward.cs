@@ -14,6 +14,7 @@ public class AbilityReward : Reward
                 IUsable usable;
                 if (_ability.GetComponent<CircleAbility>()) usable = new CircleAbilityUsable();
                 else if (_ability.GetComponent<AirAttackAbility>()) usable = new AirAttackAbilityUsable();
+                else if (_ability.GetComponent<IceProjectileAbility>()) usable = new IceProjectileAbilityUsable();
                 else usable = new ShieldAbilityUsable();
                 character.GetComponentInParent<Player>().PickUpAbility(_ability, gameObject, usable);
             }

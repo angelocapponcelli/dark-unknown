@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3042685906395388894}
   - component: {fileID: 3042685906395388897}
   m_Layer: 0
-  m_Name: AirAttackAbilityReward
+  m_Name: IceProjectileAbilityReward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -357192354, guid: 6d2bbb07dafc06c4c9f53caaf4ad3138, type: 3}
+  m_Sprite: {fileID: 1865275901, guid: 6d2bbb07dafc06c4c9f53caaf4ad3138, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2166d1e1cbe02542aa0713eaf2c09c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ability: {fileID: 6896964425105153580, guid: 4a4a9ca9256016f439efc958f0b2948a, type: 3}
+  _ability: {fileID: -4771470790537497224, guid: 8cc23a11b62506c479a8b74e09b9f87d, type: 3}
 --- !u!58 &3042685906395388897
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -127,6 +127,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.42}
   serializedVersion: 2
   m_Radius: 0.5
