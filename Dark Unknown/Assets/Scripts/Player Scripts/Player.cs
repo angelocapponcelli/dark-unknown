@@ -59,7 +59,6 @@ public class Player : Singleton<Player>, IEffectable
         
         _playerInput.LeftClick += () => _weaponParent.Attack();
         //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
-        _playerInput.RightClick += () => ability();
         
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);
@@ -124,15 +123,16 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.ClickActionButton("PotionButton");
         }
+
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
+        {
+            UIController.Instance.ClickActionButton(("SpellButton"));
+        }
+        
         // Use while testing to hurt the player
         /*if (Input.GetKeyDown(KeyCode.T))
         {
             TakeDamage(100f);
-        }*/
-        
-        /*if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
-        {
-            _ability.Activate();
         }*/
     }
     
@@ -365,7 +365,7 @@ public class Player : Singleton<Player>, IEffectable
         }
     }
     
-    private void ability()
+    public void ActivateAbility()
     {
         if (_ability && !_ability.IsActive()) //&& _currentMana==_maxMana
         {

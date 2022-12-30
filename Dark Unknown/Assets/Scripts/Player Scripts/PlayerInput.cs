@@ -9,7 +9,6 @@ public class PlayerInput : MonoBehaviour
     public Vector2 MovementDirection { get; private set; }
     public Vector2 PointerPosition { get; private set; }
     public event Action LeftClick;
-    public event Action RightClick;
 
     private void Update()
     {
@@ -20,19 +19,12 @@ public class PlayerInput : MonoBehaviour
         PointerPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         GetLeftClickEvent();
-        GetRightClickEvent();
     }
 
     private void GetLeftClickEvent()
     {
         if (Input.GetMouseButtonDown(0))
             LeftClick?.Invoke();
-    }
-    
-    private void GetRightClickEvent()
-    {
-        if (Input.GetMouseButtonDown(1))
-            RightClick?.Invoke();
     }
 
     public static bool GetDashKeyDown()

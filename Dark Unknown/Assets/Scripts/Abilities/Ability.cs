@@ -5,7 +5,7 @@ public abstract class Ability : MonoBehaviour
 {
     protected bool isActive;
 
-        public void SetIsActive(bool value)
+    public void SetIsActive(bool value)
     {
         isActive = value;
     }

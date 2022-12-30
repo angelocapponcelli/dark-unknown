@@ -10,6 +10,6 @@ public class CircleAbilityUsable : IUsable
     public Sprite MyIcon { get; }
     public void Use()
     {
-        //Player.Instance.GetCurrentWeapon().Attack();
+        Player.Instance.ActivateAbility();
     }
 }

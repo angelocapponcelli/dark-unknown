@@ -26,7 +26,7 @@ public class IceProjectile : MonoBehaviour
         {
             if (enemy.gameObject.CompareTag("EnemyCollider"))
             {
-                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage);
+                enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage); //Change to ice effect TODO
                 enemyHit = true;
             }
         }
