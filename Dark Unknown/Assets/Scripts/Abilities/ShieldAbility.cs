@@ -13,6 +13,7 @@ public class ShieldAbility : Ability
     void Start()
     {
         transform.localPosition = new Vector2(0,0);
+        transform.localScale = new Vector3(2.5f, 2.2f, 1);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<CircleCollider2D>();
         activation(false);
