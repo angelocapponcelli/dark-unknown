@@ -71,24 +71,6 @@ public class GameManager : Singleton<GameManager>
         if (!_playerRespawned)
         {
             StartCoroutine(LevelManager.Instance.RestartFromHubRoom(playerSpeed));
-            /*
-            //disable colliders
-            BoxCollider2D playerCollider = player.GetComponentInChildren<BoxCollider2D>();
-            playerCollider.enabled = false;
-            CapsuleCollider2D playerFeetCollider = player.GetComponentInChildren<CapsuleCollider2D>();
-            playerFeetCollider.enabled = false;
-            
-            LevelManager.Instance.RestartFromHubRoom();
-            
-            //reset previous status
-            player.GetPlayerMovement().SetSpeed(playerSpeed);
-            player.GetPlayerMovement().enabled = true;
-            player.GetPlayerInput().enabled = true;
-            playerCollider.enabled = true;
-            playerFeetCollider.enabled = true;
-            UIController.Instance.SetHealth(player.GetMaxHealth());
-            player.ResetCurrentHealth();*/
-            //_playerRespawned = true;
         }
         else
         {

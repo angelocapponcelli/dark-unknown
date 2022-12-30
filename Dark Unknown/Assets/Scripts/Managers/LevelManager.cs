@@ -171,36 +171,6 @@ public class LevelManager : Singleton<LevelManager>
         }
     }
 
-    /*public void RestartFromHubRoom()
-    {
-        animator.SetTrigger(StartTransition);
-
-        //destroy current room
-        _currentRoom.DestroyAllEnemies();
-        _currentRoom.DestroyAllFireballs();
-        _currentRoom.DestroyAllCrystals();
-        Destroy(_currentRoom.gameObject);
-
-        //destroy reward and potion if player didn't get it
-        foreach (var reward in FindObjectsOfType<Reward>())
-        {
-            Destroy(reward.gameObject);
-        }
-
-        //instantiate the new room
-        _currentLevel--;
-        AddResources();
-        _currentRoom = Instantiate(_hubRoom, Vector3.zero, Quaternion.identity);
-        _currentRoom.StartRoom(RoomLogic.Type.HUB);
-        UIController.Instance.SetRoomText("Hub Room");
-
-        _potionCounter = roomsBetweenPotions;
-        _roomsTraversed = 0;
-        
-        //load next rooms
-        LoadRooms();
-    }*/
-    
     public IEnumerator RestartFromHubRoom(float playerSpeed)
     {
         Player player = GameManager.Instance.player;

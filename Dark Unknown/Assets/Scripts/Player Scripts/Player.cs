@@ -156,6 +156,7 @@ public class Player : Singleton<Player>, IEffectable
             //game over
             if (!(_currentHealth <= 0)) return;
             StartCoroutine(Death());
+            GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
             _playerMovement.IncreaseSpeed(0);
             _playerMovement.enabled = false;
             _playerInput.enabled = false;
