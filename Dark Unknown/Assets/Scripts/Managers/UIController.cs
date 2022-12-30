@@ -12,6 +12,7 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Text enemyLeftCounter;
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
+    [SerializeField] private Text _killedRewardText;
     public Animator playerUIAnimator;
     
     [Header ("Boss UI")]
@@ -100,6 +101,11 @@ public class UIController : Singleton<UIController>
     public void SetStrengthMultiplierText(string text)
     {
         _strengthMultiplierText.text = text;
+    }
+
+    public void SetKilledRewardText(string text)
+    {
+        _killedRewardText.text = text;
     }
 
     public void DeactivatePlayerUI()

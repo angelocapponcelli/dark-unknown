@@ -1,10 +1,13 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkeletonController : EnemyController
 {
     private Player _target;
+    [SerializeField] private GameObject _killedReward;
+    [SerializeField] private int _rewardAmount = 3;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
@@ -209,6 +212,12 @@ public class SkeletonController : EnemyController
 
     private void Die()
     {
+        //instantiate the rewards
+        for (int i = 0; i < _rewardAmount; i++)
+        {
+            LevelManager.Instance.killedRewards.Add(Instantiate(_killedReward,transform.position,Quaternion.identity));
+        }
+        
         isDead = true;
         _canMove = false;
         _movement.StopMovement();

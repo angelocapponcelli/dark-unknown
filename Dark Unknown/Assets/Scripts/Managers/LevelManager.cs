@@ -22,6 +22,7 @@ public class LevelManager : Singleton<LevelManager>
     private RoomLogic _currentRoom;
     private RoomLogic _hubRoom;
     private RoomLogic _bossRoom;
+    public List<GameObject> killedRewards;
 
     //private bool _bossRoomAlreadyEntered = false;
     private int _roomsTraversed = -1; //counter to distinguish when the next room is the boss room
@@ -38,6 +39,7 @@ public class LevelManager : Singleton<LevelManager>
         base.Awake();
         _roomPool = new List<RoomLogic>();
         _nextRooms = new List<RoomLogic>();
+        killedRewards = new List<GameObject>();
 
         _potionCounter = roomsBetweenPotions;
 
@@ -80,17 +82,8 @@ public class LevelManager : Singleton<LevelManager>
     {
         //destroy current room
         yield return new WaitForSeconds(1);
-        _currentRoom.DestroyAllEnemies();
-        _currentRoom.DestroyAllFireballs();
-        _currentRoom.DestroyAllCrystals();
-        Destroy(_currentRoom.gameObject);
-
-        //Destroy reward and potion if player didn't get it
-        foreach (var reward in FindObjectsOfType<Reward>())
-        {
-            Destroy(reward.gameObject);
-        }
-
+        CleanUpRoom();
+        
         //instantiate the new room
         _currentRoom = Instantiate(_nextRooms[roomNumber - 1], Vector3.zero, Quaternion.identity);
         _roomPool.Remove(_nextRooms[roomNumber - 1]);
@@ -181,19 +174,9 @@ public class LevelManager : Singleton<LevelManager>
         playerFeetCollider.enabled = false;
         
         animator.SetTrigger(StartTransition);
+        
         yield return new WaitForSeconds(1);
-
-        //destroy current room
-        _currentRoom.DestroyAllEnemies();
-        _currentRoom.DestroyAllFireballs();
-        _currentRoom.DestroyAllCrystals();
-        Destroy(_currentRoom.gameObject);
-
-        //destroy reward and potion if player didn't get it
-        foreach (var reward in FindObjectsOfType<Reward>())
-        {
-            Destroy(reward.gameObject);
-        }
+        CleanUpRoom();
         
         //reset previous status
         player.GetPlayerMovement().SetSpeed(playerSpeed);
@@ -217,6 +200,30 @@ public class LevelManager : Singleton<LevelManager>
         //load next rooms
         LoadRooms();
         GameManager.Instance.SetPlayerRespawned();
+    }
+
+    private void CleanUpRoom()
+    {
+        _currentRoom.DestroyAllEnemies();
+        _currentRoom.DestroyAllFireballs();
+        _currentRoom.DestroyAllCrystals();
+        DestroyAllKilledRewards();
+        Destroy(_currentRoom.gameObject);
+
+        //destroy reward and potion if player didn't get it
+        foreach (var reward in FindObjectsOfType<Reward>())
+        {
+            Destroy(reward.gameObject);
+        }
+    }
+
+    private void DestroyAllKilledRewards()
+    {
+        foreach (GameObject go in killedRewards)
+        {
+            Destroy(go.gameObject);
+        }
+        killedRewards.Clear();
     }
 
     public RoomLogic GetCurrentRoom()

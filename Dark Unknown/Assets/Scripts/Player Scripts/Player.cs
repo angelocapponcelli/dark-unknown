@@ -33,6 +33,7 @@ public class Player : Singleton<Player>, IEffectable
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
     private float _strengthMultiplier = 1;
+    private int _killedReward = 0;
 
     private bool _canGetPotion;
     private bool _canGetWeapon;
@@ -232,6 +233,12 @@ public class Player : Singleton<Player>, IEffectable
         StartCoroutine(FlashBlue());
     }
 
+    public void ModifyKilledReward(int delta)
+    {
+        _killedReward += delta;
+        UIController.Instance.SetKilledRewardText("" + _killedReward);
+    }
+
     public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
         ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
@@ -285,6 +292,11 @@ public class Player : Singleton<Player>, IEffectable
     public float GetStrengthMultiplier()
     {
         return _strengthMultiplier;
+    }
+
+    public int GetKilledReward()
+    {
+        return _killedReward;
     }
 
     public bool checkSwordWeapon()
