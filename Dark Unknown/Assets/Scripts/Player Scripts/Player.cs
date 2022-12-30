@@ -15,8 +15,8 @@ public class Player : Singleton<Player>, IEffectable
     private PlayerInput _playerInput;
     private PlayerAnimation _playerAnimation;
     private SpriteRenderer _playerRenderer;
-    
-    private Vector2 _direction;    
+
+    private Vector2 _direction;
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
     [SerializeField] private float _maxHealth = 150;
@@ -24,7 +24,7 @@ public class Player : Singleton<Player>, IEffectable
     [SerializeField] private float _maxMana = 100;
     private float _currentMana;
     [SerializeField] private GameObject _playerUI;
-    
+
     private StatusEffectData _statusEffect;
     private float _currentEffectTime = 0;
     private float _nextTickTime = 0;
@@ -36,13 +36,16 @@ public class Player : Singleton<Player>, IEffectable
 
     private bool _canGetPotion;
     private bool _canGetWeapon;
+    private bool _canGetAbility;
     private WeaponParent _weaponToGet;
-    private IUsable _weaponUsable;
+    private Ability _abilityToGet;
+    private IUsable _weaponUsable, _abilityUsable;
     private GameObject _rewardToGet;
 
     private bool _hasPotion;
     private Potion _newPotion;
     private UsedPotion _usedPotion;
+    private Ability _ability;
 
     // Start is called before the first frame update
     private void Start()
@@ -53,25 +56,28 @@ public class Player : Singleton<Player>, IEffectable
         _playerRenderer = GetComponent<SpriteRenderer>();
 
         _weaponParent = GetComponentInChildren<WeaponParent>();
-        
+
         _playerInput.LeftClick += () => _weaponParent.Attack();
         //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
-        
+
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_currentHealth);
         UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
         UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
-        
+
+        _currentMana = 0;
+        UIController.Instance.SetMaxMana(_maxMana);
+
         _newPotion = new Potion();
         _usedPotion = new UsedPotion();
     }
 
-    // Update handles the animation changes based on the mouse pointer 
+    // Update handles the animation changes based on the mouse pointer
     private void Update()
     {
         if (PauseMenu.GameIsPaused) return;
         _weaponParent.PointerPosition = _playerInput.PointerPosition;
-        _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y, 
+        _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y,
             _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
         if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
@@ -96,8 +102,20 @@ public class Player : Singleton<Player>, IEffectable
             UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _newPotion);
             _canGetPotion = false;
             _hasPotion = true;
+        } else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        {
+            if (_ability)
+            {
+                GameObject newReward = Instantiate(_ability.GetAbilityReward(), transform.position, Quaternion.identity);
+                Destroy(_ability.gameObject);
+            }
+            _ability = Instantiate(_abilityToGet, transform, true);
+            //destroy old reward already taken
+            Destroy(_rewardToGet);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[1], _abilityUsable);
+            _canGetAbility = false;
         }
-        
+
         if(_statusEffect != null) HandleEffect();
 
         // Use potion only when the player has one and has lower than max health
@@ -105,14 +123,20 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.ClickActionButton("PotionButton");
         }
+
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
+        {
+            UIController.Instance.ClickActionButton(("SpellButton"));
+        }
+
         // Use while testing to hurt the player
         /*if (Input.GetKeyDown(KeyCode.T))
         {
             TakeDamage(100f);
         }*/
     }
-    
-    // FixedUpdate handles the movement 
+
+    // FixedUpdate handles the movement
     private void FixedUpdate()
     {
         _playerMovement.MovePlayer(_playerInput.MovementDirection, PlayerInput.GetDashKeyDown());
@@ -120,22 +144,25 @@ public class Player : Singleton<Player>, IEffectable
 
     public void TakeDamage(float damage)
     {
-        _currentHealth -= damage;
-        UIController.Instance.SetHealth(_currentHealth);
-        StartCoroutine(FlashRed());
-        PlayerEvents.PlayerHit.Invoke();
-        AudioManager.Instance.PlayPLayerHurtSound();
-        
-        //game over
-        if (!(_currentHealth <= 0)) return;
-        StartCoroutine(Death());
-        GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
-        _playerMovement.IncreaseSpeed(0);
-        _playerMovement.enabled = false;
-        _playerInput.enabled = false;
-        PlayerEvents.PlayerHit.Invoke();
-        AudioManager.Instance.PlayPLayerHurtSound();
-        GameManager.Instance.LoadDeathScreen();
+        if (_ability == null || !_ability.GetComponent<ShieldAbility>() ||
+            (_ability.GetComponent<ShieldAbility>() && !_ability.IsActive()))
+        {
+            _currentHealth -= damage;
+            UIController.Instance.SetHealth(_currentHealth);
+            StartCoroutine(FlashRed());
+            PlayerEvents.PlayerHit.Invoke();
+            AudioManager.Instance.PlayPLayerHurtSound();
+
+            //game over
+            if (!(_currentHealth <= 0)) return;
+            StartCoroutine(Death());
+            _playerMovement.IncreaseSpeed(0);
+            _playerMovement.enabled = false;
+            _playerInput.enabled = false;
+            PlayerEvents.PlayerHit.Invoke();
+            AudioManager.Instance.PlayPLayerHurtSound();
+            GameManager.Instance.LoadDeathScreen();
+        }
     }
 
     private IEnumerator FlashRed()
@@ -144,7 +171,7 @@ public class Player : Singleton<Player>, IEffectable
         yield return new WaitForSeconds(0.1f);
         _playerRenderer.color = Color.white;
     }
-    
+
     private IEnumerator Death()
     {
         for (float i = 0; i < 0.5f; i += 0.1f)
@@ -206,18 +233,28 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
-        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
                            " to get new weapon.");
         _canGetWeapon = true;
         _weaponToGet = weapon;
         _weaponUsable = usable;
         _rewardToGet = reward;
     }
-    
+
+    public void PickUpAbility(Ability ability, GameObject reward, IUsable usable)
+    {
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
+                           " to get " + ability.GetText());
+        _canGetAbility = true;
+        _abilityToGet = ability;
+        _abilityUsable = usable;
+        _rewardToGet = reward;
+    }
+
     public void PickUpPotion(GameObject reward)
     {
         // change to "Press keybindingAction.Interact.ToString() to get new weapon"
-        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
+        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
                            " to pick up healing potion.");
         _canGetPotion = true;
         _rewardToGet = reward;
@@ -227,10 +264,15 @@ public class Player : Singleton<Player>, IEffectable
     {
         _canGetWeapon = false;
     }
-    
+
     public void DisableCanGetPotion()
     {
         _canGetPotion = false;
+    }
+
+    public void DisableCanGetAbility()
+    {
+        _canGetAbility = false;
     }
 
     public void ShowPlayerUI(bool show, string text)
@@ -261,7 +303,7 @@ public class Player : Singleton<Player>, IEffectable
     {
         return _maxHealth;
     }
-    
+
     public float GetCurrentHealth()
     {
         return _currentHealth;
@@ -271,7 +313,7 @@ public class Player : Singleton<Player>, IEffectable
     {
         _currentHealth = _maxHealth;
     }
-    
+
     public void IncreaseMana(float value)
     {
         _currentMana += value;
@@ -284,12 +326,12 @@ public class Player : Singleton<Player>, IEffectable
         _currentMana = 0;
         StartCoroutine(UIController.Instance.SetMana(_currentMana));
     }
-    
+
     public bool HasPotion()
     {
         return _hasPotion;
     }
-    
+
     public void SetHasPotion(bool value)
     {
         _hasPotion = value;
@@ -313,11 +355,11 @@ public class Player : Singleton<Player>, IEffectable
         _currentEffectTime = 0;
         _nextTickTime = 0;
     }
-    
+
     private void HandleEffect()
     {
         _currentEffectTime += Time.deltaTime;
-        
+
         if(_currentEffectTime >= _statusEffect.time) RemoveEffect();
         if (_statusEffect == null) return;
         if (_currentEffectTime > _nextTickTime)
@@ -337,5 +379,13 @@ public class Player : Singleton<Player>, IEffectable
     {
         return _playerInput;
     }
-}
 
+    public void ActivateAbility()
+    {
+        if (_ability && !_ability.IsActive()) //&& _currentMana==_maxMana
+        {
+            _ability.Activate();
+            //_maxMana = 0;
+        }
+    }
+}

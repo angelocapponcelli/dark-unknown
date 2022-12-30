@@ -1,25 +1,25 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ShieldAbility : MonoBehaviour
+public class ShieldAbility : Ability
 {
     [SerializeField] private float _delay = 2f;
     private SpriteRenderer _spriteRenderer;
     private CircleCollider2D _collider;
-    private bool _isActive = false;
+    [SerializeField] private GameObject _abilityReward;
 
         // Start is called before the first frame update
     void Start()
     {
         transform.localPosition = new Vector2(0,0);
+        transform.localScale = new Vector3(2.5f, 2.2f, 1);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<CircleCollider2D>();
         activation(false);
     }
 
-    public void Activate()
+    public override void Activate()
     {
         if (!_spriteRenderer.enabled)
         {
@@ -28,10 +28,7 @@ public class ShieldAbility : MonoBehaviour
         }
     }
 
-    public bool isActive()
-    {
-        return _isActive;
-    }
+    
     private IEnumerator delayedDeactivation()
     {
         yield return new WaitForSeconds(_delay);
@@ -42,6 +39,16 @@ public class ShieldAbility : MonoBehaviour
     {
         _spriteRenderer.enabled = value;
         _collider.enabled = value;
-        _isActive = value;
+        isActive = value;
+    }
+    
+    public override string GetText()
+    {
+        return "new ability that create a shield that protect you from enemies";
+    }
+    
+    public override GameObject GetAbilityReward()
+    {
+        return _abilityReward;
     }
 }

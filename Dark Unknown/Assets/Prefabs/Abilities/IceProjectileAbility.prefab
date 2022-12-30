@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1276052534717412268}
-  - component: {fileID: 1276052534717412271}
+  - component: {fileID: -4771470790537497224}
   m_Layer: 9
-  m_Name: CircleAbility
+  m_Name: IceProjectileAbility
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1276052534717412271
+--- !u!114 &-4771470790537497224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1276052534717412269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b856e3666a5dd48a32c7b71dfdf16e, type: 3}
+  m_Script: {fileID: 11500000, guid: a324e10b4da35e041b3974ef75028ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: 2386448571924308213, guid: 60ba2dd56b492664ab8f2a466416575c, type: 3}
-  _numberProjectile: 3
-  _radius: 1.5
-  _speedRotate: 50
-  _abilityReward: {fileID: 3042685906395388896, guid: c93fffad2eda1aa49abf1881612917aa, type: 3}
+  _iceProjectile: {fileID: 3788630835743415462, guid: 9e7a30097d60a2e429c3de5e523b0345, type: 3}
+  _speed: 8
+  _distance: 0.6
+  _abilityReward: {fileID: 3042685906395388896, guid: 982fed9aaecd88240b7994fdb7618f74, type: 3}
