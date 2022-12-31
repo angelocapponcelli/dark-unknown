@@ -198,6 +198,17 @@ private Player _target;
         }
     }
     
+    public override IEnumerator Freeze(float seconds, float slowdownFactor)
+    {
+        _animator.Freeze(slowdownFactor);
+        _movement.DecreaseSpeed(slowdownFactor);
+        _skeletonRenderer.color = Color.cyan;
+        yield return new WaitForSeconds(seconds);
+        _animator.StopFreeze(slowdownFactor);
+        _movement.IncreaseSpeed(slowdownFactor);
+        _skeletonRenderer.color = Color.white;
+    }
+    
     private IEnumerator Damage()
     {
         if (!_damageFromDistance)

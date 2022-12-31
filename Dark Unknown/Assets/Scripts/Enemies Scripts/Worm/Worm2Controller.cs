@@ -115,6 +115,14 @@ public class Worm2Controller : EnemyController
             StartCoroutine(Damage());
         }
     }
+    
+    public override IEnumerator Freeze(float seconds, float slowdownFactor)
+    {
+        //TODO
+        //rallenta
+        yield return new WaitForSeconds(seconds);
+        //torna a velocità normale
+    }
 
     public override IEnumerator RecoverySequence()
     {
