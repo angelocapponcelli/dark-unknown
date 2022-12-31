@@ -38,7 +38,7 @@ public class SkeletonBossController : EnemyController
     private EnemyAnimator _animator;
     private SpriteRenderer _skeletonRenderer;
     private EnemyAI _ai;
-    private SkeletonBossUIController _bossUIController = null;
+    private BossUIController _bossUIController = null;
     
     private bool _deathSoundPlayed = false;
     private RoomLogic _currentRoom;
@@ -64,8 +64,8 @@ public class SkeletonBossController : EnemyController
         _timeForNextAttack = 0;
         _timeForNextReanimation = reanimationCountDown;
 
-        if (GetComponent<SkeletonBossUIController>() == null) return;
-        _bossUIController = GetComponent<SkeletonBossUIController>();
+        if (GetComponent<BossUIController>() == null) return;
+        _bossUIController = GetComponent<BossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
 
         _currentRoom = LevelManager.Instance.GetCurrentRoom();

@@ -6,10 +6,12 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     private Rigidbody2D _rb;
+    private float _originalSpeed;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _originalSpeed = _speed;
     }
 
     public void MoveEnemy(Vector2 direction)
