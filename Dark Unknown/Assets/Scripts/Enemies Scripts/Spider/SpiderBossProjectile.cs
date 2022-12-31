@@ -34,7 +34,12 @@ public class SpiderBossProjectile : MonoBehaviour
             collision.gameObject.transform.parent.CompareTag("Enemy")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        Instantiate(spider, transform.position, Quaternion.identity);
+        if (StateGameManager.NumOfEnemies < 4)
+        {
+            Instantiate(spider, transform.position, Quaternion.identity);
+            StateGameManager.NumOfEnemies += 1;
+            UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+        }
 
     }
     
