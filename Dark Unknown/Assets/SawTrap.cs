@@ -5,42 +5,25 @@ using UnityEngine;
 
 public class SawTrap : MonoBehaviour
 {
-    [SerializeField] private float distance;
-    [SerializeField] private float speed = 100f;
-
-    private Vector2 _direction;
-    private float _travelledDistance;
-    private float _initialPosition;
-    private Rigidbody2D _rb;
-
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody2D>();
-        _initialPosition = -1;
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        _direction = new Vector2(1.0f, 0);
-        var position = transform.position;
-        _travelledDistance = position.x;
-        
-    }
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private GameObject[] waypoints;
+    private int _currentWaypointIndex = 0;
 
     // Update is called once per frame
     private void Update()
     {
-        if (_rb.position.x > distance)
+        if (Vector2.Distance(waypoints[_currentWaypointIndex].transform.position, 
+                transform.position) < .1f)
         {
-            _direction = new Vector2(-1.0f, 0);
+            _currentWaypointIndex++;
+            if (_currentWaypointIndex >= waypoints.Length)
+            {
+                _currentWaypointIndex = 0;
+            }
         }
-        else if (_rb.position.x < _initialPosition)
-        {
-            _direction = new Vector2(1.0f, 0);
-        }
-        _rb.velocity = speed * _direction;
-        Debug.Log(speed);
-        Debug.Log(_rb.velocity);
+
+        transform.position = Vector2.MoveTowards(transform.position,
+            waypoints[_currentWaypointIndex].transform.position,
+            Time.deltaTime * speed);
     }
 }

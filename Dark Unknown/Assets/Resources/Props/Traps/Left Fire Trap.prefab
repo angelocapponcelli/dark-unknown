@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3084564018494530559}
   - component: {fileID: 4038873465952400757}
-  - component: {fileID: -2528406241964880565}
+  - component: {fileID: 7905408777061015930}
   m_Layer: 0
   m_Name: Left Fire Trap
   m_TagString: Untagged
@@ -54,7 +54,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-2528406241964880565
+--- !u!114 &7905408777061015930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,13 +63,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2422435442538608307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40f922097641d004db6690f521d42779, type: 3}
+  m_Script: {fileID: 11500000, guid: 088d9186feedd6f4b9c44ec183977d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _fireball: {fileID: 2975261004220822208, guid: 573d888666fc2434e94adadefd9dc24c, type: 3}
   _velocity: 6
   _spawnFireballPoint: {fileID: 3496050458175062677}
   _fireballSecondsEnabled: 0.02
+  direction: 1
 --- !u!1 &6590332434800755163
 GameObject:
   m_ObjectHideFlags: 0
