@@ -43,7 +43,7 @@ public class IceProjectileAbility : Ability
 
     public override string GetText()
     {
-        return "New ability that throws an ice ball in the direction of the cursor.";
+        return "a new ability that throws an ice ball in the direction of the cursor.";
     }
     
     public override GameObject GetAbilityReward()

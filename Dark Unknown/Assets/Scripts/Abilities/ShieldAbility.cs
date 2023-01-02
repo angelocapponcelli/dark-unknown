@@ -44,7 +44,7 @@ public class ShieldAbility : Ability
     
     public override string GetText()
     {
-        return "New ability that creates a shield that protects you from enemy attacks.";
+        return "a new ability that creates a shield that protects you from enemy attacks.";
     }
     
     public override GameObject GetAbilityReward()

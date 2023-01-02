@@ -51,7 +51,7 @@ public class CircleAbility : Ability
 
     public override string GetText()
     {
-        return "New ability that creates a circle of fireballs around you.";
+        return "a new ability that creates a circle of fireballs around you.";
     }
     
     public override GameObject GetAbilityReward()
