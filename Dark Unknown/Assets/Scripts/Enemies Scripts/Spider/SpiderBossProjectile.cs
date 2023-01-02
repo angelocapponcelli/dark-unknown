@@ -8,10 +8,12 @@ public class SpiderBossProjectile : MonoBehaviour
     [SerializeField] private float _damage = 2f;
     [SerializeField] private GameObject spider;
     private Animator _animator;
+    private RoomLogic _bossRoom;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _bossRoom = LevelManager.Instance.GetCurrentRoom().GetComponent<RoomLogic>();
         StartCoroutine(DeactivateCollider(0.6f));
     }
     
@@ -34,11 +36,11 @@ public class SpiderBossProjectile : MonoBehaviour
             collision.gameObject.transform.parent.CompareTag("Enemy")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        if (StateGameManager.NumOfEnemies < 4)
+        if (_bossRoom.GetNumOfEnemies() < 4)
         {
             Instantiate(spider, transform.position, Quaternion.identity);
-            StateGameManager.NumOfEnemies += 1;
-            UIController.Instance.SetEnemyCounter(StateGameManager.NumOfEnemies);
+            _bossRoom.ModifyNumOfEnemies(1);
+            UIController.Instance.SetEnemyCounter(_bossRoom.GetNumOfEnemies());
         }
 
     }

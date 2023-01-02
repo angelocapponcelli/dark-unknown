@@ -32,4 +32,6 @@ public abstract class EnemyController : MonoBehaviour
         UIController.Instance.SetEnemyCounter(currentRoom.GetNumOfEnemies());
     }
 
+    public abstract void CrystalDestroyed();
+
 }

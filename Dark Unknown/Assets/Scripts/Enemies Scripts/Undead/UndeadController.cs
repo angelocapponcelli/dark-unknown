@@ -25,7 +25,9 @@ public class UndeadController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SpriteRenderer _skeletonRenderer;
+    private SpriteRenderer _undeadRenderer;
+    [SerializeField] private Material flashMaterial;
+    private Material _originalMaterial;
     private EnemyAI _ai;
 
     private bool _deathSoundPlayed = false;
@@ -41,7 +43,8 @@ public class UndeadController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
+        _undeadRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _undeadRenderer.material;
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -135,15 +138,14 @@ public class UndeadController : EnemyController
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
 
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
             DisableBoxCollider();
@@ -151,44 +153,60 @@ public class UndeadController : EnemyController
         } else
         {
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
         }
     }
-    
+
+    public override void TakeDamageDistance(float damage)
+    {
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
+        }
+    }
+
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
         _animator.Freeze(slowdownFactor);
         _movement.DecreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.cyan;
+        _undeadRenderer.color = Color.cyan;
         yield return new WaitForSeconds(seconds);
         _animator.StopFreeze(slowdownFactor);
         _movement.IncreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.white;
+        _undeadRenderer.color = Color.white;
     }
     
-    private IEnumerator Damage()
+    private IEnumerator DamageMelee()
     {
-        if (!_damageFromDistance)
-        {
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
-        {
-            StartCoroutine(FlashRed());
-            _canMove = true;
-        }
+        _animator.AnimateTakeDamage(); 
+        _canMove = false;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator DamageDistance()
     {
-        _skeletonRenderer.color = Color.red;
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator Flash()
+    {
+        _undeadRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
+        _undeadRenderer.material = _originalMaterial;
     }
 
     private void Die()
@@ -223,11 +241,16 @@ public class UndeadController : EnemyController
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
+        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
-    }  
+    }
+
+    public override void CrystalDestroyed()
+    {
+        throw new NotImplementedException();
+    }
 
     private void DisableBoxCollider()
     {
@@ -240,6 +263,6 @@ public class UndeadController : EnemyController
 
     public void ReduceEnemyCounterPublic()
     {
-        ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
 }

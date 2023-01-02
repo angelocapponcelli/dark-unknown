@@ -266,6 +266,11 @@ public class SpiderController : EnemyController
         _deathSoundPlayed = false;
     }
 
+    public override void CrystalDestroyed()
+    {
+        throw new NotImplementedException();
+    }
+
     private void DisableBoxCollider()
     {
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();

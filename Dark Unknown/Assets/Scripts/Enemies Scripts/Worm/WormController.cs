@@ -162,6 +162,11 @@ public class WormController : EnemyController
         _deathSoundPlayed = false;
     }
 
+    public override void CrystalDestroyed()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private IEnumerator DamageMelee()
     {
         _animator.AnimateTakeDamage(); 
@@ -243,13 +248,6 @@ public class WormController : EnemyController
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
-    }
-    
-    private IEnumerator FlashRed()
-    {
-        _wormRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        _wormRenderer.color = Color.white;
     }
     
     private void DisableBoxCollider()

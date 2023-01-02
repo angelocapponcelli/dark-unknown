@@ -58,7 +58,12 @@ public class CrystalController : EnemyController
     {
         yield break; 
     }
-    
+
+    public override void CrystalDestroyed()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private IEnumerator Flash()
     {
         _spriteRenderer.material = flashMaterial;
@@ -69,7 +74,7 @@ public class CrystalController : EnemyController
     private void Destroyed()
     {
         isDead = true;
-        GameObject.FindGameObjectWithTag("Boss").GetComponent<SkeletonBossController>().CrystalDestroyed();
+        GameObject.FindGameObjectWithTag("Boss").GetComponent<EnemyController>().CrystalDestroyed();
         particles.Stop();
         animator.SetTrigger(Dead);
     }

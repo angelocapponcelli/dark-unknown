@@ -139,7 +139,7 @@ public class UndeadHeart : EnemyController
         Destroy(gameObject);
     }
 
-    public override void TakeDamage(float damage, bool source)
+    public override void TakeDamageMelee(float damage)
     {
         health -= damage;
         if (health <= 0)
@@ -148,7 +148,17 @@ public class UndeadHeart : EnemyController
             Destroy();
         }
     }
-    
+
+    public override void TakeDamageDistance(float damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            _parent.ReduceEnemyCounterPublic();
+            Destroy();
+        }
+    }
+
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
         //TODO
@@ -158,6 +168,11 @@ public class UndeadHeart : EnemyController
     }
 
     public override IEnumerator RecoverySequence()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void CrystalDestroyed()
     {
         throw new NotImplementedException();
     }

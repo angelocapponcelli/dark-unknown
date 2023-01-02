@@ -16,26 +16,28 @@ private Player _target;
     private int _numOfCrystals;
     private bool _isHittable;
     private bool _allCrystalsDestroyed;
-    private float _timeForNextAttack;
+    //private float _timeForNextAttack;
     private BossUIController _bossUIController = null;
 
-    
     private Rigidbody2D _rb;
     private Vector2 _direction;
     private float _distance;
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
-    private bool _damageCoroutineRunning;
+    //private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SpriteRenderer _skeletonRenderer;
+    private SpriteRenderer _spiderRenderer;
+    [SerializeField] private Material flashMaterial;
+    private Material _originalMaterial;
     private EnemyAI _ai;
 
     private bool _deathSoundPlayed = false;
+    private RoomLogic _currentRoom;
     
     // Start is called before the first frame update
     private void Start()
@@ -50,20 +52,21 @@ private Player _target;
         _bossUIController = GetComponent<BossUIController>();
         _bossUIController.SetMaxHealth(_maxHealth);
         
-        _numOfCrystals = StateGameManager.Crystals.Count;
+        _currentRoom = LevelManager.Instance.GetCurrentRoom();
+        _numOfCrystals = _currentRoom.crystals.Count;
         //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
-        if (StateGameManager.Crystals.Count == 0)
+        if (_currentRoom.crystals.Count == 0)
         {
             AllCrystalsDestroyed();
         }
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
+        _spiderRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
-        _timeForNextAttack = 0;
+        //_timeForNextAttack = 0;
     }
 
     // Update is called once per frame
@@ -175,10 +178,10 @@ private Player _target;
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
 
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         if (!_isHittable) return;
@@ -186,52 +189,66 @@ private Player _target;
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            if (_bossUIController != null) _bossUIController.SetHealth(0);
-            Die();
             DisableBoxCollider();
-            _bossUIController.DeactivateHealthBar();
+            Die();
         } else
         {
-            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
-            _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageMelee());
         }
     }
-    
+
+    public override void TakeDamageDistance(float damage)
+    {
+        if (isDead) return;
+        if (!_isHittable) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
+        }
+    }
+
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
         _animator.Freeze(slowdownFactor);
         _movement.DecreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.cyan;
+        _spiderRenderer.color = Color.cyan;
         yield return new WaitForSeconds(seconds);
         _animator.StopFreeze(slowdownFactor);
         _movement.IncreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.white;
+        _spiderRenderer.color = Color.white;
     }
     
-    private IEnumerator Damage()
+    private IEnumerator DamageMelee()
     {
-        if (!_damageFromDistance)
-        {
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
-        {
-            StartCoroutine(FlashRed());
-            _canMove = true;
-        }
+        _animator.AnimateTakeDamage(); 
+        _canMove = false;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        _damageCoroutineRunning = false;
+        //_damageCoroutineRunning = false;
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator DamageDistance()
     {
-        _skeletonRenderer.color = Color.red;
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        //_damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator Flash()
+    {
+        _spiderRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
+        _spiderRenderer.material = _originalMaterial;
     }
 
     private void Die()
@@ -243,7 +260,7 @@ private Player _target;
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
     
     public override IEnumerator RecoverySequence()
@@ -253,7 +270,7 @@ private Player _target;
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
+        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
@@ -268,11 +285,9 @@ private Player _target;
         }
     }
     
-    public void CrystalDestroyed()
+    public override void CrystalDestroyed()
     {
-        if (StateGameManager.Crystals.Count <= 0) return;
-        var crystal = StateGameManager.Crystals[_numOfCrystals-1];
-        if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
+        if (_currentRoom.crystals.Count <= 0) return;
         _numOfCrystals -= 1;
         /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
         {
@@ -312,7 +327,7 @@ private Player _target;
         _particleSystem.Stop();
         yield return new WaitForSeconds(vulnerabilityTime);
         if (_allCrystalsDestroyed || isDead) yield break;
-        StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         _isHittable = false;
         _particleSystem.Play();
     }

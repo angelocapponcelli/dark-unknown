@@ -19,7 +19,7 @@ public class AirAttackAbility : Ability
     
     public override string GetText()
     {
-        return "new ability that create a toxic cloud that damages enemies";
+        return "New ability that creates a toxic cloud that damages enemies around you.";
     }
     
     public override GameObject GetAbilityReward()

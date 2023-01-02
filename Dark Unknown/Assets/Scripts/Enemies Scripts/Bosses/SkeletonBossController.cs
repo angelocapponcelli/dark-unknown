@@ -211,6 +211,7 @@ public class SkeletonBossController : EnemyController
  
     public override void TakeDamageMelee(float damage)
     {
+        if (isDead) return;
         if (!_isHittable) return;
         _movement.StopMovement();
         _currentHealth -= damage;
@@ -230,6 +231,7 @@ public class SkeletonBossController : EnemyController
     
     public override void TakeDamageDistance(float damage)
     {
+        if (isDead) return;
         if (!_isHittable) return;
         _movement.StopMovement();
         _currentHealth -= damage;
@@ -316,7 +318,7 @@ public class SkeletonBossController : EnemyController
         }
     }
 
-    public void CrystalDestroyed()
+    public override void CrystalDestroyed()
     {
         if (_currentRoom.crystals.Count <= 0) return;
         _numOfCrystals -= 1;

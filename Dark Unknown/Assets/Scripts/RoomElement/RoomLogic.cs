@@ -15,7 +15,6 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private EnemyController[] possibleCrystalType;
     [SerializeField] private EnemyController _bossEnemyController;
     [SerializeField] private int numOfCrystals;
-    //private int _numOfEnemies;
     [SerializeField] private float _spawnTime = 1.0f;
     private List<EnemyController> _enemies = new List<EnemyController>();
     private GameObject[] _projectiles;

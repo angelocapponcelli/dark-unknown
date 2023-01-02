@@ -403,6 +403,7 @@ MonoBehaviour:
   attackDelay: 3
   heart: {fileID: 4978772307725255596, guid: e6935644cb858488189966ed9f937eef, type: 3}
   _spawnProjectilePoint: {fileID: 4436620577658362228}
+  flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
 --- !u!114 &3371626960818451021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,7 +481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8756300778233618821
 Transform:
   m_ObjectHideFlags: 0
@@ -489,7 +490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6577623842634113803}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.018, y: 0.503, z: 0}
+  m_LocalPosition: {x: 0.018, y: 0.785, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -847,7 +848,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0042387545, y: 0.8518291}
+  m_Offset: {x: -0.00010342896, y: 0.8388023}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -858,7 +859,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9493231, y: 1.5341009}
+  m_Size: {x: 0.50641334, y: 1.3604106}
   m_EdgeRadius: 0
 --- !u!1 &7748153181777259060
 GameObject:

@@ -240,7 +240,12 @@ public class SkeletonController : EnemyController
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
-    }  
+    }
+
+    public override void CrystalDestroyed()
+    {
+        throw new NotImplementedException();
+    }
 
     private void DisableBoxCollider()
     {

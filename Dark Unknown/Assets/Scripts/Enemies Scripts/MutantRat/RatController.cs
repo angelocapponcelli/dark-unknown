@@ -250,13 +250,6 @@ public class RatController : EnemyController
         yield return new WaitForSeconds(0.1f);
         _ratRenderer.material = _originalMaterial;
     }
-    
-    private IEnumerator FlashRed()
-    {
-        _ratRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        _ratRenderer.color = Color.white;
-    }
 
     private void Die()
     {
@@ -287,6 +280,11 @@ public class RatController : EnemyController
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
+    }
+
+    public override void CrystalDestroyed()
+    {
+        throw new NotImplementedException();
     }
 
     private void DisableBoxCollider()

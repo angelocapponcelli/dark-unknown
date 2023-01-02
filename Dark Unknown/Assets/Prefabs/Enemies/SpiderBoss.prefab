@@ -158,6 +158,7 @@ MonoBehaviour:
   _projectileSpeed: 4
   vulnerabilityTime: 5
   _particleSystem: {fileID: 4601525615074843964}
+  flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
 --- !u!114 &7735241566408331760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.029671073, y: 1.0711704}
+  m_Offset: {x: 0.05867839, y: 1.0485084}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -287,7 +288,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1527662, y: 0.8516442}
+  m_Size: {x: 0.8771982, y: 0.57788897}
   m_EdgeRadius: 0
 --- !u!1 &3320716051775818121
 GameObject:
@@ -5481,7 +5482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8500003323287972788
 Transform:
   m_ObjectHideFlags: 0
@@ -5490,7 +5491,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5873697211883741787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.581, z: 0}
+  m_LocalPosition: {x: 0, y: 0.19, z: 0}
   m_LocalScale: {x: 2.2, y: 2.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

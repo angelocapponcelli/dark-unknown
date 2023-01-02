@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ViperController : EnemyController
 {
@@ -11,9 +12,8 @@ public class ViperController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
-    [SerializeField] private float dashFrequence;
+    [SerializeField] private float dashFrequency;
     [SerializeField] private float dashSpeed;
-    [SerializeField] private Collider2D collider;
     private float _timeForNextAttack;
     private float _timeElapsedFromDash;
 
@@ -31,7 +31,9 @@ public class ViperController : EnemyController
 
     private EnemyMovement _movement;
     private EnemyAnimator _animator;
-    private SpriteRenderer _skeletonRenderer;
+    private SpriteRenderer _viperRenderer;
+    [SerializeField] private Material flashMaterial;
+    private Material _originalMaterial;
     private EnemyAI _ai;
 
     private bool _deathSoundPlayed = false;
@@ -47,7 +49,7 @@ public class ViperController : EnemyController
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
-        _skeletonRenderer = GetComponent<SpriteRenderer>();
+        _viperRenderer = GetComponent<SpriteRenderer>();
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;
@@ -71,7 +73,7 @@ public class ViperController : EnemyController
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            if (_timeElapsedFromDash >= dashFrequence || _isDashing)
+            if (_timeElapsedFromDash >= dashFrequency || _isDashing)
             {
                 if (!_isDashing)
                 {
@@ -167,7 +169,7 @@ public class ViperController : EnemyController
         _timeElapsedFromDash = 0;
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
         _isDashing = false;
 
     }
@@ -181,15 +183,14 @@ public class ViperController : EnemyController
 
         _isAttacking = false;
         _canMove = true;
-        _animator.canMove();
+        _animator.CanMove();
     }
-
-    public override void TakeDamage(float damage, bool damageFromArrow)
+    
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
             DisableBoxCollider();
@@ -197,44 +198,60 @@ public class ViperController : EnemyController
         } else
         {
             _damageCoroutineRunning = true;
-            StartCoroutine(Damage());
+            StartCoroutine(DamageMelee());
+        }
+    }
+
+    public override void TakeDamageDistance(float damage)
+    {
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            _damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
         }
     }
     
-    private IEnumerator Damage()
+    private IEnumerator DamageMelee()
     {
-        if (!_damageFromDistance)
-        {
-            _animator.AnimateTakeDamage();
-            _canMove = false;
-        }
-        else
-        {
-            StartCoroutine(FlashRed());
-            _canMove = true;
-        }
+        _animator.AnimateTakeDamage(); 
+        _canMove = false;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
     }
     
+    private IEnumerator DamageDistance()
+    {
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        _canMove = true;
+        _damageCoroutineRunning = false;
+    }
+
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
         _animator.Freeze(slowdownFactor);
         _movement.DecreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.cyan;
+        _viperRenderer.color = Color.cyan;
         yield return new WaitForSeconds(seconds);
         _animator.StopFreeze(slowdownFactor);
         _movement.IncreaseSpeed(slowdownFactor);
-        _skeletonRenderer.color = Color.white;
+        _viperRenderer.color = Color.white;
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator Flash()
     {
-        _skeletonRenderer.color = Color.red;
+        _viperRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _skeletonRenderer.color = Color.white;
+        _viperRenderer.material = _originalMaterial;
     }
 
     private void Die()
@@ -246,7 +263,7 @@ public class ViperController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
     
     public override IEnumerator RecoverySequence()
@@ -256,11 +273,16 @@ public class ViperController : EnemyController
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
+        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
-    }  
+    }
+
+    public override void CrystalDestroyed()
+    {
+        throw new NotImplementedException();
+    }
 
     private void DisableBoxCollider()
     {

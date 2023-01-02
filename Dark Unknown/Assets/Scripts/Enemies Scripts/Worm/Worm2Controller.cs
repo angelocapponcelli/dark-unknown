@@ -27,7 +27,8 @@ public class Worm2Controller : EnemyController
     private EnemyMovement _movement;
     private WormAnimator _animator;
     private SpriteRenderer _wormRenderer;
-
+    [SerializeField] private Material flashMaterial;
+    private Material _originalMaterial;
     private bool _deathSoundPlayed = false;
     
 
@@ -99,23 +100,38 @@ public class Worm2Controller : EnemyController
         
         
     }
-    
-    public override void TakeDamage(float damage, bool damageFromArrow)
+
+    public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
-        _damageFromDistance = damageFromArrow;
         if (_currentHealth <= 0)
         {
-            Die();
             DisableBoxCollider();
+            Die();
         } else
         {
-            StartCoroutine(Damage());
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageMelee());
         }
     }
-    
+
+    public override void TakeDamageDistance(float damage)
+    {
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            DisableBoxCollider();
+            Die();
+        } else
+        {
+            //_damageCoroutineRunning = true;
+            StartCoroutine(DamageDistance());
+        }
+    }
+
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
         //TODO
@@ -131,19 +147,33 @@ public class Worm2Controller : EnemyController
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter();
+        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false;
         _deathSoundPlayed = false;
     }
 
-    private IEnumerator Damage()
+    public override void CrystalDestroyed()
     {
-        if (!_damageFromDistance)
-        {
-            _animator.AnimateTakeDamage();
-        } else StartCoroutine(FlashRed());
+        throw new System.NotImplementedException();
+    }
+
+    private IEnumerator DamageMelee()
+    {
+        _animator.AnimateTakeDamage(); 
+        //_canMove = false;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        //_canMove = true;
+        //_damageCoroutineRunning = false;
+    }
+    
+    private IEnumerator DamageDistance()
+    {
+        StartCoroutine(Flash());
+        AudioManager.Instance.PlaySkeletonHurtSound();
+        yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
+        //_canMove = true;
+        //_damageCoroutineRunning = false;
     }
 
     private void Show()
@@ -205,14 +235,14 @@ public class Worm2Controller : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
     
-    private IEnumerator FlashRed()
+    private IEnumerator Flash()
     {
-        _wormRenderer.color = Color.red;
+        _wormRenderer.material = flashMaterial;
         yield return new WaitForSeconds(0.1f);
-        _wormRenderer.color = Color.white;
+        _wormRenderer.material = _originalMaterial;
     }
     
     private void DisableBoxCollider()
