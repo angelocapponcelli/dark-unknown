@@ -14,7 +14,7 @@ public class Bow : Weapon
 
     private void Start()
     {
-        _delay = 0.5f;
+        _delay = 0.8f;
         //_damage = 10f; non � pi� usato in questa classe, vedi WeaponAttack
         _canRotateFreely = true;
         
