@@ -29,7 +29,7 @@ public class UIController : Singleton<UIController>
     protected override void Awake()
     {
         base.Awake();
-        _availableLetters = Resources.LoadAll<Sprite>("ActionBarIcons/KeybindIcons");
+        _availableLetters = Resources.LoadAll<Sprite>("ActionBarIcons/KeybindingIcons");
     }
 
     private void Start()

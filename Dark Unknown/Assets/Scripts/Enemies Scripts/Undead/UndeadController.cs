@@ -105,8 +105,8 @@ public class UndeadController : EnemyController
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);*/
+        /*if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(100);*/
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
