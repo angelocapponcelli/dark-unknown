@@ -38,7 +38,7 @@ public class RoomLogic : MonoBehaviour
     private Reward _rewardSpawned;
 
     private int _numOfEnemies;
-    public List<EnemyController> crystals = new List<EnemyController>();
+    [HideInInspector] public List<EnemyController> crystals = new List<EnemyController>();
 
     public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB};
     private Type _roomType;
