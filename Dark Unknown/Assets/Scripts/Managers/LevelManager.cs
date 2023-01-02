@@ -1,13 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-//using Enemies_Scripts;
-using NUnit.Framework;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
@@ -44,12 +38,6 @@ public class LevelManager : Singleton<LevelManager>
         _potionCounter = roomsBetweenPotions;
 
         AddResources();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //UIController.Instance.SetRoomText("Tutorial room");
     }
 
     private void AddResources()
