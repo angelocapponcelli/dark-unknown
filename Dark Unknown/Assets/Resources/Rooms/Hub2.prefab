@@ -7786,7 +7786,7 @@ Transform:
   - {fileID: 6604201622608990505}
   - {fileID: 8712647532104820710}
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 12
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2686601316256835600
 GameObject:
@@ -9163,12 +9163,12 @@ Transform:
   - {fileID: 337994590170824408}
   - {fileID: 2724574688933681457}
   - {fileID: 7394876665712730298}
+  - {fileID: 7065790028346368609}
   - {fileID: 4683134100056943358}
   - {fileID: 873778693943942156}
-  - {fileID: 680998630123969111}
   - {fileID: 4852129579896728986}
   - {fileID: 7948076815685491094}
-  - {fileID: 7065790028346368609}
+  - {fileID: 680998630123969111}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9215,11 +9215,11 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 797afd6846413124682dd2d8d9c9a66a, type: 2}
   - type: 2
     sprite: {fileID: 21300000, guid: f39b653cec91f964196dc49a74ffd750, type: 2}
-  - type: 5
-    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
   - type: 3
-    sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
+    sprite: {fileID: 21300000, guid: 90f21b583d0cf9644ba35532c4f086f2, type: 2}
   - type: 4
+    sprite: {fileID: 21300000, guid: 7d3d9f228ebdc6d4aa236acabc32c556, type: 2}
+  - type: 5
     sprite: {fileID: 21300000, guid: 6f9a80946479b1d4993b0809129d72dc, type: 2}
   - type: 6
     sprite: {fileID: 21300000, guid: c43b07a70874b084494b3a589632db25, type: 2}
@@ -9227,10 +9227,13 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: e7bb948064a45f447a55ecfe6b60a3d3, type: 2}
   _healthReward: {fileID: 5992409601021831828, guid: 8846d5bad02b1544589785cdc7713db5, type: 3}
   _speedReward: {fileID: 5084005978826926403, guid: 6c8de4b33704757409246d160f349dc5, type: 3}
-  _bowReward: {fileID: 345883424446398951, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
+  _bowReward: {fileID: -3173650134716081864, guid: 82f331cfbb4cecd459e418b8423a026a, type: 3}
   _strengthReward: {fileID: 3203545914431533023, guid: 8caeb89c1630f9f46bd74f176f95b136, type: 3}
-  _swordReward: {fileID: 634545427246979274, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
+  _swordReward: {fileID: -6292163774279860839, guid: 36f75c12d1487bd4b9bbd986b3cc7674, type: 3}
+  _axeReward: {fileID: 8752958621951605471, guid: de9f57b94d2ca374fbcfcbb09a016b89, type: 3}
   _spawnPointReward: {fileID: 4683134100056943358}
+  spawnPointPotion: {fileID: 7065790028346368609}
+  crystals: []
 --- !u!114 &9179055940878401788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16076,7 +16079,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6077866768937489771
 GameObject:
@@ -16107,7 +16110,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6236189055175773079}
-  m_RootOrder: 15
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7569234618359982848
 GameObject:
@@ -17022,7 +17025,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
