@@ -8,8 +8,8 @@ public class EnemySpawner : MonoBehaviour
     private List<Vector3> _availablePlaces;
 
     [SerializeField] public Tilemap tileMap;
-    [SerializeField] public float spawnTime;
-    [SerializeField] public EnemyController enemyPrefab;
+    [HideInInspector] public float spawnTime;
+    [HideInInspector] public EnemyController enemyPrefab;
 
     // Start is called before the first frame update
     private void Start()
