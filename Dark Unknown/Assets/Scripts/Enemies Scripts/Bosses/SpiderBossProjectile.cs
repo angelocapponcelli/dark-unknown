@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpiderBossProjectile : MonoBehaviour
 {
-    [SerializeField] private float _damage = 2f;
+    [SerializeField] private float damage = 2f;
     [SerializeField] private GameObject spider;
     private Animator _animator;
     private RoomLogic _bossRoom;
@@ -25,7 +25,7 @@ public class SpiderBossProjectile : MonoBehaviour
             //if (element.gameObject.CompareTag("Player") || element.gameObject.CompareTag("PlayerFeetCollider"))
             if (element.gameObject.transform.CompareTag("Player"))
             {
-                element.GetComponentInParent<Player>().TakeDamage(_damage);
+                element.GetComponentInParent<Player>().TakeDamage(damage);
             }
         }
         /*if (collision.CompareTag("Trap") || 
@@ -36,13 +36,13 @@ public class SpiderBossProjectile : MonoBehaviour
             collision.gameObject.transform.parent.CompareTag("Enemy")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        if (_bossRoom.GetNumOfEnemies() < 4)
+        if (_bossRoom.GetNumOfEnemies() < 5)
         {
-            Instantiate(spider, transform.position, Quaternion.identity);
+            var enemy = Instantiate(spider, transform.position, Quaternion.identity);
+            _bossRoom.AddEnemyToList(enemy.GetComponent<SpiderController>());
             _bossRoom.ModifyNumOfEnemies(1);
             UIController.Instance.SetEnemyCounter(_bossRoom.GetNumOfEnemies());
         }
-
     }
     
     private IEnumerator DeactivateCollider(float seconds)

@@ -95,7 +95,7 @@ public class LevelManager : Singleton<LevelManager>
             _currentRoom.InstantiatePotion();
             _potionCounter = roomsBetweenPotions;
         }
-        else if (_potionCounter > 0)
+        else if (_potionCounter > 0 && roomType != RoomLogic.Type.HUB)
         {
             Debug.Log("Potion countdown: " + _potionCounter);
             _potionCounter--;

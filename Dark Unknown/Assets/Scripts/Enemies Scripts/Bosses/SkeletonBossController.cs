@@ -85,11 +85,6 @@ public class SkeletonBossController : EnemyController
         {
             return;
         }
-
-        /*if (StateGameManager.Crystals.Length == 0 && _allCrystalsDestroyed == false)
-        {
-            AllCrystalsDestroyed();
-        }*/
         
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
@@ -147,8 +142,8 @@ public class SkeletonBossController : EnemyController
 
         // -- Cheats --
         // Hurt
-        /*if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(50);*/
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
         // Enable while debugging to reanimate enemies
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -289,7 +284,7 @@ public class SkeletonBossController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        //ReduceEnemyCounter();
+        ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
 
     private IEnumerator ReanimationTelegraph()

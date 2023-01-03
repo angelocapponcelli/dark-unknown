@@ -44,7 +44,8 @@ public class RoomLogic : MonoBehaviour
     private int _numOfEnemies;
     [HideInInspector] public List<EnemyController> crystals = new List<EnemyController>();
 
-    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB, CIRCLE_ABILITY, AIRATTACK_ABILITY, ICEPROJECTILE_ABILITY, SHIELD_ABILITY};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB, 
+        CIRCLE_ABILITY, AIRATTACK_ABILITY, ICEPROJECTILE_ABILITY, SHIELD_ABILITY};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -107,7 +108,7 @@ public class RoomLogic : MonoBehaviour
         {
             var toRemove = _possibleSymbols.Find(x => x.type == Type.BOSS);
             _possibleSymbols.Remove(toRemove);
-            if (roomType == Type.INITIAL || roomType == Type.BOSS)
+            if (roomType is Type.INITIAL or Type.BOSS)
             {
                 foreach (var d in _doors)
                 {
@@ -223,19 +224,28 @@ public class RoomLogic : MonoBehaviour
                 StartCoroutine(SpawnBoss());
                 break;
         }
+        
+        if (_roomType == Type.BOSS)
+        {
+            ModifyNumOfEnemies(1);
+            StartCoroutine(SpawnEnemies(_numOfEnemies-1));
+        }
+        else
+        {
+            StartCoroutine(SpawnEnemies(_numOfEnemies));
+        }
         UIController.Instance.SetEnemyCounter(_numOfEnemies);
-        StartCoroutine(SpawnEnemies());
     }
 
-    private IEnumerator SpawnEnemies()
+    private IEnumerator SpawnEnemies(int number)
     {
         int spiderCounter = 0;
-        int spiderMax = (int) (_numOfEnemies * spiderPercentage);
+        int spiderMax = (int) (number * spiderPercentage);
         /*print("spiders: " + spiderMax);
         print("skeletons" + (_numOfEnemies-spiderMax));*/
         
         //while (_availablePlaces.Count!=0) // uncomment to infinitely spawn enemies until no places are left
-        for (int i = 0; i < _numOfEnemies; i++) // uncomment to spawn a fixed amount of enemies
+        for (int i = 0; i < number; i++) // uncomment to spawn a fixed amount of enemies
         {
             yield return new WaitForSeconds(_spawnTime);
             EnemyController type = _possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)];
@@ -319,5 +329,10 @@ public class RoomLogic : MonoBehaviour
         var position = spawnPointPotion.position;
         Instantiate(_healthReward, position, Quaternion.identity);
         Debug.Log("Potion spawned.");
+    }
+
+    public void AddEnemyToList(EnemyController enemy)
+    {
+        _enemies.Add(enemy);
     }
 }

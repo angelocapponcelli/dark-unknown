@@ -159,6 +159,7 @@ public class Player : Singleton<Player>, IEffectable
         if (_ability == null || !_ability.GetComponent<ShieldAbility>() ||
             (_ability.GetComponent<ShieldAbility>() && !_ability.IsActive()))
         {
+            if (_invincible) return;
             _currentHealth -= damage;
             UIController.Instance.SetHealth(_currentHealth);
             StartCoroutine(FlashRed());
@@ -166,7 +167,6 @@ public class Player : Singleton<Player>, IEffectable
             AudioManager.Instance.PlayPLayerHurtSound();
 
             //game over
-            if (_invincible) return;
             if (!(_currentHealth <= 0)) return;
             StartCoroutine(Death());
             GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();

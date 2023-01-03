@@ -23,7 +23,8 @@ public class ArrowAttack : MonoBehaviour
                 enemy.GetComponentInParent<EnemyController>().TakeDamageDistance(_damage*Player.Instance.GetStrengthMultiplier());
             }
         }
-        if (collision.CompareTag("Trap") || collision.gameObject.layer == 9) return; //layer.9 == "Arrow" Layer where circleAbility projectiles are
+        //layer.9 == "Arrow" Layer is where circleAbility projectiles are
+        if (collision.CompareTag("Trap") || collision.CompareTag("Gem") || collision.gameObject.layer == 9) return;
         Destroy(gameObject);
     }
     
