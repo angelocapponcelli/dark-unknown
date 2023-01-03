@@ -46,6 +46,8 @@ public class Player : Singleton<Player>, IEffectable
     private bool _hasPotion;
     private Ability _ability;
 
+    private bool _invincible;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -129,15 +131,15 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.ClickActionButton(("SpellButton"));
         }
-
-        // Use while testing to hurt the player
-        /*if (Input.GetKeyDown(KeyCode.T))
-        {
-            TakeDamage(100f);
-        }*/
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Dash))
         {
             _playerMovement.Dash(_playerInput.MovementDirection);
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            _invincible = !_invincible;
+            Debug.Log("Player is invincible: " + _invincible);
         }
     }
 
@@ -164,6 +166,7 @@ public class Player : Singleton<Player>, IEffectable
             AudioManager.Instance.PlayPLayerHurtSound();
 
             //game over
+            if (_invincible) return;
             if (!(_currentHealth <= 0)) return;
             StartCoroutine(Death());
             GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();

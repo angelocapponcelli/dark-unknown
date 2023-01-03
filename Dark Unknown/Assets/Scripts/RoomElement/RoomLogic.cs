@@ -228,7 +228,6 @@ public class RoomLogic : MonoBehaviour
         }
         yield return new WaitForSeconds(_spawnTime);
         _enemies.Add(EnemySpawner.SpawnBoss(_bossEnemyController, _spawnPointReward));
-        crystals[numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
     }
     
     /*private IEnumerator SpawnCrystals()

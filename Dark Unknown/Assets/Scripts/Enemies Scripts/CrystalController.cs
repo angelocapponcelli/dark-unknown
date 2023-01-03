@@ -88,7 +88,6 @@ public class CrystalController : EnemyController
     public void EnableVulnerability()
     {
         if (isDead) return;
-        Debug.Log("stop");
         _isHittable = true;
         particles.Play();
     }

@@ -1,22 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiderBossController : EnemyController
+public class SpiderBossController : EnemyController, IEffectable
 {
-private Player _target;
+    private Player _target;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
     [SerializeField] private float _projectileSpeed = 5f;
-    [SerializeField] private float vulnerabilityTime = 5f;
-    [SerializeField] private ParticleSystem _particleSystem;
+    
+    [SerializeField] private float healingCountdown = 10f;
+    private float _healingCounter;
     private int _numOfCrystals;
-    private bool _isHittable;
+    private bool _isHealing;
+    private bool _crystalDestroyed;
     private bool _allCrystalsDestroyed;
-    //private float _timeForNextAttack;
+    [SerializeField] private StatusEffectData healingEffect;
+    private StatusEffectData _statusEffect;
+    private float _currentEffectTime = 0;
+    private float _nextTickTime = 0;
+    private GameObject _statusEffectParticles;
+    // only for testing
+    //private GameObject[] _crystals;
+
     private BossUIController _bossUIController = null;
 
     private Rigidbody2D _rb;
@@ -25,7 +35,6 @@ private Player _target;
     private bool _isAttacking;
     private float _currentHealth;
     private bool _canMove;
-    //private bool _damageCoroutineRunning;
     private float _timeElapsedFromShot;
     private float _shotFrequency = 3;
 
@@ -38,7 +47,13 @@ private Player _target;
 
     private bool _deathSoundPlayed = false;
     private RoomLogic _currentRoom;
-    
+
+    // only for testing
+    /*private void Awake()
+    {
+        _crystals = GameObject.FindGameObjectsWithTag("Crystal");
+    }*/
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -50,23 +65,31 @@ private Player _target;
         
         if (GetComponent<BossUIController>() == null) return;
         _bossUIController = GetComponent<BossUIController>();
+        _bossUIController.SetName("Spider Broodmother");
         _bossUIController.SetMaxHealth(_maxHealth);
         
         _currentRoom = LevelManager.Instance.GetCurrentRoom();
         _numOfCrystals = _currentRoom.crystals.Count;
-        //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        _healingCounter = healingCountdown;
         
         if (_currentRoom.crystals.Count == 0)
         {
             AllCrystalsDestroyed();
         }
+        
+        // only for testing
+        /*_numOfCrystals = _crystals.Length;
+        _healingCounter = healingCountdown;
+        if (_crystals.Length == 0)
+        {
+            AllCrystalsDestroyed();
+        }*/
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _spiderRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _spiderRenderer.material;
         _ai = GetComponent<EnemyAI>();
-
-        //_timeForNextAttack = 0;
     }
 
     // Update is called once per frame
@@ -78,11 +101,26 @@ private Player _target;
             return;
         }
         
+        if (!isDead && !_allCrystalsDestroyed)
+        {
+            if (_healingCounter > 0)
+            {
+                _healingCounter -= Time.deltaTime;
+                Debug.Log(_healingCounter);
+                if (_healingCounter <= 0 && _isHealing == false)
+                {
+                    Debug.Log("Started healing");
+                    Healing();
+                }
+            }
+        }
+        
+        if(_statusEffect != null) HandleEffect();
+        
+        if (_isHealing) return;
+        
         // Calculates distance and direction of movement
         _distance = Vector2.Distance(transform.position, _target.transform.position);
-        /*
-        _direction = _target.transform.position - transform.position;
-        _direction.Normalize();*/
         
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
@@ -103,7 +141,6 @@ private Player _target;
                 {
                     _animator.AnimateIdle();
                 }
-                //AudioManager.Instance.PlaySkeletonWalkSound(); //TODO sistemare il suono dei passi che va in loop
             }
             else if (_distance < _minDistance - _offset && _canMove)
             {
@@ -142,8 +179,8 @@ private Player _target;
 
         // -- Handle Animations --
         // Hurt
-        /*if (Input.GetKeyDown("e"))
-            TakeDamage(50,false);*/
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
         // Death
         /*if (Input.GetKeyUp("z")) {
             if (isDead)
@@ -184,32 +221,34 @@ private Player _target;
     public override void TakeDamageMelee(float damage)
     {
         if (isDead) return;
-        if (!_isHittable) return;
         _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            DisableBoxCollider();
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
+            DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
         } else
         {
-            //_damageCoroutineRunning = true;
-            StartCoroutine(DamageMelee());
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
+            StartCoroutine(DamageDistance());
         }
     }
 
     public override void TakeDamageDistance(float damage)
     {
         if (isDead) return;
-        if (!_isHittable) return;
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
-            DisableBoxCollider();
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
+            DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
         } else
         {
-            //_damageCoroutineRunning = true;
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
             StartCoroutine(DamageDistance());
         }
     }
@@ -232,7 +271,6 @@ private Player _target;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        //_damageCoroutineRunning = false;
     }
     
     private IEnumerator DamageDistance()
@@ -241,7 +279,6 @@ private Player _target;
         AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
-        //_damageCoroutineRunning = false;
     }
     
     private IEnumerator Flash()
@@ -284,59 +321,83 @@ private Player _target;
             collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
+
+    private void Healing()
+    {
+        _isHealing = true;
+        _statusEffect = healingEffect;
+        ApplyEffect(_statusEffect);
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability(); // for testing
+        //Debug.Log(_crystals[_numOfCrystals-1].name);
+    }
     
     public override void CrystalDestroyed()
     {
         if (_currentRoom.crystals.Count <= 0) return;
+        //if (_crystals.Length <= 0) return; // for testing
         _numOfCrystals -= 1;
-        /*for (var i=0; i<StateGameManager.Crystals.Count; i++)
-        {
-            var crystal = StateGameManager.Crystals[i];
-            if (crystal.IsDead()) StateGameManager.Crystals.Remove(crystal);
-        }*/
         Debug.Log(_numOfCrystals);
+        StartCoroutine(CrystalDestroyedCoroutine());
         if (_numOfCrystals == 0)
         {
             AllCrystalsDestroyed();
-            return;
         }
-        StartCoroutine(CrystalDestroyedCoroutine());
     }
-
-    /*private IEnumerator CrystalDestroyedCoroutine()
-    {
-        _isHittable = true;
-        _particleSystem.Stop();
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().DisableVulnerability();
-        }
-        yield return new WaitForSeconds(5f);
-        if (_allCrystalsDestroyed) yield break;
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().EnableVulnerability();
-        }
-        _isHittable = false;
-        _particleSystem.Play();
-    }*/
     
     private IEnumerator CrystalDestroyedCoroutine()
     {
-        _isHittable = true;
-        _particleSystem.Stop();
-        yield return new WaitForSeconds(vulnerabilityTime);
-        if (_allCrystalsDestroyed || isDead) yield break;
-        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
-        _isHittable = false;
-        _particleSystem.Play();
+        _crystalDestroyed = true;
+        yield return new WaitForSeconds(0.5f);
+        _isHealing = false;
+        _healingCounter = healingCountdown;
+        _crystalDestroyed = false;
     }
 
     private void AllCrystalsDestroyed()
     {
-        Debug.Log("all crystals destroyed");
-        _particleSystem.Stop();
-        _isHittable = true;
         _allCrystalsDestroyed = true;
+    }
+
+    private void DeactivateCrystal()
+    {
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability();
+        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability(); // for testing
+        _isHealing = false;
+        _healingCounter = healingCountdown;
+    }
+    
+    public void ApplyEffect(StatusEffectData data)
+    {
+        _statusEffect = data;
+        _statusEffectParticles = Instantiate(data.particles, transform);
+    }
+
+    public void RemoveEffect()
+    {
+        Destroy(_statusEffectParticles);
+        _statusEffect = null;
+        _currentEffectTime = 0;
+        _nextTickTime = 0;
+    }
+
+    private void HandleEffect()
+    {
+        _currentEffectTime += Time.deltaTime;
+
+        if(_crystalDestroyed) RemoveEffect();
+        if (_statusEffect == null) return;
+        if (_currentEffectTime > _nextTickTime)
+        {
+            _nextTickTime += _statusEffect.tickSpeed;
+            if (_currentHealth + _statusEffect.damage >= _maxHealth)
+            {
+                _currentHealth = _maxHealth;
+                RemoveEffect();
+                DeactivateCrystal();
+            }
+            else _currentHealth += _statusEffect.damage;
+            UIController.Instance.SetBossHealth(_currentHealth);
+        }
     }
 }
