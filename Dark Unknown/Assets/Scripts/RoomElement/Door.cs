@@ -37,26 +37,18 @@ public class Door : MonoBehaviour
     private BoxCollider2D _myBoxCollider;
     
     private static readonly int Opening = Animator.StringToHash("Opening");
-    private static readonly int IsClosed = Animator.StringToHash("isClosed");
-    private static readonly int Closing = Animator.StringToHash("Closing");
 
     private bool _canOpen = false;
 
     //TODO Change start in awake
     private void Start()
     {
-        //_actualDoorSymbol = _possibleSymbols[Random.Range(0, _possibleSymbols.Count)];        
-        //_symbolAboveDoor.sprite = _actualDoorSymbol.sprite;
-
-        //_isClose = true;
-        //_mySpriteRender = GetComponent<SpriteRenderer>();
         _myBoxCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
-        _animator.SetBool(IsClosed, true);
         _myBoxCollider.enabled = false;
     }
 
-    void Update()
+    private void Update()
     {
         if (_canOpen && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
@@ -76,18 +68,8 @@ public class Door : MonoBehaviour
     {
         //_isClose = false;
         _animator.SetTrigger(Opening);
-        _animator.SetBool(IsClosed, false);
         //_mySpriteRender.sprite = _opendDoorSprite;
         _myBoxCollider.enabled = true;
-    }
-
-    public void Close()
-    {
-        //_isClose = true;
-        _animator.SetTrigger(Closing);
-        _animator.SetBool(IsClosed, true);
-        //_mySpriteRender.sprite = _openedDoorSprite;
-        _myBoxCollider.enabled = false;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
