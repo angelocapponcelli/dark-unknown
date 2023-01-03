@@ -113,6 +113,7 @@ public class LevelManager : Singleton<LevelManager>
             {
                 AddResources();
                 _roomsTraversed = -1;
+                GameManager.Instance.SetPlayerRespawned(false);
                 LoadHubRooms(); //next room is always hub
             }
             else
@@ -187,7 +188,7 @@ public class LevelManager : Singleton<LevelManager>
         
         //load next rooms
         LoadRooms();
-        GameManager.Instance.SetPlayerRespawned();
+        GameManager.Instance.SetPlayerRespawned(true);
     }
 
     private void CleanUpRoom()

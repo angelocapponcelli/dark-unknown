@@ -130,6 +130,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1648837081996949874, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648837081996949874, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2425383523560496283, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2425383523560496283, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2967032421475054480, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4389756995844374150, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -224,6 +244,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4389756996071290293, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7412407000062578290, guid: 1ed98f0eacd04b14a90485c436fc899a, type: 3}
+      propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -975,6 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b090e341bc87c484c881507e2c1c69ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killedRewards: []
   roomsBeforeBoss: 5
   animator: {fileID: 1078221785}
   roomsBetweenPotions: 2
@@ -1023,6 +1048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 703240200, guid: 25293e17190f8dd4d861914016e7bf6a, type: 3}
+  playerSpeed: 0
   animator: {fileID: 140875518}
 --- !u!4 &1717498968
 Transform:
