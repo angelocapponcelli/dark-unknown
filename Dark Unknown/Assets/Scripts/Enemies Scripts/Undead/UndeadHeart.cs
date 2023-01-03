@@ -144,6 +144,12 @@ public class UndeadHeart : EnemyController
         health -= damage;
         if (health <= 0)
         {
+            //instantiate the rewards
+            for (int i = 0; i < _parent._rewardAmount; i++)
+            {
+                LevelManager.Instance.killedRewards.Add(Instantiate(_parent._killedReward,transform.position,Quaternion.identity));
+            }
+            
             _parent.ReduceEnemyCounterPublic();
             Destroy();
         }
@@ -154,6 +160,12 @@ public class UndeadHeart : EnemyController
         health -= damage;
         if (health <= 0)
         {
+            //instantiate the rewards
+            for (int i = 0; i < _parent._rewardAmount; i++)
+            {
+                LevelManager.Instance.killedRewards.Add(Instantiate(_parent._killedReward,transform.position,Quaternion.identity));
+            }
+            
             _parent.ReduceEnemyCounterPublic();
             Destroy();
         }

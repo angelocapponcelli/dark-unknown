@@ -7,6 +7,8 @@ using UnityEngine;
 public class UndeadController : EnemyController
 {
     private Player _target;
+    [SerializeField] public GameObject _killedReward;
+    [SerializeField] public int _rewardAmount = 3;
     [SerializeField] private float _minDistance;
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
