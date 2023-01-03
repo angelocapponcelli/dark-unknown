@@ -335,24 +335,6 @@ public class SkeletonBossController : EnemyController
         }
         StartCoroutine(CrystalDestroyedCoroutine());
     }
-
-    /*private IEnumerator CrystalDestroyedCoroutine()
-    {
-        _isHittable = true;
-        _particleSystem.Stop();
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().DisableVulnerability();
-        }
-        yield return new WaitForSeconds(5f);
-        if (_allCrystalsDestroyed) yield break;
-        foreach (var crystal in StateGameManager.Crystals)
-        {
-            crystal.GetComponent<CrystalController>().EnableVulnerability();
-        }
-        _isHittable = false;
-        _particleSystem.Play();
-    }*/
     
     private IEnumerator CrystalDestroyedCoroutine()
     {

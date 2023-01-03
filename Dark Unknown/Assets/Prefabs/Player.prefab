@@ -511,9 +511,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaa52c0afb3d64297b34790fdbd1a58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
-  dashSpeed: 1000
-  _dust: {fileID: 1638293741486417849}
+  speed: 350
+  dashingPower: 70
+  dashingTime: 0.2
+  dashingCooldown: 1
+  dust: {fileID: 1638293741486417849}
 --- !u!114 &2103155270075806492
 MonoBehaviour:
   m_ObjectHideFlags: 0

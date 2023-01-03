@@ -1,79 +1,64 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 300f;
-    
-    private float _activeSpeed;
-    [SerializeField] private float dashSpeed;
-    private float _dashDuration = .1f;//, _dashCooldown = .10f; Set cool down in the UI animation
     private bool _isDashing, _canDash = true;
     private Vector2 _dashDirection;
-    [SerializeField]private ParticleSystem _dust;
-
+    [SerializeField] private float dashingPower = 24f;
+    [SerializeField] private float dashingTime = 0.2f;
+    [SerializeField] private float dashingCooldown = 0.10f;
+    [SerializeField] private ParticleSystem dust;
     private Rigidbody2D _rb;
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _activeSpeed = speed;
     }
 
-    public void MovePlayer(Vector2 direction, bool dashKeyDown)
+    public void MovePlayer(Vector2 direction)
     {
-        
-
-        if (dashKeyDown && _canDash)
-        {
-            _isDashing = true;
-            _canDash = false;
-            StartCoroutine(StopDashing());
-            _dashDirection = direction;
-            CreateDust();
-            AudioManager.Instance.PlayPLayerDashSound();
-            UIController.Instance.DashCoolDown();
-        }
-
-        if (_isDashing)
-        {
-            _activeSpeed = dashSpeed;
-            _rb.velocity = (_activeSpeed * Time.deltaTime) * _dashDirection ; // order of operations (float * float * vector) for the efficiency
-            return;
-        }
-        else
-        {
-            _activeSpeed = speed;
-            //AudioManager.Instance.PlayPLayerWalkSound(); //TODO sistemare il suono dei passi che va in loop 
-        }
-        
-        _rb.velocity = (_activeSpeed * Time.deltaTime) * direction ;  // order of operations (float * float * vector) for the efficiency
-
+        // order of operations (float * float * vector) for the efficiency
+        if (_isDashing) return;
+        _rb.velocity = (speed * Time.deltaTime) * direction;
     }
 
-
-    private IEnumerator StopDashing()
+    public void Dash(Vector2 direction)
     {
-        yield return new WaitForSeconds(_dashDuration);
+        if (_canDash)
+        {
+            StartCoroutine(DashCoroutine(direction));
+        }
+    }
+    
+    private IEnumerator DashCoroutine(Vector2 direction)
+    {
+        _canDash = false;
+        _isDashing = true;
+        _dashDirection = direction;
+        _rb.velocity = dashingPower * _dashDirection;
+        dust.Play();
+        AudioManager.Instance.PlayPLayerDashSound();
+        yield return new WaitForSeconds(dashingTime);
         _isDashing = false;
-        //yield return new WaitForSeconds(_dashCooldown);
-        //_canDash = true;
+        dust.Stop();
+        UIController.Instance.DashCoolDown();
+        yield return new WaitForSeconds(dashingCooldown);
+        _canDash = true;
     }
-
+    
     public Vector2 GetRBPos()
     {
         return _rb.position;
     }
 
-    private void CreateDust()
-    {
-        _dust.Play();
-    }
-
     public void IncreaseSpeed(float multiplier)
     {
-        speed = speed * multiplier;
+        speed *= multiplier;
     }
 
     public float GetSpeed()
@@ -86,8 +71,8 @@ public class PlayerMovement : MonoBehaviour
         speed = resetSpeed;
     }
 
-    public void EnableDash()
+    public bool IsDashing()
     {
-        _canDash = true;
+        return _isDashing;
     }
 }

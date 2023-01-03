@@ -26,6 +26,9 @@ public class UIController : Singleton<UIController>
     private SwordUsable _newSwordUsable;
     private Sprite[] _availableLetters;
 
+    private Animator _dashAnimator;
+    private static readonly int Dash = Animator.StringToHash("Dash");
+
     protected override void Awake()
     {
         base.Awake();
@@ -34,10 +37,7 @@ public class UIController : Singleton<UIController>
 
     private void Start()
     {
-        /*foreach (var sprite in _availableLetters)
-        {
-            Debug.Log(sprite.name);
-        }*/
+        _dashAnimator = GetComponent<Animator>();
         
         _newSwordUsable = new SwordUsable();
         //set sword as default icon
@@ -145,12 +145,8 @@ public class UIController : Singleton<UIController>
     
     public void DashCoolDown()
     {
-        GetComponent<Animator>().Play("DashLoading", 0);
-    }
-
-    public void EnableDash()
-    {
-        Player.Instance.GetComponent<PlayerMovement>().EnableDash();
+        Debug.Log("Cooldown started");
+        _dashAnimator.SetTrigger(Dash);
     }
 
     public void ClickActionButton(string buttonName)

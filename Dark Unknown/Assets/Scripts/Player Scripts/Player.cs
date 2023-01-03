@@ -44,8 +44,6 @@ public class Player : Singleton<Player>, IEffectable
     private GameObject _rewardToGet;
 
     private bool _hasPotion;
-    private Potion _newPotion;
-    private UsedPotion _usedPotion;
     private Ability _ability;
 
     // Start is called before the first frame update
@@ -68,9 +66,6 @@ public class Player : Singleton<Player>, IEffectable
 
         _currentMana = 0;
         UIController.Instance.SetMaxMana(_maxMana);
-
-        _newPotion = new Potion();
-        _usedPotion = new UsedPotion();
     }
 
     // Update handles the animation changes based on the mouse pointer
@@ -81,6 +76,11 @@ public class Player : Singleton<Player>, IEffectable
         _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y,
             _playerInput.PointerPosition, _playerMovement.GetRBPos());
 
+        if (_playerMovement.IsDashing())
+        {
+            return;
+        }
+        
         if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
             GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
@@ -100,7 +100,7 @@ public class Player : Singleton<Player>, IEffectable
         {
             //destroy potion taken game-object
             Destroy(_rewardToGet);
-            UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], _newPotion);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], new Potion());
             _canGetPotion = false;
             _hasPotion = true;
         } else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
@@ -135,12 +135,21 @@ public class Player : Singleton<Player>, IEffectable
         {
             TakeDamage(100f);
         }*/
+        if (InputManager.Instance.GetKeyDown(KeybindingActions.Dash))
+        {
+            _playerMovement.Dash(_playerInput.MovementDirection);
+        }
     }
 
     // FixedUpdate handles the movement
     private void FixedUpdate()
     {
-        _playerMovement.MovePlayer(_playerInput.MovementDirection, PlayerInput.GetDashKeyDown());
+        if (_playerMovement.IsDashing())
+        {
+            return;
+        }
+
+        _playerMovement.MovePlayer(_playerInput.MovementDirection);
     }
 
     public void TakeDamage(float damage)
