@@ -51,7 +51,6 @@ public class SkeletonBossController : EnemyController
         _rb = GetComponent<Rigidbody2D>();
         _allCrystalsDestroyed = false;
         _target = Player.Instance;
-        //StateGameManager.Crystals = GameObject.FindGameObjectsWithTag("Crystal");
 
         _currentHealth = _maxHealth;
         _canMove = true;
@@ -220,7 +219,7 @@ public class SkeletonBossController : EnemyController
         {
             if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
             _damageCoroutineRunning = true;
-            StartCoroutine(DamageMelee());
+            StartCoroutine(DamageDistance());
         }
     }
     

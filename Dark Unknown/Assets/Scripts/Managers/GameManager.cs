@@ -101,8 +101,8 @@ public class GameManager : Singleton<GameManager>
         Application.Quit();
     }
 
-    public void SetPlayerRespawned()
+    public void SetPlayerRespawned(bool value)
     {
-        _playerRespawned = true;
+        _playerRespawned = value;
     }
 }
