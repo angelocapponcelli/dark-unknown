@@ -32,6 +32,10 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private StrengthReward _strengthReward;
     [SerializeField] private WeaponReward _swordReward;
     [SerializeField] private WeaponReward _axeReward;
+    [SerializeField] private AbilityReward _circleAbilityReward;
+    [SerializeField] private AbilityReward _iceProjectileAbility;
+    [SerializeField] private AbilityReward _airAttackAbility;
+    [SerializeField] private AbilityReward _shieldAbility;
 
     [SerializeField] private Transform _spawnPointReward;
     [SerializeField] private Transform spawnPointPotion;
@@ -40,7 +44,7 @@ public class RoomLogic : MonoBehaviour
     private int _numOfEnemies;
     [HideInInspector] public List<EnemyController> crystals = new List<EnemyController>();
 
-    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB};
+    public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB, CIRCLE_ABILITY, AIRATTACK_ABILITY, ICEPROJECTILE_ABILITY, SHIELD_ABILITY};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -87,6 +91,10 @@ public class RoomLogic : MonoBehaviour
             Type.SPEED => Instantiate(_speedReward, position, Quaternion.identity),
             Type.SWORD => Instantiate(_swordReward, position, Quaternion.identity),
             Type.AXE => Instantiate(_axeReward, position, Quaternion.identity),
+            Type.CIRCLE_ABILITY => Instantiate(_circleAbilityReward, position, Quaternion.identity),
+            Type.AIRATTACK_ABILITY => Instantiate(_airAttackAbility, position, Quaternion.identity),
+            Type.ICEPROJECTILE_ABILITY => Instantiate(_iceProjectileAbility, position, Quaternion.identity),
+            Type.SHIELD_ABILITY => Instantiate(_shieldAbility, position, Quaternion.identity),
             _ => _rewardSpawned
         };
         _isControlEnabled = false;
@@ -116,6 +124,14 @@ public class RoomLogic : MonoBehaviour
                     _possibleSymbols.Remove(toRemove);
                     toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                     _possibleSymbols.Remove(toRemove);
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.CIRCLE_ABILITY);
+                    _possibleSymbols.Remove(toRemove);
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.ICEPROJECTILE_ABILITY);
+                    _possibleSymbols.Remove(toRemove);
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.AIRATTACK_ABILITY);
+                    _possibleSymbols.Remove(toRemove);
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
+                    _possibleSymbols.Remove(toRemove);
                 }
                 else
                 {
@@ -132,6 +148,26 @@ public class RoomLogic : MonoBehaviour
                     if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.GetComponentInChildren<CircleAbility>())
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.CIRCLE_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.GetComponentInChildren<IceProjectileAbility>())
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.ICEPROJECTILE_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.GetComponentInChildren<AirAttackAbility>())
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.AIRATTACK_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.GetComponentInChildren<ShieldAbility>())
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
                 }
@@ -176,6 +212,10 @@ public class RoomLogic : MonoBehaviour
             case Type.SWORD:
             case Type.STRENGTH:
             case Type.AXE:
+            case Type.CIRCLE_ABILITY:
+            case Type.ICEPROJECTILE_ABILITY:
+            case Type.AIRATTACK_ABILITY:
+            case Type.SHIELD_ABILITY:
                 _numOfEnemies = Random.Range(12, 15);
                 break;
             case Type.BOSS:
