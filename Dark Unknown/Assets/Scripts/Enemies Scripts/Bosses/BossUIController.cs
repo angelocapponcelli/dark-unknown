@@ -13,6 +13,11 @@ public class BossUIController : MonoBehaviour
     {
         UIController.Instance.SetBossHealth(health);
     }
+
+    public void SetName(string str)
+    {
+        UIController.Instance.SetBossName(str);
+    }
     
     public void DeactivateHealthBar()
     {

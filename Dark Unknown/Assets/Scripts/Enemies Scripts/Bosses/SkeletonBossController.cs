@@ -66,17 +66,12 @@ public class SkeletonBossController : EnemyController
 
         if (GetComponent<BossUIController>() == null) return;
         _bossUIController = GetComponent<BossUIController>();
+        _bossUIController.SetName("Skeleton Overlord");
         _bossUIController.SetMaxHealth(_maxHealth);
 
         _currentRoom = LevelManager.Instance.GetCurrentRoom();
-        
-        // Testing
-        /*foreach (var crystal in GameObject.FindGameObjectsWithTag("Crystal"))
-        {
-            StateGameManager.Crystals.Add(crystal.GetComponent<EnemyController>());
-        }*/
         _numOfCrystals = _currentRoom.crystals.Count;
-        //StateGameManager.Crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
         
         if (_currentRoom.crystals.Count == 0)
         {

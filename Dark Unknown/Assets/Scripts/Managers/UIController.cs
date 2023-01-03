@@ -18,6 +18,7 @@ public class UIController : Singleton<UIController>
     [Header ("Boss UI")]
     [SerializeField] private GameObject _bossUIObject;
     [SerializeField] private Slider _bossHealthBar;
+    [SerializeField] private Text bossName;
     public Animator bossUIAnimator;
     private static readonly int Deactivate = Animator.StringToHash("Deactivate");
 
@@ -136,6 +137,11 @@ public class UIController : Singleton<UIController>
     public void SetBossHealth(float value)
     {
         _bossHealthBar.value = value;
+    }
+    
+    public void SetBossName(string str)
+    {
+        bossName.text = str;
     }
 
     public void SetEnemyCounter(int value)
