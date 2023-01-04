@@ -235,6 +235,7 @@ public class Player : Singleton<Player>, IEffectable
     public void IncreaseHealth(float healthIncrease)
     {
         _maxHealth += healthIncrease;
+        _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_maxHealth, _currentHealth);
         StartCoroutine(FlashBlue());
     }
