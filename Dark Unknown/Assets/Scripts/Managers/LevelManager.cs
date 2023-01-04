@@ -186,6 +186,7 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom = Instantiate(_hubRoom, Vector3.zero, Quaternion.identity);
         _currentRoom.StartRoom(RoomLogic.Type.HUB);
         UIController.Instance.SetRoomText("Hub Room");
+        UIController.Instance.SetInactiveBossHealth();
 
         _potionCounter = roomsBetweenPotions;
         _roomsTraversed = 0;
