@@ -2,21 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IncreaseHealth : MonoBehaviour
 {
-    [SerializeField] private int rewardCost = 0;
+    [SerializeField] private int rewardCost = 200;
     [SerializeField] private float healthIncrease = 50f;
     private int _playerRewards = 0;
     private bool _canBuy;
     private Collider2D _collider2D;
-    
+    [SerializeField] private Text costText;
+
     // Start is called before the first frame update
     void Start()
     {
-        _playerRewards = Player.Instance.GetKilledReward();
         _canBuy = false;
         _collider2D = GetComponent<Collider2D>();
+        costText.text = "x" + rewardCost;
     }
 
     // Update is called once per frame
@@ -33,6 +35,7 @@ public class IncreaseHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        _playerRewards = Player.Instance.GetKilledReward();
         if (col.CompareTag("Player"))
         {
             if (_playerRewards >= rewardCost)
