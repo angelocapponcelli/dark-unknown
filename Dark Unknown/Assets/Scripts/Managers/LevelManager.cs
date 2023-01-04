@@ -118,7 +118,11 @@ public class LevelManager : Singleton<LevelManager>
             }
             else
             {
-                GameManager.Instance.LoadVictoryScene();
+                // Change. Right now when reaching the third boss room it immediately changes
+                // the scene to the victory screen
+                // TODO: implement scene change when the final boss dies
+                //GameManager.Instance.LoadVictoryScene();
+                _nextRooms.Add(_hubRoom);
             }
         }
     }
@@ -149,7 +153,7 @@ public class LevelManager : Singleton<LevelManager>
         
         for (int i = 0; i < 3; i++)
         {
-            _nextRooms.Add(_hubRoom); //assign random rooms
+            _nextRooms.Add(_hubRoom); //assign hub room
         }
     }
 
