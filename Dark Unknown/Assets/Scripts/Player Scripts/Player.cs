@@ -44,7 +44,6 @@ public class Player : Singleton<Player>, IEffectable
     private GameObject _rewardToGet;
 
     private bool _hasPotion;
-    private bool _hasAbility;
     private Ability _ability;
 
     private bool _invincible;
@@ -63,7 +62,7 @@ public class Player : Singleton<Player>, IEffectable
         //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
 
         _currentHealth = _maxHealth;
-        UIController.Instance.SetMaxHealth(_maxHealth,_currentHealth);
+        UIController.Instance.SetMaxHealth(_maxHealth, _currentHealth);
         UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
         UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
 
@@ -83,7 +82,7 @@ public class Player : Singleton<Player>, IEffectable
         {
             return;
         }
-        
+
         if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
             var newReward = Instantiate(_weaponParent.getWeaponReward());
@@ -99,14 +98,16 @@ public class Player : Singleton<Player>, IEffectable
             //destroy old reward already taken
             Destroy(_rewardToGet);
             _canGetWeapon = false;
-        } else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        }
+        else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
             //destroy potion taken game-object
             Destroy(_rewardToGet);
             UIController.Instance.SetUsable(UIController.Instance.actionButtons[2], new Potion());
             _canGetPotion = false;
             _hasPotion = true;
-        } else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        }
+        else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
             if (_ability)
             {
@@ -114,6 +115,7 @@ public class Player : Singleton<Player>, IEffectable
                 newReward.transform.position = transform.position;
                 Destroy(_ability.gameObject);
             }
+
             _ability = Instantiate(_abilityToGet, transform, true);
             UIController.Instance.SetUsable(UIController.Instance.actionButtons[1], _abilityUsable);
             //destroy old reward already taken
@@ -121,17 +123,19 @@ public class Player : Singleton<Player>, IEffectable
             _canGetAbility = false;
         }
 
-        if(_statusEffect != null) HandleEffect();
+        if (_statusEffect != null) HandleEffect();
 
         // Use potion only when the player has one and has lower than max health
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
         {
             UIController.Instance.ClickActionButton("PotionButton");
         }
+
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
         {
-            UIController.Instance.ClickActionButton(("SpellButton"));
+            ActivateAbility();
         }
+
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Dash))
         {
             _playerMovement.Dash(_playerInput.MovementDirection);
@@ -143,6 +147,7 @@ public class Player : Singleton<Player>, IEffectable
             _invincible = !_invincible;
             Debug.Log("Player is invincible: " + _invincible);
         }
+
         if (Input.GetKeyDown(KeyCode.L))
         {
             ModifyKilledReward(100);
@@ -219,18 +224,18 @@ public class Player : Singleton<Player>, IEffectable
         transform.position = newPos;
     }
 
-    public void IncreaseSpeed (float increaseMultiplier)
+    public void IncreaseSpeed(float increaseMultiplier)
     {
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
-        UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt( (_speedMultiplier-1)*100 ) + " %");
+        UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt((_speedMultiplier - 1) * 100) + " %");
         StartCoroutine(FlashBlue());
     }
 
     public void IncreaseHealth(float healthIncrease)
     {
         _maxHealth += healthIncrease;
-        UIController.Instance.SetMaxHealth(_maxHealth,_currentHealth);
+        UIController.Instance.SetMaxHealth(_maxHealth, _currentHealth);
         StartCoroutine(FlashBlue());
     }
 
@@ -245,7 +250,7 @@ public class Player : Singleton<Player>, IEffectable
     public void IncreaseStrength(float increaseMultiplier)
     {
         _strengthMultiplier += increaseMultiplier;
-        UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt( (_strengthMultiplier-1)*100 ) + " %");
+        UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt((_strengthMultiplier - 1) * 100) + " %");
         StartCoroutine(FlashBlue());
     }
 
@@ -319,10 +324,12 @@ public class Player : Singleton<Player>, IEffectable
     {
         return _weaponParent.CompareTag("Sword");
     }
+
     public bool checkBowWeapon()
     {
         return _weaponParent.CompareTag("Bow");
     }
+
     public bool checkAxeWeapon()
     {
         return _weaponParent.CompareTag("Axe");
@@ -389,7 +396,7 @@ public class Player : Singleton<Player>, IEffectable
     {
         _currentEffectTime += Time.deltaTime;
 
-        if(_currentEffectTime >= _statusEffect.time) RemoveEffect();
+        if (_currentEffectTime >= _statusEffect.time) RemoveEffect();
         if (_statusEffect == null) return;
         if (_currentEffectTime > _nextTickTime)
         {
@@ -416,10 +423,5 @@ public class Player : Singleton<Player>, IEffectable
             _ability.Activate();
             //_maxMana = 0;
         }
-    }
-
-    public bool HasAbility()
-    {
-        return _hasAbility;
     }
 }
