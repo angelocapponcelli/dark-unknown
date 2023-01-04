@@ -52,11 +52,11 @@ public class UIController : Singleton<UIController>
         }*/
     }
 
-    public void SetMaxHealth(float health)
+    public void SetMaxHealth(float maxHealth, float currentHealth)
     {
-        _healthBar.maxValue = health;
-        _healthBar.value = health;
-        _healthText.text = "HP " + health + "/" + health;
+        _healthBar.maxValue = maxHealth;
+        _healthBar.value = currentHealth;
+        _healthText.text = "HP " + currentHealth + "/" + maxHealth;
     }
     public void SetHealth(float value)
     {

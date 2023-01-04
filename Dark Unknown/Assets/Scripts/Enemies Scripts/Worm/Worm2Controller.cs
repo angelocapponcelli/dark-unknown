@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Worm2Controller : EnemyController
 {
+    [SerializeField] private GameObject _killedReward;
+    [SerializeField] private int _rewardAmount = 3;
     [SerializeField] private Player _target;
     [SerializeField] private float _triggerDistance;
     [SerializeField] private float _maxHealth;
@@ -229,6 +231,12 @@ public class Worm2Controller : EnemyController
 
     private void Die()
     {
+        //instantiate the rewards
+        for (int i = 0; i < _rewardAmount; i++)
+        {
+            LevelManager.Instance.killedRewards.Add(Instantiate(_killedReward,transform.position,Quaternion.identity));
+        }
+        
         isDead = true;
         _movement.StopMovement();
         _animator.AnimateDie();
