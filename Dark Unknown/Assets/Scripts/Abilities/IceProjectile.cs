@@ -31,8 +31,9 @@ public class IceProjectile : MonoBehaviour
                 enemyHit = true;
             }
         }
-        if (collision.GetComponent<Reward>() != null || enemyHit || collision.CompareTag("Trap") ||
+        if (collision.GetComponent<Reward>() != null || enemyHit || collision.CompareTag("Trap") || collision.CompareTag("Player") ||
             collision.gameObject.layer == 11 || collision.gameObject.layer == 10) return; //layer 11 == "Player" - layer 10 == "Enemy"
+        Debug.Log("distrutto da--> " + collision.name);
         DestroyProjectileRoutine();
         _iceProjectileAbility.Deactivate();
     }
