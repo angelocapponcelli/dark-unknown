@@ -62,7 +62,7 @@ public class Player : Singleton<Player>, IEffectable
         //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
 
         _currentHealth = _maxHealth;
-        UIController.Instance.SetMaxHealth(_currentHealth);
+        UIController.Instance.SetMaxHealth(_maxHealth,_currentHealth);
         UIController.Instance.SetSpeedMultiplierText("+ " + (_speedMultiplier - 1) * 100 + " %");
         UIController.Instance.SetStrengthMultiplierText("+ " + (_strengthMultiplier - 1) * 100 + " %");
 
@@ -136,10 +136,15 @@ public class Player : Singleton<Player>, IEffectable
             _playerMovement.Dash(_playerInput.MovementDirection);
         }
 
+        //--- CHEATS ---
         if (Input.GetKeyDown(KeyCode.I))
         {
             _invincible = !_invincible;
             Debug.Log("Player is invincible: " + _invincible);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ModifyKilledReward(100);
         }
     }
 
@@ -221,12 +226,10 @@ public class Player : Singleton<Player>, IEffectable
         StartCoroutine(FlashBlue());
     }
 
-    public void IncreaseHealth(float increaseMultiplier)
+    public void IncreaseHealth(float healthIncrease)
     {
-        //TODO in future, for now not used
-        _healthMultiplier += increaseMultiplier;
-        _currentHealth = _currentHealth * _healthMultiplier;
-        UIController.Instance.SetHealth(_currentHealth);
+        _maxHealth += healthIncrease;
+        UIController.Instance.SetMaxHealth(_maxHealth,_currentHealth);
         StartCoroutine(FlashBlue());
     }
 
