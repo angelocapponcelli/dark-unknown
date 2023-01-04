@@ -74,7 +74,7 @@ public class UIController : Singleton<UIController>
         {
             _manaBar.value = Mathf.MoveTowards(_manaBar.value, value, Time.deltaTime);
             yield return new WaitForSecondsRealtime(0.01f);
-        } while (_manaBar.value < value);
+        } while (_manaBar.value != value);
 
         if (_manaBar.value == _manaBar.maxValue) StartCoroutine(pulseMana());
     }

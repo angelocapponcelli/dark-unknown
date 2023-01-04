@@ -420,10 +420,11 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ActivateAbility()
     {
-        if (_ability && !_ability.IsActive()) //&& _currentMana==_maxMana
+        if (_ability && !_ability.IsActive() && _currentMana==_maxMana) //&& _currentMana==_maxMana
         {
             _ability.Activate();
-            //_maxMana = 0;
+            ManaToZero();
+            //TODO Messaggio d'errore se non può attivarlo
         }
     }
 }
