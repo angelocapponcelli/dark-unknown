@@ -9,33 +9,33 @@ public class ShieldAbility : Ability
     private CircleCollider2D _collider;
     [SerializeField] private GameObject _abilityReward;
 
-        // Start is called before the first frame update
-    void Start()
+    // Start is called before the first frame update
+    private void Start()
     {
         transform.localPosition = new Vector2(0,0);
         transform.localScale = new Vector3(2.5f, 2.2f, 1);
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _collider = GetComponent<CircleCollider2D>();
-        activation(false);
+        Activation(false);
     }
 
     public override void Activate()
     {
         if (!_spriteRenderer.enabled)
         {
-            activation(true);
-            StartCoroutine(delayedDeactivation());
+            Activation(true);
+            StartCoroutine(DelayedDeactivation());
         }
     }
 
     
-    private IEnumerator delayedDeactivation()
+    private IEnumerator DelayedDeactivation()
     {
         yield return new WaitForSeconds(_delay);
-        activation(false);
+        Activation(false);
     }
 
-    private void activation(bool value)
+    private void Activation(bool value)
     {
         _spriteRenderer.enabled = value;
         _collider.enabled = value;

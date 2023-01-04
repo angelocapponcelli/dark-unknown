@@ -44,6 +44,7 @@ public class Player : Singleton<Player>, IEffectable
     private GameObject _rewardToGet;
 
     private bool _hasPotion;
+    private bool _hasAbility;
     private Ability _ability;
 
     private bool _invincible;
@@ -85,7 +86,7 @@ public class Player : Singleton<Player>, IEffectable
         
         if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
-            GameObject newReward = Instantiate(_weaponParent.getWeaponReward());
+            var newReward = Instantiate(_weaponParent.getWeaponReward());
             newReward.transform.position = transform.position;
             //destroy current weapon
             Destroy(_weaponParent.gameObject);
@@ -109,13 +110,14 @@ public class Player : Singleton<Player>, IEffectable
         {
             if (_ability)
             {
-                GameObject newReward = Instantiate(_ability.GetAbilityReward(), transform.position, Quaternion.identity);
+                var newReward = Instantiate(_ability.GetAbilityReward());
+                newReward.transform.position = transform.position;
                 Destroy(_ability.gameObject);
             }
             _ability = Instantiate(_abilityToGet, transform, true);
+            UIController.Instance.SetUsable(UIController.Instance.actionButtons[1], _abilityUsable);
             //destroy old reward already taken
             Destroy(_rewardToGet);
-            UIController.Instance.SetUsable(UIController.Instance.actionButtons[1], _abilityUsable);
             _canGetAbility = false;
         }
 
@@ -126,7 +128,6 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.ClickActionButton("PotionButton");
         }
-
         if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
         {
             UIController.Instance.ClickActionButton(("SpellButton"));
@@ -415,5 +416,10 @@ public class Player : Singleton<Player>, IEffectable
             _ability.Activate();
             //_maxMana = 0;
         }
+    }
+
+    public bool HasAbility()
+    {
+        return _hasAbility;
     }
 }

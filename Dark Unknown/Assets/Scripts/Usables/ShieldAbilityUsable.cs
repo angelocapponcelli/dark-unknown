@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ShieldAbilityUsable : IUsable
 {
@@ -8,6 +10,7 @@ public class ShieldAbilityUsable : IUsable
     }
 
     public Sprite MyIcon { get; }
+    
     public void Use()
     {
         Player.Instance.ActivateAbility();

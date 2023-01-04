@@ -9,8 +9,6 @@ public class ActionButton : MonoBehaviour
     public IUsable MyUsable { get; set; }
 
     public Button MyButton { get; private set; }
-    
-    //TODO: implement dynamic key sprite
 
     public Image MyIcon
     {
