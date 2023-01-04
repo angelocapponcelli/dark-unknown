@@ -23,7 +23,7 @@ public class PurpleProjectile : MonoBehaviour
             {
                 element.GetComponentInParent<Player>().TakeDamage(_damage);
             }
-            if (element.gameObject.CompareTag("Enemy") || element.gameObject.CompareTag("EnemyFeetCollider")) return;
+            if (element.gameObject.CompareTag("EnemyCollider") || element.gameObject.CompareTag("EnemyFeetCollider")) return;
         }
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
