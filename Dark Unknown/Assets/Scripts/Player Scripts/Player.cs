@@ -171,7 +171,8 @@ public class Player : Singleton<Player>, IEffectable
             (_ability.GetComponent<ShieldAbility>() && !_ability.IsActive()))
         {
             if (_invincible) return;
-            _currentHealth -= damage;
+            if (_currentHealth - damage <= 0) _currentHealth = 0;
+            else _currentHealth -= damage;
             UIController.Instance.SetHealth(_currentHealth);
             StartCoroutine(FlashRed());
             PlayerEvents.PlayerHit.Invoke();
