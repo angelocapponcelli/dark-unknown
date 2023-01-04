@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -552289051564005146}
   m_Layer: 0
   m_Name: IceProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e48fa12f0628747bddf5c397329ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0.5
+  _timeToFrezee: 4
+  _slowDownFactor: 2
 --- !u!50 &-552289051564005146
 Rigidbody2D:
   serializedVersion: 4
