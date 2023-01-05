@@ -120,7 +120,7 @@ public class BatController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        AudioManager.Instance.PlaySpiderAttackSound();
 
         yield return new WaitForSeconds(0.7f);
 

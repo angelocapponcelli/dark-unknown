@@ -163,7 +163,7 @@ public class Worm2Controller : EnemyController
     {
         _animator.AnimateTakeDamage(); 
         //_canMove = false;
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayWormHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         //_canMove = true;
         //_damageCoroutineRunning = false;
@@ -172,7 +172,7 @@ public class Worm2Controller : EnemyController
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayWormHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         //_canMove = true;
         //_damageCoroutineRunning = false;
@@ -210,6 +210,7 @@ public class Worm2Controller : EnemyController
             projectile.GetComponent<SpriteRenderer>().color = Color.green;
             projectile.GetComponent<Rigidbody2D>().velocity =
                 new Vector2(projectileMoveDirection.x, projectileMoveDirection.y);
+            AudioManager.Instance.PlayWormAttackSound();
             Destroy(projectile, 5f);
 
             angle += angleStep;
@@ -241,7 +242,7 @@ public class Worm2Controller : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySkeletonDieSound();
+        AudioManager.Instance.PlayWormDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }

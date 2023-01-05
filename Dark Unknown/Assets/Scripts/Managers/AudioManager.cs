@@ -10,7 +10,7 @@ public class AudioManager : Singleton<AudioManager>
 
     [SerializeField] private AudioSource _backgroundMusic;
     [SerializeField] private AudioSource _UISound;
-    [SerializeField] private AudioSource _skeletonSound;
+    [SerializeField] private AudioSource _enemySound;
     [SerializeField] private AudioSource _playerSound;
 
     protected new void Awake()
@@ -71,36 +71,103 @@ public class AudioManager : Singleton<AudioManager>
         return _playerSound.volume;
     }
 
+    //++++++ ENEMY ++++++++++++++++++++++++++++++
     //----- Skeleton -------------------------------------
     public void PlaySkeletonWalkSound()
     {
-        _skeletonSound.PlayOneShot(_soundBank.SkeletonWalk);
+        _enemySound.PlayOneShot(_soundBank.SkeletonWalk);
     }
     public void PlaySkeletonAttackSound()
     {
-        _skeletonSound.PlayOneShot(_soundBank.SkeletonAttack);
+        _enemySound.PlayOneShot(_soundBank.SkeletonAttack);
     }
     public void PlaySkeletonHurtSound()
     {
-        _skeletonSound.PlayOneShot(_soundBank.SkeletonHurt[Random.Range(0, _soundBank.SkeletonHurt.Count)]);
+        _enemySound.PlayOneShot(_soundBank.SkeletonHurt[Random.Range(0, _soundBank.SkeletonHurt.Count)]);
     }
     public void PlaySkeletonDieSound()
     {
-        _skeletonSound.PlayOneShot(_soundBank.SkeletonDie);
+        _enemySound.PlayOneShot(_soundBank.SkeletonDie);
     }
-    public void SetSkeletonVolume(float value) //TODO 'skeleton' change into 'enemy'
+    //----- Spider -------------------------------------
+    public void PlaySpiderAttackSound()
     {
-        _skeletonSound.volume = value;
+        _enemySound.PlayOneShot(_soundBank.SpiderAttack);
+    }
+    public void PlaySpiderHurtSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.SpiderHurt);
+    }
+    public void PlaySpiderDieSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.SpiderDie);
+    }
+    //----- Worm -------------------------------------
+    public void PlayWormAttackSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.WormAttack);
+    }
+    public void PlayWormHurtSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.WormHurt);
+    }
+    public void PlayWormDieSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.WormDie);
+    }
+    //----- Viper -------------------------------------
+    public void PlayViperAttackSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.ViperAttack);
+    }
+    public void PlayViperHurtSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.ViperHurt);
+    }
+    public void PlayViperDieSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.ViperDie);
+    }
+    //----- Undead -------------------------------------
+    public void PlayUndeadAttackSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.UndeadAttack);
+    }
+    public void PlayUndeadHurtSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.UndeadHurt);
+    }
+    public void PlayUndeadDieSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.UndeadDie);
+    }
+    //----- MutantRat -------------------------------------
+    public void PlayMutantRatAttackSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.MutantRatAttack);
+    }
+    public void PlayMutantRatHurtSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.MutantRatHurt);
+    }
+    public void PlayMutantRatDieSound()
+    {
+        _enemySound.PlayOneShot(_soundBank.MutantRatDie);
+    }
+    public void SetEnemyVolume(float value) //TODO 'skeleton' change into 'enemy'
+    {
+        _enemySound.volume = value;
     }
     public float GetEnemyVolumeSound()
     {
-        return _skeletonSound.volume;
+        return _enemySound.volume;
     }
 
     //-------------------------------------
 
     public void PlaySoundTrack()
     {
+        _backgroundMusic.clip = _soundBank.SoundTrack;
         _backgroundMusic.Play();
     }
 
@@ -116,9 +183,23 @@ public class AudioManager : Singleton<AudioManager>
     {
         return _backgroundMusic.volume;
     }
+    public void PlaySoundTrackIntro()
+    {
+        _backgroundMusic.clip = _soundBank.SoundTrackIntro;
+        _backgroundMusic.Play();
+    }
 
+    public void StopSoundTrackIntro()
+    {
+        _backgroundMusic.Stop();
+    }
+    
+    public void PlayTeleportSound()
+    {
+        _backgroundMusic.PlayOneShot(_soundBank.Teleport);
+    }
     public void PlayEnterDoorSound()
     {
-        _UISound.PlayOneShot(_soundBank.EnterDoor);
+        _backgroundMusic.PlayOneShot(_soundBank.EnterDoor);
     }
 }

@@ -134,7 +134,7 @@ public class UndeadController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        AudioManager.Instance.PlayUndeadAttackSound();
 
         yield return new WaitForSeconds(0.7f);
 
@@ -189,7 +189,7 @@ public class UndeadController : EnemyController
     {
         _animator.AnimateTakeDamage(); 
         _canMove = false;
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayUndeadHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
@@ -198,7 +198,7 @@ public class UndeadController : EnemyController
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayUndeadHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
@@ -220,7 +220,7 @@ public class UndeadController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySkeletonDieSound();
+        AudioManager.Instance.PlayUndeadDieSound();
         _deathSoundPlayed = true;
         //ReduceEnemyCounter();
     }
