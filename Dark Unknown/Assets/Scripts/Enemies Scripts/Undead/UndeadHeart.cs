@@ -130,7 +130,6 @@ public class UndeadHeart : EnemyController
     {
         yield return new WaitForSeconds(recoveryTime);
         _parent.Recover();
-        _parent.shadow.gameObject.SetActive(true);
         Destroy();
     }
 
