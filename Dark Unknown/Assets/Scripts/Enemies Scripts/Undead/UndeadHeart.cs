@@ -8,11 +8,11 @@ using UnityEngine.UIElements;
 
 public class UndeadHeart : EnemyController
 {
-    private Vector2 _targetPosition;
+    /*private Vector2 _targetPosition;
     private Vector2 _initialPosition;
     private Vector2 _vertexPosition;
     private Vector2 _offsetPosition;
-    private float _a, _b, _c, _d, _x=0, _angle;
+    private float _a, _b, _c, _d, _x=0, _angle;*/
     [SerializeField] private float _velocity = 0.5f;
     [SerializeField] private float health;
 
@@ -33,7 +33,7 @@ public class UndeadHeart : EnemyController
          * through three points which are: start point (_initialPosition), vertex of the parabola (_vertexPosition),
          * end point where the target is located (_targetPosition) */
         
-        float h = 1f; //height of the parabolic trajectory
+        /*float h = 1f; //height of the parabolic trajectory
         _offsetPosition = transform.position; //to translate everything to the origin 
         
         _targetPosition = (Vector2)Player.Instance.transform.position-_offsetPosition;
@@ -82,12 +82,12 @@ public class UndeadHeart : EnemyController
             _b = _targetPosition.y > _initialPosition.y ? 1 : -1;
             _c = 0;
         }
-        transform.position = _initialPosition + _offsetPosition;
+        transform.position = _initialPosition + _offsetPosition;*/
     }
 
     private void Update()
     {
-        if (Math.Abs(transform.position.x-_offsetPosition.x) < Math.Abs(_targetPosition.x))
+        /*if (Math.Abs(transform.position.x-_offsetPosition.x) < Math.Abs(_targetPosition.x))
         {
             StartCoroutine(moveProjectile());
         }
@@ -104,12 +104,12 @@ public class UndeadHeart : EnemyController
             {
                 //Destroy(gameObject);
             }
-        }
+        }*/
     }
 
     private IEnumerator moveProjectile()
     {
-        Vector2 position;
+        /*Vector2 position;
         if (_d != 0)
         {
             float xNorm = _x, yNorm = _a * (float)Math.Pow(_x, 2) + _b * _x + _c;
@@ -122,14 +122,17 @@ public class UndeadHeart : EnemyController
             position = new Vector2(0, _x*_b);
         }
         transform.position = position + _offsetPosition;
-        _x = _x + _velocity;
+        _x = _x + _velocity;*/
         yield return new WaitForEndOfFrame();
     }
 
     private IEnumerator Countdown()
     {
         yield return new WaitForSeconds(recoveryTime);
-        _parent.Recover();
+        if (!_parent.GetIsDead())
+        {
+            _parent.Recover();
+        }
         Destroy();
     }
 

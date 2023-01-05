@@ -295,9 +295,9 @@ public class RatController : EnemyController
     private void DisableBoxCollider()
     {
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in spiderColliders)
+        foreach (var c in spiderColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.enabled = false;
         }
     }
 }

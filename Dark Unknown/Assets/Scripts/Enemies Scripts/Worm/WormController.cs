@@ -257,9 +257,9 @@ public class WormController : EnemyController
     private void DisableBoxCollider()
     {
         var wormColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in wormColliders)
+        foreach (var c in wormColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.enabled = false;
         }
     }
     

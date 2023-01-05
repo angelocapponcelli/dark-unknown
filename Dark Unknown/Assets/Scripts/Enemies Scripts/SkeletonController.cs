@@ -252,7 +252,7 @@ public class SkeletonController : EnemyController
         var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var c in skeletonColliders)
         {
-            c.gameObject.SetActive(false);
+            c.enabled = false;
         }
     }
     
@@ -263,7 +263,7 @@ public class SkeletonController : EnemyController
         var allChildren = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
         foreach (var c in allChildren)
         {
-            c.gameObject.SetActive(true);
+            c.enabled = true;
         }
     }
 }

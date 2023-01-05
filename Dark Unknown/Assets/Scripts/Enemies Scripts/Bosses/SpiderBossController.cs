@@ -315,10 +315,10 @@ public class SpiderBossController : EnemyController, IEffectable
 
     private void DisableBoxCollider()
     {
-        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var c in spiderColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.enabled = false;
         }
     }
 

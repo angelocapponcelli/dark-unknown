@@ -300,9 +300,9 @@ public class ViperController : EnemyController
     private void DisableBoxCollider()
     {
         var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        foreach (var c in skeletonColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.enabled = false;
         }
     }
 }

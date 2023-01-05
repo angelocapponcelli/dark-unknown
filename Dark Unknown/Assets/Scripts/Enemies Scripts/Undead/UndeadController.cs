@@ -13,7 +13,8 @@ public class UndeadController : EnemyController
     [SerializeField] private float _chaseDistance;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
-    [SerializeField] private GameObject heart;
+    [SerializeField] private UndeadHeart heart;
+    private UndeadHeart _spawnedHeart;
     [SerializeField] private Transform _spawnProjectilePoint;
     [SerializeField] public GameObject shadow;
     private float _timeForNextAttack;
@@ -227,18 +228,13 @@ public class UndeadController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlayUndeadDieSound();
         _deathSoundPlayed = true;
-        var tempHeart = heart;
-        tempHeart = Instantiate(tempHeart, _spawnProjectilePoint.position, Quaternion.identity);
-        tempHeart.GetComponent<UndeadHeart>().Init(this);
+        _spawnedHeart = Instantiate(heart, _spawnProjectilePoint.position + Vector3.zero, Quaternion.identity);
+        _spawnedHeart.GetComponent<UndeadHeart>().Init(this);
     }
 
     public void Recover()
     {
-        var undeadColliders = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
-        foreach (var collider in undeadColliders)
-        {
-            collider.gameObject.SetActive(true);//.GetComponent<BoxCollider2D>().enabled = false;
-        }
+        EnableBoxCollider();
 
         StartCoroutine(RecoverySequence());
     }
@@ -265,9 +261,18 @@ public class UndeadController : EnemyController
     private void DisableBoxCollider()
     {
         var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        foreach (var c in skeletonColliders)
         {
-            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
+            c.enabled = false;
+        }
+    }
+
+    private void EnableBoxCollider()
+    {
+        var undeadColliders = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var c in undeadColliders)
+        {
+            c.enabled = true;
         }
     }
 
@@ -279,5 +284,10 @@ public class UndeadController : EnemyController
     public void SetIsDead(bool dead)
     {
         isDead = dead;
+    }
+
+    public bool GetIsDead()
+    {
+        return isDead;
     }
 }

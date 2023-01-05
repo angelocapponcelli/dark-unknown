@@ -276,8 +276,7 @@ public class SpiderController : EnemyController
         var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
         foreach (var collider in spiderColliders)
         {
-            //Debug.Log(collider.name);
-            collider.gameObject.SetActive(false);
+            collider.enabled = false;
         }
     }
     
@@ -288,7 +287,7 @@ public class SpiderController : EnemyController
         var allChildren = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
         foreach (var c in allChildren)
         {
-            c.gameObject.SetActive(true);
+            c.enabled = true;
         }
     }
 }

@@ -300,10 +300,10 @@ public class SkeletonBossController : EnemyController
 
     private void DisableBoxCollider()
     {
-        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in spiderColliders)
+        var bossColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var c in bossColliders)
         {
-            collider.gameObject.SetActive(false);
+            c.enabled = false;
         }
     }
 
