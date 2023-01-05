@@ -15,6 +15,7 @@ public class UndeadController : EnemyController
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private GameObject heart;
     [SerializeField] private Transform _spawnProjectilePoint;
+    [SerializeField] public GameObject shadow;
     private float _timeForNextAttack;
 
     private Rigidbody2D _rb;
@@ -217,6 +218,7 @@ public class UndeadController : EnemyController
 
     private void Die()
     {
+        shadow.gameObject.SetActive(false);
         isDead = true;
         _canMove = false;
         _movement.StopMovement();
@@ -224,15 +226,10 @@ public class UndeadController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        InstanciateHearth();
+        var tempHeart = heart;
+        tempHeart = Instantiate(tempHeart, _spawnProjectilePoint.position, Quaternion.identity);
+        tempHeart.GetComponent<UndeadHeart>().Init(this);
         // ReduceEnemyCounterPublic();
-    }
-
-    private IEnumerator InstanciateHearth()
-    {
-        yield return new WaitForSeconds(0.1f);
-        heart = Instantiate(heart, _spawnProjectilePoint.position, Quaternion.identity);
-        heart.GetComponent<UndeadHeart>().Init(this);
     }
 
     public void Recover()
@@ -253,7 +250,7 @@ public class UndeadController : EnemyController
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
+        // IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false; 
         _canMove = true;
         _deathSoundPlayed = false;
