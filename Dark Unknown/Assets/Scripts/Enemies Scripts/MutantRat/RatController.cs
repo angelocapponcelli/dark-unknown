@@ -139,6 +139,11 @@ public class RatController : EnemyController
                 StartCoroutine(RecoverySequence());
             }            
         }*/
+        
+        // -- Handle Animations --
+        // Hurt
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
     }
 
     private void AttackEvent(bool meleeAttack)

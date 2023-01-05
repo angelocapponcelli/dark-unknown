@@ -106,7 +106,10 @@ public class WormController : EnemyController
                 Hide();   
             }
         }
-        
+        // -- Handle Animations --
+        // Hurt
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
         
     }
 

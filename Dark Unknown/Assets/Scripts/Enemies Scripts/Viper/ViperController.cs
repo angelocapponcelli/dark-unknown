@@ -127,6 +127,11 @@ public class ViperController : EnemyController
         {
             _animator.flip(_target.transform.position - transform.position);
         }
+        
+        // -- Handle Animations --
+        // Hurt
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
 
         // -- Handle Animations --
         // Hurt

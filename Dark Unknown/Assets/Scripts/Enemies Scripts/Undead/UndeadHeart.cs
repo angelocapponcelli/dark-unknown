@@ -149,7 +149,6 @@ public class UndeadHeart : EnemyController
             {
                 LevelManager.Instance.killedRewards.Add(Instantiate(_parent._killedReward,transform.position,Quaternion.identity));
             }
-            
             _parent.ReduceEnemyCounterPublic();
             Destroy();
         }
@@ -165,7 +164,6 @@ public class UndeadHeart : EnemyController
             {
                 LevelManager.Instance.killedRewards.Add(Instantiate(_parent._killedReward,transform.position,Quaternion.identity));
             }
-            
             _parent.ReduceEnemyCounterPublic();
             Destroy();
         }

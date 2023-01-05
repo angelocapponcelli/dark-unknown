@@ -116,6 +116,10 @@ public class UndeadController : EnemyController
                 StartCoroutine(RecoverySequence());
             }            
         }*/
+        // -- Handle Animations --
+        // Hurt
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
     }
 
     private void AttackEvent()
@@ -213,8 +217,6 @@ public class UndeadController : EnemyController
 
     private void Die()
     {
-        heart = Instantiate(heart, _spawnProjectilePoint.position, Quaternion.identity);
-        heart.GetComponent<UndeadHeart>().Init(this);
         isDead = true;
         _canMove = false;
         _movement.StopMovement();
@@ -222,13 +224,21 @@ public class UndeadController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        //ReduceEnemyCounter();
+        InstanciateHearth();
+        // ReduceEnemyCounterPublic();
+    }
+
+    private IEnumerator InstanciateHearth()
+    {
+        yield return new WaitForSeconds(0.1f);
+        heart = Instantiate(heart, _spawnProjectilePoint.position, Quaternion.identity);
+        heart.GetComponent<UndeadHeart>().Init(this);
     }
 
     public void Recover()
     {
-        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        var undeadColliders = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var collider in undeadColliders)
         {
             collider.gameObject.SetActive(true);//.GetComponent<BoxCollider2D>().enabled = false;
         }
