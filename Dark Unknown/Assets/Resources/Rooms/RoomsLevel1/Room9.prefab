@@ -45675,6 +45675,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basement4
       objectReference: {fileID: 0}
+    - target: {fileID: 1057177009933284583, guid: c8052bd2f05865344833686d71f8a7cf, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6367773837333429164, guid: c8052bd2f05865344833686d71f8a7cf, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -45719,7 +45723,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 687458534987302134, guid: c8052bd2f05865344833686d71f8a7cf, type: 3}
+    - {fileID: 8408547472844179528, guid: c8052bd2f05865344833686d71f8a7cf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c8052bd2f05865344833686d71f8a7cf, type: 3}
 --- !u!4 &7469551328615313213 stripped
 Transform:

@@ -21,6 +21,7 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Text bossName;
     public Animator bossUIAnimator;
     private static readonly int Deactivate = Animator.StringToHash("Deactivate");
+    private bool _bossUIState;
 
     [SerializeField] public ActionButton[] actionButtons;
     private readonly Color32 _emptyActionButton = new Color32(35, 38, 63, 255);
@@ -74,7 +75,7 @@ public class UIController : Singleton<UIController>
         {
             _manaBar.value = Mathf.MoveTowards(_manaBar.value, value, Time.deltaTime);
             yield return new WaitForSecondsRealtime(0.01f);
-        } while (_manaBar.value < value);
+        } while (_manaBar.value != value);
 
         if (_manaBar.value == _manaBar.maxValue) StartCoroutine(pulseMana());
     }
@@ -117,11 +118,14 @@ public class UIController : Singleton<UIController>
     public void SetActiveBossHealth()
     {
         _bossUIObject.SetActive(true);
+        _bossUIState = true;
     }
     public void SetInactiveBossHealth()
     {
+        if (!_bossUIState) return;
         bossUIAnimator.SetTrigger(Deactivate);
         StartCoroutine(DeactivateBossHealthBar());
+        _bossUIState = false;
     }
 
     private IEnumerator DeactivateBossHealthBar()

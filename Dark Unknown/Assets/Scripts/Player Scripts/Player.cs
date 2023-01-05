@@ -171,7 +171,8 @@ public class Player : Singleton<Player>, IEffectable
             (_ability.GetComponent<ShieldAbility>() && !_ability.IsActive()))
         {
             if (_invincible) return;
-            _currentHealth -= damage;
+            if (_currentHealth - damage <= 0) _currentHealth = 0;
+            else _currentHealth -= damage;
             UIController.Instance.SetHealth(_currentHealth);
             StartCoroutine(FlashRed());
             PlayerEvents.PlayerHit.Invoke();
@@ -419,10 +420,11 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ActivateAbility()
     {
-        if (_ability && !_ability.IsActive()) //&& _currentMana==_maxMana
+        if (_ability && !_ability.IsActive() && _currentMana==_maxMana)
         {
             _ability.Activate();
-            //_maxMana = 0;
+            ManaToZero();
+            //TODO Messaggio d'errore se non può attivarlo
         }
     }
 }
