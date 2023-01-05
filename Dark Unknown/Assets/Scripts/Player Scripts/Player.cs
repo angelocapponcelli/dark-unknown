@@ -42,6 +42,7 @@ public class Player : Singleton<Player>, IEffectable
     private Ability _abilityToGet;
     private IUsable _weaponUsable, _abilityUsable;
     private GameObject _rewardToGet;
+    private Coroutine _manaCoroutine;
 
     private bool _hasPotion;
     private Ability _ability;
@@ -354,15 +355,20 @@ public class Player : Singleton<Player>, IEffectable
 
     public void IncreaseMana(float value)
     {
-        _currentMana += value;
-        _currentMana = Math.Min(_currentMana, _maxMana);
-        StartCoroutine(UIController.Instance.SetMana(_currentMana));
+        if (_currentMana < _maxMana)
+        {
+            _currentMana += value;
+            _currentMana = Math.Min(_currentMana, _maxMana);
+            if (_manaCoroutine != null) StopCoroutine(_manaCoroutine);
+            _manaCoroutine = StartCoroutine(UIController.Instance.SetMana(_currentMana));
+        }
     }
 
     public void ManaToZero()
     {
         _currentMana = 0;
-        StartCoroutine(UIController.Instance.SetMana(_currentMana));
+        StopCoroutine(_manaCoroutine);
+        _manaCoroutine = StartCoroutine(UIController.Instance.SetMana(_currentMana));
     }
 
     public bool HasPotion()
