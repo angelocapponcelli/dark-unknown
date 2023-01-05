@@ -42,10 +42,11 @@ public class Beam : MonoBehaviour
         Debug.Log(_travelTime);
         _travelCounter = 0;
         //beginPos = transform.position;
-        endPos = beginPos + transform.right * laserBeamLength; // transform.right is normalized vector 1 to right
+        endPos = beginPos + transform.up * laserBeamLength; // transform.right is normalized vector 1 to right
+        var endPosImpact = beginPos + transform.right * laserBeamLength;
         _lineRenderer.SetPositions(new Vector3[] {beginPos, endPos });
         _fadeLineRenderer.SetPositions(new Vector3[] {beginPos, endPos });
-        _impactPoint.position = endPos;
+        _impactPoint.position = endPosImpact;
         _beamCollider.offset = new Vector2(endPos.x/2, 0);
         _beamCollider.size = new Vector2(endPos.x, 1);
     }
