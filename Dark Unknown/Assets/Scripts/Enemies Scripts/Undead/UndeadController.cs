@@ -219,7 +219,7 @@ public class UndeadController : EnemyController
     private void Die()
     {
         shadow.gameObject.SetActive(false);
-        isDead = true;
+        // isDead = true;
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
@@ -273,5 +273,10 @@ public class UndeadController : EnemyController
     public void ReduceEnemyCounterPublic()
     {
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
+    }
+
+    public void SetIsDead(bool dead)
+    {
+        isDead = dead;
     }
 }
