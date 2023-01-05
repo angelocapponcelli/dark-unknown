@@ -118,6 +118,6 @@ public class PauseMenu : MonoBehaviour
     }
     public void SetEnemyVolume(float value)
     {
-        AudioManager.Instance.SetSkeletonVolume(value);
+        AudioManager.Instance.SetEnemyVolume(value);
     }
 }

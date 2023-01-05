@@ -51,7 +51,6 @@ public class BatController : EnemyController
     // Update is called once per frame
     private void Update()
     {
-
         if (_target == null)
         {
             FindTarget();
@@ -65,7 +64,8 @@ public class BatController : EnemyController
         
         // Calculates distance and direction of movement
         _direction = (_player.transform.position - transform.position).normalized;
-        _targetDirection = (_target.transform.position - transform.position).normalized;
+        if (_target) _targetDirection = (_target.transform.position - transform.position).normalized;
+        else _targetDirection = _direction;
         _distance = Vector2.Distance(transform.position, _player.transform.position);
 
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
@@ -77,7 +77,7 @@ public class BatController : EnemyController
             _movement.MoveEnemy(_direction);
         }
 
-        if (_timeElapsedFromShot >= _shotFrequency && !_target.GetComponent<EnemyController>().IsDead())
+        if (_timeElapsedFromShot >= _shotFrequency && _target && !_target.GetComponent<EnemyController>().IsDead())
         {
             AttackEvent();
         }
@@ -92,6 +92,7 @@ public class BatController : EnemyController
 
     private void FindTarget()
     {
+        FindEnemies();
         foreach (var enemy in _enemies)
         {
             if (Vector2.Distance(enemy.transform.position, transform.position) <= _targetDistance && !enemy.GetComponent<EnemyController>().IsDead())
@@ -100,6 +101,7 @@ public class BatController : EnemyController
                 return;
             }
         }
+        _target = null;
     }
     
     private void AttackEvent()
@@ -120,7 +122,7 @@ public class BatController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        AudioManager.Instance.PlaySpiderAttackSound();
 
         yield return new WaitForSeconds(0.7f);
 

@@ -181,6 +181,8 @@ public class MenuManager : Singleton<MenuManager>
         Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
         animator.SetTrigger(Quit);
         StartCoroutine(LoadGameCoroutine());
+
+        AudioManager.Instance.PlaySoundTrackIntro();
     }
     
     private static IEnumerator LoadGameCoroutine()
@@ -223,7 +225,7 @@ public class MenuManager : Singleton<MenuManager>
     }
     public void SetEnemyVolume(float value)
     {
-        AudioManager.Instance.SetSkeletonVolume(value);
+        AudioManager.Instance.SetEnemyVolume(value);
     }
 
     public void SetQuality(int qualityIndex)

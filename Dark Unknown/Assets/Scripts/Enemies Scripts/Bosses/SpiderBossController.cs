@@ -209,7 +209,7 @@ public class SpiderBossController : EnemyController, IEffectable
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        AudioManager.Instance.PlaySpiderAttackSound();
 
         yield return new WaitForSeconds(0.7f);
 
@@ -268,7 +268,7 @@ public class SpiderBossController : EnemyController, IEffectable
     {
         _animator.AnimateTakeDamage(); 
         _canMove = false;
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlaySpiderHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
     }
@@ -276,7 +276,7 @@ public class SpiderBossController : EnemyController, IEffectable
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlaySpiderHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
     }
@@ -295,7 +295,7 @@ public class SpiderBossController : EnemyController, IEffectable
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySkeletonDieSound();
+        AudioManager.Instance.PlaySpiderDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }

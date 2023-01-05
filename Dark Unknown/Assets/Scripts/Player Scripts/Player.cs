@@ -426,5 +426,13 @@ public class Player : Singleton<Player>, IEffectable
             ManaToZero();
             //TODO Messaggio d'errore se non può attivarlo
         }
+        else if(!_ability)
+        {
+            UIController.Instance.showMessage("You don't have any skills yet, look for them among the rewards at the end of the room");
+        }
+        else
+        {
+            UIController.Instance.showMessage("You don't have enough mana, defeat more enemies to get it");
+        }
     }
 }

@@ -184,7 +184,7 @@ public class ViperController : EnemyController
     private IEnumerator Attack(Vector2 direction)
     {
         _animator.AnimateSecondAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        AudioManager.Instance.PlayViperAttackSound();
 
         yield return new WaitForSeconds(0.4f);
 
@@ -228,7 +228,7 @@ public class ViperController : EnemyController
     {
         _animator.AnimateTakeDamage(); 
         _canMove = false;
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayViperHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
@@ -237,7 +237,7 @@ public class ViperController : EnemyController
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayViperHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         _damageCoroutineRunning = false;
@@ -274,7 +274,7 @@ public class ViperController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySkeletonDieSound();
+        AudioManager.Instance.PlayViperDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }

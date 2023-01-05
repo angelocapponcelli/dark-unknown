@@ -18,12 +18,39 @@ public class SoundBank : ScriptableObject
     public AudioClip SkeletonAttack;
     public List<AudioClip> SkeletonHurt;
     public AudioClip SkeletonDie;
+    
+    [Header("Spider")]
+    public AudioClip SpiderAttack;
+    public AudioClip SpiderHurt;
+    public AudioClip SpiderDie;
+    
+    [Header("Worm")]
+    public AudioClip WormAttack;
+    public AudioClip WormHurt;
+    public AudioClip WormDie;
+    
+    [Header("Viper")]
+    public AudioClip ViperAttack;
+    public AudioClip ViperHurt;
+    public AudioClip ViperDie;
+    
+    [Header("Undead")]
+    public AudioClip UndeadAttack;
+    public AudioClip UndeadHurt;
+    public AudioClip UndeadDie;
+    
+    [Header("MutantRat")]
+    public AudioClip MutantRatAttack;
+    public AudioClip MutantRatHurt;
+    public AudioClip MutantRatDie;
 
     [Header("UI")]
     public AudioClip ClickUIButton;
     public AudioClip OverUIButton;
-    public AudioClip EnterDoor;
 
     [Header("Other")]
-    public AudioClip SoundTrack;    
+    public AudioClip SoundTrack;
+    public AudioClip SoundTrackIntro;
+    public AudioClip Teleport;
+    public AudioClip EnterDoor;
 }

@@ -35,6 +35,7 @@ public class GameManager : Singleton<GameManager>
         _cineMachine.Follow = player.transform;
         PlayerHasWon = false;
 
+        AudioManager.Instance.StopSoundTrackIntro();
         AudioManager.Instance.PlaySoundTrack();
     }
 

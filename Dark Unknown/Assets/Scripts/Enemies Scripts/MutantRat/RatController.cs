@@ -171,7 +171,7 @@ public class RatController : EnemyController
         else
         {
             _animator.AnimateAttack(direction);
-            AudioManager.Instance.PlaySkeletonAttackSound(); 
+            AudioManager.Instance.PlayMutantRatAttackSound(); 
         }
 
 
@@ -234,7 +234,7 @@ public class RatController : EnemyController
     {
         _animator.AnimateTakeDamage(); 
         _canMove = false;
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayMutantRatHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         //_damageCoroutineRunning = false;
@@ -243,7 +243,7 @@ public class RatController : EnemyController
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySkeletonHurtSound();
+        AudioManager.Instance.PlayMutantRatHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
         //_damageCoroutineRunning = false;
@@ -269,7 +269,7 @@ public class RatController : EnemyController
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySkeletonDieSound();
+        AudioManager.Instance.PlayMutantRatDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
