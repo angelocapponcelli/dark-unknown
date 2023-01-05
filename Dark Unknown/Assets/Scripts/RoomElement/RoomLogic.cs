@@ -36,6 +36,7 @@ public class RoomLogic : MonoBehaviour
     [SerializeField] private AbilityReward _iceProjectileAbility;
     [SerializeField] private AbilityReward _airAttackAbility;
     [SerializeField] private AbilityReward _shieldAbility;
+    [SerializeField] private AbilityReward _batAbilityReward;
 
     [SerializeField] private Transform _spawnPointReward;
     [SerializeField] private Transform spawnPointPotion;
@@ -45,7 +46,7 @@ public class RoomLogic : MonoBehaviour
     [HideInInspector] public List<EnemyController> crystals = new List<EnemyController>();
 
     public enum Type {INITIAL, RANDOM, SPEED, STRENGTH, BOW, SWORD, AXE, BOSS, HUB, 
-        CIRCLE_ABILITY, AIRATTACK_ABILITY, ICEPROJECTILE_ABILITY, SHIELD_ABILITY};
+        CIRCLE_ABILITY, AIRATTACK_ABILITY, ICEPROJECTILE_ABILITY, SHIELD_ABILITY, BAT_ABILITY};
     private Type _roomType;
     private bool _isControlEnabled = true;
 
@@ -96,6 +97,7 @@ public class RoomLogic : MonoBehaviour
             Type.AIRATTACK_ABILITY => Instantiate(_airAttackAbility, position, Quaternion.identity),
             Type.ICEPROJECTILE_ABILITY => Instantiate(_iceProjectileAbility, position, Quaternion.identity),
             Type.SHIELD_ABILITY => Instantiate(_shieldAbility, position, Quaternion.identity),
+            Type.BAT_ABILITY => Instantiate(_batAbilityReward, position, Quaternion.identity),
             _ => _rewardSpawned
         };
         _isControlEnabled = false;
@@ -133,6 +135,8 @@ public class RoomLogic : MonoBehaviour
                     _possibleSymbols.Remove(toRemove);
                     toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
                     _possibleSymbols.Remove(toRemove);
+                    toRemove = _possibleSymbols.Find(x => x.type == Type.BAT_ABILITY);
+                    _possibleSymbols.Remove(toRemove);
                 }
                 else
                 {
@@ -151,24 +155,29 @@ public class RoomLogic : MonoBehaviour
                         toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<CircleAbility>())
+                    if (Player.Instance.GetComponentInChildren<CircleAbility>() || roomType == Type.CIRCLE_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.CIRCLE_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<IceProjectileAbility>())
+                    if (Player.Instance.GetComponentInChildren<IceProjectileAbility>() || roomType == Type.ICEPROJECTILE_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.ICEPROJECTILE_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<AirAttackAbility>())
+                    if (Player.Instance.GetComponentInChildren<AirAttackAbility>() || roomType == Type.AIRATTACK_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.AIRATTACK_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<ShieldAbility>())
+                    if (Player.Instance.GetComponentInChildren<ShieldAbility>() || roomType == Type.SHIELD_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    if (Player.Instance.GetComponentInChildren<BatAbility>() || roomType == Type.BAT_ABILITY)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.BAT_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
                 }
@@ -217,6 +226,7 @@ public class RoomLogic : MonoBehaviour
             case Type.ICEPROJECTILE_ABILITY:
             case Type.AIRATTACK_ABILITY:
             case Type.SHIELD_ABILITY:
+            case Type.BAT_ABILITY:
                 _numOfEnemies = Random.Range(12, 15);
                 break;
             case Type.BOSS:
