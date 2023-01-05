@@ -13,6 +13,7 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
     [SerializeField] private Text _killedRewardText;
+    [SerializeField] private Text _toolTipText;
     public Animator playerUIAnimator;
     
     [Header ("Boss UI")]
@@ -185,5 +186,11 @@ public class UIController : Singleton<UIController>
         var keybind = InputManager.Instance.GetKeyForAction(action).ToString();
         var keySprite = Array.Find(_availableLetters, x => x.name == keybind);
         btn.MyKeyIcon.sprite = keySprite;
+    }
+
+    public void showMessage(string message)
+    {
+        _toolTipText.text = message;
+        Tooltip.Instance.GetComponent<Tooltip>().StartOpen();
     }
 }
