@@ -6,10 +6,10 @@ public class Beam : MonoBehaviour
     public float laserBeamLength;
     private LineRenderer _lineRenderer;
     [SerializeField] private float rotationSpeed = 50f;
-    /*private Transform _beamColliderPos;*/
+    //private Transform _beamColliderPos;
     private BoxCollider2D _beamCollider;
     private Transform _impactPoint;
-    private RaycastHit2D _hit;
+    //private RaycastHit2D _hit;
 
     public Vector3 beginPos = new Vector3(0, 0, 0);
     public Vector3 endPos = new Vector3(0, 0, 0);
@@ -26,10 +26,11 @@ public class Beam : MonoBehaviour
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _impactPoint = transform.GetChild(0).transform;
-        /*_beamColliderPos = transform.GetChild(1).transform;
-        _beamCollider = GetComponentInChildren<BoxCollider2D>();*/
+        //_impactPoint = _lineRenderer.transform.GetChild(0).transform;
+        //_beamColliderPos = transform.GetChild(1).transform;
         _beamCollider = GetComponent<BoxCollider2D>();
-        beginPos = transform.position;
+        //_beamCollider = GetComponentInChildren<BoxCollider2D>();
+        //beginPos = transform.position;
     }
 
     private void Start()
@@ -38,7 +39,7 @@ public class Beam : MonoBehaviour
         endPos = beginPos + transform.right * laserBeamLength; // transform.right is normalized vector 1 to right
         _lineRenderer.SetPositions(new Vector3[] {beginPos, endPos });
         _impactPoint.position = endPos;
-        var temp = new Vector2(endPos.x, 0);
+        //var temp = new Vector2(endPos.x, 0);
         _beamCollider.offset = new Vector2(endPos.x/2, 0);
         _beamCollider.size = new Vector2(endPos.x, 1);
     }
@@ -46,34 +47,39 @@ public class Beam : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // modify position of impactpoint to pos of transform of beam?
-        transform.Rotate(transform.forward * (rotationSpeed * Time.deltaTime));
-        /*_hit = Physics2D.Raycast((Vector2)beginPos, transform.right);
+        //Calculate new position 
+        /*//Vector3 newBeginPos = transform.localToWorldMatrix * new Vector4(beginPos.x, beginPos.y, beginPos.z, 1);
+        
 
-        if (_hit)
+        //Apply new position
+        //_lineRenderer.SetPosition(0, newBeginPos);
+        _lineRenderer.SetPosition(1, newEndPos);*/
+        
+        transform.Rotate(Vector3.forward * (rotationSpeed * Time.deltaTime));
+        var hit = Physics2D.Raycast((Vector2)beginPos, 
+            _lineRenderer.transform.right, laserBeamLength);
+
+        if (hit)
         {
-            endPos = _hit.point;
+            Debug.Log("hit");
+            var mod = Mathf.Sqrt(hit.point.x * hit.point.x + hit.point.y * hit.point.y);
+            endPos = new Vector3(mod, 0, 0);
         }
         else
         {
-            endPos = beginPos + transform.right * laserBeamLength;
-        }*//*
-        endPos = beginPos + transform.right * laserBeamLength;
-        _lineRenderer.SetPosition(1, endPos);
-        _impactPoint.position = endPos;
-        var temp = new Vector2(endPos.x, 0);
-        _beamCollider.offset = temp/2;
-        _beamCollider.size = temp;
-        */
+            endPos = beginPos + Vector3.right * laserBeamLength;
+        }
+        //Vector3 newEndPos   = transform.localToWorldMatrix * new Vector4(endPos.x, endPos.y, endPos.z, 1);
+        _lineRenderer.SetPosition(1, new Vector3(Mathf.Abs(endPos.x),0,0));
+        _impactPoint.position = _impactPoint.position.normalized * endPos.x;
+        //Vector3.MoveTowards(_impactPoint.position,endPos,.1f);
+        //_impactPoint.position = new Vector3(endPos.x, Mathf.Cos(transform.rotation.z));
+        _beamCollider.offset = new Vector2(Mathf.Abs(endPos.x)/2, 0);
+        _beamCollider.size = new Vector2(Mathf.Abs(endPos.x), 1);
 
-        /*//Calculate new position 
-        Vector3 newBeginPos = transform.localToWorldMatrix * new Vector4(beginPos.x, beginPos.y, beginPos.z, 1);
-        Vector3 newEndPos   = transform.localToWorldMatrix * new Vector4(endPos.x, endPos.y, endPos.z, 1);
-
-        //Apply new position
-        _lineRenderer.SetPosition(0, newBeginPos);
-        _lineRenderer.SetPosition(1, newEndPos);*/
         
+        
+        // Animates the beam
         _fpsCounter += Time.deltaTime;
         if (_fpsCounter >= 1f / fps)
         {
