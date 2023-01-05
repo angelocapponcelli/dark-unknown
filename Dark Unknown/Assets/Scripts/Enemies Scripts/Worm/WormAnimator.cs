@@ -45,8 +45,7 @@ public class WormAnimator : MonoBehaviour
     
     public void AnimateRecover()
     {
-        _animator.SetFloat("multiplier", -1f);
-        _animator.SetTrigger("Dead");
+        _animator.SetTrigger("Recover");
     }
     
     public void AnimateIdle()
