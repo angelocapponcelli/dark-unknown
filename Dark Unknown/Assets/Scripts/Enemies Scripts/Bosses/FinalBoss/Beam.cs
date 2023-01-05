@@ -30,7 +30,7 @@ public class Beam : MonoBehaviour
     private Animator _impactAnimator;
     private static readonly int Fade = Animator.StringToHash("Fade");
 
-    // Start is called before the first frame update
+    // Start initializes the beam and all its components with the position parameters
     public void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
@@ -38,10 +38,12 @@ public class Beam : MonoBehaviour
         _impactPoint = transform.GetChild(0).transform;
         _impactAnimator = impactGameObject.GetComponent<Animator>();
         _beamCollider = GetComponent<BoxCollider2D>();
+        // Duration of the beam set to complete a full 360 spin according to its velocity
         _travelTime = 360 / rotationSpeed;
-        Debug.Log(_travelTime);
         _travelCounter = 0;
-        //beginPos = transform.position;
+        // Since the transform of the beam and its endpoint are rotated at a different angle from each other,
+        // it is necessary to calculate 2 different points for it to not flicker in a different direction
+        // when it is initialized
         endPos = beginPos + transform.up * laserBeamLength; // transform.right is normalized vector 1 to right
         var endPosImpact = beginPos + transform.right * laserBeamLength;
         _lineRenderer.SetPositions(new Vector3[] {beginPos, endPos });
@@ -51,16 +53,12 @@ public class Beam : MonoBehaviour
         _beamCollider.size = new Vector2(endPos.x, 1);
     }
 
-    // Update is called once per frame
+    // Update is called once per frame calculates the rotation of the beam and animates it
     private void Update()
     {
-        //Quaternion.RotateTowards(_)
-        /*var angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, 450, rotationSpeed * Time.deltaTime);
-        transform.eulerAngles = new Vector3(0, 0, angle);*/
         if (_travelCounter <= _travelTime)
         {
             _travelCounter += Time.deltaTime;
-            Debug.Log(_travelCounter);
             transform.Rotate(Vector3.forward * (rotationSpeed * Time.deltaTime));
 
             var hit = Physics2D.Raycast((Vector2)beginPos,
@@ -96,6 +94,7 @@ public class Beam : MonoBehaviour
         }
         else
         {
+            // When the beam has expired its time duration, it starts fading away
             if (_isFading) return;
             _fpsCounter += Time.deltaTime;
             if (!(_fpsCounter >= 1f / fps)) return;
@@ -123,6 +122,7 @@ public class Beam : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Uncomment if we want the beam to only hit the player feet collider
         /*if (collision.gameObject.CompareTag("EnemyCollider") ||
             collision.gameObject.CompareTag("Player")) return;*/
         if (collision.gameObject.CompareTag("EnemyCollider")) return;
