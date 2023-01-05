@@ -234,4 +234,9 @@ public class LevelManager : Singleton<LevelManager>
     {
         _currentLevel++;
     }
+
+    public int GetCurrentLevel()
+    {
+        return _currentLevel;
+    }
 }

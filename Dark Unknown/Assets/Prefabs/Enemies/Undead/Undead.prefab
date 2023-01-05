@@ -141,7 +141,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &4436620577658362231
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,6 +405,7 @@ MonoBehaviour:
   attackDelay: 3
   heart: {fileID: 4978772307725255596, guid: e6935644cb858488189966ed9f937eef, type: 3}
   _spawnProjectilePoint: {fileID: 4436620577658362228}
+  shadow: {fileID: 4436620577550333429}
   flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
 --- !u!114 &3371626960818451021
 MonoBehaviour:

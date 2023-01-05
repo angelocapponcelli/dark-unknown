@@ -15,7 +15,9 @@ public class UndeadController : EnemyController
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private GameObject heart;
     [SerializeField] private Transform _spawnProjectilePoint;
+    [SerializeField] public GameObject shadow;
     private float _timeForNextAttack;
+    private bool _isPartialDead = false;
 
     private Rigidbody2D _rb;
     private Vector2 _direction;
@@ -66,7 +68,7 @@ public class UndeadController : EnemyController
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
 
         // If the skeleton is not dead
-        if (!isDead && _distance <= _chaseDistance)
+        if (_canMove && (!isDead && !_isPartialDead) && _distance <= _chaseDistance)
         {
             // It follows the player till it reaches a minimum distance
             if (_distance > _minDistance && _canMove)
@@ -116,6 +118,10 @@ public class UndeadController : EnemyController
                 StartCoroutine(RecoverySequence());
             }            
         }*/
+        // -- Handle Animations --
+        // Hurt
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+            TakeDamageMelee(50);
     }
 
     private void AttackEvent()
@@ -145,7 +151,7 @@ public class UndeadController : EnemyController
 
     public override void TakeDamageMelee(float damage)
     {
-        if (isDead) return;
+        if (isDead || _isPartialDead) return;
         _movement.StopMovement();
         _currentHealth -= damage;
         if (_currentHealth <= 0)
@@ -161,7 +167,7 @@ public class UndeadController : EnemyController
 
     public override void TakeDamageDistance(float damage)
     {
-        if (isDead) return;
+        if (isDead || _isPartialDead) return;
         _currentHealth -= damage;
         if (_currentHealth <= 0)
         {
@@ -213,22 +219,23 @@ public class UndeadController : EnemyController
 
     private void Die()
     {
-        heart = Instantiate(heart, _spawnProjectilePoint.position, Quaternion.identity);
-        heart.GetComponent<UndeadHeart>().Init(this);
-        isDead = true;
+        shadow.gameObject.SetActive(false);
+        _isPartialDead = true;
         _canMove = false;
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlayUndeadDieSound();
         _deathSoundPlayed = true;
-        //ReduceEnemyCounter();
+        var tempHeart = heart;
+        tempHeart = Instantiate(tempHeart, _spawnProjectilePoint.position, Quaternion.identity);
+        tempHeart.GetComponent<UndeadHeart>().Init(this);
     }
 
     public void Recover()
     {
-        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var collider in skeletonColliders)
+        var undeadColliders = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var collider in undeadColliders)
         {
             collider.gameObject.SetActive(true);//.GetComponent<BoxCollider2D>().enabled = false;
         }
@@ -243,10 +250,11 @@ public class UndeadController : EnemyController
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
         yield return new WaitForSeconds(1.5f);
-        IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
-        isDead = false; 
+        isDead = false;
+        _isPartialDead = false;
         _canMove = true;
         _deathSoundPlayed = false;
+        shadow.gameObject.SetActive(true);
     }
 
     public override void CrystalDestroyed()
@@ -266,5 +274,10 @@ public class UndeadController : EnemyController
     public void ReduceEnemyCounterPublic()
     {
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
+    }
+
+    public void SetIsDead(bool dead)
+    {
+        isDead = dead;
     }
 }

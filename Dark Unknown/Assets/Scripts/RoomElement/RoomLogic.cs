@@ -226,11 +226,34 @@ public class RoomLogic : MonoBehaviour
             case Type.ICEPROJECTILE_ABILITY:
             case Type.AIRATTACK_ABILITY:
             case Type.SHIELD_ABILITY:
-            case Type.BAT_ABILITY:
-                _numOfEnemies = Random.Range(12, 15);
+            case Type.BAT_ABILITY:    
+                if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
+                {
+                    _numOfEnemies = Random.Range(10, 15);
+                }
+                else if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 2)
+                {
+                    _numOfEnemies = Random.Range(15, 20);
+                }
+                else if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 3)
+                {
+                    _numOfEnemies = Random.Range(20, 25);
+                }
+                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
+                {
+                    _numOfEnemies = Random.Range(20, 25);
+                }
+                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 2)
+                {
+                    _numOfEnemies = Random.Range(30, 35);
+                }
+                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 3)
+                {
+                    _numOfEnemies = Random.Range(40, 50);
+                }
                 break;
             case Type.BOSS:
-                _numOfEnemies = Random.Range(5, 10);
+                _numOfEnemies = Random.Range(10, 15);
                 StartCoroutine(SpawnBoss());
                 break;
         }
@@ -259,6 +282,8 @@ public class RoomLogic : MonoBehaviour
         {
             yield return new WaitForSeconds(_spawnTime);
             EnemyController type = _possibleEnemyType[Random.Range(0, _possibleEnemyType.Length)];
+            _enemies.Add(_enemySpawner.Spawn(type));
+            /*
             if (type.GetType() == typeof(SpiderController) && spiderCounter<spiderMax)
             {
                 spiderCounter++;
@@ -272,6 +297,7 @@ public class RoomLogic : MonoBehaviour
             {
                 i--;
             }
+            */
         }
     }
 
