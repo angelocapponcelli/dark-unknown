@@ -23,7 +23,8 @@ public class EyeProjectile : MonoBehaviour
             {
                 element.GetComponentInParent<Player>().TakeDamage(_damage);
             }
-            if (element.gameObject.CompareTag("EnemyCollider") || element.gameObject.CompareTag("EnemyFeetCollider") || element.gameObject.CompareTag("EyeProjectile") ) return;
+            if (element.gameObject.CompareTag("EnemyCollider") || element.gameObject.CompareTag("EnemyFeetCollider") ||
+                element.gameObject.CompareTag("EyeProjectile") || element.gameObject.layer == 2) return;
         }
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
