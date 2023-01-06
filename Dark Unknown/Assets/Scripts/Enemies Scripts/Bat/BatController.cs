@@ -55,7 +55,8 @@ public class BatController : EnemyController
         {
             FindTarget();
         }
-        else if (_target.GetComponent<EnemyController>().IsDead() || Vector2.Distance(_target.transform.position, transform.position) >= _targetDistance)
+        else if (_target.GetComponent<EnemyController>().IsDead() || Vector2.Distance(_target.transform.position,
+                     transform.position) >= _targetDistance)
         {
             FindTarget();
         }

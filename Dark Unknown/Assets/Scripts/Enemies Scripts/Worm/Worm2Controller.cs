@@ -151,6 +151,7 @@ public class Worm2Controller : EnemyController
         _animator.AnimateRecover();
         yield return new WaitForSeconds(1f);
         _animator.AnimateIdle();
+        EnableBoxCollider();
         yield return new WaitForSeconds(1.5f);
         IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         isDead = false;
@@ -263,6 +264,16 @@ public class Worm2Controller : EnemyController
         foreach (var c in wormColliders)
         {
             c.enabled = false;
+        }
+    }
+    private void EnableBoxCollider()
+    {
+        // GetComponentsInChildren only returns components of active children
+        // Use the parameter includeInactive: true to search through inactive children too
+        var allChildren = gameObject.GetComponentsInChildren<BoxCollider2D>(includeInactive: true);
+        foreach (var c in allChildren)
+        {
+            c.enabled = true;
         }
     }
 
