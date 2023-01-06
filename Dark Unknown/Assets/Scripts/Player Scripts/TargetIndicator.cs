@@ -1,31 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player_Scripts;
 using UnityEngine;
 
 public class TargetIndicator : MonoBehaviour
 {
-    public Transform target;
-    [SerializeField] public float hideDistance;
+    [SerializeField] private Pointer pointer;
+    private Vector3 _targetPosition = new Vector3(0,0,0);
+    [SerializeField] private float hideDistance;
 
+    void Start()
+    {
+        pointer = GetComponentInChildren<Pointer>();
+    }
     void Update()
     {
-        var dir = target.position - transform.position;
+        var dir = _targetPosition - transform.position;
 
         if (dir.magnitude < hideDistance)
         {
-            SetChildrenActive(false);
+            SetPointerActive(false);
         }
         else
         {
-            SetChildrenActive(true);
+            SetPointerActive(true);
         
             var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
 
-    void SetChildrenActive(bool value)
+    private void SetPointerActive(bool value)
     {
-        transform.gameObject.SetActive(value);
+        pointer.gameObject.SetActive(value);
+    }
+
+    public void SetTargetPosition(Vector3 position)
+    {
+        _targetPosition = position;
     }
 }

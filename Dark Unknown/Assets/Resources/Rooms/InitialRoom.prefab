@@ -66,7 +66,7 @@ RectTransform:
   - {fileID: 8067069219771511847}
   - {fileID: 8185423393189284921}
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -22853,6 +22853,7 @@ Transform:
   - {fileID: 5743028007720649087}
   - {fileID: 3638134472547831511}
   - {fileID: 2881585660547932694}
+  - {fileID: 3352424244742757397}
   - {fileID: 4410642376781898638}
   - {fileID: 5347810558961089983}
   - {fileID: 2302887564007251240}
@@ -22912,7 +22913,7 @@ MonoBehaviour:
   _shieldAbility: {fileID: 3042685906395388894, guid: f60f81cdec49fe341be9d9f451d37a00, type: 3}
   _batAbilityReward: {fileID: 3042685906395388894, guid: b630a2c36c2888f44b6b342a6b7f17d3, type: 3}
   _spawnPointReward: {fileID: 2881585660547932694}
-  spawnPointPotion: {fileID: 0}
+  spawnPointPotion: {fileID: 3352424244742757397}
   crystals: []
 --- !u!114 &736067107285556951
 MonoBehaviour:
@@ -23012,6 +23013,37 @@ MonoBehaviour:
 
     what
     reward can be obtained once the room has been cleared of enemies.'
+--- !u!1 &8783741640583706551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3352424244742757397}
+  m_Layer: 0
+  m_Name: PotionSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3352424244742757397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8783741640583706551}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.01, y: -5, z: -0.5826287}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5743028008671518666}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8843287660751471056
 GameObject:
   m_ObjectHideFlags: 0
@@ -23162,7 +23194,7 @@ Transform:
   - {fileID: 6223463459580939885}
   - {fileID: 1115554439000512523}
   m_Father: {fileID: 5743028008671518666}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &40366106768668503
 PrefabInstance:
@@ -24541,7 +24573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3084564018494530559, guid: 644fa0ed107b76f448b4f667cbe2b351, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3084564018494530559, guid: 644fa0ed107b76f448b4f667cbe2b351, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24925,7 +24957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 301726226294614733, guid: 44f47fbb6f84f6b43adf8cc70f202a2e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25010,7 +25042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7374171993676260731, guid: 2b9a0b99deaade0469be01647c18a9b6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -25670,7 +25702,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5992409601021831824, guid: 8846d5bad02b1544589785cdc7713db5, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5992409601021831824, guid: 8846d5bad02b1544589785cdc7713db5, type: 3}
       propertyPath: m_LocalPosition.x

@@ -101,6 +101,11 @@ public class RoomLogic : MonoBehaviour
             _ => _rewardSpawned
         };
         _isControlEnabled = false;
+        if (_roomType!= Type.INITIAL && _roomType != Type.HUB && _roomType != Type.BOSS)
+        {
+            Player.Instance.SetTargetPosition(position);
+            Player.Instance.SetTargetIndicatorActive(true);
+        }
     }
 
     public void StartRoom(Type roomType)
