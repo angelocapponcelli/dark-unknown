@@ -26,7 +26,7 @@ public class SpiderBossController : EnemyController, IEffectable
     private float _nextTickTime = 0;
     private GameObject _statusEffectParticles;
     // only for testing
-    private GameObject[] _crystals;
+    //private GameObject[] _crystals;
 
     private BossUIController _bossUIController = null;
 
@@ -50,10 +50,10 @@ public class SpiderBossController : EnemyController, IEffectable
     private RoomLogic _currentRoom;
 
     // only for testing
-    private void Awake()
+    /*private void Awake()
     {
         _crystals = GameObject.FindGameObjectsWithTag("Crystal");
-    }
+    }*/
 
     // Start is called before the first frame update
     private void Start()
@@ -69,22 +69,22 @@ public class SpiderBossController : EnemyController, IEffectable
         _bossUIController.SetName("Spider Broodmother");
         _bossUIController.SetMaxHealth(_maxHealth);
         
-        /*_currentRoom = LevelManager.Instance.GetCurrentRoom();
+        _currentRoom = LevelManager.Instance.GetCurrentRoom();
         _numOfCrystals = _currentRoom.crystals.Count;
         _healingCounter = healingCountdown;
         
         if (_currentRoom.crystals.Count == 0)
         {
             AllCrystalsDestroyed();
-        }*/
+        }
         
         // only for testing
-        _numOfCrystals = _crystals.Length;
+        /*_numOfCrystals = _crystals.Length;
         _healingCounter = healingCountdown;
         if (_crystals.Length == 0)
         {
             AllCrystalsDestroyed();
-        }
+        }*/
 
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
@@ -348,15 +348,15 @@ public class SpiderBossController : EnemyController, IEffectable
         _isHealing = true;
         _statusEffect = healingEffect;
         ApplyEffect(_statusEffect);
-        //_currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
-        _crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability(); // for testing
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability();
+        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().EnableVulnerability(); // for testing
         //Debug.Log(_crystals[_numOfCrystals-1].name);
     }
     
     public override void CrystalDestroyed()
     {
-        //if (_currentRoom.crystals.Count <= 0) return;
-        if (_crystals.Length <= 0) return; // for testing
+        if (_currentRoom.crystals.Count <= 0) return;
+        //if (_crystals.Length <= 0) return; // for testing
         _numOfCrystals -= 1;
         Debug.Log(_numOfCrystals);
         StartCoroutine(CrystalDestroyedCoroutine());
@@ -382,8 +382,8 @@ public class SpiderBossController : EnemyController, IEffectable
 
     private void DeactivateCrystal()
     {
-        //_currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability();
-        _crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability(); // for testing
+        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability();
+        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability(); // for testing
         _isHealing = false;
         _healingCounter = healingCountdown;
     }
