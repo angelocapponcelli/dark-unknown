@@ -145,11 +145,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 128
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.38}
+        y: 7
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,12 +165,12 @@ TextureImporter:
       name: beholder-atk3-loop-FX_1
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 96
+        x: 64
+        y: 7
+        width: 64
+        height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.38}
+      pivot: {x: 0.62, y: 0.38}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -186,12 +186,12 @@ TextureImporter:
       name: beholder-atk3-loop-FX_2
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 96
+        x: 128
+        y: 7
+        width: 64
+        height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.38}
+      pivot: {x: 0.41, y: 0.47}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -207,12 +207,12 @@ TextureImporter:
       name: beholder-atk3-loop-FX_3
       rect:
         serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 96
+        x: 256
+        y: 7
+        width: 64
+        height: 64
       alignment: 9
-      pivot: {x: 0.5, y: 0.38}
+      pivot: {x: 0.35, y: 0.41}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -220,6 +220,48 @@ TextureImporter:
       bones: []
       spriteID: c29e76378cc3445478d5a5044585fb4d
       internalID: -323553709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beholder-atk3-loop-FX_4
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 7
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23c6e7e8aafb72447858b8b85b609ee2
+      internalID: -757540658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: beholder-atk3-loop-FX_5
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 7
+        width: 64
+        height: 64
+      alignment: 9
+      pivot: {x: 0.62, y: 0.41}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 034aaf1363118c4448361322bfae9dc0
+      internalID: -154599047
       vertices: []
       indices: 
       edges: []
@@ -236,6 +278,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       beholder-atk3-loop-FX_1: -1833785587
+      beholder-atk3-loop-FX_4: -757540658
+      beholder-atk3-loop-FX_5: -154599047
       beholder-atk3-loop-FX_2: -1349912779
       beholder-atk3-loop-FX_3: -323553709
       beholder-atk3-loop-FX_0: -414854839

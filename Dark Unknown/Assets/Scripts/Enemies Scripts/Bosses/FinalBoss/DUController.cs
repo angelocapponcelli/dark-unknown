@@ -7,6 +7,8 @@ public class DUController : EnemyController
     private readonly Vector3 _beamPos = new Vector3(0, 0, 0);
     [SerializeField] private GameObject eyeProjectile;
     private float velocityProjectileMax = 5f, velocityProjectileMin = 2f;
+    [SerializeField] private GameObject _leftEffect;
+    [SerializeField] private GameObject _rightEffect;
     
     private float _currentHealth;
     [SerializeField] private float _maxHealth = 200f;
@@ -47,20 +49,22 @@ public class DUController : EnemyController
     public void BeamAttack()
     {
         Instantiate(beam, _beamPos, beam.transform.rotation);
-        _animator.SetInteger("stateNumber", 1);
+        _animator.SetInteger("stateNumber", (int) Random.Range(1,3));
     }
     
     public void EyeAttack()
     {
         StartCoroutine(generateProjectile());
-        //_animator.SetInteger("stateNumber", 2); //se viene implementato il terzo attacco passare allo stato 2 invece che allo 0
-        _animator.SetInteger("stateNumber", 0);
+        int random = (int)Random.Range(0, 2);
+        if (random == 1) random = 2;
+        _animator.SetInteger("stateNumber", random);
     }
     
     public void SpinAttack()
     {
-        //Instantiate(beam, transform.position, beam.transform.rotation);
-        _animator.SetInteger("stateNumber", 0);
+        Instantiate(_leftEffect, transform.position, Quaternion.identity);
+        Instantiate(_rightEffect, transform.position, Quaternion.identity);
+        _animator.SetInteger("stateNumber", (int) Random.Range(0,2));
     }
 
     private IEnumerator generateProjectile()
@@ -72,9 +76,12 @@ public class DUController : EnemyController
             {
                 float angleDir, randomQuantity = Random.Range(-Mathf.PI, Mathf.PI);
                 angleDir = angle + randomQuantity;
-                GameObject projectile = Instantiate(eyeProjectile, transform.position, beam.transform.rotation);
-                Vector2 direction = new Vector2 (Mathf.Cos(angleDir), Mathf.Sin(angleDir));
-                projectile.GetComponent<Rigidbody2D>().velocity = direction * Random.Range(velocityProjectileMin, velocityProjectileMax);
+                if (!isDead)
+                {
+                    GameObject projectile = Instantiate(eyeProjectile, transform.position, beam.transform.rotation);
+                    Vector2 direction = new Vector2 (Mathf.Cos(angleDir), Mathf.Sin(angleDir));
+                    projectile.GetComponent<Rigidbody2D>().velocity = direction * Random.Range(velocityProjectileMin, velocityProjectileMax);
+                }
                 yield return new WaitForSeconds(0.1f);
             }
             yield return new WaitForSeconds(0.5f);
