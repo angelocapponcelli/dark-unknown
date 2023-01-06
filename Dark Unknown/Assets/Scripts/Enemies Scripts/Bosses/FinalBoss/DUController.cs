@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class controller : EnemyController
+public class DUController : EnemyController
 {
     [SerializeField] private GameObject beam;
     [SerializeField] private GameObject eyeProjectile;
@@ -27,7 +27,7 @@ public class controller : EnemyController
         
         if (GetComponent<BossUIController>() == null) return;
         _bossUIController = GetComponent<BossUIController>();
-        _bossUIController.SetName("Final boss");
+        _bossUIController.SetName("Dark Unknown");
         _bossUIController.SetMaxHealth(_maxHealth);
         
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -35,13 +35,13 @@ public class controller : EnemyController
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             Instantiate(beam, transform.position, beam.transform.rotation);
         }
-    }
+    }*/
 
     public void BeamAttack()
     {
@@ -83,15 +83,15 @@ public class controller : EnemyController
     
     public override void TakeDamageMelee(float damage)
     {
-        takeDamage(damage);
+        TakeDamage(damage);
     }
     
     public override void TakeDamageDistance(float damage)
     {
-        takeDamage(damage);
+        TakeDamage(damage);
     }
 
-    private void takeDamage(float damage)
+    private void TakeDamage(float damage)
     {
         if (isDead) return;
         _currentHealth -= damage;
@@ -146,6 +146,7 @@ public class controller : EnemyController
         
         // TODO il finale
         //ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
+        //GameManager.Instance.LoadVictoryScene();
     }
     
     private void DisableBoxCollider()
