@@ -118,9 +118,7 @@ public class LevelManager : Singleton<LevelManager>
             }
             else
             {
-                // Change. Right now when reaching the third boss room it immediately changes
-                // the scene to the victory screen
-                // TODO: implement scene change when the final boss dies
+                // Implemented scene change when the final boss dies
                 //GameManager.Instance.LoadVictoryScene();
                 _nextRooms.Add(_hubRoom);
             }
