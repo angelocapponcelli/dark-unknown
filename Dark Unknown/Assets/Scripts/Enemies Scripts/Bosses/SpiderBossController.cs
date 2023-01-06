@@ -13,6 +13,8 @@ public class SpiderBossController : EnemyController, IEffectable
     [SerializeField] private GameObject _projectile;
     [SerializeField] private float _projectileSpeed = 5f;
     [SerializeField] private float meleeAttackDistance = 1.5f;
+    [SerializeField] private float meleeAttackDelay = 3f;
+    private float _timeForNextMeleeAttack;
     
     [SerializeField] private float healingCountdown = 10f;
     private float _healingCounter;
@@ -69,6 +71,8 @@ public class SpiderBossController : EnemyController, IEffectable
         _bossUIController.SetName("Spider Broodmother");
         _bossUIController.SetMaxHealth(_maxHealth);
         
+        _timeForNextMeleeAttack = 0;
+        
         _currentRoom = LevelManager.Instance.GetCurrentRoom();
         _numOfCrystals = _currentRoom.crystals.Count;
         _healingCounter = healingCountdown;
@@ -116,6 +120,8 @@ public class SpiderBossController : EnemyController, IEffectable
             }
         }
         
+        if (_timeForNextMeleeAttack > 0) _timeForNextMeleeAttack -= Time.deltaTime;
+        
         if(_statusEffect != null) HandleEffect();
         
         if (_isHealing) return;
@@ -126,9 +132,10 @@ public class SpiderBossController : EnemyController, IEffectable
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            if (_distance <= meleeAttackDistance && !_isAttacking)
+            if (_distance <= meleeAttackDistance && !_isAttacking && _timeForNextMeleeAttack <= 0)
             {
                 AttackEvent(true);
+                _timeForNextMeleeAttack = meleeAttackDelay;
             }
             else if (_distance > _minDistance + _offset && _canMove)
             {
@@ -221,8 +228,11 @@ public class SpiderBossController : EnemyController, IEffectable
         if (meleeAttack)
         {
             _animator.AnimateSecondAttack(direction);
-            yield return new WaitForSeconds(0.2f);
-            Player.Instance.TakeDamage(10f);
+            yield return new WaitForSeconds(0.8f);
+            if (Vector3.Distance(Player.Instance.transform.position, transform.position) < meleeAttackDistance)
+            {
+                Player.Instance.TakeDamage(10f);
+            }
             yield return new WaitForSeconds(0.5f);
         }
         else
@@ -371,8 +381,9 @@ public class SpiderBossController : EnemyController, IEffectable
         _crystalDestroyed = true;
         yield return new WaitForSeconds(0.5f);
         _isHealing = false;
-        _healingCounter = healingCountdown;
         _crystalDestroyed = false;
+        if (_healingCounter > 0) yield break;
+        _healingCounter = healingCountdown;
     }
 
     private void AllCrystalsDestroyed()
@@ -380,12 +391,17 @@ public class SpiderBossController : EnemyController, IEffectable
         _allCrystalsDestroyed = true;
     }
 
-    private void DeactivateCrystal()
+    private IEnumerator DelayedDeactivateCrystal()
     {
-        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability();
-        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability(); // for testing
         _isHealing = false;
         _healingCounter = healingCountdown;
+        yield return new WaitForSeconds(2f);
+        //if (!_currentRoom.crystals[_numOfCrystals - 1]) yield break;
+        _currentRoom.crystals[_numOfCrystals - 1].GetComponent<CrystalController>().DisableVulnerability();
+        /*if (_crystals.Length > 0)
+        {
+            _crystals[_numOfCrystals - 1].GetComponent<CrystalController>().DisableVulnerability();
+        }*/ // for testing
     }
     
     public void ApplyEffect(StatusEffectData data)
@@ -415,7 +431,7 @@ public class SpiderBossController : EnemyController, IEffectable
             {
                 _currentHealth = _maxHealth;
                 RemoveEffect();
-                DeactivateCrystal();
+                StartCoroutine(DelayedDeactivateCrystal());
             }
             else _currentHealth += _statusEffect.damage;
             UIController.Instance.SetBossHealth(_currentHealth);
