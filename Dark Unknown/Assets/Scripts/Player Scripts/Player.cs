@@ -7,6 +7,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using NUnit.Framework.Constraints;
+using Player_Scripts;
 using TMPro;
 
 public class Player : Singleton<Player>, IEffectable
@@ -19,6 +20,7 @@ public class Player : Singleton<Player>, IEffectable
     private Vector2 _direction;
     private Vector2 _pointerPos;
     private WeaponParent _weaponParent;
+    [SerializeField] private TargetIndicator _targetIndicator;
     [SerializeField] private float _maxHealth = 150;
     private float _currentHealth;
     [SerializeField] private float _maxMana = 100;
@@ -56,7 +58,8 @@ public class Player : Singleton<Player>, IEffectable
         _playerInput = GetComponent<PlayerInput>();
         _playerAnimation = GetComponent<PlayerAnimation>();
         _playerRenderer = GetComponent<SpriteRenderer>();
-
+        
+        
         _weaponParent = GetComponentInChildren<WeaponParent>();
 
         _playerInput.LeftClick += () => _weaponParent.Attack();
@@ -99,6 +102,7 @@ public class Player : Singleton<Player>, IEffectable
             //destroy old reward already taken
             Destroy(_rewardToGet);
             _canGetWeapon = false;
+            SetTargetIndicatorActive(false);
         }
         else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
@@ -122,6 +126,7 @@ public class Player : Singleton<Player>, IEffectable
             //destroy old reward already taken
             Destroy(_rewardToGet);
             _canGetAbility = false;
+            SetTargetIndicatorActive(false);
         }
 
         if (_statusEffect != null) HandleEffect();
@@ -231,6 +236,7 @@ public class Player : Singleton<Player>, IEffectable
         _speedMultiplier += increaseMultiplier;
         _playerMovement.IncreaseSpeed(_speedMultiplier);
         UIController.Instance.SetSpeedMultiplierText("+ " + Mathf.CeilToInt((_speedMultiplier - 1) * 100) + " %");
+        SetTargetIndicatorActive(false);
         StartCoroutine(FlashBlue());
     }
 
@@ -254,6 +260,7 @@ public class Player : Singleton<Player>, IEffectable
     {
         _strengthMultiplier += increaseMultiplier;
         UIController.Instance.SetStrengthMultiplierText("+ " + Mathf.CeilToInt((_strengthMultiplier - 1) * 100) + " %");
+        SetTargetIndicatorActive(false);
         StartCoroutine(FlashBlue());
     }
 
@@ -440,5 +447,15 @@ public class Player : Singleton<Player>, IEffectable
         {
             UIController.Instance.showMessage("You don't have enough mana, defeat more enemies to get it");
         }
+    }
+
+    public void SetTargetPosition(Vector3 position)
+    {
+        _targetIndicator.SetTargetPosition(position);
+    }
+
+    public void SetTargetIndicatorActive(bool active)
+    {
+        _targetIndicator.gameObject.SetActive(active);
     }
 }

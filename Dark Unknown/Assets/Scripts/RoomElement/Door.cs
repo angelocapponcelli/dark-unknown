@@ -55,6 +55,7 @@ public class Door : MonoBehaviour
             AudioManager.Instance.PlayEnterDoorSound();
             _myBoxCollider.enabled = false;
             LevelManager.Instance.SetNewRoom(myIndex, _actualDoorSymbol.type);
+            Player.Instance.SetTargetIndicatorActive(false);
         }
     }
 

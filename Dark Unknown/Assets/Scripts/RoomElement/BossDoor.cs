@@ -62,6 +62,7 @@ public class BossDoor : MonoBehaviour
         {
             //LevelManager.Instance.SetRoom(myIndex, _actualDoorSymbol.type);
             Open();
+            Player.Instance.SetTargetIndicatorActive(false);
         }
         
         // TODO: add auto closing of the door after the player has passed it
