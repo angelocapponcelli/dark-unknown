@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using UnityEngine;
 
 public class DUController : EnemyController
@@ -152,7 +153,13 @@ public class DUController : EnemyController
 
         // TODO il finale
         //ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
-        //GameManager.Instance.LoadVictoryScene();
+        StartCoroutine(End());
+    }
+
+    private static IEnumerator End()
+    {
+        yield return new WaitForSeconds(1f);
+        GameManager.Instance.LoadVictoryScene();
     }
     
     private void DisableBoxCollider()
