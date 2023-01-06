@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player_Scripts;
 using UnityEngine;
 
 public class TargetIndicator : MonoBehaviour
 {
-    public Transform target;
+    private Pointer _pointer;
+    [SerializeField] public Transform target;
     [SerializeField] public float hideDistance;
 
+    void Start()
+    {
+        _pointer = GetComponentInChildren<Pointer>();
+    }
     void Update()
     {
         var dir = target.position - transform.position;
@@ -26,6 +32,6 @@ public class TargetIndicator : MonoBehaviour
 
     void SetChildrenActive(bool value)
     {
-        transform.gameObject.SetActive(value);
+        _pointer.gameObject.SetActive(value);
     }
 }
