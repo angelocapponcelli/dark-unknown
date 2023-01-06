@@ -212,6 +212,8 @@ MonoBehaviour:
   _leftEffect: {fileID: 4391611761107700960, guid: 1dd486329be085942a1bf8f7c6b9bb26, type: 3}
   _rightEffect: {fileID: 4391611761107700960, guid: 59905e641222b10418d530d2fb2fc97e, type: 3}
   _maxHealth: 200
+  _spriteRenderer: {fileID: 6423958494783688055}
+  _originalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
 --- !u!95 &6423958494783688054
 Animator:
@@ -241,7 +243,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6423958494783688058}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
