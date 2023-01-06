@@ -73,7 +73,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2877224273560496041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.008, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 6423958494783688057}
   - component: {fileID: 6423958494783688054}
   - component: {fileID: 4156013849784651307}
+  - component: {fileID: -8514880038863089144}
   m_Layer: 10
   m_Name: DarkUnknown
   m_TagString: EnemyCollider
@@ -211,7 +212,7 @@ MonoBehaviour:
   eyeProjectile: {fileID: 3105940019964526410, guid: 3594352a2bb960f418aa810d97f1490d, type: 3}
   _leftEffect: {fileID: 4391611761107700960, guid: 1dd486329be085942a1bf8f7c6b9bb26, type: 3}
   _rightEffect: {fileID: 4391611761107700960, guid: 59905e641222b10418d530d2fb2fc97e, type: 3}
-  _maxHealth: 200
+  _maxHealth: 1000
   _spriteRenderer: {fileID: 6423958494783688055}
   _originalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
@@ -256,3 +257,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8514880038863089144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6423958494783688058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9934dc967da284d90c1be5e156dd15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

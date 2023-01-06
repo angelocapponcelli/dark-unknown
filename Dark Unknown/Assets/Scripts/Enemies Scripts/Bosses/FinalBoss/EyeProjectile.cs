@@ -26,6 +26,8 @@ public class EyeProjectile : MonoBehaviour
             if (element.gameObject.CompareTag("EnemyCollider") || element.gameObject.CompareTag("EnemyFeetCollider") ||
                 element.gameObject.CompareTag("EyeProjectile") || element.gameObject.layer == 2) return;
         }
+
+        if (collision.gameObject.CompareTag("WeaponCollider") || collision.gameObject.CompareTag("Projectile")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 
