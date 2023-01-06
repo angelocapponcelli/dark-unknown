@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laserBeamLength: 15
   beamDamage: 10
-  rotationSpeed: 60
+  rotationSpeed: 75
   beginPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   textures:
@@ -131,13 +131,13 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingOrder: 4
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 1.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -373,7 +373,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 1.5
     widthCurve:
       serializedVersion: 2
       m_Curve:

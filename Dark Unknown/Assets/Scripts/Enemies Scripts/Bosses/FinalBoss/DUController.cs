@@ -4,6 +4,7 @@ using UnityEngine;
 public class DUController : EnemyController
 {
     [SerializeField] private GameObject beam;
+    private readonly Vector3 _beamPos = new Vector3(0, 0, 0);
     [SerializeField] private GameObject eyeProjectile;
     private float velocityProjectileMax = 5f, velocityProjectileMin = 2f;
     
@@ -45,7 +46,7 @@ public class DUController : EnemyController
 
     public void BeamAttack()
     {
-        Instantiate(beam, transform.position, beam.transform.rotation);
+        Instantiate(beam, _beamPos, beam.transform.rotation);
         _animator.SetInteger("stateNumber", 1);
     }
     
