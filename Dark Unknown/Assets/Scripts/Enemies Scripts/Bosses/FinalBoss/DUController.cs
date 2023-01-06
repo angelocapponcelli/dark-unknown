@@ -10,6 +10,8 @@ public class DUController : EnemyController
     private float velocityProjectileMax = 5f, velocityProjectileMin = 2f;
     [SerializeField] private GameObject _leftEffect;
     [SerializeField] private GameObject _rightEffect;
+    [SerializeField] private GameObject _upEffect;
+    [SerializeField] private GameObject _downEffect;
     
     private float _currentHealth;
     [SerializeField] private float _maxHealth = 200f;
@@ -65,6 +67,8 @@ public class DUController : EnemyController
     {
         Instantiate(_leftEffect, transform.position, Quaternion.identity);
         Instantiate(_rightEffect, transform.position, Quaternion.identity);
+        Instantiate(_upEffect, transform.position, Quaternion.identity);
+        Instantiate(_downEffect, transform.position, Quaternion.identity);
         _animator.SetInteger("stateNumber", (int) Random.Range(0,2));
     }
 
