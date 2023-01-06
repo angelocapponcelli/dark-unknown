@@ -14,14 +14,14 @@ public class DUController : EnemyController
     private BossUIController _bossUIController = null;
     private bool _deathSoundPlayed = false;
     
-    private SpriteRenderer _spriteRenderer;
-    private Material _originalMaterial;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Material _originalMaterial;
     [SerializeField] private Material flashMaterial;
 
     private Animator _animator;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         _currentHealth = _maxHealth;
@@ -31,8 +31,8 @@ public class DUController : EnemyController
         _bossUIController.SetName("Dark Unknown");
         _bossUIController.SetMaxHealth(_maxHealth);
         
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _originalMaterial = _spriteRenderer.material;
+        //_spriteRenderer = GetComponent<SpriteRenderer>();
+        //_originalMaterial = _spriteRenderer.material;
     }
 
     // Update is called once per frame
@@ -52,7 +52,7 @@ public class DUController : EnemyController
     
     public void EyeAttack()
     {
-        StartCoroutine(generateProjectile());
+        StartCoroutine(GenerateProjectile());
         //_animator.SetInteger("stateNumber", 2); //se viene implementato il terzo attacco passare allo stato 2 invece che allo 0
         _animator.SetInteger("stateNumber", 0);
     }
@@ -63,7 +63,7 @@ public class DUController : EnemyController
         _animator.SetInteger("stateNumber", 0);
     }
 
-    private IEnumerator generateProjectile()
+    private IEnumerator GenerateProjectile()
     {
         for (int j = 0; j < 4; j++)
         {
@@ -84,15 +84,22 @@ public class DUController : EnemyController
     
     public override void TakeDamageMelee(float damage)
     {
-        TakeDamage(damage);
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
+            Die();
+            //DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
+        } else
+        {
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
+        }
+        StartCoroutine(DamageDistance());
     }
     
     public override void TakeDamageDistance(float damage)
-    {
-        TakeDamage(damage);
-    }
-
-    private void TakeDamage(float damage)
     {
         if (isDead) return;
         _currentHealth -= damage;
@@ -100,27 +107,47 @@ public class DUController : EnemyController
         {
             if (_bossUIController != null) _bossUIController.SetHealth(0);
             Die();
-            DisableBoxCollider();
+            //DisableBoxCollider();
             _bossUIController.DeactivateHealthBar();
         } else
         {
             if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
-            DamageDistance();
+            StartCoroutine(DamageDistance());
         }
     }
-    
-    private void DamageDistance()
+
+    /*private void TakeDamage(float damage)
     {
-        StartCoroutine(Flash());
+        if (isDead) return;
+        _currentHealth -= damage;
+        if (_currentHealth <= 0)
+        {
+            if (_bossUIController != null) _bossUIController.SetHealth(0);
+            Die();
+            //DisableBoxCollider();
+            _bossUIController.DeactivateHealthBar();
+        } else
+        {
+            if (_bossUIController != null)  _bossUIController.SetHealth(_currentHealth);
+            StartCoroutine(DamageDistance());
+        }
+    }*/
+    
+    private IEnumerator DamageDistance()
+    {
+        //StartCoroutine(Flash());
         AudioManager.Instance.PlaySkeletonHurtSound();
-    }
-    
-    private IEnumerator Flash()
-    {
         _spriteRenderer.material = flashMaterial;
+        //_spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.1f);
+        //_spriteRenderer.color = Color.white;
         _spriteRenderer.material = _originalMaterial;
     }
+    
+    /*private IEnumerator Flash()
+    {
+        
+    }*/
 
     public override IEnumerator Freeze(float seconds, float slowdownFactor)
     {
@@ -144,7 +171,10 @@ public class DUController : EnemyController
         if (_deathSoundPlayed) return;
         AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
-        
+
+        var beam = GameObject.FindGameObjectWithTag("Beam");
+        Destroy(beam);
+
         // TODO il finale
         //ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
         //GameManager.Instance.LoadVictoryScene();
@@ -152,7 +182,7 @@ public class DUController : EnemyController
     
     private void DisableBoxCollider()
     {
-        var collider = GetComponent<CircleCollider2D>();
+        var collider = GetComponentInChildren<CircleCollider2D>();
         collider.enabled = false;
     }
 }
