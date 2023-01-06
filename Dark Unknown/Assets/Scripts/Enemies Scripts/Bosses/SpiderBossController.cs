@@ -12,6 +12,7 @@ public class SpiderBossController : EnemyController, IEffectable
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
     [SerializeField] private float _projectileSpeed = 5f;
+    [SerializeField] private float meleeAttackDistance = 1.5f;
     
     [SerializeField] private float healingCountdown = 10f;
     private float _healingCounter;
@@ -125,12 +126,15 @@ public class SpiderBossController : EnemyController, IEffectable
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            // It follows the player till it reaches a minimum distance
-            if (_distance > _minDistance + _offset && _canMove)
+            if (_distance <= meleeAttackDistance && !_isAttacking)
+            {
+                AttackEvent(true);
+            }
+            else if (_distance > _minDistance + _offset && _canMove)
             {
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
@@ -152,7 +156,7 @@ public class SpiderBossController : EnemyController, IEffectable
                 _movement.StopMovement();
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
             }
             /*else if (_distance == _minDistance && !_isAttacking && !_damageCoroutineRunning)
@@ -190,9 +194,9 @@ public class SpiderBossController : EnemyController, IEffectable
         }*/
     }
 
-    private void AttackEvent()
+    private void AttackEvent(bool meleeAttack)
     {
-        if (_ai.GetMovingDirection() != Vector2.zero)
+        if (_ai.GetMovingDirection() != Vector2.zero && !meleeAttack)
         {
             GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
             projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed;
@@ -201,17 +205,34 @@ public class SpiderBossController : EnemyController, IEffectable
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
-            StartCoroutine(Attack(_ai.GetMovingDirection()));
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
             _timeElapsedFromShot = 0;   
+        } else if (meleeAttack)
+        {
+            _isAttacking = true;
+            _canMove = false;
+            _movement.StopMovement();
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
         }
     }
 
-    private IEnumerator Attack(Vector2 direction)
+    private IEnumerator Attack(Vector2 direction, bool meleeAttack)
     {
-        _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySkeletonAttackSound();
+        if (meleeAttack)
+        {
+            _animator.AnimateSecondAttack(direction);
+            yield return new WaitForSeconds(0.2f);
+            Player.Instance.TakeDamage(10f);
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            _animator.AnimateAttack(direction);
+            AudioManager.Instance.PlaySkeletonAttackSound();
+            yield return new WaitForSeconds(0.7f);
+        }
 
-        yield return new WaitForSeconds(0.7f);
+        //yield return new WaitForSeconds(0.7f);
 
         _isAttacking = false;
         _canMove = true;
