@@ -5,7 +5,7 @@ using UnityEngine;
 public class WormCollider : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void OnTriggerEnter2D(Collider2D collider)
+    /*private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.layer == 8)
         {
@@ -17,5 +17,5 @@ public class WormCollider : MonoBehaviour
             GetComponentInParent<Rigidbody2D>().velocity = direction * 10f;
             GetComponentInParent<WormController>().SetVelocity(GetComponentInParent<Rigidbody2D>().velocity);
         }
-    }
+    }*/
 }

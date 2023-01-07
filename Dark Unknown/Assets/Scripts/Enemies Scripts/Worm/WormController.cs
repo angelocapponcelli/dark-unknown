@@ -39,9 +39,9 @@ public class WormController : EnemyController
     private Transform _nextPosition;
     private bool _coroutineRunning;
 
-    private Vector2 lastVelocity;
+    /*private Vector2 lastVelocity;
     private bool isMoving;
-    private bool velCollider = false;
+    private bool velCollider = false;*/
     
     private void Start()
     {
@@ -62,13 +62,12 @@ public class WormController : EnemyController
         _timeElapsedFromShot = 0;
         _coroutineRunning = false;
 
-        Vector2 vect = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
-        lastVelocity = vect;
+        /*Vector2 vect = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
+        lastVelocity = vect;*/
     }
 
     private void Update()
     {
-
         _timeElapsedFromShot += (Time.deltaTime % 60);
         if (_target == null)
         {
@@ -88,17 +87,17 @@ public class WormController : EnemyController
                 StartCoroutine(FindNewPosition());
             }
             _animator.flip(_direction);
-            if (_isHidden && !isMoving)
+            if (_isHidden)// && !isMoving)
             {
                 Show();
             }
 
-            if (_timeElapsedFromShot >= _shotFrequency && _shotsNumber <= 3 && _canAttack && !isMoving)
+            if (_timeElapsedFromShot >= _shotFrequency && _shotsNumber <= 3 && _canAttack)// && !isMoving)
             {
                 Attack();
                 _shotsNumber += 1;
                 _timeElapsedFromShot = 0;
-            } else if (_shotsNumber > 3 && !isMoving)
+            } else if (_shotsNumber > 3)// && !isMoving)
             {
                 _shotsNumber = 0;
                 StartCoroutine(Move());
@@ -219,7 +218,9 @@ public class WormController : EnemyController
     private IEnumerator Move()
     {
         Hide();
-        isMoving = true;
+        yield return new WaitForSeconds(1.8f);
+        transform.position = _nextPosition.position*0.8f;
+        /*isMoving = true;
         yield return new WaitForSeconds(1.9f);
         if (!velCollider)
             lastVelocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
@@ -228,7 +229,7 @@ public class WormController : EnemyController
         velCollider = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         isMoving = false;
-        //transform.position = _nextPosition.position*0.8f;
+        //transform.position = _nextPosition.position*0.8f;*/
     }
 
     private void Attack()
@@ -296,7 +297,7 @@ public class WormController : EnemyController
         _nextPosition = _target.transform;
     }
 
-    public void SetVelocity(Vector2 value)
+    /*public void SetVelocity(Vector2 value)
     {
         lastVelocity = value;
         velCollider = true;
@@ -305,5 +306,5 @@ public class WormController : EnemyController
     public Vector2 GetVelocity()
     {
         return lastVelocity;
-    }
+    }*/
 }
