@@ -24,7 +24,7 @@ public class ArrowAttack : MonoBehaviour
             }
         }
         //layer.9 == "Arrow" Layer is where circleAbility projectiles are
-        if (collision.CompareTag("Trap") || collision.CompareTag("Gem") || collision.gameObject.layer == 9) return;
+        if (collision.CompareTag("Trap") || collision.CompareTag("Gem") || collision.gameObject.layer == 9 || collision.CompareTag("HiddenWormCollider")) return;
         Destroy(gameObject);
     }
     

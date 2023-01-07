@@ -110,6 +110,24 @@ public class RoomLogic : MonoBehaviour
 
     public void StartRoom(Type roomType)
     {
+        _roomType = roomType;
+        if (_roomType == Type.RANDOM)
+        {
+            List<Type> randomSymbols = new List<Type>();
+            randomSymbols.Add(Type.SPEED);
+            randomSymbols.Add(Type.STRENGTH);
+            if (!Player.Instance.checkBowWeapon()) randomSymbols.Add(Type.BOW);
+            if (!Player.Instance.checkSwordWeapon()) randomSymbols.Add(Type.SWORD);
+            if (!Player.Instance.checkAxeWeapon()) randomSymbols.Add(Type.AXE);
+            if (!Player.Instance.GetComponentInChildren<CircleAbility>()) randomSymbols.Add(Type.CIRCLE_ABILITY);
+            if (!Player.Instance.GetComponentInChildren<AirAttackAbility>()) randomSymbols.Add(Type.AIRATTACK_ABILITY);
+            if (!Player.Instance.GetComponentInChildren<IceProjectileAbility>()) randomSymbols.Add(Type.ICEPROJECTILE_ABILITY);
+            if (!Player.Instance.GetComponentInChildren<BatAbility>()) randomSymbols.Add(Type.BAT_ABILITY);
+            if (!Player.Instance.GetComponentInChildren<ShieldAbility>()) randomSymbols.Add(Type.SHIELD_ABILITY);
+            _roomType = randomSymbols[Random.Range (0,randomSymbols.Count)];
+        }
+        
+        
         //set up the symbols for the next rooms
         if (LevelManager.Instance.GetRoomsTraversed()+1 != LevelManager.Instance.roomsBeforeBoss)
         {
@@ -145,42 +163,42 @@ public class RoomLogic : MonoBehaviour
                 }
                 else
                 {
-                    if (Player.Instance.checkBowWeapon() || roomType == Type.BOW)
+                    if (Player.Instance.checkBowWeapon() || _roomType == Type.BOW)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.checkSwordWeapon() || roomType == Type.SWORD)
+                    if (Player.Instance.checkSwordWeapon() || _roomType == Type.SWORD)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.checkAxeWeapon() || roomType == Type.AXE)
+                    if (Player.Instance.checkAxeWeapon() || _roomType == Type.AXE)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<CircleAbility>() || roomType == Type.CIRCLE_ABILITY)
+                    if (Player.Instance.GetComponentInChildren<CircleAbility>() || _roomType == Type.CIRCLE_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.CIRCLE_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<IceProjectileAbility>() || roomType == Type.ICEPROJECTILE_ABILITY)
+                    if (Player.Instance.GetComponentInChildren<IceProjectileAbility>() || _roomType == Type.ICEPROJECTILE_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.ICEPROJECTILE_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<AirAttackAbility>() || roomType == Type.AIRATTACK_ABILITY)
+                    if (Player.Instance.GetComponentInChildren<AirAttackAbility>() || _roomType == Type.AIRATTACK_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.AIRATTACK_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<ShieldAbility>() || roomType == Type.SHIELD_ABILITY)
+                    if (Player.Instance.GetComponentInChildren<ShieldAbility>() || _roomType == Type.SHIELD_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
                         _possibleSymbols.Remove(toRemove);
                     }
-                    if (Player.Instance.GetComponentInChildren<BatAbility>() || roomType == Type.BAT_ABILITY)
+                    if (Player.Instance.GetComponentInChildren<BatAbility>() || _roomType == Type.BAT_ABILITY)
                     {
                         toRemove = _possibleSymbols.Find(x => x.type == Type.BAT_ABILITY);
                         _possibleSymbols.Remove(toRemove);
@@ -230,14 +248,7 @@ public class RoomLogic : MonoBehaviour
             }
         }
 
-        _roomType = roomType;
-        if (_roomType == Type.RANDOM)
-        {
-            List<Type> randomSymbols = new List<Type>();
-            randomSymbols.Add(Type.SPEED);
-            randomSymbols.Add(Type.STRENGTH);
-            _roomType = randomSymbols[Random.Range (1,(randomSymbols.Count - 1))];
-        }
+        
         switch (_roomType)
         {
             case Type.INITIAL:
