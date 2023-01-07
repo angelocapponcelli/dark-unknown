@@ -10,19 +10,6 @@ public class PoisonEffect : MonoBehaviour
         Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
         foreach (Collider2D character in hitCharacters)
         {
-            /*if (!character.gameObject.CompareTag("EnemyFeetCollider") ||
-                !character.gameObject.CompareTag("PlayerFeetCollider"))
-            {
-                return;
-            }
-            if (character.GetComponentInParent<Player>() != null)
-            {
-                print("Effect time: " + statusEffect.time);
-                character.GetComponentInParent<Player>().ApplyEffect(statusEffect);
-                character.GetComponentInParent<Player>().TakeDamage(statusEffect.damage);
-                StartCoroutine(RemoveEffect());
-            }*/
-
             if (character.gameObject.CompareTag("PlayerFeetCollider"))
             {
                 print("Effect time: " + statusEffect.time);
