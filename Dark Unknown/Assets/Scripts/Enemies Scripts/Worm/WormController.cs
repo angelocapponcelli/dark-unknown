@@ -221,7 +221,7 @@ public class WormController : EnemyController
         Hide();
         isMoving = true;
         yield return new WaitForSeconds(1.9f);
-        if (velCollider)
+        if (!velCollider)
             lastVelocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
         GetComponent<Rigidbody2D>().velocity = lastVelocity;
         yield return new WaitForSeconds(0.3f);
