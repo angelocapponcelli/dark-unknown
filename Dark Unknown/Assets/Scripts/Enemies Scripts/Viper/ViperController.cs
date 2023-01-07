@@ -52,6 +52,7 @@ public class ViperController : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<EnemyAnimator>();
         _viperRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _viperRenderer.material;
         _ai = GetComponent<EnemyAI>();
 
         _timeForNextAttack = 0;

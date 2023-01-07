@@ -48,6 +48,7 @@ public class Worm2Controller : EnemyController
         _movement = GetComponent<EnemyMovement>();
         _animator = GetComponent<WormAnimator>();
         _wormRenderer = GetComponent<SpriteRenderer>();
+        _originalMaterial = _wormRenderer.material;
 
         _timeElapsedFromShot = 0;
         _timeElapsedFromHide = 0;
