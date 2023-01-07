@@ -69,7 +69,7 @@ public class GameManager : Singleton<GameManager>
     
     public void LoadDeathScreen()
     {
-        if (!_playerRespawned)
+        if (!_playerRespawned && _currentRoom.GetRoomType() != RoomLogic.Type.INITIAL)
         {
             StartCoroutine(LevelManager.Instance.RestartFromHubRoom(playerSpeed));
         }

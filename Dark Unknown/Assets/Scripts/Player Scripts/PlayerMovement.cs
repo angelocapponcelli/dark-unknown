@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         _canDash = true;
     }
     
-    public Vector2 GetRBPos()
+    public Vector2 GetRbPos()
     {
         return _rb.position;
     }
