@@ -17,7 +17,7 @@ public class Fireball : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Reward>() != null || collision.CompareTag("Trap") || collision.CompareTag("Gem")) return; //if it doesn't collide with a reward or with a spikeTrap
+        if (collision.GetComponent<Reward>() != null || collision.CompareTag("Trap") || collision.CompareTag("Gem") || collision.CompareTag("HiddenWormCollider")) return; //if it doesn't collide with a reward or with a spikeTrap
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
     }
