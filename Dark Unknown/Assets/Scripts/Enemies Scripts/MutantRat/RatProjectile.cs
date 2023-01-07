@@ -123,28 +123,6 @@ public class RatProjectile : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-  /*  private void OnTriggerEnter2D(Collider2D collision) //TO REMOVE
-    {
-        var hitEnemies = collision.GetComponentsInChildren<Collider2D>();
-        foreach (var element in hitEnemies)
-        {
-            //if (element.gameObject.CompareTag("Player") || element.gameObject.CompareTag("PlayerFeetCollider"))
-            if (element.gameObject.transform.CompareTag("Player"))
-            {
-                //Instantiate(poison,transform.position, Quaternion.Euler(0f,0f,0));
-            }
-        }
-        /*if (collision.CompareTag("Trap") || 
-            collision.CompareTag("EnemyFeetCollider") ||
-            collision.CompareTag("Enemy")) return;/
-        if (collision.CompareTag("Trap") ||
-            collision.CompareTag("Projectile") ||
-            collision.gameObject.transform.parent.CompareTag("Enemy")) return;
-        //_animator.SetTrigger("destroy");
-        //GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-
-    } */
-    
     private IEnumerator DeactivateCollider(float seconds)
     {
         yield return new WaitForSeconds(seconds);
@@ -155,16 +133,4 @@ public class RatProjectile : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    
-    //Funzione da rimuovere serve solo per visualizzare i punti della traiettoria nell'editor
-    //TO REMOVE
-    /*
-    public void OnDrawGizmos() {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(_targetPosition + _offsetPosition, 0.2f);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(_initialPosition + _offsetPosition, 0.2f);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(_vertexPosition + _offsetPosition, 0.2f);
-    }*/
 }

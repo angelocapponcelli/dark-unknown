@@ -6,19 +6,30 @@ public class PoisonEffect : MonoBehaviour
 {
     [SerializeField] private StatusEffectData statusEffect;
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
+        foreach (Collider2D character in hitCharacters)
         {
-            Collider2D[] hitCharacters = collision.GetComponents<Collider2D>();
-            foreach (Collider2D character in hitCharacters)
+            /*if (!character.gameObject.CompareTag("EnemyFeetCollider") ||
+                !character.gameObject.CompareTag("PlayerFeetCollider"))
             {
-                if (!character.gameObject.CompareTag("EnemyFeetCollider") &&
-                    !character.gameObject.CompareTag("PlayerFeetCollider")) continue;
-                //Debug.Log("damage taken");
-                //character.GetComponentInParent<Player>().TakeDamage(_damage);
-                if (character.GetComponentInParent<Player>() != null)
-                {
-                    character.GetComponentInParent<Player>().ApplyEffect(statusEffect);
-                    character.GetComponentInParent<Player>().TakeDamage(statusEffect.damage);
-                }
+                return;
+            }
+            if (character.GetComponentInParent<Player>() != null)
+            {
+                print("Effect time: " + statusEffect.time);
+                character.GetComponentInParent<Player>().ApplyEffect(statusEffect);
+                character.GetComponentInParent<Player>().TakeDamage(statusEffect.damage);
+                StartCoroutine(RemoveEffect());
+            }*/
+
+            if (character.gameObject.CompareTag("PlayerFeetCollider"))
+            {
+                print("Effect time: " + statusEffect.time);
+                character.GetComponentInParent<Player>().ApplyEffect(statusEffect);
+                character.GetComponentInParent<Player>().TakeDamage(statusEffect.damage);
+                Player.Instance.RemoveEffect();
             }
         }
     }
+}
