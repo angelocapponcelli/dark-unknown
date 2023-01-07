@@ -12,6 +12,9 @@ public class SpiderBossController : EnemyController, IEffectable
     private float _offset = 0.3f;
     [SerializeField] private GameObject _projectile;
     [SerializeField] private float _projectileSpeed = 5f;
+    [SerializeField] private float meleeAttackDistance = 1.5f;
+    [SerializeField] private float meleeAttackDelay = 3f;
+    private float _timeForNextMeleeAttack;
     
     [SerializeField] private float healingCountdown = 10f;
     private float _healingCounter;
@@ -68,6 +71,8 @@ public class SpiderBossController : EnemyController, IEffectable
         _bossUIController.SetName("Spider Broodmother");
         _bossUIController.SetMaxHealth(_maxHealth);
         
+        _timeForNextMeleeAttack = 0;
+        
         _currentRoom = LevelManager.Instance.GetCurrentRoom();
         _numOfCrystals = _currentRoom.crystals.Count;
         _healingCounter = healingCountdown;
@@ -115,6 +120,8 @@ public class SpiderBossController : EnemyController, IEffectable
             }
         }
         
+        if (_timeForNextMeleeAttack > 0) _timeForNextMeleeAttack -= Time.deltaTime;
+        
         if(_statusEffect != null) HandleEffect();
         
         if (_isHealing) return;
@@ -125,12 +132,16 @@ public class SpiderBossController : EnemyController, IEffectable
         // If the skeleton is not dead
         if (!isDead && _distance <= _chaseDistance)
         {
-            // It follows the player till it reaches a minimum distance
-            if (_distance > _minDistance + _offset && _canMove)
+            if (_distance <= meleeAttackDistance && !_isAttacking && _timeForNextMeleeAttack <= 0)
+            {
+                AttackEvent(true);
+                _timeForNextMeleeAttack = meleeAttackDelay;
+            }
+            else if (_distance > _minDistance + _offset && _canMove)
             {
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
                 if (!_ai.GetMovingDirection().Equals(Vector2.zero))
                 {
@@ -152,7 +163,7 @@ public class SpiderBossController : EnemyController, IEffectable
                 _movement.StopMovement();
                 if (_timeElapsedFromShot >= _shotFrequency)
                 {
-                    AttackEvent();
+                    AttackEvent(false);
                 }
             }
             /*else if (_distance == _minDistance && !_isAttacking && !_damageCoroutineRunning)
@@ -190,9 +201,9 @@ public class SpiderBossController : EnemyController, IEffectable
         }*/
     }
 
-    private void AttackEvent()
+    private void AttackEvent(bool meleeAttack)
     {
-        if (_ai.GetMovingDirection() != Vector2.zero)
+        if (_ai.GetMovingDirection() != Vector2.zero && !meleeAttack)
         {
             GameObject projectile = Instantiate(_projectile, transform.position, Quaternion.identity);
             projectile.GetComponent<Rigidbody2D>().velocity = _ai.GetMovingDirection()*_projectileSpeed;
@@ -201,17 +212,37 @@ public class SpiderBossController : EnemyController, IEffectable
             _isAttacking = true;
             _canMove = false;
             _movement.StopMovement();
-            StartCoroutine(Attack(_ai.GetMovingDirection()));
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
             _timeElapsedFromShot = 0;   
+        } else if (meleeAttack)
+        {
+            _isAttacking = true;
+            _canMove = false;
+            _movement.StopMovement();
+            StartCoroutine(Attack(_ai.GetMovingDirection(), meleeAttack));
         }
     }
 
-    private IEnumerator Attack(Vector2 direction)
+    private IEnumerator Attack(Vector2 direction, bool meleeAttack)
     {
-        _animator.AnimateAttack(direction);
-        AudioManager.Instance.PlaySpiderAttackSound();
+        if (meleeAttack)
+        {
+            _animator.AnimateSecondAttack(direction);
+            yield return new WaitForSeconds(0.8f);
+            if (Vector3.Distance(Player.Instance.transform.position, transform.position) < meleeAttackDistance)
+            {
+                Player.Instance.TakeDamage(10f);
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+        else
+        {
+            _animator.AnimateAttack(direction);
+            AudioManager.Instance.PlaySkeletonAttackSound();
+            yield return new WaitForSeconds(0.7f);
+        }
 
-        yield return new WaitForSeconds(0.7f);
+        //yield return new WaitForSeconds(0.7f);
 
         _isAttacking = false;
         _canMove = true;
@@ -268,7 +299,7 @@ public class SpiderBossController : EnemyController, IEffectable
     {
         _animator.AnimateTakeDamage(); 
         _canMove = false;
-        AudioManager.Instance.PlaySpiderHurtSound();
+        AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
     }
@@ -276,7 +307,7 @@ public class SpiderBossController : EnemyController, IEffectable
     private IEnumerator DamageDistance()
     {
         StartCoroutine(Flash());
-        AudioManager.Instance.PlaySpiderHurtSound();
+        AudioManager.Instance.PlaySkeletonHurtSound();
         yield return new WaitForSeconds(_animator.GetCurrentState().length + 0.3f); //added 0.3f offset to make animation more realistic
         _canMove = true;
     }
@@ -295,7 +326,7 @@ public class SpiderBossController : EnemyController, IEffectable
         _movement.StopMovement();
         _animator.AnimateDie();
         if (_deathSoundPlayed) return;
-        AudioManager.Instance.PlaySpiderDieSound();
+        AudioManager.Instance.PlaySkeletonDieSound();
         _deathSoundPlayed = true;
         ReduceEnemyCounter(LevelManager.Instance.GetCurrentRoom());
     }
@@ -315,10 +346,10 @@ public class SpiderBossController : EnemyController, IEffectable
 
     private void DisableBoxCollider()
     {
-        var spiderColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
-        foreach (var c in spiderColliders)
+        var skeletonColliders = gameObject.GetComponentsInChildren<BoxCollider2D>();
+        foreach (var collider in skeletonColliders)
         {
-            c.enabled = false;
+            collider.gameObject.SetActive(false);//.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
@@ -350,8 +381,9 @@ public class SpiderBossController : EnemyController, IEffectable
         _crystalDestroyed = true;
         yield return new WaitForSeconds(0.5f);
         _isHealing = false;
-        _healingCounter = healingCountdown;
         _crystalDestroyed = false;
+        if (_healingCounter > 0) yield break;
+        _healingCounter = healingCountdown;
     }
 
     private void AllCrystalsDestroyed()
@@ -359,12 +391,17 @@ public class SpiderBossController : EnemyController, IEffectable
         _allCrystalsDestroyed = true;
     }
 
-    private void DeactivateCrystal()
+    private IEnumerator DelayedDeactivateCrystal()
     {
-        _currentRoom.crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability();
-        //_crystals[_numOfCrystals-1].GetComponent<CrystalController>().DisableVulnerability(); // for testing
         _isHealing = false;
         _healingCounter = healingCountdown;
+        yield return new WaitForSeconds(2f);
+        //if (!_currentRoom.crystals[_numOfCrystals - 1]) yield break;
+        _currentRoom.crystals[_numOfCrystals - 1].GetComponent<CrystalController>().DisableVulnerability();
+        /*if (_crystals.Length > 0)
+        {
+            _crystals[_numOfCrystals - 1].GetComponent<CrystalController>().DisableVulnerability();
+        }*/ // for testing
     }
     
     public void ApplyEffect(StatusEffectData data)
@@ -394,7 +431,7 @@ public class SpiderBossController : EnemyController, IEffectable
             {
                 _currentHealth = _maxHealth;
                 RemoveEffect();
-                DeactivateCrystal();
+                StartCoroutine(DelayedDeactivateCrystal());
             }
             else _currentHealth += _statusEffect.damage;
             UIController.Instance.SetBossHealth(_currentHealth);

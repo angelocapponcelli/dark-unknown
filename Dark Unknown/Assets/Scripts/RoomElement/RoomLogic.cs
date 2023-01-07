@@ -101,6 +101,11 @@ public class RoomLogic : MonoBehaviour
             _ => _rewardSpawned
         };
         _isControlEnabled = false;
+        if (_roomType!= Type.INITIAL && _roomType != Type.HUB && _roomType != Type.BOSS)
+        {
+            Player.Instance.SetTargetPosition(position);
+            Player.Instance.SetTargetIndicatorActive(true);
+        }
     }
 
     public void StartRoom(Type roomType)
@@ -257,8 +262,8 @@ public class RoomLogic : MonoBehaviour
 
     private IEnumerator SpawnEnemies(int number)
     {
-        int spiderCounter = 0;
-        int spiderMax = (int) (number * spiderPercentage);
+        /*int spiderCounter = 0;
+        int spiderMax = (int) (number * spiderPercentage);*/
         /*print("spiders: " + spiderMax);
         print("skeletons" + (_numOfEnemies-spiderMax));*/
         

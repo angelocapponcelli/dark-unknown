@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     private LevelManager _levelManager;
     [SerializeField] public Player player;
     private bool _playerRespawned = false;
-    public float playerSpeed = 0.0f;
+    [HideInInspector] public float playerSpeed = 0.0f;
     private CinemachineVirtualCamera _cineMachine;
     private RoomLogic _currentRoom;
     private GameObject _playerSpawnPoint;

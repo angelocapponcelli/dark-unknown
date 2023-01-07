@@ -96,7 +96,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &1194311118450793836
 Animator:
   serializedVersion: 4
@@ -155,6 +155,8 @@ MonoBehaviour:
   _maxHealth: 600
   _projectile: {fileID: 7627823171936585592, guid: 5c5cdb41fe79a417897b8e2f2900a077, type: 3}
   _projectileSpeed: 4
+  meleeAttackDistance: 2.5
+  meleeAttackDelay: 2
   healingCountdown: 20
   healingEffect: {fileID: 11400000, guid: a5e1fd1317e2b1949a838872fb4f817a, type: 2}
   flashMaterial: {fileID: 2100000, guid: 9da7c2e7aa336974c991c6baa8f551b4, type: 2}
