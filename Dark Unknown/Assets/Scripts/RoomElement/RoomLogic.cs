@@ -269,7 +269,7 @@ public class RoomLogic : MonoBehaviour
             case Type.AIRATTACK_ABILITY:
             case Type.SHIELD_ABILITY:
             case Type.BAT_ABILITY:   
-                print("Tag -> " + tag);
+                //print("Tag -> " + tag);
                 if (CompareTag("SmallRoom"))
                 {
                     _numOfEnemies = Random.Range(6,10) * LevelManager.Instance.GetCurrentLevel(); //6 to 9 enemies (level 1)
@@ -397,5 +397,10 @@ public class RoomLogic : MonoBehaviour
     public void AddEnemyToList(EnemyController enemy)
     {
         _enemies.Add(enemy);
+    }
+
+    public Type GetRoomType()
+    {
+        return _roomType;
     }
 }
