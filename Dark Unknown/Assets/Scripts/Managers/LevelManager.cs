@@ -83,6 +83,7 @@ public class LevelManager : Singleton<LevelManager>
         else if (roomType == RoomLogic.Type.HUB)
         {
             UIController.Instance.SetRoomText("Hub Room");
+            UIController.Instance.ShowMessage("Checkpoint reached. 2 Lives remaining.");
         }
         else
         {
@@ -189,6 +190,7 @@ public class LevelManager : Singleton<LevelManager>
         _currentRoom.StartRoom(RoomLogic.Type.HUB);
         UIController.Instance.SetRoomText("Hub Room");
         UIController.Instance.SetInactiveBossHealth();
+        UIController.Instance.ShowMessage("1 Life remaining.");
 
         _potionCounter = roomsBetweenPotions;
         _roomsTraversed = 0;

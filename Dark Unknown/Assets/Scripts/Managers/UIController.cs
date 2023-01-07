@@ -195,7 +195,7 @@ public class UIController : Singleton<UIController>
         btn.MyKeyIcon.sprite = keySprite;
     }
 
-    public void showMessage(string message)
+    public void ShowMessage(string message)
     {
         _toolTipText.text = message;
         Tooltip.Instance.GetComponent<Tooltip>().StartOpen();
