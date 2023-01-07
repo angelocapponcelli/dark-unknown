@@ -77,7 +77,7 @@ public class DUController : EnemyController
         for (int j = 0; j < 4; j++)
         {
             float angle = Random.Range(0f, 2f * Mathf.PI);
-            for (int i = 0; i < Random.Range(30,35); i++)
+            for (int i = 0; i < Random.Range(50,55); i++)
             {
                 float angleDir, randomQuantity = Random.Range(-Mathf.PI, Mathf.PI);
                 angleDir = angle + randomQuantity;
