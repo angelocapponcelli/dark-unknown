@@ -234,13 +234,16 @@ public class UndeadController : EnemyController
 
     public void Recover()
     {
-        EnableBoxCollider();
-
         StartCoroutine(RecoverySequence());
     }
     
     public override IEnumerator RecoverySequence()
     {
+        EnableBoxCollider();
+        if (isDead)
+        {
+            IncrementEnemyCounter(LevelManager.Instance.GetCurrentRoom());
+        }
         _currentHealth = _maxHealth;
         _animator.AnimateRecover();
         yield return new WaitForSeconds(1f);
