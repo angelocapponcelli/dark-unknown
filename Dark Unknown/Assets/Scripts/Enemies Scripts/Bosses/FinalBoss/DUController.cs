@@ -6,6 +6,7 @@ public class DUController : EnemyController
 {
     [SerializeField] private GameObject beam;
     private readonly Vector3 _beamPos = new Vector3(0, 0, 0);
+    [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private GameObject eyeProjectile;
     private float velocityProjectileMax = 5f, velocityProjectileMin = 2f;
     [SerializeField] private GameObject _leftEffect;
@@ -83,7 +84,7 @@ public class DUController : EnemyController
                 angleDir = angle + randomQuantity;
                 if (!isDead)
                 {
-                    GameObject projectile = Instantiate(eyeProjectile, transform.position, beam.transform.rotation);
+                    GameObject projectile = Instantiate(eyeProjectile, projectileSpawnPoint.position, beam.transform.rotation);
                     Vector2 direction = new Vector2 (Mathf.Cos(angleDir), Mathf.Sin(angleDir));
                     projectile.GetComponent<Rigidbody2D>().velocity = direction * Random.Range(velocityProjectileMin, velocityProjectileMax);
                 }
