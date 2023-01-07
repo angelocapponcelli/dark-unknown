@@ -90,22 +90,23 @@ public class LevelManager : Singleton<LevelManager>
             UIController.Instance.SetRoomText("Rooms before Boss: " + (roomsBeforeBoss - _roomsTraversed));
         }
         
-        Debug.Log(_currentLevel);
-
         //Instantiate potion every tot rooms
+        UIController.Instance.ShowHealthPotionSpawnedText(false);
         if (_potionCounter == 0 || roomType == RoomLogic.Type.BOSS)
         {
             _currentRoom.InstantiatePotion();
+            UIController.Instance.ShowHealthPotionSpawnedText(true);
             _potionCounter = roomsBetweenPotions;
         }
         else if (_potionCounter > 0 && roomType != RoomLogic.Type.HUB && _currentLevel < 3)
         {
-            Debug.Log("Potion countdown: " + _potionCounter);
+            print("Potion countdown: " + _potionCounter);
             _potionCounter--;
         }
         else if (_currentLevel == 3 && roomType != RoomLogic.Type.HUB)
         {
             _currentRoom.InstantiatePotion();
+            UIController.Instance.ShowHealthPotionSpawnedText(true);
         }
 
         //load next rooms

@@ -8,8 +8,11 @@ public class UIController : Singleton<UIController>
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Text _healthText;
     [SerializeField] private Slider _manaBar;
+    
     [SerializeField] private Text _roomText;
     [SerializeField] private Text enemyLeftCounter;
+    [SerializeField] private Text healthPotionSpawned;
+    
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
     [SerializeField] private Text _killedRewardText;
@@ -93,6 +96,12 @@ public class UIController : Singleton<UIController>
     public void SetRoomText(string text)
     {
         _roomText.text = text;
+    }
+    
+    public void ShowHealthPotionSpawnedText(bool showing)
+    {
+        if (showing) healthPotionSpawned.enabled = true;
+        else healthPotionSpawned.enabled = false;
     }
     public void SetSpeedMultiplierText(string text)
     {

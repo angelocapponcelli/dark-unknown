@@ -380,7 +380,7 @@ public class RoomLogic : MonoBehaviour
     {
         var position = spawnPointPotion.position;
         Instantiate(_healthReward, position, Quaternion.identity);
-        Debug.Log("Potion spawned.");
+        print("Potion spawned.");
     }
 
     public void AddEnemyToList(EnemyController enemy)
