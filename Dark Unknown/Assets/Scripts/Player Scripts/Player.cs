@@ -73,6 +73,7 @@ public class Player : Singleton<Player>, IEffectable
 
         _currentMana = 0;
         UIController.Instance.SetMaxMana(_maxMana);
+        //_currentMana = _maxMana;
     }
 
     // Update handles the animation changes based on the mouse pointer

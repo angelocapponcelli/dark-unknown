@@ -18,7 +18,7 @@ public class BatAbility : Ability
     public override void Activate()
     {
          _bat = Instantiate(_batPrefab, transform.position, Quaternion.identity);
-         _coroutine = StartCoroutine(timeToReturn(timeAlive));
+         _coroutine = StartCoroutine(TimeToReturn(timeAlive));
     }
 
     public void Deactivate()
@@ -28,7 +28,7 @@ public class BatAbility : Ability
         isActive = false;
     }
     
-    private IEnumerator timeToReturn(float seconds)
+    private IEnumerator TimeToReturn(float seconds)
     {
         isActive = true;
         yield return new WaitForSeconds(seconds);

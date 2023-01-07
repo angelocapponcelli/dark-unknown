@@ -27,6 +27,8 @@ public class SpiderBossController : EnemyController, IEffectable
     private float _currentEffectTime = 0;
     private float _nextTickTime = 0;
     private GameObject _statusEffectParticles;
+
+    private Coroutine _delayedCrystalDeactivation;
     // only for testing
     //private GameObject[] _crystals;
 
@@ -382,6 +384,7 @@ public class SpiderBossController : EnemyController, IEffectable
         yield return new WaitForSeconds(0.5f);
         _isHealing = false;
         _crystalDestroyed = false;
+        StopCoroutine(_delayedCrystalDeactivation);
         if (_healingCounter > 0) yield break;
         _healingCounter = healingCountdown;
     }
@@ -431,7 +434,7 @@ public class SpiderBossController : EnemyController, IEffectable
             {
                 _currentHealth = _maxHealth;
                 RemoveEffect();
-                StartCoroutine(DelayedDeactivateCrystal());
+                _delayedCrystalDeactivation = StartCoroutine(DelayedDeactivateCrystal());
             }
             else _currentHealth += _statusEffect.damage;
             UIController.Instance.SetBossHealth(_currentHealth);

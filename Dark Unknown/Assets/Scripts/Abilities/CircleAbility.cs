@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class CircleAbility : Ability
     [SerializeField] private float _speedRotate = 50f;
     private List<GameObject> _activeProjectile = new List<GameObject>();
     [SerializeField] private GameObject _abilityReward;
+    [SerializeField] private float timeAlive = 20f;
+    private Coroutine _deactivation;
     
     // Start is called before the first frame update
     private void Start()
@@ -20,33 +23,45 @@ public class CircleAbility : Ability
 
     public override void Activate()
     {
-        for (int i = 0; i < _numberProjectile; i++)
+        for (var i = 0; i < _numberProjectile; i++)
         {
-            float angle = i * Mathf.PI*2f / _numberProjectile;
-            Vector2 newPos = new Vector2(Mathf.Cos(angle)*_radius, Mathf.Sin(angle)*_radius);
-            GameObject projectile = Instantiate(_projectile, newPos, Quaternion.identity);
+            var angle = i * Mathf.PI*2f / _numberProjectile;
+            var newPos = new Vector2(Mathf.Cos(angle)*_radius, Mathf.Sin(angle)*_radius);
+            var projectile = Instantiate(_projectile, newPos, Quaternion.identity);
             projectile.gameObject.transform.parent = gameObject.transform;
             projectile.transform.localPosition = newPos;
             _activeProjectile.Add(projectile);
         }
 
         isActive = true;
+        _deactivation = StartCoroutine(DelayedDeactivation(timeAlive));
     }
 
     private void Update()
     {
-        if (isActive)
+        if (!isActive) return;
+        transform.Rotate(Vector3.forward * (_speedRotate * Time.deltaTime));
+        foreach (var projectile in _activeProjectile.ToList())
         {
-            transform.Rotate(Vector3.forward * (_speedRotate * Time.deltaTime));
-            foreach (GameObject projectile in _activeProjectile.ToList())
-            {
-                if (projectile == null)
-                    _activeProjectile.Remove(projectile);
-            }
-
-            if (_activeProjectile.Count == 0)
-                isActive = false;
+            if (projectile == null)
+                _activeProjectile.Remove(projectile);
         }
+
+        if (_activeProjectile.Count != 0) return;
+        isActive = false;
+        StopCoroutine(_deactivation);
+    }
+    
+    private IEnumerator DelayedDeactivation(float seconds)
+    {
+        Debug.Log("Deactivation coroutine started");
+        yield return new WaitForSeconds(seconds);
+        foreach (var projectile in _activeProjectile.ToList())
+        {
+            Destroy(projectile);
+        }
+        Debug.Log("Projectiles deactivated");
+        isActive = false;
     }
 
     public override string GetText()
