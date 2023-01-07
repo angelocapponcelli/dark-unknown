@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ArrowAttack : MonoBehaviour
 {
-    [SerializeField] private float _damage = 2f;
+    [SerializeField] private float _damage = 30f;
 
     private void Start()
     {

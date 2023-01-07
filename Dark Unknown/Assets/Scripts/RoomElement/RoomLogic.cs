@@ -230,38 +230,13 @@ public class RoomLogic : MonoBehaviour
                 print("Tag -> " + tag);
                 if (CompareTag("SmallRoom"))
                 {
-                    _numOfEnemies = Random.Range(6,11) * LevelManager.Instance.GetCurrentLevel(); //6 to 10 enemies (level 1)
+                    _numOfEnemies = Random.Range(6,10) * LevelManager.Instance.GetCurrentLevel(); //6 to 9 enemies (level 1)
                 }
                 else if (CompareTag("BigRoom"))
                 {
-                    _numOfEnemies = Random.Range(9,16) * LevelManager.Instance.GetCurrentLevel(); // 9 to 15 enemies (level 1)
+                    _numOfEnemies = Random.Range(9,13) * LevelManager.Instance.GetCurrentLevel(); // 9 to 12 enemies (level 1)
                 }
                 break;
-                /*if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
-                {
-                    _numOfEnemies = Random.Range(10, 15);
-                }
-                else if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 2)
-                {
-                    _numOfEnemies = Random.Range(15, 20);
-                }
-                else if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 3)
-                {
-                    _numOfEnemies = Random.Range(20, 25);
-                }
-                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
-                {
-                    _numOfEnemies = Random.Range(20, 25);
-                }
-                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 2)
-                {
-                    _numOfEnemies = Random.Range(30, 35);
-                }
-                else if (CompareTag("BigRoom") && (LevelManager.Instance.GetCurrentLevel()) == 3)
-                {
-                    _numOfEnemies = Random.Range(40, 50);
-                }
-                break;*/
             case Type.BOSS:
                 _numOfEnemies = Random.Range(5, 10);
                 StartCoroutine(SpawnBoss());
