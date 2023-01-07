@@ -186,6 +186,7 @@ public class Player : Singleton<Player>, IEffectable
 
             //game over
             if (!(_currentHealth <= 0)) return;
+            SetTargetIndicatorActive(false);
             StartCoroutine(Death());
             GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
             _playerMovement.IncreaseSpeed(0);
