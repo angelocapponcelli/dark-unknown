@@ -31,6 +31,7 @@ public class Player : Singleton<Player>, IEffectable
     private float _currentEffectTime = 0;
     private float _nextTickTime = 0;
     private GameObject _statusEffectParticles;
+    private int _needToRestart = 0;
 
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
@@ -410,22 +411,39 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ApplyEffect(StatusEffectData data)
     {
-        _statusEffect = data;
-        _statusEffectParticles = Instantiate(data.particles, transform);
+        //remove previous effect, if present
+        if (_statusEffect != null)
+        {
+            _needToRestart++;
+            _currentEffectTime = 0;
+            _nextTickTime = 0;
+        }
+        else
+        {
+            _statusEffect = data;
+            _statusEffectParticles = Instantiate(data.particles, transform);   
+        }
     }
 
     public void RemoveEffect()
     {
         StartCoroutine(RemoveEffectCoroutine());
     }
-    public IEnumerator RemoveEffectCoroutine()
+    private IEnumerator RemoveEffectCoroutine()
     {
         yield return new WaitForSeconds(_statusEffect.time);
-        
-        Destroy(_statusEffectParticles);
-        _statusEffect = null;
-        _currentEffectTime = 0;
-        _nextTickTime = 0;
+
+        if (_needToRestart != 0)
+        {
+            _needToRestart --;
+        }
+        else
+        {
+            Destroy(_statusEffectParticles);
+            _statusEffect = null;
+            _currentEffectTime = 0;
+            _nextTickTime = 0;
+        }
     }
 
     private void HandleEffect()
