@@ -25,6 +25,7 @@ public class GameOverManager : MonoBehaviour
     private static IEnumerator MainMenu()
     {
         yield return new WaitForSeconds(1);
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         SceneManager.LoadScene("Menu");
     }
     
