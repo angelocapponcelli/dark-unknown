@@ -8,6 +8,8 @@ public class BatController : EnemyController
     private Player _player;
     [SerializeField] private float _targetDistance;
     [SerializeField] private float _chaseDistance;
+    [SerializeField] private float maxDistance = 10f;
+    private Vector3 _offset = new Vector3(0, 1, 0);
     [SerializeField] private float attackDelay = 3f;
     private float _timeForNextAttack;
     [SerializeField] private GameObject[] _enemies;
@@ -72,12 +74,16 @@ public class BatController : EnemyController
         if (_timeForNextAttack > 0) _timeForNextAttack -= Time.deltaTime;
 
         _animator.AnimateEnemy(true, _targetDirection);
-        // If the skeleton is not dead
+        
+        if (_distance >= maxDistance)
+        {
+            transform.position = _player.transform.position + _offset;
+        }
         if (!_isAttacking && _distance >= _chaseDistance)
         {
             _movement.MoveEnemy(_direction);
         }
-
+        
         if (_timeElapsedFromShot >= _shotFrequency && _target && !_target.GetComponent<EnemyController>().IsDead())
         {
             AttackEvent();

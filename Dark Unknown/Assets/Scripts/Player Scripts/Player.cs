@@ -31,6 +31,7 @@ public class Player : Singleton<Player>, IEffectable
     private float _currentEffectTime = 0;
     private float _nextTickTime = 0;
     private GameObject _statusEffectParticles;
+    private int _needToRestart = 0;
 
     private float _healthMultiplier = 1;
     private float _speedMultiplier = 1;
@@ -370,11 +371,11 @@ public class Player : Singleton<Player>, IEffectable
         }
         else if(!_ability)
         {
-            UIController.Instance.ShowMessage("You don't have any skills yet, look for them among the rewards at the end of the room");
+            UIController.Instance.ShowMessage("You don't have any skills yet, look for them among the rewards at the end of the rooms.");
         }
         else
         {
-            UIController.Instance.ShowMessage("You don't have enough mana, defeat more enemies to get it");
+            UIController.Instance.ShowMessage("You don't have enough mana, defeat more enemies to get it.");
         }
     }
 
@@ -384,16 +385,14 @@ public class Player : Singleton<Player>, IEffectable
         {
             _currentMana += value;
             _currentMana = Math.Min(_currentMana, _maxMana);
-            if (_manaCoroutine != null) StopCoroutine(_manaCoroutine);
-            _manaCoroutine = StartCoroutine(UIController.Instance.SetMana(_currentMana));
+            UIController.Instance.SetMana(_currentMana);
         }
     }
 
     private void ReduceMana(float value)
     {
         _currentMana -= value;
-        StopCoroutine(_manaCoroutine);
-        UIController.Instance.SetManaInstant(_currentMana);
+        UIController.Instance.SetMana(_currentMana);
     }
 
     public bool HasPotion()
@@ -413,23 +412,45 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ApplyEffect(StatusEffectData data)
     {
-        _statusEffect = data;
-        _statusEffectParticles = Instantiate(data.particles, transform);
+        //remove previous effect, if present
+        if (_statusEffect != null)
+        {
+            _needToRestart++;
+            _currentEffectTime = 0;
+            _nextTickTime = 0;
+        }
+        else
+        {
+            _statusEffect = data;
+            _statusEffectParticles = Instantiate(data.particles, transform);   
+        }
     }
 
     public void RemoveEffect()
     {
-        Destroy(_statusEffectParticles);
-        _statusEffect = null;
-        _currentEffectTime = 0;
-        _nextTickTime = 0;
+        StartCoroutine(RemoveEffectCoroutine());
+    }
+    private IEnumerator RemoveEffectCoroutine()
+    {
+        yield return new WaitForSeconds(_statusEffect.time);
+
+        if (_needToRestart != 0)
+        {
+            _needToRestart --;
+        }
+        else
+        {
+            Destroy(_statusEffectParticles);
+            _statusEffect = null;
+            _currentEffectTime = 0;
+            _nextTickTime = 0;
+        }
     }
 
     private void HandleEffect()
     {
         _currentEffectTime += Time.deltaTime;
 
-        if (_currentEffectTime >= _statusEffect.time) RemoveEffect();
         if (_statusEffect == null) return;
         if (_currentEffectTime > _nextTickTime)
         {

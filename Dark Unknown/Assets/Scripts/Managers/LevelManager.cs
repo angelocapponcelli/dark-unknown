@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private int _currentLevel = 0; //is actually incremented when entering the boss room,
+    private int _currentLevel = 2; //is actually incremented when entering the boss room,
                                    //in order to properly update the resources. For the checkpoint, check both this and
                                    //_roomsTraversed, so that if this is n and _roomsTraversed=roomsBeforeBoss+1,
                                    //then you have to restart from the boss room of Level n-1
@@ -90,8 +90,6 @@ public class LevelManager : Singleton<LevelManager>
             UIController.Instance.SetRoomText("Rooms before Boss: " + (roomsBeforeBoss - _roomsTraversed));
         }
         
-        Debug.Log(_currentLevel);
-
         //Instantiate potion every tot rooms
         if (_potionCounter == 0 || roomType == RoomLogic.Type.BOSS)
         {
@@ -100,7 +98,7 @@ public class LevelManager : Singleton<LevelManager>
         }
         else if (_potionCounter > 0 && roomType != RoomLogic.Type.HUB && _currentLevel < 3)
         {
-            Debug.Log("Potion countdown: " + _potionCounter);
+            print("Potion countdown: " + _potionCounter);
             _potionCounter--;
         }
         else if (_currentLevel == 3 && roomType != RoomLogic.Type.HUB)
