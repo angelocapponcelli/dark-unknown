@@ -421,7 +421,6 @@ public class Player : Singleton<Player>, IEffectable
     public IEnumerator RemoveEffectCoroutine()
     {
         yield return new WaitForSeconds(_statusEffect.time);
-        print("Removing");
         
         Destroy(_statusEffectParticles);
         _statusEffect = null;
@@ -433,7 +432,6 @@ public class Player : Singleton<Player>, IEffectable
     {
         _currentEffectTime += Time.deltaTime;
 
-        //if (_currentEffectTime >= _statusEffect.time) RemoveEffect();
         if (_statusEffect == null) return;
         if (_currentEffectTime > _nextTickTime)
         {

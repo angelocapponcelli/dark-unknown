@@ -12,7 +12,6 @@ public class PoisonEffect : MonoBehaviour
         {
             if (character.gameObject.CompareTag("PlayerFeetCollider"))
             {
-                print("Effect time: " + statusEffect.time);
                 character.GetComponentInParent<Player>().ApplyEffect(statusEffect);
                 character.GetComponentInParent<Player>().TakeDamage(statusEffect.damage);
                 Player.Instance.RemoveEffect();
