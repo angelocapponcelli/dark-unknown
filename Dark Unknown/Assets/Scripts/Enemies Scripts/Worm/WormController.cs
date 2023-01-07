@@ -89,7 +89,7 @@ public class WormController : EnemyController
             _animator.flip(_direction);
             if (_isHidden)// && !isMoving)
             {
-                // Show();
+                Show();
             }
 
             if (_timeElapsedFromShot >= _shotFrequency && _shotsNumber <= 3 && _canAttack)// && !isMoving)
