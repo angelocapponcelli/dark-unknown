@@ -277,8 +277,8 @@ public class RoomLogic : MonoBehaviour
 
     private IEnumerator SpawnEnemies(int number)
     {
-        int spiderCounter = 0;
-        int spiderMax = (int) (number * spiderPercentage);
+        /*int spiderCounter = 0;
+        int spiderMax = (int) (number * spiderPercentage);*/
         /*print("spiders: " + spiderMax);
         print("skeletons" + (_numOfEnemies-spiderMax));*/
         

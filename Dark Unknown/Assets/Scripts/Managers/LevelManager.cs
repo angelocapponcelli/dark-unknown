@@ -100,6 +100,10 @@ public class LevelManager : Singleton<LevelManager>
             Debug.Log("Potion countdown: " + _potionCounter);
             _potionCounter--;
         }
+        else if (_currentLevel == 2)
+        {
+            _currentRoom.InstantiatePotion();
+        }
 
         //load next rooms
         _roomsTraversed++;
