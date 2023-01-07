@@ -174,7 +174,10 @@ public class LevelManager : Singleton<LevelManager>
         yield return new WaitForSeconds(1);
         CleanUpRoom();
         
+        print("Speed: " + playerSpeed);
+        
         //reset previous status
+        player.ResetDieSequence();
         player.GetPlayerMovement().SetSpeed(playerSpeed);
         player.GetPlayerMovement().enabled = true;
         player.GetPlayerInput().enabled = true;
