@@ -105,6 +105,10 @@ public class UndeadHeart : EnemyController
                 //Destroy(gameObject);
             }
         }*/
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            TakeDamageMelee(health);
+        }
     }
 
     private IEnumerator moveProjectile()

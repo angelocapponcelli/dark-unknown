@@ -13,7 +13,7 @@ public class SkeletonBossController : EnemyController
     [SerializeField] private float _maxHealth;
     [SerializeField] private float attackDelay = 3f;
     [SerializeField] private float vulnerabilityTime = 5f;
-    [SerializeField] private float reanimationCountDown = 20f;
+    [SerializeField] private float reanimationCountDown = 45f;
     private float _timeForNextAttack;
     private float _timeForNextReanimation;
     private bool _reanimationStarted = false;

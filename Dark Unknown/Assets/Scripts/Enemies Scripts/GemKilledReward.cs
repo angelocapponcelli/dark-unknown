@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -34,16 +35,14 @@ public class GemKilledReward : MonoBehaviour
         {
             if (_speed.x > 0 || _speed.y > 0)
             {
-                _speed -= _speed * Time.deltaTime;
+                _speed -= _speed * Time.deltaTime;  //speed reduction
                 transform.position += _speed * Time.deltaTime;
             }
         }
         else
         {
-            _speed.x = playerPosition.x - transform.position.x;
-            _speed.y = playerPosition.y - transform.position.y;
-            _speed += _speed * Time.deltaTime;
-            transform.position += _speed * Time.deltaTime;
+            //speed reduction done with the difference
+            transform.position += (playerPosition - transform.position) * (Time.deltaTime * 2f);
         }
     }
 
@@ -57,8 +56,6 @@ public class GemKilledReward : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            //save the taken gems in the UI
-
             LevelManager.Instance.killedRewards.Remove(gameObject);
             GameManager.Instance.player.ModifyKilledReward(1);
             

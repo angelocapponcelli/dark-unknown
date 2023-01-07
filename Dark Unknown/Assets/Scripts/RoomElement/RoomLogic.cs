@@ -226,8 +226,18 @@ public class RoomLogic : MonoBehaviour
             case Type.ICEPROJECTILE_ABILITY:
             case Type.AIRATTACK_ABILITY:
             case Type.SHIELD_ABILITY:
-            case Type.BAT_ABILITY:    
-                if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
+            case Type.BAT_ABILITY:   
+                print("Tag -> " + tag);
+                if (CompareTag("SmallRoom"))
+                {
+                    _numOfEnemies = Random.Range(6,11) * LevelManager.Instance.GetCurrentLevel(); //6 to 10 enemies (level 1)
+                }
+                else if (CompareTag("BigRoom"))
+                {
+                    _numOfEnemies = Random.Range(9,16) * LevelManager.Instance.GetCurrentLevel(); // 9 to 15 enemies (level 1)
+                }
+                break;
+                /*if (CompareTag("SmallRoom") && (LevelManager.Instance.GetCurrentLevel()) == 1)
                 {
                     _numOfEnemies = Random.Range(10, 15);
                 }
@@ -251,9 +261,9 @@ public class RoomLogic : MonoBehaviour
                 {
                     _numOfEnemies = Random.Range(40, 50);
                 }
-                break;
+                break;*/
             case Type.BOSS:
-                _numOfEnemies = Random.Range(10, 15);
+                _numOfEnemies = Random.Range(5, 10);
                 StartCoroutine(SpawnBoss());
                 break;
         }

@@ -156,7 +156,7 @@ public class UIController : Singleton<UIController>
     
     public void DashCoolDown()
     {
-        Debug.Log("Cooldown started");
+        //Debug.Log("Cooldown started");
         _dashAnimator.SetTrigger(Dash);
     }
 

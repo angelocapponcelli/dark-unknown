@@ -84,7 +84,7 @@ public class Tooltip : Singleton<MonoBehaviour>
             if (animSettings.widthOpen && animSettings.heightOpen)
             {
                 _lifeTimer += Time.deltaTime;
-                Debug.Log(_lifeTimer);
+                //Debug.Log(_lifeTimer);
                 if (_lifeTimer > uiSettings.lifeSpan) FadeToolTipOut();
                 else FadeTextIn();
             }
