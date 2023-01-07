@@ -148,16 +148,16 @@ public class Player : Singleton<Player>, IEffectable
         }
 
         //--- CHEATS ---
-        if (Input.GetKeyDown(KeyCode.I))
+        /*if (Input.GetKeyDown(KeyCode.I))
         {
             _invincible = !_invincible;
             Debug.Log("Player is invincible: " + _invincible);
-        }
+        }*/
 
-        if (Input.GetKeyDown(KeyCode.L))
+        /*if (Input.GetKeyDown(KeyCode.L))
         {
             ModifyKilledReward(100);
-        }
+        }*/
     }
 
     // FixedUpdate handles the movement
@@ -176,7 +176,7 @@ public class Player : Singleton<Player>, IEffectable
         if (_ability == null || !_ability.GetComponent<ShieldAbility>() ||
             (_ability.GetComponent<ShieldAbility>() && !_ability.IsActive()))
         {
-            if (_invincible) return;
+            //if (_invincible) return;
             if (_currentHealth - damage <= 0) _currentHealth = 0;
             else _currentHealth -= damage;
             UIController.Instance.SetHealth(_currentHealth);
