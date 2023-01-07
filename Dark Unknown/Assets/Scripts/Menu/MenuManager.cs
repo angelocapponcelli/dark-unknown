@@ -178,7 +178,7 @@ public class MenuManager : Singleton<MenuManager>
 
     public void PlayGame()
     {
-        Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.ForceSoftware);
         animator.SetTrigger(Quit);
         StartCoroutine(LoadGameCoroutine());
 
