@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private int _currentLevel = 0; //is actually incremented when entering the boss room,
+    private int _currentLevel = 1; //is actually incremented when entering the boss room,
                                    //in order to properly update the resources. For the checkpoint, check both this and
                                    //_roomsTraversed, so that if this is n and _roomsTraversed=roomsBeforeBoss+1,
                                    //then you have to restart from the boss room of Level n-1

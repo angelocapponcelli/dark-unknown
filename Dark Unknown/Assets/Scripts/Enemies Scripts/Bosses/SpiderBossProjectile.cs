@@ -33,7 +33,7 @@ public class SpiderBossProjectile : MonoBehaviour
             collision.CompareTag("Enemy")) return;*/
         if (collision.CompareTag("Trap") ||
             collision.CompareTag("Projectile") ||
-            collision.gameObject.transform.parent.CompareTag("EnemyCollider") ||
+            collision.gameObject.CompareTag("EnemyCollider") ||
             collision.gameObject.CompareTag("EnemyFeetCollider")) return;
         _animator.SetTrigger("destroy");
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
