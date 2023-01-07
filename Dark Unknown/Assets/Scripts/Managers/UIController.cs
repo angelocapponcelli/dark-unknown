@@ -11,7 +11,6 @@ public class UIController : Singleton<UIController>
     
     [SerializeField] private Text _roomText;
     [SerializeField] private Text enemyLeftCounter;
-    [SerializeField] private Text healthPotionSpawned;
     
     [SerializeField] private Text _speedMultiplierText;
     [SerializeField] private Text _strengthMultiplierText;
@@ -98,11 +97,11 @@ public class UIController : Singleton<UIController>
         _roomText.text = text;
     }
     
-    public void ShowHealthPotionSpawnedText(bool showing)
+    /*public void ShowHealthPotionSpawnedText(bool showing)
     {
         if (showing) healthPotionSpawned.enabled = true;
         else healthPotionSpawned.enabled = false;
-    }
+    }*/
     public void SetSpeedMultiplierText(string text)
     {
         _speedMultiplierText.text = text;

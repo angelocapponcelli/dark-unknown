@@ -421,7 +421,7 @@ RectTransform:
   - {fileID: 3772535685594633849}
   - {fileID: 8686783099352732453}
   m_Father: {fileID: 4389756995797250908}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -680,86 +680,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Enemies left: '
---- !u!1 &3438625506014467750
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7584923757260080144}
-  - component: {fileID: 1991070815271170991}
-  - component: {fileID: 841979359518818981}
-  m_Layer: 5
-  m_Name: HealthPotionSpawned
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &7584923757260080144
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438625506014467750}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4389756995797250908}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 618.59, y: 321.59}
-  m_SizeDelta: {x: 654.3411, y: 86.8208}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1991070815271170991
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438625506014467750}
-  m_CullTransparentMesh: 1
---- !u!114 &841979359518818981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438625506014467750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 40a9f4934b44a9741aa6ccc8a99758b7, type: 3}
-    m_FontSize: 90
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 90
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Health Potion Spawned
 --- !u!1 &3495862662802391426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,7 +1033,6 @@ RectTransform:
   - {fileID: 6082880534834418770}
   - {fileID: 6082880535554341001}
   - {fileID: 2124218877299531584}
-  - {fileID: 7584923757260080144}
   - {fileID: 8826279711040522706}
   - {fileID: 4692569916861916238}
   m_Father: {fileID: 4389756996071290293}
@@ -1470,7 +1389,6 @@ MonoBehaviour:
   _manaBar: {fileID: 5532038158288098789}
   _roomText: {fileID: 6082880535554340998}
   enemyLeftCounter: {fileID: 5228560296883122605}
-  healthPotionSpawned: {fileID: 841979359518818981}
   _speedMultiplierText: {fileID: 6082880534378310393}
   _strengthMultiplierText: {fileID: 6082880535918492653}
   _killedRewardText: {fileID: 3595670891445679348}
@@ -5925,7 +5843,7 @@ RectTransform:
   m_Children:
   - {fileID: 6082880534932329330}
   m_Father: {fileID: 4389756995797250908}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}

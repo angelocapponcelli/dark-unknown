@@ -369,11 +369,11 @@ public class Player : Singleton<Player>, IEffectable
         }
         else if(!_ability)
         {
-            UIController.Instance.ShowMessage("You don't have any skills yet, look for them among the rewards at the end of the room");
+            UIController.Instance.ShowMessage("You don't have any skills yet, look for them among the rewards at the end of the rooms.");
         }
         else
         {
-            UIController.Instance.ShowMessage("You don't have enough mana, defeat more enemies to get it");
+            UIController.Instance.ShowMessage("You don't have enough mana, defeat more enemies to get it.");
         }
     }
 

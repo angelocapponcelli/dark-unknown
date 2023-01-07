@@ -91,11 +91,9 @@ public class LevelManager : Singleton<LevelManager>
         }
         
         //Instantiate potion every tot rooms
-        UIController.Instance.ShowHealthPotionSpawnedText(false);
         if (_potionCounter == 0 || roomType == RoomLogic.Type.BOSS)
         {
             _currentRoom.InstantiatePotion();
-            UIController.Instance.ShowHealthPotionSpawnedText(true);
             _potionCounter = roomsBetweenPotions;
         }
         else if (_potionCounter > 0 && roomType != RoomLogic.Type.HUB && _currentLevel < 3)
@@ -106,7 +104,6 @@ public class LevelManager : Singleton<LevelManager>
         else if (_currentLevel == 3 && roomType != RoomLogic.Type.HUB)
         {
             _currentRoom.InstantiatePotion();
-            UIController.Instance.ShowHealthPotionSpawnedText(true);
         }
 
         //load next rooms
