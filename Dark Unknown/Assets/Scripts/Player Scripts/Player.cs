@@ -60,7 +60,6 @@ public class Player : Singleton<Player>, IEffectable
         _playerAnimation = GetComponent<PlayerAnimation>();
         _playerRenderer = GetComponent<SpriteRenderer>();
         
-        
         _weaponParent = GetComponentInChildren<WeaponParent>();
 
         _playerInput.LeftClick += () => _weaponParent.Attack();
@@ -82,7 +81,7 @@ public class Player : Singleton<Player>, IEffectable
         if (PauseMenu.GameIsPaused) return;
         _weaponParent.PointerPosition = _playerInput.PointerPosition;
         _playerAnimation.AnimatePlayer(_playerInput.MovementDirection.x, _playerInput.MovementDirection.y,
-            _playerInput.PointerPosition, _playerMovement.GetRBPos());
+            _playerInput.PointerPosition, _playerMovement.GetRbPos());
 
         if (_playerMovement.IsDashing())
         {
