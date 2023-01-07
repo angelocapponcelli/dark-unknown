@@ -50,6 +50,8 @@ public class Player : Singleton<Player>, IEffectable
     private bool _hasPotion;
     private Ability _ability;
 
+    private bool _dieSequence = false;
+
     private bool _invincible;
 
     // Start is called before the first frame update
@@ -186,16 +188,22 @@ public class Player : Singleton<Player>, IEffectable
             AudioManager.Instance.PlayPLayerHurtSound();
 
             //game over
-            if (!(_currentHealth <= 0)) return;
+            if (_currentHealth > 0) return;
             SetTargetIndicatorActive(false);
             StartCoroutine(Death());
-            GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
-            _playerMovement.IncreaseSpeed(0);
-            _playerMovement.enabled = false;
-            _playerInput.enabled = false;
-            PlayerEvents.PlayerHit.Invoke();
-            AudioManager.Instance.PlayPLayerHurtSound();
-            GameManager.Instance.LoadDeathScreen();
+            print("HERE");
+
+            if (!_dieSequence)
+            {
+                _dieSequence = true;
+                GameManager.Instance.playerSpeed = _playerMovement.GetSpeed();
+                _playerMovement.IncreaseSpeed(0);
+                _playerMovement.enabled = false;
+                _playerInput.enabled = false;
+                PlayerEvents.PlayerHit.Invoke();
+                AudioManager.Instance.PlayPLayerHurtSound();
+                GameManager.Instance.LoadDeathScreen();
+            }
         }
     }
 
@@ -478,5 +486,10 @@ public class Player : Singleton<Player>, IEffectable
     public void SetTargetIndicatorActive(bool active)
     {
         _targetIndicator.gameObject.SetActive(active);
+    }
+    
+    public void ResetDieSequence()
+    {
+        _dieSequence = false;
     }
 }
