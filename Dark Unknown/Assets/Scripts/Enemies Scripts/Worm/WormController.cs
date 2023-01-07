@@ -84,12 +84,12 @@ public class WormController : EnemyController
             if (!_coroutineRunning)
             {
                 _coroutineRunning = true;
-                StartCoroutine(FindNewPosition());
+                // StartCoroutine(FindNewPosition());
             }
             _animator.flip(_direction);
             if (_isHidden)// && !isMoving)
             {
-                Show();
+                // Show();
             }
 
             if (_timeElapsedFromShot >= _shotFrequency && _shotsNumber <= 3 && _canAttack)// && !isMoving)
@@ -100,7 +100,7 @@ public class WormController : EnemyController
             } else if (_shotsNumber > 3)// && !isMoving)
             {
                 _shotsNumber = 0;
-                StartCoroutine(Move());
+                // StartCoroutine(Move());
             }
             
             
@@ -109,7 +109,7 @@ public class WormController : EnemyController
             if (!_isHidden)
             {
                 _shotsNumber = 0;
-                Hide();   
+                // Hide();   
             }
         }
         // -- Handle Animations --
@@ -215,7 +215,7 @@ public class WormController : EnemyController
         _coroutineRunning = false;
     }
 
-    private IEnumerator Move()
+    /*private IEnumerator Move()
     {
         Hide();
         yield return new WaitForSeconds(1.8f);
@@ -229,8 +229,8 @@ public class WormController : EnemyController
         velCollider = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         isMoving = false;
-        //transform.position = _nextPosition.position*0.8f;*/
-    }
+        //transform.position = _nextPosition.position*0.8f;
+    }*/
 
     private void Attack()
     {
