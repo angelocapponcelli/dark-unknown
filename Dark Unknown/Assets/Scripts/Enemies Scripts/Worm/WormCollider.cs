@@ -9,7 +9,6 @@ public class WormCollider : MonoBehaviour
     {
         if (collider.gameObject.layer == 8)
         {
-            Debug.Log(collider.name);
             float angle =
                 Mathf.Atan2(GetComponentInParent<WormController>().GetVelocity().y,
                     GetComponentInParent<WormController>().GetVelocity().x) +

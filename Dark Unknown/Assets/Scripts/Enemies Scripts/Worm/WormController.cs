@@ -41,6 +41,7 @@ public class WormController : EnemyController
 
     private Vector2 lastVelocity;
     private bool isMoving;
+    private bool velCollider = false;
     
     private void Start()
     {
@@ -220,9 +221,11 @@ public class WormController : EnemyController
         Hide();
         isMoving = true;
         yield return new WaitForSeconds(1.9f);
-        lastVelocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
+        if (velCollider)
+            lastVelocity = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized * 10f;
         GetComponent<Rigidbody2D>().velocity = lastVelocity;
         yield return new WaitForSeconds(0.3f);
+        velCollider = false;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         isMoving = false;
         //transform.position = _nextPosition.position*0.8f;
@@ -296,6 +299,7 @@ public class WormController : EnemyController
     public void SetVelocity(Vector2 value)
     {
         lastVelocity = value;
+        velCollider = true;
     }
     
     public Vector2 GetVelocity()
