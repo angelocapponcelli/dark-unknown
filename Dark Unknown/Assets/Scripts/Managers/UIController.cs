@@ -70,14 +70,10 @@ public class UIController : Singleton<UIController>
         _manaBar.maxValue = mana;
         _manaBar.value = 0;
     }
-    public IEnumerator SetMana(float value)
+    public void SetMana(float value)
     {
-        do
-        {
-            _manaBar.value = Mathf.MoveTowards(_manaBar.value, value, Time.deltaTime);
-            yield return new WaitForSecondsRealtime(0.01f);
-        } while (Math.Abs(_manaBar.value - value) > 0.1f);
-
+        _manaBar.value = value;
+        
         if (Math.Abs(_manaBar.value - _manaBar.maxValue) < 0.1f) StartCoroutine(PulseMana());
     }
 
@@ -94,12 +90,6 @@ public class UIController : Singleton<UIController>
         _manaBar.fillRect.GetComponent<Image>().color = a;
     }
 
-    public void SetManaInstant(float value)
-    {
-        _manaBar.value = value;
-        if (Math.Abs(_manaBar.value - _manaBar.maxValue) < 0.1f) StartCoroutine(PulseMana());
-    }
-    
     public void SetRoomText(string text)
     {
         _roomText.text = text;

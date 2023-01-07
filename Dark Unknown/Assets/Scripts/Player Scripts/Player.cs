@@ -383,16 +383,14 @@ public class Player : Singleton<Player>, IEffectable
         {
             _currentMana += value;
             _currentMana = Math.Min(_currentMana, _maxMana);
-            if (_manaCoroutine != null) StopCoroutine(_manaCoroutine);
-            _manaCoroutine = StartCoroutine(UIController.Instance.SetMana(_currentMana));
+            UIController.Instance.SetMana(_currentMana);
         }
     }
 
     private void ReduceMana(float value)
     {
         _currentMana -= value;
-        StopCoroutine(_manaCoroutine);
-        UIController.Instance.SetManaInstant(_currentMana);
+        UIController.Instance.SetMana(_currentMana);
     }
 
     public bool HasPotion()
