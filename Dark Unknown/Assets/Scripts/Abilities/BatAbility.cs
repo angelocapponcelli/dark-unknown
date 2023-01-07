@@ -38,7 +38,7 @@ public class BatAbility : Ability
 
     public override string GetText()
     {
-        return "a new ability that spawn a bat that hit enemies.";
+        return "a new ability that spawns a bat that will follow you and hit enemies.";
     }
     
     public override GameObject GetAbilityReward()
