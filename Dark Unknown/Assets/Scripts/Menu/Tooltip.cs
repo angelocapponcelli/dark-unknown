@@ -172,6 +172,6 @@ public class Tooltip : Singleton<MonoBehaviour>
     {
         uiSettings.textColor.a = Mathf.Lerp(uiSettings.textColor.a, 1, animSettings.textSmooth * Time.deltaTime);
         uiSettings.text.color = uiSettings.textColor;
-        Debug.Log("text fading in.");
+        //Debug.Log("text fading in.");
     }
 }

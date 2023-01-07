@@ -111,7 +111,7 @@ public class SpiderBossController : EnemyController, IEffectable
             if (_healingCounter > 0)
             {
                 _healingCounter -= Time.deltaTime;
-                Debug.Log(_healingCounter);
+                //Debug.Log(_healingCounter);
                 if (_healingCounter <= 0 && _isHealing == false)
                 {
                     Debug.Log("Started healing");
