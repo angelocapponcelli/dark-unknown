@@ -191,7 +191,33 @@ public class RoomLogic : MonoBehaviour
                 {
                     var i = Random.Range(0, _possibleSymbols.Count);
                     d.SetSymbol(_possibleSymbols[i]);
-                    _possibleSymbols.RemoveAt(i);
+                    if (_possibleSymbols[i].type == Type.AXE || _possibleSymbols[i].type == Type.BOW ||
+                        _possibleSymbols[i].type == Type.SWORD)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.AXE);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.BOW);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.SWORD);
+                        _possibleSymbols.Remove(toRemove);
+                    }
+                    else if (_possibleSymbols[i].type == Type.CIRCLE_ABILITY ||
+                        _possibleSymbols[i].type == Type.ICEPROJECTILE_ABILITY ||
+                        _possibleSymbols[i].type == Type.BAT_ABILITY ||
+                        _possibleSymbols[i].type == Type.SHIELD_ABILITY ||
+                        _possibleSymbols[i].type == Type.AIRATTACK_ABILITY)
+                    {
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.CIRCLE_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.ICEPROJECTILE_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.BAT_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.SHIELD_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                        toRemove = _possibleSymbols.Find(x => x.type == Type.AIRATTACK_ABILITY);
+                        _possibleSymbols.Remove(toRemove);
+                    } else _possibleSymbols.RemoveAt(i);
                 }
             }
             
