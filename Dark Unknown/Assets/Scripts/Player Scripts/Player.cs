@@ -359,6 +359,23 @@ public class Player : Singleton<Player>, IEffectable
     {
         _currentHealth = _maxHealth;
     }
+    
+    public void ActivateAbility()
+    {
+        if (_ability && !_ability.IsActive() && _currentMana >= _ability.GetCost())
+        {
+            _ability.Activate();
+            ReduceMana(_ability.GetCost());
+        }
+        else if(!_ability)
+        {
+            UIController.Instance.showMessage("You don't have any skills yet, look for them among the rewards at the end of the room");
+        }
+        else
+        {
+            UIController.Instance.showMessage("You don't have enough mana, defeat more enemies to get it");
+        }
+    }
 
     public void IncreaseMana(float value)
     {
@@ -371,11 +388,11 @@ public class Player : Singleton<Player>, IEffectable
         }
     }
 
-    public void ManaToZero()
+    private void ReduceMana(float value)
     {
-        _currentMana = 0;
+        _currentMana -= value;
         StopCoroutine(_manaCoroutine);
-        _manaCoroutine = StartCoroutine(UIController.Instance.SetMana(_currentMana));
+        UIController.Instance.SetManaInstant(_currentMana);
     }
 
     public bool HasPotion()
@@ -393,10 +410,10 @@ public class Player : Singleton<Player>, IEffectable
         return _weaponParent;
     }
 
-    public void ApplyEffect(StatusEffectData _data)
+    public void ApplyEffect(StatusEffectData data)
     {
-        _statusEffect = _data;
-        _statusEffectParticles = Instantiate(_data.particles, transform);
+        _statusEffect = data;
+        _statusEffectParticles = Instantiate(data.particles, transform);
     }
 
     public void RemoveEffect()
@@ -429,24 +446,6 @@ public class Player : Singleton<Player>, IEffectable
     public PlayerInput GetPlayerInput()
     {
         return _playerInput;
-    }
-
-    public void ActivateAbility()
-    {
-        if (_ability && !_ability.IsActive() && _currentMana==_maxMana)
-        {
-            _ability.Activate();
-            ManaToZero();
-            //TODO Messaggio d'errore se non può attivarlo
-        }
-        else if(!_ability)
-        {
-            UIController.Instance.showMessage("You don't have any skills yet, look for them among the rewards at the end of the room");
-        }
-        else
-        {
-            UIController.Instance.showMessage("You don't have enough mana, defeat more enemies to get it");
-        }
     }
 
     public void SetTargetPosition(Vector3 position)

@@ -76,23 +76,30 @@ public class UIController : Singleton<UIController>
         {
             _manaBar.value = Mathf.MoveTowards(_manaBar.value, value, Time.deltaTime);
             yield return new WaitForSecondsRealtime(0.01f);
-        } while (_manaBar.value != value);
+        } while (Math.Abs(_manaBar.value - value) > 0.1f);
 
-        if (_manaBar.value == _manaBar.maxValue) StartCoroutine(pulseMana());
+        if (Math.Abs(_manaBar.value - _manaBar.maxValue) < 0.1f) StartCoroutine(PulseMana());
     }
 
-    IEnumerator pulseMana()
+    private IEnumerator PulseMana()
     {
         Color a = new Color32(30, 171, 200, 255);
         Color b = new Color32(172,242,255,255);
         do
         {
-            Color lerpedColor = Color.Lerp(a, b, Mathf.PingPong(Time.time, 1));
+            var lerpedColor = Color.Lerp(a, b, Mathf.PingPong(Time.time, 1));
             _manaBar.fillRect.GetComponent<Image>().color = lerpedColor;
             yield return new WaitForSecondsRealtime(0.005f);
-        } while (_manaBar.value == _manaBar.maxValue);
+        } while (Math.Abs(_manaBar.value - _manaBar.maxValue) < 0.1f);
         _manaBar.fillRect.GetComponent<Image>().color = a;
     }
+
+    public void SetManaInstant(float value)
+    {
+        _manaBar.value = value;
+        if (Math.Abs(_manaBar.value - _manaBar.maxValue) < 0.1f) StartCoroutine(PulseMana());
+    }
+    
     public void SetRoomText(string text)
     {
         _roomText.text = text;

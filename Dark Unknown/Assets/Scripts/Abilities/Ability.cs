@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {
     protected bool isActive;
+    [SerializeField] private float cost;
 
     public void SetIsActive(bool value)
     {
@@ -12,6 +13,11 @@ public abstract class Ability : MonoBehaviour
     public bool IsActive()
     {
         return isActive;
+    }
+
+    public float GetCost()
+    {
+        return cost;
     }
     public abstract void Activate();
     public abstract string GetText();
