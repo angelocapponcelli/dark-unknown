@@ -103,7 +103,7 @@ public class Worm2Controller : EnemyController
         // -- Handle Animations --
         // Hurt
         if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(50);
+            TakeDamageMelee(_maxHealth);
         
     }
 

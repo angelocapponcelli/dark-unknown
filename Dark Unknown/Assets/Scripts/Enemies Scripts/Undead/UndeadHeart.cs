@@ -88,7 +88,7 @@ public class UndeadHeart : EnemyController
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(100);
+            TakeDamageMelee(health);
         /*if (Math.Abs(transform.position.x-_offsetPosition.x) < Math.Abs(_targetPosition.x))
         {
             StartCoroutine(moveProjectile());

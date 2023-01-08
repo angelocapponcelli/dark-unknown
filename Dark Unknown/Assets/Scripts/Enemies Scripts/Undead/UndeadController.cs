@@ -122,7 +122,7 @@ public class UndeadController : EnemyController
         // -- Handle Animations --
         // Hurt
         if (Input.GetKeyDown(KeyCode.Alpha0))
-            TakeDamageMelee(100);
+            TakeDamageMelee(_maxHealth);
     }
 
     private void AttackEvent()
