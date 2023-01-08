@@ -14,7 +14,7 @@ public class IncreaseHealth : MonoBehaviour
     [SerializeField] private Text costText;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _canBuy = false;
         _collider2D = GetComponent<Collider2D>();
@@ -22,9 +22,9 @@ public class IncreaseHealth : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (_canBuy && Input.GetKeyDown(InputManager.Instance.GetKeyForAction(KeybindingActions.Interact)))
+        if (_canBuy && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
         {
            _collider2D.enabled = false;
             Player.Instance.IncreaseHealth(healthIncrease);
@@ -42,12 +42,12 @@ public class IncreaseHealth : MonoBehaviour
             {
                 Player.Instance.ShowPlayerUI(true, "Press " + 
                                                    InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                                                   " to increase your max health");
+                                                   " to increase your max health by 50.");
                 _canBuy = true;
             }
             else
             {
-                Player.Instance.ShowPlayerUI(true, "Can't buy the health increase");
+                Player.Instance.ShowPlayerUI(true, "Can't buy the health increase.");
                 _canBuy = false;
             }
         }
