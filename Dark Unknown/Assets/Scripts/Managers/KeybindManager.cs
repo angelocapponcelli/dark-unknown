@@ -49,7 +49,8 @@ public class KeybindManager : Singleton<KeybindManager>
             PlayerPrefs.GetString("Potion", "Q")));
         _inputManager.SetKeyForAction(KeybindingActions.Spell, (KeyCode) System.Enum.Parse(typeof(KeyCode), 
             PlayerPrefs.GetString("Spell", "E")));
-        
+
+        NoneKeysCheck(); // To test, possible fix for none keys
         UpdateAllKeysText();
         SaveKeybindingsArray();
     }
@@ -187,5 +188,41 @@ public class KeybindManager : Singleton<KeybindManager>
             _inputManager.keybindings.KeybindingChecks[i].KeyCode = savedKeybindings.KeybindingChecks[i].KeyCode;
         }
         UpdateAllKeysText();
+    }
+
+    private void NoneKeysCheck()
+    {
+        if (_inputManager.GetKeyForAction(KeybindingActions.MoveUp) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.MoveUp, KeyCode.W);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.MoveDown) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.MoveDown, KeyCode.S);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.MoveLeft) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.MoveLeft, KeyCode.A);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.MoveRight) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.MoveRight, KeyCode.D);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.Dash) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.Dash, KeyCode.Space);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.Interact) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.Interact, KeyCode.F);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.Potion) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.Potion, KeyCode.Q);
+        }
+        if (_inputManager.GetKeyForAction(KeybindingActions.Spell) == KeyCode.None)
+        {
+            _inputManager.SetKeyForAction(KeybindingActions.Spell, KeyCode.E);
+        }
     }
 }
