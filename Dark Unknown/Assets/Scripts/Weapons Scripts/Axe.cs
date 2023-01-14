@@ -13,6 +13,14 @@ public class Axe : Weapon
         _axesReturned = _axesNumber;
     }
 
+    private void Update()
+    {
+        if (!GetComponent<SpriteRenderer>().enabled && !FindObjectOfType<AxeAttack>())
+        {
+            enableSprite(true);
+        }
+    }
+
     public override void Attack()
     {
         if (_attackBlocked)
