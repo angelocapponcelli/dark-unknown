@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashingCooldown = 0.10f;
     [SerializeField] private ParticleSystem dust;
     private Rigidbody2D _rb;
+    private float InitialSpeed = 300f;
     
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void IncreaseSpeed(float multiplier)
     {
-        speed *= multiplier;
+        speed = InitialSpeed * multiplier;
     }
 
     public float GetSpeed()
