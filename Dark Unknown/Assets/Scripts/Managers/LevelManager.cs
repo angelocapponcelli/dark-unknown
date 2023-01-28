@@ -118,7 +118,7 @@ public class LevelManager : Singleton<LevelManager>
             {
                 AddResources();
                 _roomsTraversed = -1;
-                GameManager.Instance.SetPlayerRespawned(false);
+                // GameManager.Instance.SetPlayerRespawned(false);
                 LoadHubRooms(); //next room is always hub
             }
             else
@@ -240,6 +240,7 @@ public class LevelManager : Singleton<LevelManager>
     public void IncrementCurrentLevel()
     {
         _currentLevel++;
+        GameManager.Instance.SetPlayerRespawned(false);
     }
 
     public int GetCurrentLevel()
