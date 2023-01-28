@@ -11,7 +11,7 @@ public class StrengthReward : Reward
         {
             if (character.gameObject.CompareTag("Player"))
             {
-                character.GetComponentInParent<Player>().IncreaseStrength(Random.Range(10, 15)/100f);
+                character.GetComponentInParent<Player>().IncreaseStrength(Random.Range(8, 12)/100f);
                 AudioManager.Instance.PlayPLayerRewardSound();
                 Destroy(gameObject);
             }
