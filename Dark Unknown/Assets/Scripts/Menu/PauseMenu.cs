@@ -47,7 +47,6 @@ public class PauseMenu : MonoBehaviour
     {
         Cursor.SetCursor(customCursor, Vector2.zero, CursorMode.Auto);
         _pauseMenu.SetActive(false);
-        Cursor.visible = false;
         Time.timeScale = 1f;
         GameIsPaused = false;
     }

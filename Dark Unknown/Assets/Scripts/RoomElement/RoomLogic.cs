@@ -272,11 +272,25 @@ public class RoomLogic : MonoBehaviour
                 //print("Tag -> " + tag);
                 if (CompareTag("SmallRoom"))
                 {
-                    _numOfEnemies = Random.Range(6,10) * LevelManager.Instance.GetCurrentLevel(); //6 to 9 enemies (level 1)
+                    var multiplier = LevelManager.Instance.GetCurrentLevel() switch
+                    {
+                        1 => 1,
+                        2 => 1.75f,
+                        3 => 2.5f,
+                        _ => 0f
+                    };
+                    _numOfEnemies = (int)Math.Round(Random.Range(6,10) * multiplier); // 6 to 9 enemies (level 1)
                 }
                 else if (CompareTag("BigRoom"))
                 {
-                    _numOfEnemies = Random.Range(9,13) * LevelManager.Instance.GetCurrentLevel(); // 9 to 12 enemies (level 1)
+                    var multiplier = LevelManager.Instance.GetCurrentLevel() switch
+                    {
+                        1 => 1,
+                        2 => 1.75f,
+                        3 => 2.5f,
+                        _ => 0f
+                    };
+                    _numOfEnemies = (int)Math.Round(Random.Range(9,13) * multiplier); // 9 to 12 enemies (level 1)
                 }
                 break;
             case Type.BOSS:
