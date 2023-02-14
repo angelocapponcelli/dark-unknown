@@ -1,105 +1,44 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using Menu;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
-
+// Dynamic, persistent with no duplicates key binding manager
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] public Keybindings keybindings;
+    //[SerializeField] public Keybindings keybindings;
+    [SerializeField] private InputActionAsset inputActions;
+    [HideInInspector] public UnityEngine.InputSystem.PlayerInput playerInput;
 
     protected new void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
+        
+        playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
     }
     
-    public KeyCode GetKeyForAction(KeybindingActions keybindingAction)
+    public void ResetDefault()
     {
-        return (from keybindingCheck in keybindings.KeybindingChecks 
-            where keybindingCheck.KeybindingAction == keybindingAction select keybindingCheck.KeyCode).FirstOrDefault();
-    }
-
-    public bool SetKeyForAction(KeybindingActions keybindingAction, KeyCode code)
-    {
-        var tmpIndex = 0;
-        for (var i = 0; i < keybindings.KeybindingChecks.Length; i++)
+        foreach (var map in inputActions.actionMaps)
         {
-            if (keybindings.KeybindingChecks[i].KeybindingAction == keybindingAction)
-            {
-                tmpIndex = i;
-            }
-
-            if (keybindings.KeybindingChecks[i].KeyCode != code) continue;
-            Debug.Log("Key already bound.");
-            return false;
-        }
-
-        keybindings.KeybindingChecks[tmpIndex].KeyCode = code;
-        return true;
-    }
-    
-    // Attempt at a swap keybinding
-    /*public string SetKeyForAction(KeybindingActions keybindingAction, KeyCode code)
-    {
-        var tmpIndex = 0;
-        var swapIndex = 0;
-        var swapCode = KeyCode.None;
-        for (var i = 0; i < keybindings.KeybindingChecks.Length; i++)
-        {
-            if (keybindings.KeybindingChecks[i].KeybindingAction == keybindingAction)
-            {
-                tmpIndex = i;
-                swapCode = keybindings.KeybindingChecks[i].KeyCode;
-            }
-
-            if (keybindings.KeybindingChecks[i].KeyCode == code)
-            {
-                swapIndex = i;
-                
-            }
-            /*Debug.Log("Key already bound.");
-            return false;#1#
+            map.RemoveAllBindingOverrides();           
         }
         
-        keybindings.KeybindingChecks[tmpIndex].KeyCode = code;
-        keybindings.KeybindingChecks[swapIndex].KeyCode = swapCode;
-        return keybindings.KeybindingChecks[swapIndex].KeybindingAction.ToString();
-    }*/
-
-    public bool GetKeyDown(KeybindingActions key)
-    {
-        return (from keybindingCheck in keybindings.KeybindingChecks
-            where keybindingCheck.KeybindingAction == key select Input.GetKeyDown(keybindingCheck.KeyCode)).FirstOrDefault();
+        PlayerPrefs.DeleteKey("rebinds");
     }
-
-    public bool GetKey(KeybindingActions key)
+    
+    public void SaveUserRebinds(UnityEngine.InputSystem.PlayerInput player)
     {
-        return (from keybindingCheck in keybindings.KeybindingChecks
-            where keybindingCheck.KeybindingAction == key select Input.GetKey(keybindingCheck.KeyCode)).FirstOrDefault();
+        var rebinds = player.actions.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("rebinds", rebinds);
     }
-    public bool GetKeyUp(KeybindingActions key)
+    
+    public void ResetIfNotSaved(UnityEngine.InputSystem.PlayerInput player)
     {
-        return (from keybindingCheck in keybindings.KeybindingChecks
-            where keybindingCheck.KeybindingAction == key select Input.GetKeyUp(keybindingCheck.KeyCode)).FirstOrDefault();
-    }
-
-    public int GetAxisRaw(string axis)
-    {
-        var axisRaw = 0;
-        switch (axis)
-        {
-            case "Horizontal":
-                if (GetKey(KeybindingActions.MoveLeft)) axisRaw = -1;
-                if (GetKey(KeybindingActions.MoveRight)) axisRaw = +1;
-                break;
-            case "Vertical":
-                if (GetKey(KeybindingActions.MoveUp)) axisRaw = +1;
-                if (GetKey(KeybindingActions.MoveDown)) axisRaw = -1;
-                break;
-        }
-        return axisRaw;
+        var rebinds = PlayerPrefs.GetString("rebinds");
+        player.actions.LoadBindingOverridesFromJson(rebinds);
+        
+        MenuManager.Instance.UpdateText(player);
     }
 }

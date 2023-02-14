@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIController : Singleton<UIController>
@@ -47,8 +48,8 @@ public class UIController : Singleton<UIController>
         _newSwordUsable = new SwordUsable();
         //set sword as default icon
         SetUsable(actionButtons[0], _newSwordUsable);
-        SetKeyActionSlot(actionButtons[1], KeybindingActions.Spell);
-        SetKeyActionSlot(actionButtons[2], KeybindingActions.Potion);
+        SetKeyActionSlot(actionButtons[1], "Spell");
+        SetKeyActionSlot(actionButtons[2], "Potion");
 
         /*foreach (var letter in _availableLetters)
         {
@@ -186,10 +187,11 @@ public class UIController : Singleton<UIController>
         }
     }
 
-    public void SetKeyActionSlot(ActionButton btn, KeybindingActions action)
+    private void SetKeyActionSlot(ActionButton btn, string action)
     {
-        var keybind = InputManager.Instance.GetKeyForAction(action).ToString();
-        var keySprite = Array.Find(_availableLetters, x => x.name == keybind);
+        //var keyBind = InputManager.Instance.GetKeyForAction(action).ToString();
+        var keyBind = InputManager.Instance.playerInput.actions[action].bindings[0].ToDisplayString();
+        var keySprite = Array.Find(_availableLetters, x => x.name == keyBind);
         btn.MyKeyIcon.sprite = keySprite;
     }
 

@@ -5,15 +5,12 @@ using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
 using System.Collections;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using NUnit.Framework.Constraints;
-using Player_Scripts;
-using TMPro;
 
 public class Player : Singleton<Player>, IEffectable
 {
     private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
+    private UnityEngine.InputSystem.PlayerInput _playerControls;
     private PlayerAnimation _playerAnimation;
     private SpriteRenderer _playerRenderer;
 
@@ -59,13 +56,17 @@ public class Player : Singleton<Player>, IEffectable
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
+        _playerControls = InputManager.Instance.playerInput;
         _playerAnimation = GetComponent<PlayerAnimation>();
         _playerRenderer = GetComponent<SpriteRenderer>();
         
         _weaponParent = GetComponentInChildren<WeaponParent>();
 
-        _playerInput.LeftClick += () => _weaponParent.Attack();
-        //_playerInput.LeftClick += () => UIController.Instance.ClickActionButton("WeaponButton");
+        //_playerInput.LeftClick += () => _weaponParent.Attack();
+        _playerControls.actions["Attack"].performed += ctx => _weaponParent.Attack();
+        _playerControls.actions["Dash"].performed += ctx => _playerMovement.Dash(_playerInput.MovementDirection);
+        _playerControls.actions["Spell"].performed += ctx => ActivateAbility();
+        _playerControls.actions["Potion"].performed += ctx => UIController.Instance.ClickActionButton("PotionButton");
 
         _currentHealth = _maxHealth;
         UIController.Instance.SetMaxHealth(_maxHealth, _currentHealth);
@@ -90,7 +91,8 @@ public class Player : Singleton<Player>, IEffectable
             return;
         }
 
-        if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        //if (_canGetWeapon && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        if (_canGetWeapon && _playerControls.actions["Interact"].WasPressedThisFrame())
         {
             var newReward = Instantiate(_weaponParent.getWeaponReward());
             newReward.transform.position = transform.position;
@@ -107,7 +109,8 @@ public class Player : Singleton<Player>, IEffectable
             _canGetWeapon = false;
             SetTargetIndicatorActive(false);
         }
-        else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        //else if (_canGetPotion && !_hasPotion && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        else if (_canGetPotion && !_hasPotion && _playerControls.actions["Interact"].WasPressedThisFrame())
         {
             //destroy potion taken game-object
             Destroy(_rewardToGet);
@@ -115,7 +118,8 @@ public class Player : Singleton<Player>, IEffectable
             _canGetPotion = false;
             _hasPotion = true;
         }
-        else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        //else if (_canGetAbility && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        else if (_canGetAbility && _playerControls.actions["Interact"].WasPressedThisFrame())
         {
             if (_ability)
             {
@@ -135,20 +139,20 @@ public class Player : Singleton<Player>, IEffectable
         if (_statusEffect != null) HandleEffect();
 
         // Use potion only when the player has one and has lower than max health
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
+        /*if (InputManager.Instance.GetKeyDown(KeybindingActions.Potion))
         {
             UIController.Instance.ClickActionButton("PotionButton");
-        }
+        }*/
 
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
+        /*if (InputManager.Instance.GetKeyDown(KeybindingActions.Spell))
         {
             ActivateAbility();
-        }
+        }*/
 
-        if (InputManager.Instance.GetKeyDown(KeybindingActions.Dash))
+        /*if (InputManager.Instance.GetKeyDown(KeybindingActions.Dash))
         {
             _playerMovement.Dash(_playerInput.MovementDirection);
-        }
+        }*/
 
         //--- CHEATS ---
         /*if (Input.GetKeyDown(KeyCode.I))
@@ -282,8 +286,16 @@ public class Player : Singleton<Player>, IEffectable
 
     public void ChangeWeapon(WeaponParent weapon, GameObject reward, IUsable usable)
     {
-        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
-                           " to get new weapon.");
+        var text = "";
+        if (InputManager.Instance.playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            text = InputManager.Instance.playerInput.actions["Interact"].bindings[0].ToDisplayString();
+        }
+        else if (InputManager.Instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            text = "A";
+        }
+        ShowPlayerUI(true, "Press " + text + " to get new weapon.");
         _canGetWeapon = true;
         _weaponToGet = weapon;
         _weaponUsable = usable;
@@ -292,8 +304,16 @@ public class Player : Singleton<Player>, IEffectable
 
     public void PickUpAbility(Ability ability, GameObject reward, IUsable usable)
     {
-        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
-                           " to get " + ability.GetText());
+        var text = "";
+        if (InputManager.Instance.playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            text = InputManager.Instance.playerInput.actions["Interact"].bindings[0].ToDisplayString();
+        }
+        else if (InputManager.Instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            text = "A";
+        }
+        ShowPlayerUI(true, "Press " + text + " to get " + ability.GetText());
         _canGetAbility = true;
         _abilityToGet = ability;
         _abilityUsable = usable;
@@ -302,9 +322,16 @@ public class Player : Singleton<Player>, IEffectable
 
     public void PickUpPotion(GameObject reward)
     {
-        // change to "Press keybindingAction.Interact.ToString() to get new weapon"
-        ShowPlayerUI(true, "Press " + InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) +
-                           " to pick up healing potion.");
+        var text = "";
+        if (InputManager.Instance.playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            text = InputManager.Instance.playerInput.actions["Interact"].bindings[0].ToDisplayString();
+        }
+        else if (InputManager.Instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            text = "A";
+        }
+        ShowPlayerUI(true, "Press " + text + " to pick up healing potion.");
         _canGetPotion = true;
         _rewardToGet = reward;
     }

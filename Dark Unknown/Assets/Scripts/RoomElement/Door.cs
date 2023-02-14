@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //create a new type: SymbolType
 [System.Serializable]
@@ -24,21 +25,19 @@ public class Door : MonoBehaviour
     [Range(1, 3)]
     public int myIndex;
     private SpriteRenderer _mySpriteRender;
-    
-    //TODO insert animation
-    //[SerializeField] private Sprite _opendDoorSprite;
 
     [Header ("Symbols")]
     [SerializeField] private SpriteRenderer _symbolAboveDoor;    
 
     private SymbolType _actualDoorSymbol;
     private Animator _animator;
-    //private bool _isClose;
     private BoxCollider2D _myBoxCollider;
     
     private static readonly int Opening = Animator.StringToHash("Opening");
 
     private bool _canOpen = false;
+
+    private UnityEngine.InputSystem.PlayerInput _playerControls;
 
     //TODO Change start in awake
     private void Start()
@@ -46,11 +45,12 @@ public class Door : MonoBehaviour
         _myBoxCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
         _myBoxCollider.enabled = false;
+        _playerControls = InputManager.Instance.playerInput;
     }
 
     private void Update()
     {
-        if (_canOpen && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        if (_canOpen && _playerControls.actions["Interact"].WasPressedThisFrame())
         {
             AudioManager.Instance.PlayEnterDoorSound();
             _myBoxCollider.enabled = false;
@@ -69,20 +69,27 @@ public class Door : MonoBehaviour
     {
         //_isClose = false;
         _animator.SetTrigger(Opening);
-        //_mySpriteRender.sprite = _opendDoorSprite;
+        //_mySpriteRender.sprite = _openedDoorSprite;
         _myBoxCollider.enabled = true;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
+        var text = "";
+        if (InputManager.Instance.playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            text = InputManager.Instance.playerInput.actions["Interact"].bindings[0].ToDisplayString();
+        }
+        else if (InputManager.Instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            text = "A";
+        }
         if (col.CompareTag("Player"))
         {
             //set room colliders to false
             //useful mainly because we can't delete the serialized room from the GameManager
             //TODO: could do a room just for it with a special class, ...
-            Player.Instance.ShowPlayerUI(true, "Press " + 
-                                               InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                                               " to enter the door");
+            Player.Instance.ShowPlayerUI(true, "Press " + text + " to enter the door");
             _canOpen = true;
         }
     }

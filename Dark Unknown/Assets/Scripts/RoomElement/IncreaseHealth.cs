@@ -12,6 +12,8 @@ public class IncreaseHealth : MonoBehaviour
     private bool _canBuy;
     private Collider2D _collider2D;
     [SerializeField] private Text costText;
+    
+    private UnityEngine.InputSystem.PlayerInput _playerControls;
 
     // Start is called before the first frame update
     private void Start()
@@ -19,12 +21,13 @@ public class IncreaseHealth : MonoBehaviour
         _canBuy = false;
         _collider2D = GetComponent<Collider2D>();
         costText.text = "x" + rewardCost;
+        _playerControls = InputManager.Instance.playerInput;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (_canBuy && InputManager.Instance.GetKeyDown(KeybindingActions.Interact))
+        if (_canBuy && _playerControls.actions["Interact"].WasPressedThisFrame())
         {
            _collider2D.enabled = false;
             Player.Instance.IncreaseHealth(healthIncrease);
@@ -35,14 +38,22 @@ public class IncreaseHealth : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        
+        var text = "";
+        if (InputManager.Instance.playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            text = InputManager.Instance.playerInput.actions["Interact"].bindings[0].ToDisplayString();
+        }
+        else if (InputManager.Instance.playerInput.currentControlScheme == "Gamepad")
+        {
+            text = "A";
+        }
         _playerRewards = Player.Instance.GetKilledReward();
         if (col.CompareTag("Player"))
         {
             if (_playerRewards >= rewardCost)
             {
-                Player.Instance.ShowPlayerUI(true, "Press " + 
-                                                   InputManager.Instance.GetKeyForAction(KeybindingActions.Interact) + 
-                                                   " to increase your max health by 50.");
+                Player.Instance.ShowPlayerUI(true, "Press " + text + " to increase your max health by 50.");
                 _canBuy = true;
             }
             else
