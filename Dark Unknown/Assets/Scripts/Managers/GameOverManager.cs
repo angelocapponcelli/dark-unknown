@@ -14,6 +14,7 @@ public class GameOverManager : MonoBehaviour
     {
         Debug.Log(GameManager.PlayerHasWon);
         animator.SetBool(PlayerHasWon, GameManager.PlayerHasWon);
+        Cursor.visible = true;
     }
 
     public void BackToMainMenu()
