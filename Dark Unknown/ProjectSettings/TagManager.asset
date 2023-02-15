@@ -3,7 +3,28 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - TransitionCollider
+  - Trap
+  - Bow
+  - Sword
+  - Crystal
+  - Boss
+  - Projectile
+  - EnemyFeetCollider
+  - PlayerFeetCollider
+  - EnemyCollider
+  - KeyBind
+  - Axe
+  - Gem
+  - BatProjectile
+  - EyeProjectile
+  - Beam
+  - WeaponCollider
+  - SmallRoom
+  - HiddenWormCollider
+  - playerInput
   layers:
   - Default
   - TransparentFX
@@ -13,12 +34,12 @@ TagManager:
   - UI
   - 
   - 
+  - Obstacle
+  - Arrow
+  - Enemy
+  - Player
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Minimap
   - 
   - 
   - 
@@ -40,4 +61,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Overpasses
+    uniqueID: 2704437073
     locked: 0
